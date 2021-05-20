@@ -45,7 +45,7 @@ class ImageActivity : Activity() {
     private var serverResponseCode = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_image3)
+        setContentView(R.layout.activity_image)
 
         ivUploadImage.setImageResource(R.drawable.back)
         ivUploadImage.setOnClickListener {

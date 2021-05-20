@@ -44,7 +44,7 @@ class ImageActivity3 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_image)
+        setContentView(R.layout.activity_image2)
 
 
 
