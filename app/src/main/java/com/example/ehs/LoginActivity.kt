@@ -26,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
 
         val registerIntent = Intent(this, RegisterActivity::class.java) // 인텐트를 생성
         val startIntent = Intent(this, MainActivity::class.java)
+        val imageIntent = Intent(this, ImageActivity::class.java)
 
         btn_login.setOnClickListener{
             Log.d(TAG, "로그인 버튼 클릭")
@@ -95,6 +96,9 @@ class LoginActivity : AppCompatActivity() {
             Log.d(TAG, "회원가입 클릭")
             startActivity(registerIntent)
 
+        }
+        tv_title.setOnClickListener {
+            startActivity(imageIntent)
         }
 
     }

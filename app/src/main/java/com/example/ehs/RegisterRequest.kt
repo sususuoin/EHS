@@ -37,6 +37,6 @@ class RegisterRequest(
         map["userEmail"] = userEmail
         map["userBirth"] = userBirth
         map["userGender"] = userGender
-        map["userLevel"] = userLevel + ""
+        map["userLevel"] = userLevel
     }
 }
