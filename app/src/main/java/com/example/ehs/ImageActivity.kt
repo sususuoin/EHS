@@ -21,7 +21,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import kotlinx.android.synthetic.main.activity_image3.*
+import kotlinx.android.synthetic.main.activity_image.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream

@@ -16,9 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ImageActivity"></activity>
-        <activity android:name=".ImageActivity2"></activity>
-        <activity android:name=".ImageActivity3"></activity>
+        <activity android:name=".ImageActivity"/>
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity">
