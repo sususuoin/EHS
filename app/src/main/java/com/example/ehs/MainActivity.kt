@@ -39,5 +39,7 @@ class MainActivity : AppCompatActivity() {
         tv_pw.setText(userGender)
         tv_level.setText(userLevel)
 
+
+
     }
 }
