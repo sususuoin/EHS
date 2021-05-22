@@ -5,7 +5,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 
 
-class LoginRequest(
+class Login_Request(
     userId: String,
     userPw: String,
     listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {

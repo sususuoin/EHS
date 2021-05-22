@@ -25,7 +25,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         val registerIntent = Intent(this, RegisterActivity::class.java) // 인텐트를 생성
-        val startIntent = Intent(this, MainActivity::class.java)
         val imageIntent = Intent(this, ImageActivity::class.java)
 
         btn_login.setOnClickListener{
@@ -55,18 +54,21 @@ class LoginActivity : AppCompatActivity() {
 
                             Log.d(TAG, userId)
 
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            intent.putExtra( "userId", userId );
-                            intent.putExtra( "userPw", userPw );
-                            intent.putExtra( "userName", userName );
-                            intent.putExtra( "userEmail", userEmail );
-                            intent.putExtra( "userBirth", userBirth );
-                            intent.putExtra( "userGender", userGender );
-                            intent.putExtra( "userLevel", userLevel );
+                            val mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
+                            mainIntent.putExtra( "userId", userId );
+                            mainIntent.putExtra( "userPw", userPw );
+                            mainIntent.putExtra( "userName", userName );
+                            mainIntent.putExtra( "userEmail", userEmail );
+                            mainIntent.putExtra( "userBirth", userBirth );
+                            mainIntent.putExtra( "userGender", userGender );
+                            mainIntent.putExtra( "userLevel", userLevel );
+
+                            val clothessaveIntent = Intent(this@LoginActivity, ClothesSaveActivity::class.java)
+                            clothessaveIntent.putExtra( "userId", userId );
 
                             Log.d(TAG, userId)
                             Toast.makeText(this@LoginActivity, "로그인성공", Toast.LENGTH_SHORT).show()
-                            startActivity(intent)
+                            startActivity(mainIntent)
 
                             //dialog("성공")
 
@@ -84,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             }
-            val loginRequest = LoginRequest(userId, userPw, responseListener)
+            val loginRequest = Login_Request(userId, userPw, responseListener)
             val queue = Volley.newRequestQueue(this)
             queue.add(loginRequest)
 

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomSheetContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:gravity="center"
+        android:text="패션 설정"
+        android:textColor="@color/purple_700"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorDivider" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp" >
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        <ImageButton
+            android:id="@+id/btn_white"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_color_radius"/>
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:text="흰색"
+                android:gravity="center"
+                android:textColor="@color/black"
+                />
+
+            <ImageButton
+                android:id="@+id/btn_orange"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_color_radius"
+                android:backgroundTint="#FF820E" />
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:text="흰색"
+                android:gravity="center"
+                android:textColor="@color/black"
+                /><ImageButton
+            android:id="@+id/btn_pink"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp" />
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:text="흰색"
+                android:gravity="center"
+                android:textColor="@color/black"
+                /><ImageButton
+            android:id="@+id/btn_red"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp" />
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:text="흰색"
+                android:gravity="center"
+                android:textColor="@color/black"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <ImageButton
+                android:id="@+id/btn_cream"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp" />
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:text="크림"
+                android:gravity="center"
+                android:textColor="@color/black"
+                />
+            <ImageButton
+                android:id="@+id/btn_beige"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp" />
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:text="베이지"
+                android:gravity="center"
+                android:textColor="@color/black"
+                /><ImageButton
+            android:id="@+id/btn_lightpink"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp" />
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:text="연분홍"
+                android:gravity="center"
+                android:textColor="@color/black"
+                /><ImageButton
+            android:id="@+id/btn_wine"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp" />
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:text="와인"
+                android:gravity="center"
+                android:textColor="@color/black"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_choicecom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_background"
+        android:backgroundTint="@color/purple_700"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:text="선택완료"
+        />
+
+
+
+</LinearLayout>

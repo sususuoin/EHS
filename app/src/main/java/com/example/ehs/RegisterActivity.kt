@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Response
@@ -86,7 +85,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
 
                 //서버로 Volley를 이용해서 요청
-                val registerRequest = RegisterRequest(userId, userPw, userName, userEmail, userBirth, userGender, userLevel, responseListener)
+                val registerRequest = Register_Request(userId, userPw, userName, userEmail, userBirth, userGender, userLevel, responseListener)
                 val queue = Volley.newRequestQueue(this@RegisterActivity)
                 queue.add(registerRequest)
 

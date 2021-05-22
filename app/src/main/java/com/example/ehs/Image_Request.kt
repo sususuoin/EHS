@@ -4,9 +4,10 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 
-class ImageRequest(
-        postId: String,
-        image: String,
+class Image_Request(
+        userId: String,
+        clothesPath: String,
+        clothesName: String,
         listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {
 
     private val map: MutableMap<String, String>
@@ -23,7 +24,8 @@ class ImageRequest(
 
     init {
         map = HashMap()
-        map["postId"] = postId
-        map["image"] = image
+        map["userId"] = userId
+        map["clothesPath"] = clothesPath
+        map["clothesName"] = clothesName
     }
 }

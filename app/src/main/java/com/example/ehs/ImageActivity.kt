@@ -128,9 +128,11 @@ class ImageActivity : Activity() {
                 val bitmap = resize(bit);
                 ivUploadImage.setImageBitmap(bit)
                 var image = bitmap?.let { BitmapToString(it) }
-                if (image != null) {
-                    imageToDB(image)
-                }
+                imageToDB(uploadFileName!!)
+
+//                if (image != null) {
+//                    imageToDB(image)
+//                }
 
 
             }
@@ -314,9 +316,8 @@ class ImageActivity : Activity() {
         return bm
     }
 
-    private fun imageToDB(image: String) {
+    private fun imageToDB(clothesName: String) {
         val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
-            //여기서 여기서 Quest1에서 썼던 데이터를 다가져온다.
             override fun onResponse(response: String?) {
                 try {
                     val jsonObject = JSONObject(response)
@@ -334,10 +335,11 @@ class ImageActivity : Activity() {
                 }
             }
         }
-        var postId = "111"
-        val registerRequest = ImageRequest(postId, image, responseListener)
+        var userId = "111"
+        val clothesPath = "/var/www/html/clothes/"
+        val imageRequest = Image_Request(userId, clothesPath, clothesName, responseListener)
         val queue = Volley.newRequestQueue(this@ImageActivity)
-        queue.add(registerRequest)
+        queue.add(imageRequest)
     }
 
 }

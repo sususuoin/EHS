@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Closet</string>
+    <string name="camera">카메라</string>
+    <string name="gallery">갤러리</string>
+    <string name="closet">옷장</string>
+    <string name="home">홈</string>
+    <string name="mypage">마이페이지</string>
+    <string name="fashionista">패셔니스타</string>
+    <string name="feed">피드</string>
+</resources>

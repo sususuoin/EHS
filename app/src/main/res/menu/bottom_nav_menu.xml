@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:title="홈"
+        android:icon="@drawable/ic_home"
+        />
+    <item
+        android:id="@+id/menu_fashionista"
+        android:title="패셔니스타"
+        android:icon="@drawable/ic_fashionista"
+        />
+    <item
+        android:id="@+id/menu_closet"
+        android:title="내 옷장"
+        android:icon="@drawable/ic_closet"
+        />
+    <item
+        android:id="@+id/menu_feed"
+        android:title="피드"
+        android:icon="@drawable/ic_feed"
+        />
+    <item
+        android:id="@+id/menu_mypage"
+        android:title="마이"
+        android:icon="@drawable/ic_mypage"
+        />
+</menu>
