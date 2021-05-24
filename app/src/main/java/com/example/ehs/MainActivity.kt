@@ -73,8 +73,11 @@ class MainActivity : AppCompatActivity() {
         homeFragment = HomeFragment.newInstance()
         supportFragmentManager.beginTransaction().add(R.id.fragments_frame, homeFragment).commit() // add는 프레그먼트 추가해주는 것
 
-        //애뮬레이터 갤러리 권한 설정
-        checkSelfPermission()
+        //권한설정
+        setPermission()
+//
+//        //애뮬레이터 갤러리 권한 설정
+//        checkSelfPermission()
     }
 
 
