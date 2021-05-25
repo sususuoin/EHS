@@ -2,25 +2,18 @@ package com.example.ehs
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.database.Cursor
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.TextUtils
-import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_closet.*
-import java.io.ByteArrayOutputStream
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -43,6 +36,34 @@ class MainActivity : AppCompatActivity() {
     var userGender :String? = ""
     var userLevel :String? = ""
     val bundle = Bundle()
+
+    private var backKeyPressedTime: Long = 0
+
+    // 첫 번째 뒤로 가기 버튼을 누를 때 표시
+    private var toast: Toast? = null
+
+    override fun onBackPressed() {
+        //super.onBackPressed();
+        // 기존 뒤로 가기 버튼의 기능을 막기 위해 주석 처리 또는 삭제
+
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지났으면 Toast 출력
+        // 2500 milliseconds = 2.5 seconds
+        if (System.currentTimeMillis() > backKeyPressedTime + 1500) {
+            backKeyPressedTime = System.currentTimeMillis()
+            Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG).show()
+            return
+        }
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지나지 않았으면 종료
+        if (System.currentTimeMillis() <= backKeyPressedTime + 1500) {
+            Toast.makeText(this, "이용해 주셔서 감사합니다.", Toast.LENGTH_LONG).show()
+            moveTaskToBack(true);
+            finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
+
+        }
+    }
 
     // 화면이 메모리에 올라갔을 때
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -176,7 +197,11 @@ class MainActivity : AppCompatActivity() {
 
         if (TextUtils.isEmpty(temp) == false) {
             // 권한 요청
-            ActivityCompat.requestPermissions(this, temp.trim { it <= ' ' }.split(" ").toTypedArray(), 1)
+            ActivityCompat.requestPermissions(
+                this,
+                temp.trim { it <= ' ' }.split(" ").toTypedArray(),
+                1
+            )
         } else {
             // 모두 허용 상태
             Toast.makeText(this, "권한을 모두 허용", Toast.LENGTH_SHORT).show()

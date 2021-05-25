@@ -17,6 +17,33 @@ class LoginActivity : AppCompatActivity() {
     val TAG: String = "로그인화면"
 
 
+    private var backKeyPressedTime: Long = 0
+
+    // 첫 번째 뒤로 가기 버튼을 누를 때 표시
+    private var toast: Toast? = null
+
+    override fun onBackPressed() {
+        //super.onBackPressed();
+        // 기존 뒤로 가기 버튼의 기능을 막기 위해 주석 처리 또는 삭제
+
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지났으면 Toast 출력
+        // 2500 milliseconds = 2.5 seconds
+        if (System.currentTimeMillis() > backKeyPressedTime + 1500) {
+            backKeyPressedTime = System.currentTimeMillis()
+            Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG).show()
+            return
+        }
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지나지 않았으면 종료
+        if (System.currentTimeMillis() <= backKeyPressedTime + 1500) {
+            Toast.makeText(this, "이용해 주셔서 감사합니다.", Toast.LENGTH_LONG).show()
+            moveTaskToBack(true);
+            finishAndRemoveTask();
+
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -80,12 +107,17 @@ class LoginActivity : AppCompatActivity() {
                             mainIntent.putExtra("userGender", userGender);
                             mainIntent.putExtra("userLevel", userLevel);
 
+
+                            AutoLogin.setUserId(this@LoginActivity, userId)
+                            AutoLogin.setUserPass(this@LoginActivity, userPw)
+                            Toast.makeText(this@LoginActivity, "${AutoLogin.getUserId(this@LoginActivity)}님 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
+
+
                             val clothessaveIntent =
                                 Intent(this@LoginActivity, ClothesSaveActivity::class.java)
                             clothessaveIntent.putExtra("userId", userId);
 
                             Log.d(TAG, userId)
-                            Toast.makeText(this@LoginActivity, "로그인성공", Toast.LENGTH_SHORT).show()
                             startActivity(mainIntent)
 
                             //dialog("성공")
@@ -106,6 +138,8 @@ class LoginActivity : AppCompatActivity() {
             val loginRequest = Login_Request(userId, userPw, responseListener)
             val queue = Volley.newRequestQueue(this)
             queue.add(loginRequest)
+
+
 
 
         }

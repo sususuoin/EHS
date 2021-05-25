@@ -30,6 +30,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.fragment_closet.view.*
+import kotlinx.coroutines.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
@@ -230,8 +231,11 @@ class ClosetFragment : Fragment() {
                     } else { // 안드로이드 9.0 (Pie) 버전보다 높을 경우
                         val decode = ImageDecoder.createSource(a!!.contentResolver, fileuri)
                         bitmap = ImageDecoder.decodeBitmap(decode)
-                        img_picture.setImageBitmap(bitmap)
-                        bmp = bitmap
+//                        img_picture.setImageBitmap(bitmap)
+
+                        var resizeBitmap = resize(bitmap)
+                        bmp = resizeBitmap!!
+
 
 
                     }
@@ -248,11 +252,14 @@ class ClosetFragment : Fragment() {
                     val currentImageUrl: Uri? = data?.data // data의 data형태로 들어옴
                     try {
                         val bitmap = MediaStore.Images.Media.getBitmap(a!!.contentResolver, currentImageUrl)
-                        img_picture.setImageBitmap(bitmap)
-                        bmp = bitmap
+//                        img_picture.setImageBitmap(bitmap)
+
+                        var resizeBitmap = resize(bitmap)
+                        bmp = resizeBitmap!!
 
 
-                        uploadBitmap(bmp)
+
+
 
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -262,18 +269,16 @@ class ClosetFragment : Fragment() {
         }
 
 
+//        uploadBitmap(bmp)
+        val intent = Intent(a, ClothesSaveActivity::class.java)
+        val stream = ByteArrayOutputStream()
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        val byteArray = stream.toByteArray()
+        intent.putExtra("clothesImg", byteArray)
+        startActivityForResult(intent, 101)
 
 
-//        val intent = Intent(a, ClothesSaveActivity::class.java)
-//        val stream = ByteArrayOutputStream()
-//        bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-//        val byteArray = stream.toByteArray()
-//        intent.putExtra("clothesImg", byteArray)
-//        startActivityForResult(intent, 101)
-//
-//        val intent = Intent(context, ClothesSaveActivity::class.java)
-//        intent.putExtra("uploadImgName", uploadImgName)
-//        startActivityForResult(intent, 101)
+
 
 
     }
@@ -295,10 +300,6 @@ class ClosetFragment : Fragment() {
         out.close()
         Toast.makeText(a!!, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show()
 
-        var resizeBitmap = resize(bitmap)
-        bmp = resizeBitmap!!
-
-        uploadBitmap(bmp)
     }
 
     /**
