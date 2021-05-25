@@ -17,17 +17,34 @@ class LoginActivity : AppCompatActivity() {
     val TAG: String = "로그인화면"
 
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
         val registerIntent = Intent(this, RegisterActivity::class.java) // 인텐트를 생성
-        val imageIntent = Intent(this, ImageActivity::class.java)
 
-        btn_login.setOnClickListener{
+        tv_register.setOnClickListener {
+            Log.d(TAG, "회원가입 클릭")
+            startActivity(registerIntent)
+
+        }
+
+        if (AutoLogin.getUserId(this).isNullOrBlank()
+            || AutoLogin.getUserPass(this).isNullOrBlank()
+        ) {
+            Login()
+        } else { // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
+            Toast.makeText(this, "${AutoLogin.getUserId(this)}님 자동 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+
+    }
+
+    fun Login() {
+        btn_login.setOnClickListener {
             Log.d(TAG, "로그인 버튼 클릭")
 
 
@@ -42,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
                         var success = jsonObject.getBoolean("success")
                         Log.d(TAG, userId)
 
-                        if(success) {
+                        if (success) {
                             var userId = jsonObject.getString("userId")
                             var userPw = jsonObject.getString("userPw")
                             var userName = jsonObject.getString("userName")
@@ -55,23 +72,23 @@ class LoginActivity : AppCompatActivity() {
                             Log.d(TAG, userId)
 
                             val mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
-                            mainIntent.putExtra( "userId", userId );
-                            mainIntent.putExtra( "userPw", userPw );
-                            mainIntent.putExtra( "userName", userName );
-                            mainIntent.putExtra( "userEmail", userEmail );
-                            mainIntent.putExtra( "userBirth", userBirth );
-                            mainIntent.putExtra( "userGender", userGender );
-                            mainIntent.putExtra( "userLevel", userLevel );
+                            mainIntent.putExtra("userId", userId);
+                            mainIntent.putExtra("userPw", userPw);
+                            mainIntent.putExtra("userName", userName);
+                            mainIntent.putExtra("userEmail", userEmail);
+                            mainIntent.putExtra("userBirth", userBirth);
+                            mainIntent.putExtra("userGender", userGender);
+                            mainIntent.putExtra("userLevel", userLevel);
 
-                            val clothessaveIntent = Intent(this@LoginActivity, ClothesSaveActivity::class.java)
-                            clothessaveIntent.putExtra( "userId", userId );
+                            val clothessaveIntent =
+                                Intent(this@LoginActivity, ClothesSaveActivity::class.java)
+                            clothessaveIntent.putExtra("userId", userId);
 
                             Log.d(TAG, userId)
                             Toast.makeText(this@LoginActivity, "로그인성공", Toast.LENGTH_SHORT).show()
                             startActivity(mainIntent)
 
                             //dialog("성공")
-
 
 
                             //회원가입 실패시
@@ -91,45 +108,34 @@ class LoginActivity : AppCompatActivity() {
             queue.add(loginRequest)
 
 
-
-        }
-
-        tv_register.setOnClickListener {
-            Log.d(TAG, "회원가입 클릭")
-            startActivity(registerIntent)
-
-        }
-        tv_title.setOnClickListener {
-            startActivity(imageIntent)
         }
 
     }
 
 
-    fun dialog(type: String){
+    fun dialog(type: String) {
         val dialog = AlertDialog.Builder(this)
         val startIntent = Intent(this, MainActivity::class.java)
 
-        if(type.equals("성공")){
+        if (type.equals("성공")) {
             dialog.setTitle("로그인")
             dialog.setMessage("성공")
             startActivity(startIntent)
-        }
-        else if(type.equals("실패")){
+        } else if (type.equals("실패")) {
             dialog.setTitle("로그인")
             dialog.setMessage("실패")
         }
 
-        val dialog_listener = object: DialogInterface.OnClickListener{
+        val dialog_listener = object : DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface?, which: Int) {
-                when(which){
+                when (which) {
                     DialogInterface.BUTTON_POSITIVE ->
                         Log.d(TAG, "다이얼로그")
                 }
             }
         }
 
-        dialog.setPositiveButton("확인",dialog_listener)
+        dialog.setPositiveButton("확인", dialog_listener)
         dialog.show()
     }
 

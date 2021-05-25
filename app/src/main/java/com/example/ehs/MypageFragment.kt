@@ -1,6 +1,8 @@
 package com.example.ehs
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,9 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_mypage.*
+import kotlinx.android.synthetic.main.fragment_mypage.view.*
 
 class MypageFragment : Fragment() {
+    private var a: Context? = null
+
 
     lateinit var tv_id : TextView
     lateinit var tv_pw : TextView
@@ -37,15 +41,31 @@ class MypageFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         Log.d(TAG, "MypageFragment - onAttach() called")
+
+        if (context is Activity) {
+            a = context
+        }
     }
+
+
     // 뷰가 생성되었을 때 화면과 연결
     // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
-            savedInstanceState: Bundle?): View? {
+            savedInstanceState: Bundle?
+    ): View? {
         Log.d(TAG, "MypageFragment - onCreateView() called")
-        val view = inflater.inflate(R.layout.fragment_mypage, container, false)
+        val view: View = inflater!!.inflate(R.layout.fragment_mypage, container, false)
+
+        view.btn_logout.setOnClickListener { view ->
+            Log.d("클릭!!", "로그아웃 버튼 클릭!!")
+            AutoLogin.clearUser(a!!)
+            val intent = Intent(a, LoginActivity::class.java)
+            startActivity(intent)
+
+        }
+
 
         tv_id = view.findViewById(R.id.tv_id);
         tv_pw = view.findViewById(R.id.tv_pw);
@@ -71,13 +91,13 @@ class MypageFragment : Fragment() {
         val userLevel = bundle?.getString("userLevel")
 
         //fragment1의 TextView에 전달 받은 text 띄우기
-        tv_id.setText(userId)
-        tv_pw.setText(userPw)
-        tv_name.setText(userName)
-        tv_email.setText(userEmail)
-        tv_birth.setText(userBirth)
-        tv_gender.setText(userGender)
-        tv_level.setText(userLevel)
+        tv_id.text = userId
+        tv_pw.text = userPw
+        tv_name.text = userName
+        tv_email.text = userEmail
+        tv_birth.text = userBirth
+        tv_gender.text = userGender
+        tv_level.text = userLevel
 
 
         return view
