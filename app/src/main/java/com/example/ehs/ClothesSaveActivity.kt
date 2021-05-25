@@ -1,28 +1,40 @@
 package com.example.ehs
 
-import android.app.Activity
-import android.content.Intent
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.android.volley.NetworkResponse
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_clothes_save.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.ByteArrayOutputStream
+import java.util.HashMap
 
 
 class ClothesSaveActivity : AppCompatActivity(){
     val TAG: String = "옷저장하는 화면"
 
-
-    var bitmap :Bitmap? =null
-
-    var uploadImgName : String? = ""
+    var clothesName : String? = ""
     lateinit var clothesImg : Bitmap
 
+    val serverUrl = "http://54.180.101.123/upload3.php"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_clothes_save)
+
+        //사용자 아이디받아오기
+        var userId = AutoLogin.getUserId(this@ClothesSaveActivity)
 
         val intent = intent
         val arr = getIntent().getByteArrayExtra("clothesImg")
@@ -60,13 +72,22 @@ class ClothesSaveActivity : AppCompatActivity(){
 
         //완료하기 버튼클릭
         btn_complete.setOnClickListener {
-            val resultIntent = Intent()
-            setResult(Activity.RESULT_OK,resultIntent)
-            //액티비티 종료! -> 이전의 Activity인 Intent1로 이동됨
-            finish()
+
+            Log.d(TAG, "서버에 저장을 시작합니다")
+            val job = GlobalScope.launch() {
+
+                uploadBitmap(clothesImg)
+                uploadDB(userId, clothesName!!)
+            }
+            runBlocking {
+                job.join()
+            }
+
+            Log.d(TAG, "서버에 저장을 완료했다다")
+            this.finish()
+
+
         }
-
-
 
 
 
@@ -82,63 +103,85 @@ class ClothesSaveActivity : AppCompatActivity(){
             return super.onOptionsItemSelected(item)
         }
 
+//onCreate() 끝
+    }
+
+
+
+    fun getFileDataFromDrawable(bitmap: Bitmap): ByteArray? {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream)
+        return byteArrayOutputStream.toByteArray()
+    }
+
+
+    fun uploadBitmap(bitmap: Bitmap) {
+        val imageUploadRequest: ImageUpload_Request =
+            object : ImageUpload_Request(
+                Method.POST, serverUrl,
+                Response.Listener<NetworkResponse> { response ->
+                    try {
+
+                        val obj = JSONObject(String(response!!.data))
+                        Toast.makeText(this, obj.toString(), Toast.LENGTH_SHORT).show()
+
+
+
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener { error ->
+                    Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()
+                    Log.e("GotError", "" + error.message)
+                }) {
+                override fun getByteData(): Map<String, DataPart>? {
+                    val params: MutableMap<String, DataPart> = HashMap()
+                    val imagename = System.currentTimeMillis()
+                    clothesName = imagename.toString()
+                    params["image"] = DataPart("$imagename.JPEG", getFileDataFromDrawable(bitmap)!!)
+                    return params
+                }
+            }
+
+        //adding the request to volley
+        Volley.newRequestQueue(this).add(imageUploadRequest)
+
 
     }
+
+
+    fun uploadDB(userId : String, clothesName : String) {
+        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+            override fun onResponse(response: String?) {
+                try {
+                    val jsonObject = JSONObject(response)
+                    var success = jsonObject.getBoolean("success")
+
+                    if(success) {
+                        Toast.makeText(this@ClothesSaveActivity, jsonObject.toString(), Toast.LENGTH_LONG).show()
+
+                    } else {
+                        Toast.makeText(this@ClothesSaveActivity, "실패 두둥탁", Toast.LENGTH_LONG).show()
+
+                        return
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+
+        }
+
+        val clothesPath = "/var/www/html/clothes/"
+        val clothesSave_Request = ClothesSave_Request(userId, clothesPath, clothesName, responseListener)
+        val queue = Volley.newRequestQueue(this@ClothesSaveActivity)
+        queue.add(clothesSave_Request)
+    }
+
+
+
+
+
 }
-
-
-
-//
-//        val uThread: Thread = object : Thread() {
-//            override fun run() {
-//                try {
-//
-//                    //서버에 올려둔 이미지 URL
-//                    val url = URL("http://54.180.101.123/clothes/" +uploadImgName)
-//
-//
-//                    //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
-//                    /* URLConnection 생성자가 protected로 선언되어 있으므로
-//                     개발자가 직접 HttpURLConnection 객체 생성 불가 */
-//                    val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-//
-//                    /* openConnection()메서드가 리턴하는 urlConnection 객체는
-//                    HttpURLConnection의 인스턴스가 될 수 있으므로 캐스팅해서 사용한다*/
-//
-//                    conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
-//                    conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
-//                    val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
-//                    bitmap =BitmapFactory.decodeStream(iss) // Bitmap으로 반환
-//
-//
-//                } catch (e: MalformedURLException) {
-//                    e.printStackTrace()
-//                } catch (e: IOException) {
-//                    e.printStackTrace()
-//                }
-//            }
-//        }
-//
-//        uThread.start() // 작업 Thread 실행
-//
-//
-//        try {
-//
-//            //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
-//            //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
-//            //join() 메서드는 InterruptedException을 발생시킨다.
-//            uThread.join()
-//
-//            //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
-//            //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
-//            iv_clothes.setImageBitmap(bitmap)
-//
-//        } catch (e: InterruptedException) {
-//            e.printStackTrace()
-//        }
-//
-//
-//    }
-
-
 

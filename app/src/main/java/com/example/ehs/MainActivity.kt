@@ -9,6 +9,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -109,52 +112,53 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_home -> {
                 Log.d(TAG, "MainActivity - 홈버튼 클릭!")
                 homeFragment = HomeFragment.newInstance()
-                supportFragmentManager.beginTransaction().replace(
-                    R.id.fragments_frame,
-                    homeFragment
-                ).commit() // replace는 다른 프레그먼트로 교체해주는 것
+                replaceFragment(homeFragment)
             }
             R.id.menu_fashionista -> {
                 Log.d(TAG, "MainActivity - 패셔니스타 버튼 클릭!")
                 fashionistaFragment = FashionistaFragment.newInstance()
-                supportFragmentManager.beginTransaction().replace(
-                    R.id.fragments_frame,
-                    fashionistaFragment
-                ).commit() // replace는 다른 프레그먼트로 교체해주는 것
+                replaceFragment(fashionistaFragment)
             }
             R.id.menu_closet -> {
                 Log.d(TAG, "MainActivity - 옷장 버튼 클릭!")
                 closetFragment = ClosetFragment.newInstance()
-                supportFragmentManager.beginTransaction().replace(
-                    R.id.fragments_frame,
-                    closetFragment
-                ).commit() // replace는 다른 프레그먼트로 교체해주는 것
+                replaceFragment(closetFragment)
 
             }
             R.id.menu_feed -> {
                 Log.d(TAG, "MainActivity - 피드 버튼 클릭!")
                 feedFragment = FeedFragment.newInstance()
-                supportFragmentManager.beginTransaction().replace(
-                    R.id.fragments_frame,
-                    feedFragment
-                ).commit() // replace는 다른 프레그먼트로 교체해주는 것
+                replaceFragment(feedFragment)
             }
             R.id.menu_mypage -> {
                 Log.d(TAG, "MainActivity - 마이페이지 버튼 클릭!")
                 mypageFragment = MypageFragment.newInstance()
-                supportFragmentManager.beginTransaction().replace(
-                    R.id.fragments_frame,
-                    mypageFragment
-                ).commit() // replace는 다른 프레그먼트로 교체해주는 것
+                replaceFragment(mypageFragment)
 
                 Log.d(TAG, "아이야 제발로 나와줘라" + userId)
 
                 //프래그먼트로 번들 전달
-                mypageFragment.setArguments(bundle)
+                mypageFragment.arguments = bundle
             }
         } // when문 끝
         true
     }
+
+
+    fun replaceFragment(fragment: Fragment?) {
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragments_frame, fragment!!)
+        fragmentTransaction.commit()
+    }
+
+    fun addFragment(fragment: Fragment?) {
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.fragments_frame, fragment!!)
+        fragmentTransaction.commit()
+    }
+
 
     /**
      * 테드 퍼미션 설정

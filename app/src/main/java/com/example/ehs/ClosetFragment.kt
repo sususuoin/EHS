@@ -5,10 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -24,9 +22,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.android.volley.NetworkResponse
-import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.fragment_closet.view.*
@@ -43,10 +39,22 @@ import java.util.*
 
 class ClosetFragment : Fragment() {
     private var a: Activity? = null
-    private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(a!!, R.anim.rotate_open_anim)}
-    private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(a!!, R.anim.rotate_close_anim)}
-    private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(a!!, R.anim.from_bottom_anim)}
-    private val toBottom: Animation by lazy { AnimationUtils.loadAnimation(a!!, R.anim.to_bottom_anim)}
+    private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(
+        a!!,
+        R.anim.rotate_open_anim
+    )}
+    private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(
+        a!!,
+        R.anim.rotate_close_anim
+    )}
+    private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(
+        a!!,
+        R.anim.from_bottom_anim
+    )}
+    private val toBottom: Animation by lazy { AnimationUtils.loadAnimation(
+        a!!,
+        R.anim.to_bottom_anim
+    )}
     private var clicked = false
 
     val Fragment.packageManager get() = activity?.packageManager // 패키지 매니저 적용
@@ -58,7 +66,7 @@ class ClosetFragment : Fragment() {
 
     lateinit var currentPhotoPath: String // 문자열 형태의 사진 경로 값 (초기 값을 null로 시작하고 싶을 때)
 
-    val serverUrl = "http://54.180.101.123/upload3.php"
+
     lateinit var bmp : Bitmap
     lateinit var uploadImgName : String
 
@@ -191,7 +199,11 @@ class ClosetFragment : Fragment() {
                     null
                 }
                 photoFile?.also{
-                    val photoURI : Uri = FileProvider.getUriForFile(a!!, "com.example.closet.fileprovider", it)
+                    val photoURI : Uri = FileProvider.getUriForFile(
+                        a!!,
+                        "com.example.closet.fileprovider",
+                        it
+                    )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                 }
@@ -237,28 +249,27 @@ class ClosetFragment : Fragment() {
                         bmp = resizeBitmap!!
 
 
-
                     }
 
                     savePhoto(bitmap)
-                    if(file.exists()) {
+                    if (file.exists()) {
                         file.delete()
                     }
-                    if (fileuri != null){
+                    if (fileuri != null) {
                         fileuri = null
                     }
                 }
                 REQUEST_OPEN_GALLERY -> { // requestcode가 REQUEST_OPEN_GALLERY이면
                     val currentImageUrl: Uri? = data?.data // data의 data형태로 들어옴
                     try {
-                        val bitmap = MediaStore.Images.Media.getBitmap(a!!.contentResolver, currentImageUrl)
+                        val bitmap = MediaStore.Images.Media.getBitmap(
+                            a!!.contentResolver,
+                            currentImageUrl
+                        )
 //                        img_picture.setImageBitmap(bitmap)
 
                         var resizeBitmap = resize(bitmap)
                         bmp = resizeBitmap!!
-
-
-
 
 
                     } catch (e: Exception) {
@@ -269,14 +280,12 @@ class ClosetFragment : Fragment() {
         }
 
 
-//        uploadBitmap(bmp)
         val intent = Intent(a, ClothesSaveActivity::class.java)
         val stream = ByteArrayOutputStream()
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream)
         val byteArray = stream.toByteArray()
         intent.putExtra("clothesImg", byteArray)
-        startActivityForResult(intent, 101)
-
+        startActivity(intent)
 
 
 
@@ -328,45 +337,6 @@ class ClosetFragment : Fragment() {
     }
 
 
-    fun getFileDataFromDrawable(bitmap: Bitmap): ByteArray? {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream)
-        return byteArrayOutputStream.toByteArray()
-    }
-
-
-    private fun uploadBitmap(bitmap: Bitmap) {
-        val clothesSaveRequest: ClothesSave_Request =
-            object : ClothesSave_Request(
-                Method.POST, serverUrl,
-                Response.Listener<NetworkResponse> { response ->
-                    try {
-
-                        val obj = JSONObject(String(response!!.data))
-                        Toast.makeText(a, obj.toString(), Toast.LENGTH_SHORT).show()
-
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    }
-                },
-                Response.ErrorListener { error ->
-                    Toast.makeText(a, error.message, Toast.LENGTH_LONG).show()
-                    Log.e("GotError", "" + error.message)
-                }) {
-                override fun getByteData(): Map<String, DataPart>? {
-                    val params: MutableMap<String, DataPart> = HashMap()
-                    val imagename = System.currentTimeMillis()
-                    uploadImgName = imagename.toString()
-                    params["image"] = DataPart("$imagename.JPEG", getFileDataFromDrawable(bitmap)!!)
-                    return params
-                }
-            }
-
-        //adding the request to volley
-        Volley.newRequestQueue(a).add(clothesSaveRequest)
-
-
-    }
 
 
 }

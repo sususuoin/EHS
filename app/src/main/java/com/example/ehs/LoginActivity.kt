@@ -56,6 +56,10 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
+        tv_title.setOnClickListener {
+
+        }
+
         if (AutoLogin.getUserId(this).isNullOrBlank()
             || AutoLogin.getUserPass(this).isNullOrBlank()
         ) {
