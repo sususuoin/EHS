@@ -3,6 +3,7 @@ package com.example.ehs
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -113,6 +114,14 @@ class ClosetFragment : Fragment() {
             Log.d("클릭!!", "카메라 텍스트 클릭!!")
             takeCapture() // 기본 카메라 앱을 실행하여 사진 촬영
             onAddButtonClicked()
+        }
+        view.asdf.setOnClickListener { view ->
+            val intent = Intent(a, ClothesSaveActivity::class.java)
+            val stream = ByteArrayOutputStream()
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            val byteArray = stream.toByteArray()
+            intent.putExtra("clothesImg", byteArray)
+            startActivityForResult(intent, 101)
         }
         return view
     }
@@ -283,7 +292,10 @@ class ClosetFragment : Fragment() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
         out.close()
         Toast.makeText(a!!, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show()
-        bmp = bitmap
+
+        var resizeBitmap = resize(bitmap)
+        bmp = resizeBitmap!!
+
         uploadBitmap(bmp)
     }
 
@@ -294,6 +306,22 @@ class ClosetFragment : Fragment() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
         startActivityForResult(intent, REQUEST_OPEN_GALLERY)
+    }
+
+    private fun resize(bm: Bitmap): Bitmap? {
+        var bm: Bitmap? = bm
+        val config: Configuration = resources.configuration
+        bm = if (config.smallestScreenWidthDp >= 800)
+            Bitmap.createScaledBitmap(bm!!, 400, 240, true)
+        else if (config.smallestScreenWidthDp >= 600)
+            Bitmap.createScaledBitmap(bm!!, 300, 180, true)
+        else if (config.smallestScreenWidthDp >= 400)
+            Bitmap.createScaledBitmap(bm!!, 200, 120, true)
+        else if (config.smallestScreenWidthDp >= 360)
+            Bitmap.createScaledBitmap(bm!!, 180, 108, true)
+        else
+            Bitmap.createScaledBitmap(bm!!, 160, 96, true)
+        return bm
     }
 
 

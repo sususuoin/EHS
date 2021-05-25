@@ -104,7 +104,7 @@
         app:layout_constraintTop_toTopOf="@+id/btn_camera" />
 
     <TextView
-        android:id="@+id/amulator"
+        android:id="@+id/asdf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"

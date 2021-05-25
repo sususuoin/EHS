@@ -1,22 +1,12 @@
 package com.example.ehs
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Response
-import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_clothes_save.*
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.IOException
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.MalformedURLException
-import java.net.URL
 
 
 class ClothesSaveActivity : AppCompatActivity(){
@@ -70,11 +60,35 @@ class ClothesSaveActivity : AppCompatActivity(){
         //완료하기 버튼클릭
         btn_complete.setOnClickListener {
 
-
+//            val intent = Intent(applicationContext, ClosetFragment::class.java)
+//            startActivityForResult(intent, 101)
 
 
         }
 
+
+
+
+
+        //은정아 혹시 이 메모를 보고있따면 이아래에 이거 필요없다면 지워주겟니 ? 밑에 주석처리해놓은 거는 지우지 말아죠
+        fun onOptionsItemSelected(item: MenuItem): Boolean {
+            val id = item.itemId
+            when (id) {
+                android.R.id.home -> {
+                    finish()
+                    return true
+                }
+            }
+            return super.onOptionsItemSelected(item)
+        }
+
+
+    }
+}
+
+
+
+//
 //        val uThread: Thread = object : Thread() {
 //            override fun run() {
 //                try {
@@ -125,21 +139,6 @@ class ClothesSaveActivity : AppCompatActivity(){
 //
 //
 //    }
-
-        fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            when (id) {
-                android.R.id.home -> {
-                    finish()
-                    return true
-                }
-            }
-            return super.onOptionsItemSelected(item)
-        }
-
-
-    }}
-
 
 
 
