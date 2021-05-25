@@ -1,5 +1,6 @@
 package com.example.ehs
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -59,11 +60,10 @@ class ClothesSaveActivity : AppCompatActivity(){
 
         //완료하기 버튼클릭
         btn_complete.setOnClickListener {
-
-//            val intent = Intent(applicationContext, ClosetFragment::class.java)
-//            startActivityForResult(intent, 101)
-
-
+            val resultIntent = Intent()
+            setResult(Activity.RESULT_OK,resultIntent)
+            //액티비티 종료! -> 이전의 Activity인 Intent1로 이동됨
+            finish()
         }
 
 

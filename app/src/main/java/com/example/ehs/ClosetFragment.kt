@@ -262,6 +262,8 @@ class ClosetFragment : Fragment() {
         }
 
 
+
+
 //        val intent = Intent(a, ClothesSaveActivity::class.java)
 //        val stream = ByteArrayOutputStream()
 //        bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream)
