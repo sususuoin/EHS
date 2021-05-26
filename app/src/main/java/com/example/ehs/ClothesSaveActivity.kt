@@ -73,15 +73,16 @@ class ClothesSaveActivity : AppCompatActivity(){
         //완료하기 버튼클릭
         btn_complete.setOnClickListener {
 
+            uploadBitmap(clothesImg)
             Log.d(TAG, "서버에 저장을 시작합니다")
             val job = GlobalScope.launch() {
+                uploadDB(userId)
 
-                uploadBitmap(clothesImg)
-                uploadDB(userId, clothesName!!)
             }
             runBlocking {
                 job.join()
             }
+
 
             Log.d(TAG, "서버에 저장을 완료했다다")
             this.finish()
@@ -91,7 +92,7 @@ class ClothesSaveActivity : AppCompatActivity(){
 
 
 
-        //은정아 혹시 이 메모를 보고있따면 이아래에 이거 필요없다면 지워주겟니 ? 밑에 주석처리해놓은 거는 지우지 말아죠
+        //은정아 혹시 이 메모를 보고있따면 이아래에 이거 필요없다면 지워주겟니 ?
         fun onOptionsItemSelected(item: MenuItem): Boolean {
             val id = item.itemId
             when (id) {
@@ -151,7 +152,7 @@ class ClothesSaveActivity : AppCompatActivity(){
     }
 
 
-    fun uploadDB(userId : String, clothesName : String) {
+    fun uploadDB(userId : String) {
         val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
             override fun onResponse(response: String?) {
                 try {
@@ -174,14 +175,11 @@ class ClothesSaveActivity : AppCompatActivity(){
         }
 
         val clothesPath = "/var/www/html/clothes/"
-        val clothesSave_Request = ClothesSave_Request(userId, clothesPath, clothesName, responseListener)
+        val clothesSave_Request = ClothesSave_Request(userId, clothesPath, clothesName!!, responseListener)
         val queue = Volley.newRequestQueue(this@ClothesSaveActivity)
         queue.add(clothesSave_Request)
     }
 
 
 
-
-
 }
-
