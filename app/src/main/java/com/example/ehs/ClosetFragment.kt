@@ -39,22 +39,10 @@ import java.util.*
 
 class ClosetFragment : Fragment() {
     private var a: Activity? = null
-    private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(
-        a!!,
-        R.anim.rotate_open_anim
-    )}
-    private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(
-        a!!,
-        R.anim.rotate_close_anim
-    )}
-    private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(
-        a!!,
-        R.anim.from_bottom_anim
-    )}
-    private val toBottom: Animation by lazy { AnimationUtils.loadAnimation(
-        a!!,
-        R.anim.to_bottom_anim
-    )}
+    private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(a!!, R.anim.rotate_open_anim)}
+    private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(a!!, R.anim.rotate_close_anim)}
+    private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(a!!, R.anim.from_bottom_anim)}
+    private val toBottom: Animation by lazy { AnimationUtils.loadAnimation(a!!, R.anim.to_bottom_anim)}
     private var clicked = false
 
     val Fragment.packageManager get() = activity?.packageManager // 패키지 매니저 적용
@@ -69,8 +57,9 @@ class ClosetFragment : Fragment() {
 
     lateinit var bmp : Bitmap
     lateinit var uploadImgName : String
+    lateinit var originImgName : String
 
-    var clothesActivity:ClothesActivity? = null
+
     companion object {
         const val TAG : String = "로그"
         fun newInstance() : ClosetFragment { // newInstance()라는 함수를 호출하면 HomeFragment를 반환함
@@ -199,11 +188,7 @@ class ClosetFragment : Fragment() {
                     null
                 }
                 photoFile?.also{
-                    val photoURI : Uri = FileProvider.getUriForFile(
-                        a!!,
-                        "com.example.closet.fileprovider",
-                        it
-                    )
+                    val photoURI : Uri = FileProvider.getUriForFile(a!!, "com.example.closet.fileprovider", it)
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                 }
@@ -235,6 +220,7 @@ class ClosetFragment : Fragment() {
                     val bitmap: Bitmap
                     val file = File(currentPhotoPath)
                     var fileuri = Uri.fromFile(file)
+                    uploadImgName = getName(fileuri)
                     if (Build.VERSION.SDK_INT < 28) { // 안드로이드 9.0 (Pie) 버전보다 낮을 경우
                         bitmap = MediaStore.Images.Media.getBitmap(a!!.contentResolver, fileuri)
                         img_picture.setImageBitmap(bitmap)
@@ -243,10 +229,8 @@ class ClosetFragment : Fragment() {
                     } else { // 안드로이드 9.0 (Pie) 버전보다 높을 경우
                         val decode = ImageDecoder.createSource(a!!.contentResolver, fileuri)
                         bitmap = ImageDecoder.decodeBitmap(decode)
-//                        img_picture.setImageBitmap(bitmap)
 
-                        var resizeBitmap = resize(bitmap)
-                        bmp = resizeBitmap!!
+                        bmp = bitmap
 
 
                     }
@@ -261,15 +245,15 @@ class ClosetFragment : Fragment() {
                 }
                 REQUEST_OPEN_GALLERY -> { // requestcode가 REQUEST_OPEN_GALLERY이면
                     val currentImageUrl: Uri? = data?.data // data의 data형태로 들어옴
+                    uploadImgName = getName(currentImageUrl)
+
                     try {
                         val bitmap = MediaStore.Images.Media.getBitmap(
                             a!!.contentResolver,
                             currentImageUrl
                         )
-//                        img_picture.setImageBitmap(bitmap)
 
-                        var resizeBitmap = resize(bitmap)
-                        bmp = resizeBitmap!!
+                        bmp = bitmap
 
 
                     } catch (e: Exception) {
@@ -279,16 +263,34 @@ class ClosetFragment : Fragment() {
             }
         }
 
+//
+//        GlobalScope.launch(Dispatchers.Main) {
+//            uploadBitmap(bmp)
+//
+//
+//            delay(2000L)
+//
+//        }
+//        val intent = Intent(a, ClothesSaveActivity::class.java)
+//        intent.putExtra("originImgName", originImgName);
+//        Log.d(TAG, originImgName)
+//        startActivity(intent)
 
-        val intent = Intent(a, ClothesSaveActivity::class.java)
-        val stream = ByteArrayOutputStream()
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-        val byteArray = stream.toByteArray()
-        intent.putExtra("clothesImg", byteArray)
-        startActivity(intent)
+
+        GlobalScope.launch(Dispatchers.Main) {
+            launch(Dispatchers.Main) {
+                uploadBitmap(bmp)
+            }
+
+            delay(2000L)
+
+            val intent = Intent(a, ClothesSaveActivity::class.java)
+            intent.putExtra("originImgName", originImgName);
+            Log.d(TAG, originImgName)
+            startActivity(intent)
 
 
-
+        }
 
     }
 
@@ -320,22 +322,73 @@ class ClosetFragment : Fragment() {
         startActivityForResult(intent, REQUEST_OPEN_GALLERY)
     }
 
-    private fun resize(bm: Bitmap): Bitmap? {
-        var bm: Bitmap? = bm
-        val config: Configuration = resources.configuration
-        bm = if (config.smallestScreenWidthDp >= 800)
-            Bitmap.createScaledBitmap(bm!!, 400, 240, true)
-        else if (config.smallestScreenWidthDp >= 600)
-            Bitmap.createScaledBitmap(bm!!, 300, 180, true)
-        else if (config.smallestScreenWidthDp >= 400)
-            Bitmap.createScaledBitmap(bm!!, 200, 120, true)
-        else if (config.smallestScreenWidthDp >= 360)
-            Bitmap.createScaledBitmap(bm!!, 180, 108, true)
-        else
-            Bitmap.createScaledBitmap(bm!!, 160, 96, true)
-        return bm
+
+    private fun getPath(uri: Uri?): String {
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = activity!!.managedQuery(uri, projection, null, null, null)
+        val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor.moveToFirst()
+        return cursor.getString(column_index)
     }
 
+    // 파일명 찾기
+    private fun getName(uri: Uri?): String {
+        val projection = arrayOf(MediaStore.Images.ImageColumns.DISPLAY_NAME)
+        val cursor = activity!!.managedQuery(uri, projection, null, null, null)
+        val column_index: Int = cursor
+            .getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME)
+        cursor.moveToFirst()
+        return cursor.getString(column_index)
+    }
+
+
+    fun getFileDataFromDrawable(bitmap: Bitmap): ByteArray? {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        return byteArrayOutputStream.toByteArray()
+    }
+
+
+    fun uploadBitmap(bitmap: Bitmap) : String? {
+        val clothesUploadRequest: ClothesUpload_Request =
+            object : ClothesUpload_Request(
+                Method.POST, "http://54.180.101.123/upload4.php",
+                Response.Listener<NetworkResponse> { response ->
+                    try {
+
+                        val obj = JSONObject(String(response!!.data))
+                        originImgName = obj.get("file_name") as String
+
+                        Log.d("서버에 저장되어진 파일이름", originImgName)
+
+                        Toast.makeText(a, originImgName, Toast.LENGTH_SHORT).show()
+
+                        return@Listener
+
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener { error ->
+                    Toast.makeText(a, error.message, Toast.LENGTH_LONG).show()
+                    Log.e("GotError", "" + error.message)
+                }) {
+                override fun getByteData(): Map<String, DataPart>? {
+                    val params: MutableMap<String, DataPart> = HashMap()
+                    val imagename = System.currentTimeMillis()
+                    val uploadImgName = imagename.toString()
+                    Log.d("은정이는 민재이모", uploadImgName)
+                    params["image"] = DataPart("$uploadImgName.JPEG", getFileDataFromDrawable(bitmap)!!)
+                    return params
+                }
+            }
+
+        //adding the request to volley
+        Volley.newRequestQueue(a).add(clothesUploadRequest)
+
+
+        return null
+    }
 
 
 

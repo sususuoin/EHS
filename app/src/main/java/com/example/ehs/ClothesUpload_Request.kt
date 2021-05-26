@@ -5,8 +5,9 @@ import com.android.volley.toolbox.HttpHeaderParser
 import java.io.*
 
 
-open class ImageUpload_Request(
-    method: Int, url: String?,
+open class ClothesUpload_Request(
+    method: Int,
+    url: String?,
     listener: Response.Listener<NetworkResponse>?,
     errorListener: Response.ErrorListener
 ) : Request<NetworkResponse?>(method, url, errorListener) {
@@ -206,5 +207,7 @@ open class ImageUpload_Request(
 
 
     }
+
+
 
 }

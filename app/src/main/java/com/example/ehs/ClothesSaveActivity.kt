@@ -1,8 +1,10 @@
 package com.example.ehs
 
-import android.content.Context
+import android.app.ProgressDialog
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -12,22 +14,38 @@ import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_clothes_save.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
-import java.util.HashMap
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.*
 
 
 class ClothesSaveActivity : AppCompatActivity(){
     val TAG: String = "옷저장하는 화면"
 
-    var clothesName : String? = ""
+    lateinit var clothesName : String
     lateinit var clothesImg : Bitmap
 
     val serverUrl = "http://54.180.101.123/upload3.php"
+    var originURL :String = "http://54.180.101.123/clothes/origin/"
+    lateinit var realURL : String
+
+    lateinit var mProgressDialog: ProgressDialog
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if (mProgressDialog != null && mProgressDialog!!.isShowing) {
+            mProgressDialog!!.dismiss()
+        }
+
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +55,23 @@ class ClothesSaveActivity : AppCompatActivity(){
         var userId = AutoLogin.getUserId(this@ClothesSaveActivity)
 
         val intent = intent
-        val arr = getIntent().getByteArrayExtra("clothesImg")
-        clothesImg = BitmapFactory.decodeByteArray(arr, 0, arr!!.size)
+        val originImgName = getIntent().getStringExtra("originImgName")
+        Log.d(TAG, originImgName!!)
+        realURL = originURL+originImgName
+//
+//        clothesImg = setImg(realURL)
+//
+//        iv_clothes.setImageBitmap(clothesImg)
 
-        iv_clothes.setImageBitmap(clothesImg)
+
+        var task = back()
+        task.execute(originURL+originImgName);
+
+
+//        val intent = intent
+//        val arr = getIntent().getByteArrayExtra("clothesImg")
+//        clothesImg = BitmapFactory.decodeByteArray(arr, 0, arr!!.size)
+//        iv_clothes.setImageBitmap(clothesImg)
 
         // 액션바 대신 툴바를 사용하도록 설정한다
         setSupportActionBar(toolbar)
@@ -73,16 +104,29 @@ class ClothesSaveActivity : AppCompatActivity(){
         //완료하기 버튼클릭
         btn_complete.setOnClickListener {
 
-            uploadBitmap(clothesImg)
+
             Log.d(TAG, "서버에 저장을 시작합니다")
-            val job = GlobalScope.launch() {
+//
+//            val job = GlobalScope.launch() {
+//                uploadBitmap(clothesImg)
+//
+//            }
+//            runBlocking {
+//                job.join()
+//                delay(3000L)  //3초동안 기다리기
+//
+//                uploadDB(userId)
+//            }
+
+
+            GlobalScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
+                    uploadBitmap(clothesImg)
+                }
+
+                delay(2000L)
                 uploadDB(userId)
-
             }
-            runBlocking {
-                job.join()
-            }
-
 
             Log.d(TAG, "서버에 저장을 완료했다다")
             this.finish()
@@ -105,27 +149,32 @@ class ClothesSaveActivity : AppCompatActivity(){
         }
 
 //onCreate() 끝
+
+
+
     }
+
+
+
 
 
 
     fun getFileDataFromDrawable(bitmap: Bitmap): ByteArray? {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
     }
 
 
     fun uploadBitmap(bitmap: Bitmap) {
-        val imageUploadRequest: ImageUpload_Request =
-            object : ImageUpload_Request(
+        val clothesUploadRequest: ClothesUpload_Request =
+            object : ClothesUpload_Request(
                 Method.POST, serverUrl,
                 Response.Listener<NetworkResponse> { response ->
                     try {
 
                         val obj = JSONObject(String(response!!.data))
                         Toast.makeText(this, obj.toString(), Toast.LENGTH_SHORT).show()
-
 
 
                     } catch (e: JSONException) {
@@ -146,13 +195,13 @@ class ClothesSaveActivity : AppCompatActivity(){
             }
 
         //adding the request to volley
-        Volley.newRequestQueue(this).add(imageUploadRequest)
+        Volley.newRequestQueue(this).add(clothesUploadRequest)
 
 
     }
 
 
-    fun uploadDB(userId : String) {
+    fun uploadDB(userId: String) {
         val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
             override fun onResponse(response: String?) {
                 try {
@@ -160,7 +209,9 @@ class ClothesSaveActivity : AppCompatActivity(){
                     var success = jsonObject.getBoolean("success")
 
                     if(success) {
-                        Toast.makeText(this@ClothesSaveActivity, jsonObject.toString(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            this@ClothesSaveActivity, jsonObject.toString(), Toast.LENGTH_LONG
+                        ).show()
 
                     } else {
                         Toast.makeText(this@ClothesSaveActivity, "실패 두둥탁", Toast.LENGTH_LONG).show()
@@ -175,11 +226,67 @@ class ClothesSaveActivity : AppCompatActivity(){
         }
 
         val clothesPath = "/var/www/html/clothes/"
-        val clothesSave_Request = ClothesSave_Request(userId, clothesPath, clothesName!!, responseListener)
+        val clothesSave_Request = ClothesSave_Request(userId, clothesPath, clothesName, responseListener)
         val queue = Volley.newRequestQueue(this@ClothesSaveActivity)
         queue.add(clothesSave_Request)
     }
 
 
+     open inner class back : AsyncTask<String?, Int?, Bitmap>() {
+         protected override fun onPreExecute() {
+
+             // Create a progressdialog
+             mProgressDialog = ProgressDialog(this@ClothesSaveActivity)
+             mProgressDialog.setTitle("Loading...")
+             mProgressDialog.setMessage("Image uploading...")
+             mProgressDialog.setCanceledOnTouchOutside(false)
+             mProgressDialog.setIndeterminate(false)
+             mProgressDialog.show()
+         }
+
+
+        override fun doInBackground(vararg urls: String?): Bitmap {
+            try {
+                val myFileUrl = URL(urls[0])
+                val conn: HttpURLConnection = myFileUrl.openConnection() as HttpURLConnection
+                conn.doInput = true
+                conn.connect()
+                val iss: InputStream = conn.inputStream
+                clothesImg = BitmapFactory.decodeStream(iss)
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            return clothesImg
+
+        }
+
+        override fun onPostExecute(img: Bitmap) {
+            mProgressDialog.dismiss()
+
+            iv_clothes.setImageBitmap(clothesImg)
+        }
+
+
+    }
+
+
+
+//
+//    fun setImg(originURL : String) : Bitmap {
+//        try {
+//            val myFileUrl = URL(originURL)
+//            val conn: HttpURLConnection = myFileUrl.openConnection() as HttpURLConnection
+//            conn.setDoInput(true)
+//            conn.connect()
+//            val iss: InputStream = conn.getInputStream()
+//            clothesImg = BitmapFactory.decodeStream(iss)
+//        } catch (e : IOException) {
+//            e.printStackTrace()
+//        }
+//        return clothesImg
+//    }
+//
+//
 
 }

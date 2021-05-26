@@ -179,8 +179,7 @@ class MainActivity : AppCompatActivity() {
                 .setPermissions(
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     android.Manifest.permission.CAMERA
-                )
-                .check()
+                ).check()
     }
 
 

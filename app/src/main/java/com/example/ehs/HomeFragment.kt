@@ -47,11 +47,7 @@ class HomeFragment : Fragment() {
 
         text = view.findViewById(R.id.text);
 
-        text.setOnClickListener {
-            activity?.let{
-                val intent = Intent(context, ImageActivity::class.java)
-                startActivity(intent) }
-        }
+
 
 
         return view
