@@ -14,4 +14,26 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorDivider">#ECECEC</color>
+    <color name="cream">#fefcec</color>
+    <color name="lightgray">#e7e7e7</color>
+    <color name="darkgray">#7a7a7a</color>
+    <color name="orange">#fe820d</color>
+    <color name="beige">#e2c79c</color>
+    <color name="yellow">#ffe600</color>
+    <color name="lightgreen">#c4db88</color>
+    <color name="skyblue">#c5e2ff</color>
+    <color name="blue">#1f4ce2</color>
+    <color name="pink">#ff8290</color>
+    <color name="lightpink">#fee0de</color>
+    <color name="camel">#c98b42</color>
+    <color name="kaki">#666b16</color>
+    <color name="green">#00a03e</color>
+    <color name="navy">#060350</color>
+    <color name="red">#ed1212</color>
+    <color name="wine">#9d2140</color>
+    <color name="brown">#844f1e</color>
+    <color name="purple">#7119ac</color>
+
+    <color name="ourcolor">#6350ac</color>
+
 </resources>
