@@ -23,7 +23,6 @@
 
         <activity android:name=".ClothesSaveActivity"/>
         <activity android:name=".MainActivity"/>
-        <activity android:name=".ImageActivity"/>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>

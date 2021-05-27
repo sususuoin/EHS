@@ -19,6 +19,8 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.android.volley.NetworkResponse
@@ -26,6 +28,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.fragment_closet.view.*
+import kotlinx.android.synthetic.main.fragment_fashionista.*
 import kotlinx.coroutines.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -35,6 +38,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ClosetFragment : Fragment() {
@@ -60,6 +64,7 @@ class ClosetFragment : Fragment() {
     lateinit var originImgName : String
 
 
+
     companion object {
         const val TAG : String = "로그"
         fun newInstance() : ClosetFragment { // newInstance()라는 함수를 호출하면 HomeFragment를 반환함
@@ -71,6 +76,7 @@ class ClosetFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "ClosetFragment - onCreate() called")
+
     }
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
     override fun onAttach(context: Context) {
@@ -79,6 +85,8 @@ class ClosetFragment : Fragment() {
             a = context
         }
         Log.d(TAG, "ClosetFragment - onAttach() called")
+
+
     }
     // 뷰가 생성되었을 때 화면과 연결
     // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
@@ -89,6 +97,7 @@ class ClosetFragment : Fragment() {
     ): View? {
         Log.d(TAG, "ClosetFragment - onCreateView() called")
         val view: View = inflater!!.inflate(R.layout.fragment_closet, container, false)
+
         view.btn_add.setOnClickListener { view ->
             Log.d("클릭!!", "플러스 버튼 클릭!!")
             onAddButtonClicked()
@@ -113,16 +122,36 @@ class ClosetFragment : Fragment() {
             takeCapture() // 기본 카메라 앱을 실행하여 사진 촬영
             onAddButtonClicked()
         }
-        view.asdf.setOnClickListener { view ->
-            val intent = Intent(a, ClothesSaveActivity::class.java)
-            val stream = ByteArrayOutputStream()
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-            val byteArray = stream.toByteArray()
-            intent.putExtra("clothesImg", byteArray)
-            startActivityForResult(intent, 101)
-        }
         return view
     }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        var mDrawable = ContextCompat.getDrawable(a!!, R.drawable.banner)
+
+        val clothestList : List<Clothes> = listOf(
+            Clothes(mDrawable!!),
+            Clothes(mDrawable),
+            Clothes(mDrawable),
+            Clothes(mDrawable),
+            Clothes(mDrawable),
+            Clothes(mDrawable),
+            Clothes(mDrawable),
+            Clothes(mDrawable),
+            Clothes(mDrawable),
+            Clothes(mDrawable)
+        )
+
+
+        val adapter = ClothesListAdapter(clothestList)
+        recyclerView.adapter = adapter
+        //recylerview 이거 fashionista.xml에 있는 변수
+
+    }
+
 
 
     fun onAddButtonClicked() {
@@ -177,6 +206,8 @@ class ClosetFragment : Fragment() {
     }
 
 
+
+
     fun takeCapture() {
         // 기본 카메라 앱 실행
 
@@ -223,7 +254,7 @@ class ClosetFragment : Fragment() {
                     uploadImgName = getName(fileuri)
                     if (Build.VERSION.SDK_INT < 28) { // 안드로이드 9.0 (Pie) 버전보다 낮을 경우
                         bitmap = MediaStore.Images.Media.getBitmap(a!!.contentResolver, fileuri)
-                        img_picture.setImageBitmap(bitmap)
+
                         bmp = bitmap
 
                     } else { // 안드로이드 9.0 (Pie) 버전보다 높을 경우
@@ -349,7 +380,7 @@ class ClosetFragment : Fragment() {
     }
 
 
-    fun uploadBitmap(bitmap: Bitmap) : String? {
+    fun uploadBitmap(bitmap: Bitmap) {
         val clothesUploadRequest: ClothesUpload_Request =
             object : ClothesUpload_Request(
                 Method.POST, "http://54.180.101.123/upload4.php",
@@ -363,7 +394,7 @@ class ClosetFragment : Fragment() {
 
                         Toast.makeText(a, originImgName, Toast.LENGTH_SHORT).show()
 
-                        return@Listener
+
 
                     } catch (e: JSONException) {
                         e.printStackTrace()
@@ -386,8 +417,6 @@ class ClosetFragment : Fragment() {
         //adding the request to volley
         Volley.newRequestQueue(a).add(clothesUploadRequest)
 
-
-        return null
     }
 
 

@@ -60,8 +60,7 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
-        if (AutoLogin.getUserId(this).isNullOrBlank()
-            || AutoLogin.getUserPass(this).isNullOrBlank()
+        if (AutoLogin.getUserId(this).isNullOrBlank() || AutoLogin.getUserPass(this).isNullOrBlank()
         ) {
             Login()
         } else { // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
