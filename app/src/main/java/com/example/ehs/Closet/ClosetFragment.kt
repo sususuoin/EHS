@@ -36,7 +36,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
-import org.threeten.bp.LocalDateTime
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -149,8 +148,9 @@ class ClosetFragment : Fragment() {
 
         view.mPlusButton.setOnClickListener { view ->
 
-            var task = back()
-            task.execute("http://54.180.101.123/clothes/16220975141622097513127.JPEG")
+//            var task = back()
+//            task.execute("http://54.180.101.123/clothes/"+originImgName)
+//
 
 
 
@@ -335,7 +335,7 @@ class ClosetFragment : Fragment() {
                 uploadBitmap(bmp)
             }
 
-            delay(2000L)
+            delay(5000L)
 
             val intent = Intent(a, ClothesSaveActivity::class.java)
             intent.putExtra("originImgName", originImgName);
