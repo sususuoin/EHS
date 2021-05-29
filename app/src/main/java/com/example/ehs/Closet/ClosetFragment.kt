@@ -27,6 +27,7 @@ import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.R
+import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.fragment_closet.view.*
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +36,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
+import org.threeten.bp.LocalDateTime
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -97,6 +99,8 @@ class ClosetFragment : Fragment() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "ClosetFragment - onCreate() called")
 
+        AndroidThreeTen.init(a)
+
     }
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
     override fun onAttach(context: Context) {
@@ -146,7 +150,10 @@ class ClosetFragment : Fragment() {
         view.mPlusButton.setOnClickListener { view ->
 
             var task = back()
-            task.execute("http://54.180.101.123/clothes/16220975141622097513127.JPEG");
+            task.execute("http://54.180.101.123/clothes/16220975141622097513127.JPEG")
+
+
+
         }
 
         return view

@@ -15,18 +15,17 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ehs.Calendar.CalendarActivity
 import com.example.ehs.R
-import kotlinx.android.synthetic.main.fragment_home.*
+import com.jakewharton.threetenabp.AndroidThreeTen
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+
 import java.util.*
 
 
 class HomeFragment : Fragment() {
     private var a: Activity? = null
-    @RequiresApi(Build.VERSION_CODES.O)
-    var now: LocalDate? = LocalDate.now()
-    @RequiresApi(Build.VERSION_CODES.O)
+    val now: LocalDateTime = LocalDateTime.now()
     var Strnow = now?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
     // lateinit var text: TextView
@@ -59,7 +58,7 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "HomeFragment - onCreate() called")
-
+        AndroidThreeTen.init(a)
 
     }
     // 프래그먼트를 안고 있는 액티비티에 붙었을 때

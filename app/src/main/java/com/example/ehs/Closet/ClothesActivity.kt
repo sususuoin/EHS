@@ -146,11 +146,7 @@ class ClothesActivity : AppCompatActivity() {
                 }
                 photoFile?.also{
                     // photoURI는 원본파일 저장하는 경로
-                    val photoURI : Uri = FileProvider.getUriForFile(
-                        this,
-                        "com.example.closet.fileprovider",
-                        it
-                    )
+                    val photoURI : Uri = FileProvider.getUriForFile(this, "com.example.closet.fileprovider", it)
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                 }

@@ -20,6 +20,7 @@ import com.example.ehs.Home.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_closet.*
 import java.util.*
@@ -77,6 +78,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        AndroidThreeTen.init(this)
 
         //LoginActivity의 인텐트를 받아서 text값을 저장
         val intent = getIntent()

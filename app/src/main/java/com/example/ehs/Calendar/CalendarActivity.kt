@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_calendar.*
-import java.time.LocalDate
-import java.time.YearMonth
-import java.time.format.DateTimeFormatter
+
+import org.threeten.bp.LocalDate
+import org.threeten.bp.YearMonth
+import org.threeten.bp.format.DateTimeFormatter
 
 
 class CalendarActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
@@ -26,6 +27,7 @@ class CalendarActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar)
+
         initWidgets()
         selectedDate = LocalDate.now()
         Log.d("현재날짜", "호롤" + selectedDate)
