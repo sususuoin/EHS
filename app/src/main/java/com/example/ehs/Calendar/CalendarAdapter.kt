@@ -13,6 +13,7 @@ internal class CalendarAdapter(
 ) :
     RecyclerView.Adapter<CalendarViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
+
         val inflater = LayoutInflater.from(parent.context)
         val view: View = inflater.inflate(R.layout.calendar_cell, parent, false)
         val layoutParams = view.layoutParams
@@ -20,9 +21,12 @@ internal class CalendarAdapter(
         return CalendarViewHolder(view, onItemListener)
     }
 
+
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         holder.dayOfMonth.setText(daysOfMonth[position])
     }
+
+
 
     override fun getItemCount(): Int {
         return daysOfMonth.size

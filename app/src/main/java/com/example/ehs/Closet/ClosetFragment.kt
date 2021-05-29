@@ -23,11 +23,13 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.android.synthetic.main.activity_clothes_save.*
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.fragment_closet.view.*
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +40,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.*
 import java.net.HttpURLConnection
+import java.net.MalformedURLException
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
@@ -80,10 +83,9 @@ class ClosetFragment : Fragment() {
     lateinit var mProgressDialog: ProgressDialog
     lateinit var clothesImg : Bitmap
 
+    val clothesList = mutableListOf<Clothes>()
 
-    val clothesList = mutableListOf(
-        Clothes(null)
-    )
+
 
 
     companion object {
@@ -97,7 +99,6 @@ class ClosetFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "ClosetFragment - onCreate() called")
-
         AndroidThreeTen.init(a)
 
     }
@@ -109,6 +110,60 @@ class ClosetFragment : Fragment() {
         }
         Log.d(TAG, "ClosetFragment - onAttach() called")
 
+        var a_bitmap : Bitmap? = null
+
+
+        val uThread: Thread = object : Thread() {
+            override fun run() {
+                try {
+
+                    //서버에 올려둔 이미지 URL
+                    val url = URL("http://54.180.101.123/clothes/16222893411622289338856.JPEG")
+
+
+
+                    //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
+                    /* URLConnection 생성자가 protected로 선언되어 있으므로
+                     개발자가 직접 HttpURLConnection 객체 생성 불가 */
+                    val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                    /* openConnection()메서드가 리턴하는 urlConnection 객체는
+                    HttpURLConnection의 인스턴스가 될 수 있으므로 캐스팅해서 사용한다*/
+
+                    conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
+                    conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                    val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
+                    a_bitmap =BitmapFactory.decodeStream(iss) // Bitmap으로 반환
+
+
+                } catch (e: MalformedURLException) {
+                    e.printStackTrace()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+
+        uThread.start() // 작업 Thread 실행
+
+
+        try {
+
+            //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
+            //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
+            //join() 메서드는 InterruptedException을 발생시킨다.
+            uThread.join()
+
+            //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+            //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
+
+            var clothes = Clothes(a_bitmap)
+            clothesList.add(clothes)
+
+
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
 
     }
     // 뷰가 생성되었을 때 화면과 연결
@@ -149,7 +204,7 @@ class ClosetFragment : Fragment() {
         view.mPlusButton.setOnClickListener { view ->
 
             var task = back()
-            task.execute("http://54.180.101.123/clothes/"+originImgName)
+            task.execute("http://54.180.101.123/clothes/16220975141622097513127.JPEG")
 
 
 
@@ -164,10 +219,13 @@ class ClosetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        val gridLayoutManager = GridLayoutManager(a, 3)
+        recyclerView.layoutManager = gridLayoutManager
+
+
         val adapter = ClothesListAdapter(clothesList)
         recyclerView.adapter = adapter
         //recylerview 이거 fashionista.xml에 있는 변수
-
     }
 
 
@@ -335,7 +393,7 @@ class ClosetFragment : Fragment() {
                 uploadBitmap(bmp)
             }
 
-            delay(5000L)
+            delay(8000L)
 
             val intent = Intent(a, ClothesSaveActivity::class.java)
             intent.putExtra("originImgName", originImgName);
@@ -484,5 +542,7 @@ class ClosetFragment : Fragment() {
         }
 
     }
+
+
 
 }
