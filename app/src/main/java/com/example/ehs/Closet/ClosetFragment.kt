@@ -148,9 +148,9 @@ class ClosetFragment : Fragment() {
 
         view.mPlusButton.setOnClickListener { view ->
 
-//            var task = back()
-//            task.execute("http://54.180.101.123/clothes/"+originImgName)
-//
+            var task = back()
+            task.execute("http://54.180.101.123/clothes/"+originImgName)
+
 
 
 
