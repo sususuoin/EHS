@@ -52,17 +52,107 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.147" />
 
-            <Button
-                android:id="@+id/btn_weather"
-                android:layout_width="155dp"
-                android:layout_height="60dp"
-                android:text="Button" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/img_weather"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="20dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_cTempH"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="17ºC"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_MinMaxH"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="12º / 23º"
+                        android:layout_gravity="center"
+                        android:textColor="@color/darkgray"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:id="@+id/tv_cityH"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="서울시 금천구 독산동"
+                    android:textColor="@color/darkgray"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/btn_updateH"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    app:srcCompat="@drawable/ic_update"
+                    android:background="@drawable/btn_color_radius"
+                    android:layout_gravity="center"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="40dp">
+
+                    <ImageButton
+                        android:id="@+id/btn_weathergo"
+                        android:layout_width="70dp"
+                        android:layout_height="26dp"
+                        android:backgroundTint="@color/white"
+                        app:srcCompat="@drawable/ic_go" />
+
+                    <TextView
+                        android:id="@+id/tv_weathergo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="날씨별 옷차림"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="100dp"
                 android:orientation="horizontal">
 
                 <TextView
