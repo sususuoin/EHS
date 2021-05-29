@@ -12,6 +12,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.example.ehs.Closet.ClosetFragment
+import com.example.ehs.Fashionista.FashionistaFragment
+import com.example.ehs.Mypage.MypageFragment
+import com.example.ehs.Feed.FeedFragment
+import com.example.ehs.Home.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -159,7 +164,7 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    //깃허브테스트
+    //깃허브테스
 
     /**
      * 테드 퍼미션 설정

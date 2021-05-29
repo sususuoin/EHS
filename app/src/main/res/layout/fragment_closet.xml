@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ClothesActivity"
+    tools:context=".Closet.ClothesActivity"
     android:id="@+id/fragment_closet">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -102,7 +102,7 @@
         app:layout_constraintTop_toTopOf="@+id/btn_camera" />
 
     <Button
-        android:id="@+id/btn_clothesRemove"
+        android:id="@+id/mPlusButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
