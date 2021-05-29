@@ -4,9 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.clothes.view.*
+
 
 class ClothesListAdapter(private val items: List<Clothes>) : RecyclerView.Adapter<ClothesListAdapter.ViewHolder>() {
 
@@ -18,6 +20,7 @@ class ClothesListAdapter(private val items: List<Clothes>) : RecyclerView.Adapte
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflatedView = LayoutInflater.from(parent.context)
             .inflate(R.layout.clothes, parent, false)
+
         return ViewHolder(inflatedView)
     }
 
@@ -29,7 +32,7 @@ class ClothesListAdapter(private val items: List<Clothes>) : RecyclerView.Adapte
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 250
+        layoutParams.height = 350
         holder.itemView.requestLayout()
 
 
@@ -43,6 +46,7 @@ class ClothesListAdapter(private val items: List<Clothes>) : RecyclerView.Adapte
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
         private var view: View = v
+
 
         fun bind(listener: View.OnClickListener, item: Clothes) {
 

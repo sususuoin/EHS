@@ -2,6 +2,7 @@ package com.example.ehs.Login
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 
 
 object AutoLogin {

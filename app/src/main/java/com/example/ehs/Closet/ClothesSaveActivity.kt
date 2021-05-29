@@ -69,7 +69,7 @@ class ClothesSaveActivity : AppCompatActivity(){
 
 
         var task = back()
-        task.execute(originURL+originImgName);
+        task.execute(realURL);
 
 
 //        val intent = intent
@@ -110,25 +110,13 @@ class ClothesSaveActivity : AppCompatActivity(){
 
 
             Log.d(TAG, "서버에 저장을 시작합니다")
-//
-//            val job = GlobalScope.launch() {
-//                uploadBitmap(clothesImg)
-//
-//            }
-//            runBlocking {
-//                job.join()
-//                delay(3000L)  //3초동안 기다리기
-//
-//                uploadDB(userId)
-//            }
-
 
             GlobalScope.launch(Dispatchers.Main) {
                 launch(Dispatchers.Main) {
                     uploadBitmap(clothesImg)
                 }
 
-                delay(2000L)
+                delay(10000L)
                 uploadDB(userId)
             }
 

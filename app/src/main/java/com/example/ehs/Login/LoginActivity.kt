@@ -118,20 +118,14 @@ class LoginActivity : AppCompatActivity() {
                             AutoLogin.setUserPass(this@LoginActivity, userPw)
                             Toast.makeText(this@LoginActivity, "${AutoLogin.getUserId(this@LoginActivity)}님 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
 
-
-                            val clothessaveIntent =
-                                Intent(this@LoginActivity, ClothesSaveActivity::class.java)
-                            clothessaveIntent.putExtra("userId", userId);
-
                             Log.d(TAG, userId)
                             startActivity(mainIntent)
+                            finish()
 
-                            //dialog("성공")
 
 
-                            //회원가입 실패시
                         } else {
-                            dialog("실패")
+                            Toast.makeText(this@LoginActivity, "로그인 실패", Toast.LENGTH_SHORT).show()
                             return
                         }
 
@@ -153,30 +147,5 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    fun dialog(type: String) {
-        val dialog = AlertDialog.Builder(this)
-        val startIntent = Intent(this, MainActivity::class.java)
-
-        if (type.equals("성공")) {
-            dialog.setTitle("로그인")
-            dialog.setMessage("성공")
-            startActivity(startIntent)
-        } else if (type.equals("실패")) {
-            dialog.setTitle("로그인")
-            dialog.setMessage("실패")
-        }
-
-        val dialog_listener = object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface?, which: Int) {
-                when (which) {
-                    DialogInterface.BUTTON_POSITIVE ->
-                        Log.d(TAG, "다이얼로그")
-                }
-            }
-        }
-
-        dialog.setPositiveButton("확인", dialog_listener)
-        dialog.show()
-    }
 
 }
