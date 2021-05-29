@@ -15,9 +15,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
  */
 class BottomSheet_fashion : BottomSheetDialogFragment() {
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.bottomsheet_fashion, container, false)
