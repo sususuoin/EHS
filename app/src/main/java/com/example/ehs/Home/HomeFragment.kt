@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +34,7 @@ class HomeFragment : Fragment() {
     lateinit var crecyclerview: androidx.recyclerview.widget.RecyclerView
     lateinit var crecyclerview2: androidx.recyclerview.widget.RecyclerView
 
+    lateinit var img_weather: ImageView
 
     // 요일 받아오기
     var sun: String? = null
@@ -86,6 +88,9 @@ class HomeFragment : Fragment() {
         //text = view.findViewById(R.id.textView)
 
 
+        img_weather = view.findViewById(R.id.img_weather)
+
+        img_weather.setImageResource(R.drawable.ic_add)
 
         calendarbtn = view.findViewById(R.id.btn_calendar)
 
