@@ -81,15 +81,6 @@ class MainActivity : AppCompatActivity() {
 
         AndroidThreeTen.init(this)
 
-        //LoginActivity의 인텐트를 받아서 text값을 저장
-        val intent = getIntent()
-        userId = intent.getStringExtra("userId")
-        userPw = intent.getStringExtra("userPw")
-        userName = intent.getStringExtra("userName")
-        userEmail = intent.getStringExtra("userEmail")
-        userBirth = intent.getStringExtra("userBirth")
-        userGender = intent.getStringExtra("userGender")
-        userLevel = intent.getStringExtra("userLevel")
 
         bundle.putString("userId", userId);
         bundle.putString("userPw", userPw);
