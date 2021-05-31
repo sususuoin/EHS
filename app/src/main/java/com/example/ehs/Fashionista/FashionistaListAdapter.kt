@@ -27,7 +27,10 @@ class FashionistaListAdapter (private val itemList : List<Fashionista>) : Recycl
         holder.apply {
             bind(item)
         }
+
     }
+
+
 
 
 

@@ -461,8 +461,7 @@ class ClosetFragment : Fragment() {
 
 
     fun uploadBitmap(bitmap: Bitmap) {
-        val clothesUploadRequest: ClothesUpload_Request =
-            object : ClothesUpload_Request(
+        val clothesUploadRequest: ClothesUpload_Request = object : ClothesUpload_Request(
                 Method.POST, "http://54.180.101.123/upload4.php",
                 Response.Listener<NetworkResponse> { response ->
                     try {

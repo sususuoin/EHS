@@ -12,8 +12,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.ClosetFragment
+import com.example.ehs.Fashionista.Fashionista
 import com.example.ehs.Fashionista.FashionistaFragment
+import com.example.ehs.Fashionista.FashionistaList
+import com.example.ehs.Fashionista.FashionistaUser_Request
 import com.example.ehs.Mypage.MypageFragment
 import com.example.ehs.Feed.FeedFragment
 import com.example.ehs.Home.HomeFragment
@@ -23,6 +28,9 @@ import com.gun0912.tedpermission.TedPermission
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_closet.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -36,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var closetFragment: ClosetFragment
     private lateinit var feedFragment: FeedFragment
     private lateinit var mypageFragment: MypageFragment
+
 
     var userId :String? = ""
     var userPw :String? = ""
@@ -98,9 +107,7 @@ class MainActivity : AppCompatActivity() {
 
         //권한설정
         setPermission()
-//
-//        //애뮬레이터 갤러리 권한 설정
-//        checkSelfPermission()
+        FashionistaUser()
     }
 
 
@@ -182,37 +189,54 @@ class MainActivity : AppCompatActivity() {
                 ).check()
     }
 
+    fun FashionistaUser()  {
+
+        var fuserId : String
+        var fuserLevel : String
+
+        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+            override fun onResponse(response: String?) {
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    var response = jsonObject.toString()
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    Log.d("이이이이잉~~나는 언제잘수있을까 ?", response)
+                    Log.d("이이이이잉~~나는 언제잘수있을까123 ?", arr.toString())
 
 
-    //에뮬레이터 갤러리 권한설정
-    fun checkSelfPermission() {
-        var temp = "" //파일 읽기 권한 확인
+                    for (i in 0 until arr.length()) {
+                        val fuserObject = arr.getJSONObject(i)
+                        Log.d("이이이이잉~~나는sad12  ?", arr[i].toString())
+
+                        fuserId = fuserObject.getString("userId")
+                        fuserLevel = fuserObject.getString("userLevel")
 
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            temp += Manifest.permission.READ_EXTERNAL_STORAGE.toString() + " "
-        } //파일 쓰기 권한 확인
+                        var fashin = Fashionista(fuserId, fuserLevel)
+                        FashionistaList.add(fashin)
 
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            temp += Manifest.permission.WRITE_EXTERNAL_STORAGE.toString() + " "
+                    }
+
+
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
         }
+        val fashionistaUserRequest = FashionistaUser_Request(responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(fashionistaUserRequest)
 
-        if (TextUtils.isEmpty(temp) == false) {
-            // 권한 요청
-            ActivityCompat.requestPermissions(
-                this,
-                temp.trim { it <= ' ' }.split(" ").toTypedArray(),
-                1
-            )
-        } else {
-            // 모두 허용 상태
-            Toast.makeText(this, "권한을 모두 허용", Toast.LENGTH_SHORT).show()
-        }
+
 
 
     }
-
 
 
 }

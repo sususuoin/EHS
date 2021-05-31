@@ -78,20 +78,13 @@ class MypageFragment : Fragment() {
         tv_gender = view.findViewById(R.id.tv_gender);
         tv_level = view.findViewById(R.id.tv_level);
 
-        //MainActivity에서 전달한 번들 저장
-        val bundle = getArguments()
-        //번들 안의 텍스트 불러오기
-        val userId = bundle?.getString("userId")
-        if (userId != null) {
-            Log.d("아이디가 나올때가", userId)
-        }else
-            Log.d("아이디가 나올때가", "안나오네 ;;;진짜죽어버려")
-        val userPw = bundle?.getString("userPw")
-        val userName = bundle?.getString("userName")
-        val userEmail = bundle?.getString("userEmail")
-        val userBirth = bundle?.getString("userBirth")
-        val userGender = bundle?.getString("userGender")
-        val userLevel = bundle?.getString("userLevel")
+        var userId = AutoLogin.getUserId(a!!)
+        var userPw = AutoLogin.getUserId(a!!)
+        var userName = AutoLogin.getUserId(a!!)
+        var userEmail = AutoLogin.getUserId(a!!)
+        var userBirth = AutoLogin.getUserId(a!!)
+        var userGender = AutoLogin.getUserId(a!!)
+        var userLevel = AutoLogin.getUserId(a!!)
 
         //fragment1의 TextView에 전달 받은 text 띄우기
         tv_id.text = userId

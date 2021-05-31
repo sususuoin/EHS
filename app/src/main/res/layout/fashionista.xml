@@ -6,27 +6,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/mName"
-        android:layout_width="118dp"
-        android:layout_height="19dp"
-        android:text="TextView"
+    <LinearLayout
+        android:layout_width="359dp"
+        android:layout_height="137dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.262"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.078" />
+        app:layout_constraintVertical_bias="0.06">
 
-    <TextView
-        android:id="@+id/mTel"
-        android:layout_width="116dp"
-        android:layout_height="25dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.718"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.079" />
+        <ImageView
+            android:id="@+id/mProfile"
+            android:layout_width="58dp"
+            android:layout_height="54dp"
+            app:srcCompat="@drawable/ic_mypage" />
+
+        <LinearLayout
+            android:layout_width="221dp"
+            android:layout_height="68dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/mName"
+                android:layout_width="119dp"
+                android:layout_height="29dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/mHashtag"
+                android:layout_width="119dp"
+                android:layout_height="29dp"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/mStar"
+            android:layout_width="43dp"
+            android:layout_height="42dp"
+            app:srcCompat="@android:drawable/btn_star_big_on" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
