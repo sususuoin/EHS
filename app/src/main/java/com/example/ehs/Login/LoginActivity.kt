@@ -1,15 +1,14 @@
 package com.example.ehs.Login
 
-import android.content.DialogInterface
+
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import com.example.ehs.Closet.ClothesSaveActivity
+import com.example.ehs.AI.AIActivity
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_login.*
@@ -56,10 +55,11 @@ class LoginActivity : AppCompatActivity() {
         tv_register.setOnClickListener {
             Log.d(TAG, "회원가입 클릭")
             startActivity(registerIntent)
-
         }
 
-        tv_title.setOnClickListener {
+        btn_ai.setOnClickListener {
+            val aiActivity = Intent(this, AIActivity::class.java) // 인텐트를 생성
+            startActivity(aiActivity)
 
         }
 
