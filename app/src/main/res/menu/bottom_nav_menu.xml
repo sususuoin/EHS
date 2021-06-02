@@ -22,7 +22,7 @@
         />
     <item
         android:id="@+id/menu_mypage"
-        android:title="마이"
+        android:title="MY"
         android:icon="@drawable/ic_mypage"
         />
 </menu>
