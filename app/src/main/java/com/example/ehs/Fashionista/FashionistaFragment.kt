@@ -7,8 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_fashionista.*
+import kotlinx.android.synthetic.main.fragment_fashionista.view.*
+import kotlinx.android.synthetic.main.fragment_favorite.view.*
+import kotlinx.android.synthetic.main.fragment_favorite.view.tv_favorite
 
 class FashionistaFragment : Fragment() {
 
@@ -53,6 +57,10 @@ class FashionistaFragment : Fragment() {
     ): View? {
         Log.d(TAG, "FashionistaFragment - onCreateView() called")
         val view = inflater.inflate(R.layout.fragment_fashionista, container, false)
+        view.tv_favorite.setOnClickListener {
+            Log.d("FashionistaFragment", "피드로 이동")
+            (activity as MainActivity?)!!.replaceFragment(FavoriteFragment.newInstance())
+        }
         return view
     }
 

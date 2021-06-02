@@ -1,10 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/fragment_fashionista">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_fashionista"
+            android:layout_width="202dp"
+            android:layout_height="60dp"
+            android:textColor="@color/ourcolor"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="패셔니스타"
+            android:textSize="20dp"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_favorite"
+            android:layout_width="202dp"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:text="즐겨찾기"
+            android:textSize="20dp"
+             />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <View
+            android:layout_marginLeft="52dp"
+            android:layout_width="100dp"
+            android:layout_height="5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/ourcolor" />
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="2dp"
+            android:layout_marginLeft="101dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/darkgray" />
+    </LinearLayout>
 
 
     <TextView
@@ -12,47 +60,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="쀄셔니스퇄"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.048" />
+        android:textSize="50sp" />
+
+    <ImageView
+        android:id="@+id/iv_banner"
+        android:layout_width="595dp"
+        android:layout_height="182dp"
+        android:layout_marginBottom="50dp"
+        app:srcCompat="@drawable/banner" />
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="405dp"
+        android:layout_height="170dp"
+        app:srcCompat="@drawable/ranking" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mRecyclerView"
         android:layout_width="409dp"
         android:layout_height="281dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+         />
 
-    <ImageView
-        android:id="@+id/iv_banner"
-        android:layout_width="595dp"
-        android:layout_height="182dp"
-        android:layout_marginBottom="232dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.318"
-        app:srcCompat="@drawable/banner" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="405dp"
-        android:layout_height="170dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.458"
-        app:srcCompat="@drawable/ranking" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

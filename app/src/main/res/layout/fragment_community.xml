@@ -11,14 +11,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:id="@+id/tv_feed"
+            android:id="@+id/tv_feed2"
             android:layout_width="202dp"
             android:layout_height="60dp"
             android:gravity="center"
             android:text="피드"
-            android:textColor="@color/ourcolor"
             android:textSize="20dp"
-            android:textStyle="bold" />
+             />
 
 
         <TextView
@@ -26,8 +25,13 @@
             android:layout_width="202dp"
             android:layout_height="60dp"
             android:gravity="center"
+            android:textColor="@color/ourcolor"
             android:text="커뮤니티"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+
+
     </LinearLayout>
 
     <LinearLayout
@@ -37,23 +41,24 @@
         <View
             android:layout_marginLeft="52dp"
             android:layout_width="100dp"
-            android:layout_height="5dp"
+            android:layout_height="2dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/ourcolor" />
+            android:background="@color/darkgray" />
 
         <View
             android:layout_width="100dp"
-            android:layout_height="2dp"
+            android:layout_height="5dp"
             android:layout_marginLeft="100dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/darkgray" />
+            android:background="@color/ourcolor" />
     </LinearLayout>
+
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="쀠드"
+        android:text="커뮤커뮤"
         android:textSize="50sp" />
-
-
 
 </LinearLayout>

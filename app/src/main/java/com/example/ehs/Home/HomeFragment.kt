@@ -46,9 +46,6 @@ class HomeFragment : Fragment() {
     var sat: String? = null
 
 
-
-
-
     companion object {
         const val TAG : String = "홈 프레그먼트"
         fun newInstance() : HomeFragment { // newInstance()라는 함수를 호출하면 HomeFragment를 반환함
@@ -169,22 +166,48 @@ class HomeFragment : Fragment() {
         // 해당 주차의 첫째 날짜
         val startDt = sf.format(cal.time)
 
+        // 둘째 날짜
+        cal.add(Calendar.DAY_OF_MONTH, 1)
+        val twoDt = sf.format(cal.time)
+        // 셋째 날짜
+        cal.add(Calendar.DAY_OF_MONTH, 1)
+        val threeDt = sf.format(cal.time)
+        // 넷째 날짜
+        cal.add(Calendar.DAY_OF_MONTH, 1)
+        val fourDt = sf.format(cal.time)
+        // 다섯째 날짜
+        cal.add(Calendar.DAY_OF_MONTH, 1)
+        val fiveDt = sf.format(cal.time)
+        // 여섯째 날짜
+        cal.add(Calendar.DAY_OF_MONTH, 1)
+        val sixDt = sf.format(cal.time)
         // 해당 주차의 마지막 날짜 지정
-        cal.add(Calendar.DAY_OF_MONTH, 6)
-
+        cal.add(Calendar.DAY_OF_MONTH, 1)
         // 해당 주차의 마지막 날짜
         val endDt = sf.format(cal.time)
 
         var token = startDt.split('-');
         sun = token[2]
-        mon = (Integer.parseInt(sun) + 1).toString()
-        tue = (Integer.parseInt(sun) + 2).toString()
-        wed = (Integer.parseInt(sun) + 3).toString()
-        thu = (Integer.parseInt(sun) + 4).toString()
-        fri = (Integer.parseInt(sun) + 5).toString()
-        sat = (Integer.parseInt(sun) + 6).toString()
 
-        Log.d(TAG, "특정 날짜 = [$eventDate] >> 시작 날짜 = [$startDt], 종료 날짜 = [$endDt]")
+        token = twoDt.split('-');
+        mon = token[2]
+
+        token = threeDt.split('-');
+        tue = token[2]
+
+        token = fourDt.split('-');
+        wed = token[2]
+
+        token = fiveDt.split('-');
+        thu = token[2]
+
+        token = sixDt.split('-');
+        fri = token[2]
+
+        token = endDt.split('-');
+        sat = token[2]
+
+        Log.d(TAG, "특정 날짜 = [$eventDate] >> 시작 날짜 = [$startDt], 종료 날짜 = [$endDt], 두번째 = [$twoDt]")
         Log.d("일", "요일" + sun)
         Log.d("일", "요일" + mon)
     }

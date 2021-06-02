@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_clothes_save.*
@@ -47,6 +48,10 @@ import java.util.*
 
 
 class ClosetFragment : Fragment() {
+    private lateinit var codyFragment: CodyFragment
+
+
+
     private var a: Activity? = null
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(
         a!!,
@@ -176,6 +181,11 @@ class ClosetFragment : Fragment() {
         Log.d(TAG, "ClosetFragment - onCreateView() called")
         val view: View = inflater!!.inflate(R.layout.fragment_closet, container, false)
 
+        view.tv_mycody.setOnClickListener { view ->
+            Log.d("ClosetFragment", "내 코디로 이동")
+            (activity as MainActivity?)!!.replaceFragment(CodyFragment.newInstance())
+        }
+
         view.btn_add.setOnClickListener { view ->
             Log.d("클릭!!", "플러스 버튼 클릭!!")
             onAddButtonClicked()
@@ -205,9 +215,6 @@ class ClosetFragment : Fragment() {
 
             var task = back()
             task.execute("http://54.180.101.123/clothes/16220975141622097513127.JPEG")
-
-
-
 
         }
 
