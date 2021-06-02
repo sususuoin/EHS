@@ -7,6 +7,8 @@ import com.example.ehs.R
 
 class FashionistaListAdapter (private val itemList : List<Fashionista>) : RecyclerView.Adapter<FashionistaViewHolder>()  {
 
+
+
     override fun getItemCount(): Int {
         return itemList.size
     }
@@ -21,7 +23,7 @@ class FashionistaListAdapter (private val itemList : List<Fashionista>) : Recycl
         val item = itemList[position]
 
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 250
+        layoutParams.height = 200
         holder.itemView.requestLayout()
 
         holder.apply {

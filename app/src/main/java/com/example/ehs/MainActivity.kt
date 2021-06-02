@@ -141,8 +141,6 @@ class MainActivity : AppCompatActivity() {
                 mypageFragment = MypageFragment.newInstance()
                 replaceFragment(mypageFragment)
 
-                Log.d(TAG, "아이야 제발로 나와줘라" + userId)
-
                 //프래그먼트로 번들 전달
                 mypageFragment.arguments = bundle
             }

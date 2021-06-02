@@ -9,10 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.R
+import kotlinx.android.synthetic.main.fragment_closet.view.*
 import kotlinx.android.synthetic.main.fragment_fashionista.*
+import kotlinx.android.synthetic.main.fragment_fashionista.view.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -20,6 +23,7 @@ import org.json.JSONObject
 
 class FashionistaFragment : Fragment() {
     private var a: Activity? = null
+
 
 //    val FashionistaList = mutableListOf<Fashionista>(
 //        Fashionista("john", "#데일리"),
@@ -42,6 +46,8 @@ class FashionistaFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "FashionistaFragment - onCreate() called")
+
+
     }
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
     override fun onAttach(context: Context) {
@@ -62,8 +68,7 @@ class FashionistaFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_fashionista, container, false)
 
 //        FashionistaUser()
-        
-        
+
 //        var fashin = Fashionista("ghgh", "gkgk")
 //        FashionistaList.add(fashin)
 
