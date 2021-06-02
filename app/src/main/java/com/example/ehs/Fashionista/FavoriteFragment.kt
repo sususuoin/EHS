@@ -1,4 +1,4 @@
-package com.example.ehs.Feed
+package com.example.ehs.Fashionista
 
 import android.content.Context
 import android.os.Bundle
@@ -7,18 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.ehs.Closet.ClosetFragment
 import com.example.ehs.MainActivity
 import com.example.ehs.R
-import kotlinx.android.synthetic.main.fragment_cody.view.*
-import kotlinx.android.synthetic.main.fragment_feed.view.*
+import kotlinx.android.synthetic.main.fragment_favorite.view.*
 
-class FeedFragment : Fragment() {
+class FavoriteFragment : Fragment() {
 
     companion object {
-        const val TAG : String = "피드 프레그먼트"
-        fun newInstance() : FeedFragment { // newInstance()라는 함수를 호출하면 HomeFragment를 반환함
-            return FeedFragment()
+        const val TAG : String = "커뮤니티 프레그먼트"
+        fun newInstance() : FavoriteFragment { // newInstance()라는 함수를 호출하면 CommunityFragment를 반환함
+            return FavoriteFragment()
         }
     }
 
@@ -39,12 +37,11 @@ class FeedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d(TAG, "FeedFragment - onCreateView() called")
-        val view = inflater.inflate(R.layout.fragment_feed, container, false)
-
-        view.tv_community.setOnClickListener {
-            Log.d("FeedFragment", "커뮤니티로 이동")
-            (activity as MainActivity?)!!.replaceFragment(CommunityFragment.newInstance())
+        Log.d(TAG, "FavoriteFragment - onCreateView() called")
+        val view = inflater.inflate(R.layout.fragment_favorite, container, false)
+        view.tv_fashionista2.setOnClickListener {
+            Log.d("FashionistaFragment", "피드로 이동")
+            (activity as MainActivity?)!!.replaceFragment(FashionistaFragment.newInstance())
         }
         return view
     }

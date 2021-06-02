@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.ClosetFragment
+import com.example.ehs.Closet.CodyFragment
 import com.example.ehs.Fashionista.Fashionista
 import com.example.ehs.Fashionista.FashionistaFragment
 import com.example.ehs.Fashionista.FashionistaList
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
 
     val TAG :String = "메인페이지"
+
 
     // 메인액티비티 클래스가 가지고 있는 멤버들
     private lateinit var homeFragment: HomeFragment
@@ -107,6 +109,7 @@ class MainActivity : AppCompatActivity() {
 
         //권한설정
         setPermission()
+
         FashionistaUser()
     }
 
@@ -141,6 +144,9 @@ class MainActivity : AppCompatActivity() {
                 mypageFragment = MypageFragment.newInstance()
                 replaceFragment(mypageFragment)
 
+                Log.d(TAG, "아이야 제발로 나와줘라" + userId)
+
+                //mypage 프래그먼트로 번들 전달
                 //프래그먼트로 번들 전달
                 mypageFragment.arguments = bundle
             }
@@ -170,8 +176,8 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setPermission() {
         val permission = object : PermissionListener {
+
             override fun onPermissionGranted() { // 설정해놓은 위험 권한들이 허용되었을 경우 이곳을 수행함.
-                Toast.makeText(this@MainActivity, "권한이 혀용 되었습니다.", Toast.LENGTH_SHORT).show()
             }
             override fun onPermissionDenied(deniedPermissions: MutableList<String>?) { // 설정해놓은 위험 권한들 중 거부를 한 경우 이곳을 수행함.
                 Toast.makeText(this@MainActivity, "권한이 거부 되었습니다.", Toast.LENGTH_SHORT).show()

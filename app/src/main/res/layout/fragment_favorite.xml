@@ -2,32 +2,36 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/fragment_favorite">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:id="@+id/tv_feed"
+            android:id="@+id/tv_fashionista2"
             android:layout_width="202dp"
             android:layout_height="60dp"
             android:gravity="center"
-            android:text="피드"
-            android:textColor="@color/ourcolor"
+            android:text="패셔니스타"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            />
 
 
         <TextView
-            android:id="@+id/tv_community"
+            android:id="@+id/tv_favorite"
             android:layout_width="202dp"
             android:layout_height="60dp"
             android:gravity="center"
-            android:text="커뮤니티"
-            android:textSize="20dp" />
+            android:textColor="@color/ourcolor"
+            android:text="즐겨찾기"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -37,23 +41,23 @@
         <View
             android:layout_marginLeft="52dp"
             android:layout_width="100dp"
-            android:layout_height="5dp"
+            android:layout_height="2dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/ourcolor" />
+            android:background="@color/darkgray" />
 
         <View
             android:layout_width="100dp"
-            android:layout_height="2dp"
-            android:layout_marginLeft="100dp"
+            android:layout_height="5dp"
+            android:layout_marginLeft="101dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/darkgray" />
+            android:background="@color/ourcolor" />
     </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="쀠드"
-        android:textSize="50sp" />
 
+    <TextView
+        android:layout_width="71dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="170dp"
+        android:text="즐겨찾기란다~~" />
 
 
 </LinearLayout>
