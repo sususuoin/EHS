@@ -1,15 +1,14 @@
 package com.example.ehs.Login
 
-import android.content.DialogInterface
+
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import com.example.ehs.Closet.ClothesSaveActivity
+import com.example.ehs.AI.AIActivity
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_login.*
@@ -56,14 +55,15 @@ class LoginActivity : AppCompatActivity() {
         tv_register.setOnClickListener {
             Log.d(TAG, "회원가입 클릭")
             startActivity(registerIntent)
+        }
+
+        btn_ai.setOnClickListener {
+            val aiActivity = Intent(this, AIActivity::class.java) // 인텐트를 생성
+            startActivity(aiActivity)
 
         }
 
-        tv_title.setOnClickListener {
-
-        }
-
-        if (AutoLogin.getUserId(this).isNullOrBlank() || AutoLogin.getUserPass(this).isNullOrBlank()
+        if (AutoLogin.getUserId(this).isNullOrBlank() || AutoLogin.getUserPw(this).isNullOrBlank()
         ) {
             Login()
         } else { // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
@@ -105,17 +105,15 @@ class LoginActivity : AppCompatActivity() {
                             Log.d(TAG, userId)
 
                             val mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
-                            mainIntent.putExtra("userId", userId);
-                            mainIntent.putExtra("userPw", userPw);
-                            mainIntent.putExtra("userName", userName);
-                            mainIntent.putExtra("userEmail", userEmail);
-                            mainIntent.putExtra("userBirth", userBirth);
-                            mainIntent.putExtra("userGender", userGender);
-                            mainIntent.putExtra("userLevel", userLevel);
-
 
                             AutoLogin.setUserId(this@LoginActivity, userId)
-                            AutoLogin.setUserPass(this@LoginActivity, userPw)
+                            AutoLogin.setUserPw(this@LoginActivity, userPw)
+                            AutoLogin.setUserName(this@LoginActivity, userName)
+                            AutoLogin.setUserEmail(this@LoginActivity, userEmail)
+                            AutoLogin.setUserBirth(this@LoginActivity, userBirth)
+                            AutoLogin.setUserGender(this@LoginActivity, userGender)
+                            AutoLogin.setUserLevel(this@LoginActivity, userLevel)
+
                             Toast.makeText(this@LoginActivity, "${AutoLogin.getUserId(this@LoginActivity)}님 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
 
                             Log.d(TAG, userId)

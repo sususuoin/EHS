@@ -1,5 +1,7 @@
 package com.example.ehs.Fashionista
 
+import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -7,28 +9,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+
 import com.example.ehs.MainActivity
+import androidx.fragment.app.FragmentTransaction
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
 import com.example.ehs.R
+import kotlinx.android.synthetic.main.fragment_closet.view.*
 import kotlinx.android.synthetic.main.fragment_fashionista.*
 import kotlinx.android.synthetic.main.fragment_fashionista.view.*
 import kotlinx.android.synthetic.main.fragment_favorite.view.*
 import kotlinx.android.synthetic.main.fragment_favorite.view.tv_favorite
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+
 
 class FashionistaFragment : Fragment() {
+    private var a: Activity? = null
 
 
-
-    val contactsList : List<Fashionista> = listOf(
-        Fashionista("john","010-0000-11111"),
-        Fashionista("mir","010-1111-2222"),
-        Fashionista("delp", "010-3333-4444"),
-        Fashionista("jacob", "010-3333-5555"),
-        Fashionista("sheu", "010-3333-6666"),
-        Fashionista("ma", "010-3333-7777"),
-        Fashionista("ham", "010-3333-8889")
-    )
+//    val FashionistaList = mutableListOf<Fashionista>(
+//        Fashionista("john", "#데일리"),
+//        Fashionista("mir", "#빈티지"),
+//        Fashionista("delp", "캐쥬얼")
+//    )
 
 
+    private var pDialog: ProgressDialog? = null
 
     companion object {
         const val TAG : String = "패셔니스타 프래그먼트"
@@ -42,10 +50,15 @@ class FashionistaFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "FashionistaFragment - onCreate() called")
+
+
     }
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        if (context is Activity) {
+            a = context
+        }
         Log.d(TAG, "FashionistaFragment - onAttach() called")
     }
     // 뷰가 생성되었을 때 화면과 연결
@@ -57,10 +70,18 @@ class FashionistaFragment : Fragment() {
     ): View? {
         Log.d(TAG, "FashionistaFragment - onCreateView() called")
         val view = inflater.inflate(R.layout.fragment_fashionista, container, false)
+        
+        
         view.tv_favorite.setOnClickListener {
             Log.d("FashionistaFragment", "피드로 이동")
             (activity as MainActivity?)!!.replaceFragment(FavoriteFragment.newInstance())
         }
+
+//        FashionistaUser()
+
+//        var fashin = Fashionista("ghgh", "gkgk")
+//        FashionistaList.add(fashin)
+
         return view
     }
 
@@ -68,10 +89,63 @@ class FashionistaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = FashionistaListAdapter(contactsList)
+
+        val adapter = FashionistaListAdapter(FashionistaList)
         mRecyclerView.adapter = adapter
 
     }
+
+
+    fun FashionistaUser()  {
+
+        var fuserId : String
+        var fuserLevel : String
+
+        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+            override fun onResponse(response: String?) {
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    var response = jsonObject.toString()
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    Log.d("이이이이잉~~나는 언제잘수있을까 ?", response)
+                    Log.d("이이이이잉~~나는 언제잘수있을까123 ?", arr.toString())
+
+
+                    for (i in 0 until arr.length()) {
+                        val fuserObject = arr.getJSONObject(i)
+                        Log.d("이이이이잉~~나는sad12  ?", arr[i].toString())
+
+                        fuserId = fuserObject.getString("userId")
+                        fuserLevel = fuserObject.getString("userLevel")
+
+
+                        var fashin = Fashionista(fuserId, fuserLevel)
+                        FashionistaList.add(fashin)
+
+                        
+                    }
+
+
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        val fashionistaUserRequest = FashionistaUser_Request(responseListener)
+        val queue = Volley.newRequestQueue(a)
+        queue.add(fashionistaUserRequest)
+
+
+
+
+    }
+
+
 
 
 }

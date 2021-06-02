@@ -9,6 +9,6 @@ class FashionistaViewHolder (v: View) : RecyclerView.ViewHolder(v) {
 
     fun bind(item: Fashionista) {
         view.mName.text = item.name
-        view.mTel.text = item.tel
+        view.mHashtag.text = item.hashtag
     }
 }
