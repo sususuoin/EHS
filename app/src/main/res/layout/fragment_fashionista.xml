@@ -2,9 +2,6 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -58,32 +55,7 @@
             android:background="@color/darkgray" />
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/fragment_myfavorite"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="쀄셔니스퇄"
-        android:textSize="50sp" />
-
-    <ImageView
-        android:id="@+id/iv_banner"
-        android:layout_width="595dp"
-        android:layout_height="182dp"
-        android:layout_marginBottom="50dp"
-        app:srcCompat="@drawable/banner" />
-
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="405dp"
-        android:layout_height="170dp"
-        app:srcCompat="@drawable/ranking" />
-  
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="420dp"
@@ -99,6 +71,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="162dp"
+                android:layout_height="62dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.064"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.02"
+                app:srcCompat="@drawable/logo"></ImageView>
+
+            <TextView
+                android:id="@+id/tv_myfavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="즐겨찾기"
+                app:layout_constraintBottom_toBottomOf="@+id/scrollView3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.811"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.063" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -227,37 +223,5 @@
 
     </ScrollView>
 
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="162dp"
-        android:layout_height="62dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.064"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02"
-        app:srcCompat="@drawable/logo"></ImageView>
-
-    <TextView
-        android:id="@+id/tv_myfavorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="즐겨찾기"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.811"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.063" />
-
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mRecyclerView"
-        android:layout_width="409dp"
-        android:layout_height="281dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-         />
 
 </LinearLayout>
