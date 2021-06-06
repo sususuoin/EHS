@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.example.ehs.Closet.AutoCloset
 import com.example.ehs.Closet.ClosetFragment
 import com.example.ehs.Closet.ClosetServer_Request
 import com.example.ehs.Fashionista.Fashionista
@@ -39,6 +40,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -432,8 +434,10 @@ class MainActivity : AppCompatActivity() {
                         clothesArr.add(cclothesName)
                         Log.d("~호?", clothesArr.toString())
 
-                        bundle.putStringArrayList("clothesArr", clothesArr as ArrayList<String>)
-                        intent.putExtras(bundle)
+                        AutoCloset.setClothesName(this, clothesArr as ArrayList<String>)
+//
+//                        bundle.putStringArrayList("clothesArr", clothesArr as ArrayList<String>)
+//                        intent.putExtras(bundle)
                     }
 
 

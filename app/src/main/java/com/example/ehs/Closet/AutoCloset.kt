@@ -2,22 +2,60 @@ package com.example.ehs.Closet
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Bitmap
+import org.json.JSONArray
+import org.json.JSONException
 
 
 object AutoCloset {
     private val MY_CLOSET : String = "closet"
 
-    fun setClothesName(context: Context, input: String) {
+    fun setClothesName(context: Context, input: ArrayList<String>) {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_CLOSET, Context.MODE_PRIVATE)
-        val editor : SharedPreferences.Editor = prefs.edit()
-        editor.putString("MY_clothesName", input)
-        editor.commit()
+
+        val editor = prefs.edit()
+//        var arr2 = ArrayList<String>()
+//        for (i in 0 until input.size) {
+//            arr2.add(input.get(i))
+//        }
+//        if (!input.isEmpty()) {
+//            editor.putString("MY_clothesName", input.toString())
+//        } else {
+//            editor.putString("MY_clothesName", null)
+//        }
+//        editor.commit()
+
+
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_clothesName", a.toString())
+        } else {
+            editor.putString("MY_clothesName", null)
+        }
+        editor.apply()
+
     }
 
-    fun getClothesName(context: Context): String {
+    fun getClothesName(context: Context): ArrayList<String> {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_CLOSET, Context.MODE_PRIVATE)
-        return prefs.getString("MY_clothesName", "").toString()
+        val arr = prefs.getString("MY_clothesName", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
     }
+
 
 }

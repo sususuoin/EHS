@@ -86,8 +86,10 @@ class ClosetFragment : Fragment() {
 
     val clothesList = mutableListOf<Clothes>()
 
-    var bundle : Bundle? = arguments
-    var clothesArr = ArrayList<String>()
+//    var bundle : Bundle? = arguments
+//    var clothesArr = ArrayList<String>()
+
+    var clothesArr2 = ArrayList<String>()
 
 
     companion object {
@@ -114,20 +116,22 @@ class ClosetFragment : Fragment() {
         Log.d(TAG, "ClosetFragment - onAttach() called")
 
         var a_bitmap : Bitmap? = null
+//
+//        clothesArr = arguments?.getStringArrayList("clothesArr") as ArrayList<String>
+//        Log.d("Closet프래그먼터리스트", clothesArr.toString())
 
-        clothesArr = arguments?.getStringArrayList("clothesArr") as ArrayList<String>
-        Log.d("Closet프래그먼터리스트", clothesArr.toString())
+        clothesArr2 = AutoCloset.getClothesName(a!!)
+        Log.d("111111", clothesArr2.toString())
 
-
-        for (i in 0 until clothesArr.size) {
+        for (i in 0 until clothesArr2.size) {
             val uThread: Thread = object : Thread() {
                 override fun run() {
                     try {
 
-                        Log.d("Closet프래그먼터리스트123", clothesArr[i])
+                        Log.d("Closet프래그먼터리스트123", clothesArr2[i])
 
                         //서버에 올려둔 이미지 URL
-                        val url = URL("http://54.180.101.123/clothes/" + clothesArr[i])
+                        val url = URL("http://54.180.101.123/clothes/" + clothesArr2[i])
 
                         //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
                         /* URLConnection 생성자가 protected로 선언되어 있으므로
