@@ -1,7 +1,10 @@
 package com.example.ehs
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.location.*
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -15,13 +18,13 @@ import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.ClosetFragment
-import com.example.ehs.Closet.CodyFragment
 import com.example.ehs.Fashionista.Fashionista
 import com.example.ehs.Fashionista.FashionistaFragment
 import com.example.ehs.Fashionista.FashionistaList
 import com.example.ehs.Fashionista.FashionistaUser_Request
 import com.example.ehs.Mypage.MypageFragment
 import com.example.ehs.Feed.FeedFragment
+import com.example.ehs.Home.AutoHome
 import com.example.ehs.Home.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.gun0912.tedpermission.PermissionListener
@@ -32,12 +35,17 @@ import kotlinx.android.synthetic.main.fragment_closet.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.IOException
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
 
     val TAG :String = "메인페이지"
+
+    var getLongitude: Double? = null // 위도
+    var getLatitude: Double? = null // 경도
+    lateinit var city: String
 
 
     // 메인액티비티 클래스가 가지고 있는 멤버들
@@ -109,8 +117,10 @@ class MainActivity : AppCompatActivity() {
 
         //권한설정
         setPermission()
-
         FashionistaUser()
+        getLocation()
+
+        setDataAtFragment(homeFragment, "홈에 위도, 경도 전달")
     }
 
 
@@ -122,6 +132,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "MainActivity - 홈버튼 클릭!")
                 homeFragment = HomeFragment.newInstance()
                 replaceFragment(homeFragment)
+                setDataAtFragment(homeFragment, "홈에 위도, 경도 전달")
             }
             R.id.menu_fashionista -> {
                 Log.d(TAG, "MainActivity - 패셔니스타 버튼 클릭!")
@@ -132,7 +143,6 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "MainActivity - 옷장 버튼 클릭!")
                 closetFragment = ClosetFragment.newInstance()
                 replaceFragment(closetFragment)
-
             }
             R.id.menu_feed -> {
                 Log.d(TAG, "MainActivity - 피드 버튼 클릭!")
@@ -143,7 +153,6 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "MainActivity - 마이페이지 버튼 클릭!")
                 mypageFragment = MypageFragment.newInstance()
                 replaceFragment(mypageFragment)
-
                 Log.d(TAG, "아이야 제발로 나와줘라" + userId)
 
                 //mypage 프래그먼트로 번들 전달
@@ -171,6 +180,17 @@ class MainActivity : AppCompatActivity() {
 
     //깃허브테스
 
+
+    //Home 프래그먼트에 데이터 전달하기
+    public fun setDataAtFragment(fragment:Fragment, title:String) {
+        val bundle = Bundle()
+        bundle.putDouble("Latitude", getLatitude!!)
+        bundle.putDouble("Longitude", getLongitude!!)
+        fragment.arguments = bundle
+    }
+
+
+
     /**
      * 테드 퍼미션 설정
      */
@@ -193,6 +213,110 @@ class MainActivity : AppCompatActivity() {
                 ).check()
     }
 
+    public fun getLocation() {
+        val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        var isGPSEnabled: Boolean = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        var isNetworkEnabled: Boolean = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+
+        //매니페스트에 권한이 추가되어 있다해도 여기서 다시 한번 확인해야함
+        if (Build.VERSION.SDK_INT >= 30 &&
+            ContextCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this@MainActivity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                0
+            )
+
+        } else {
+
+            when { //프로바이더 제공자 활성화 여부 체크
+                isNetworkEnabled -> {
+                    val location =
+                        lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) //인터넷기반으로 위치를 찾음
+                    getLongitude = location?.longitude!!
+                    getLatitude = location.latitude
+
+                    Log.d(
+                        "호롤",
+                        "죽여라" + "위도" + getLatitude + "경도" + getLongitude + "zz" + gpsLocationListener
+                    )
+
+                    val mGeoCoder = Geocoder(applicationContext, Locale.KOREAN)
+                    var mResultList: List<Address>? = null
+                    try {
+                        mResultList = mGeoCoder.getFromLocation(
+                            getLatitude!!, getLongitude!!, 1
+                        )
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                    if (mResultList != null) {
+                        // 내 주소 가져오기
+                        city = mResultList[0].getAddressLine(0)
+                        Log.d("MainActivity 내 주소 ", mResultList[0].getAddressLine(0))
+                        var cutting = city?.split(' ') // 공백을 기준으로 리스트 생성해서 필요한 주소값만 출력하기
+                        city = cutting[1]+" "+cutting[2]+" "+cutting[3]
+
+                    }
+                }
+                isGPSEnabled -> {
+                    val location =
+                        lm.getLastKnownLocation(LocationManager.GPS_PROVIDER) //GPS 기반으로 위치를 찾음
+                    getLongitude = location?.longitude!!
+                    getLatitude = location.latitude
+                    Toast.makeText(this, "현재위치를 불러옵니다.", Toast.LENGTH_SHORT).show()
+                    Log.d("호롤", "죽여라" + "위도" + getLatitude + "경도" + getLongitude)
+
+                    val mGeoCoder = Geocoder(applicationContext, Locale.KOREAN)
+                    var mResultList: List<Address>? = null
+                    try {
+                        mResultList = mGeoCoder.getFromLocation(
+                            getLatitude!!, getLongitude!!, 1
+                        )
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                    if (mResultList != null) {
+                        // 내 주소 가져오기
+                        city = mResultList[0].getAddressLine(0)
+                        Log.d("내 주소 ", mResultList[0].getAddressLine(0))
+                        var cutting = city?.split(' ') // 공백을 기준으로 리스트 생성해서 필요한 주소값만 출력하기
+                        city = cutting[1]+" "+cutting[2]+" "+cutting[3]
+
+                    }
+                }
+                else -> {
+
+                }
+            }
+            AutoHome.setLocation(this@MainActivity, city)
+        }
+    }
+
+    val gpsLocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            val provider: String = location.provider
+            val longitude: Double = location.longitude
+            val latitude: Double = location.latitude
+            val altitude: Double = location.altitude
+        }
+
+        //아래 3개함수는 형식상 필수부분
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+        override fun onProviderEnabled(provider: String) {}
+        override fun onProviderDisabled(provider: String) {}
+    }
+
+
+
+
+    /**
+     * 전문가 리스트 출력
+     */
     fun FashionistaUser()  {
 
         var fuserId : String
@@ -218,16 +342,9 @@ class MainActivity : AppCompatActivity() {
                         fuserId = fuserObject.getString("userId")
                         fuserLevel = fuserObject.getString("userLevel")
 
-
                         var fashin = Fashionista(fuserId, fuserLevel)
                         FashionistaList.add(fashin)
-
-
                     }
-
-
-
-
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
