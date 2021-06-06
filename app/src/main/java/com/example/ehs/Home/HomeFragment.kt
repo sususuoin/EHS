@@ -12,17 +12,14 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ehs.Calendar.CalendarActivity
-import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.example.ehs.Weather.WeatherActivity
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.fragment_cody.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.coroutines.delay
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.Call
@@ -36,9 +33,6 @@ import kotlin.math.roundToInt
 
 
 class HomeFragment : Fragment() {
-
-    var getLatitude: Double? = null // 위도
-    var getLongitude: Double? = null // 경도
 
     private var a: Activity? = null
     val now: LocalDateTime = LocalDateTime.now()
@@ -62,6 +56,9 @@ class HomeFragment : Fragment() {
     var fri: String? = null
     var sat: String? = null
 
+    var getLatitude : String = ""
+    var getLongitude : String = ""
+
 
     companion object {
         const val TAG : String = "홈 프레그먼트"
@@ -76,14 +73,17 @@ class HomeFragment : Fragment() {
         Log.d(TAG, "HomeFragment - onCreate() called")
         AndroidThreeTen.init(a)
 
+        getLongitude = AutoLocation.getLongitude(a!!)
+        getLatitude = AutoLocation.getLatitude(a!!)
 
-        // MainActivity로부터 위도, 경도 받아오기
-        arguments?.let {
-            getLatitude = it.getDouble("Latitude")
-            getLongitude = it.getDouble("Longitude")
-        }
-        Log.d("HomeFragment", "위도 : ${getLatitude}")
-        Log.d("HomeFragment", "경도 : ${getLongitude}")
+//
+//        // MainActivity로부터 위도, 경도 받아오기
+//        arguments?.let {
+//            getLatitude = it.getDouble("Latitude")
+//            getLongitude = it.getDouble("Longitude")
+//        }
+//        Log.d("HomeFragment", "위도 : ${getLatitude}")
+//        Log.d("HomeFragment", "경도 : ${getLongitude}")
 
 
     }
@@ -131,6 +131,10 @@ class HomeFragment : Fragment() {
         updatebtn.setOnClickListener {
             Toast.makeText(a, "날씨 업데이트", Toast.LENGTH_SHORT).show()
             (activity as MainActivity).getLocation()
+
+            getLongitude = AutoLocation.getLongitude(a!!)
+            getLatitude = AutoLocation.getLatitude(a!!)
+
             // MainActivity로부터 위도, 경도 받아오기
             Log.d("HomeFragment", "위도 : ${getLatitude}")
             Log.d("HomeFragment", "경도 : ${getLongitude}")
@@ -202,7 +206,7 @@ class HomeFragment : Fragment() {
             .build()
 
         val service = retrofit.create(WeatherActivity.WeatherService::class.java)
-        val call = service.getCurrentWeatherData(getLatitude.toString(), getLongitude.toString(),
+        val call = service.getCurrentWeatherData(getLatitude, getLongitude,
             WeatherActivity.AppId
         )
         call.enqueue(object : Callback<WeatherActivity.WeatherResponse> {
@@ -243,7 +247,7 @@ class HomeFragment : Fragment() {
                         "50n", "50d" -> img_weather.setImageResource(R.drawable.ic_mist)
                     }
 
-                    tv_cityH.text = AutoHome.getLocation(a!!)
+                    tv_cityH.text = AutoLocation.getLocation(a!!)
                     tv_MinMaxH.text = intMinTemp.toString() + "\u00B0" + "/ " + intMaxTemp.toString() + "\u00B0"
                     tv_cTempH.text = intcTemp.toString() + "\u00B0"
                 }
