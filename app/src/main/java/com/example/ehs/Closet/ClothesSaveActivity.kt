@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
@@ -77,10 +78,15 @@ class ClothesSaveActivity : AppCompatActivity(){
 //        clothesImg = BitmapFactory.decodeByteArray(arr, 0, arr!!.size)
 //        iv_clothes.setImageBitmap(clothesImg)
 
-        // 액션바 대신 툴바를 사용하도록 설정한다
+        /**
+         * 액션바 대신 툴바를 사용하도록 설정
+         */
+        val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         val ab = supportActionBar!!
         ab.setDisplayShowTitleEnabled(false)
+
+        //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
 
@@ -126,24 +132,19 @@ class ClothesSaveActivity : AppCompatActivity(){
 
         }
 
-
-
-        //은정아 혹시 이 메모를 보고있따면 이아래에 이거 필요없다면 지워주겟니 ?
-        fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            when (id) {
-                android.R.id.home -> {
-                    finish()
-                    return true
-                }
-            }
-            return super.onOptionsItemSelected(item)
-        }
-
 //onCreate() 끝
 
+    }
 
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when (id) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 

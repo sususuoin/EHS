@@ -48,11 +48,10 @@ import java.util.*
 
 
 class ClosetFragment : Fragment() {
-    private lateinit var codyFragment: CodyFragment
-
-
 
     private var a: Activity? = null
+    val Fragment.packageManager get() = activity?.packageManager // 패키지 매니저 적용
+
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(
         a!!,
         R.anim.rotate_open_anim
@@ -70,8 +69,6 @@ class ClosetFragment : Fragment() {
         R.anim.to_bottom_anim
     )}
     private var clicked = false
-
-    val Fragment.packageManager get() = activity?.packageManager // 패키지 매니저 적용
 
 
 
@@ -95,7 +92,7 @@ class ClosetFragment : Fragment() {
 
     companion object {
         const val TAG : String = "로그"
-        fun newInstance() : ClosetFragment { // newInstance()라는 함수를 호출하면 HomeFragment를 반환함
+        fun newInstance() : ClosetFragment { // newInstance()라는 함수를 호출하면 ClosetFragment를 반환함
             return ClosetFragment()
         }
     }
@@ -125,8 +122,6 @@ class ClosetFragment : Fragment() {
                     //서버에 올려둔 이미지 URL
                     val url = URL("http://54.180.101.123/clothes/16222893411622289338856.JPEG")
 
-
-
                     //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
                     /* URLConnection 생성자가 protected로 선언되어 있으므로
                      개발자가 직접 HttpURLConnection 객체 생성 불가 */
@@ -138,7 +133,7 @@ class ClosetFragment : Fragment() {
                     conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
                     conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
                     val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
-                    a_bitmap =BitmapFactory.decodeStream(iss) // Bitmap으로 반환
+                    a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
 
 
                 } catch (e: MalformedURLException) {
@@ -215,7 +210,6 @@ class ClosetFragment : Fragment() {
 
             var task = back()
             task.execute("http://54.180.101.123/clothes/16220975141622097513127.JPEG")
-
         }
 
         return view
@@ -293,7 +287,6 @@ class ClosetFragment : Fragment() {
 
     fun takeCapture() {
         // 기본 카메라 앱 실행
-
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager!!)?.also {
                 val photoFile: File? = try{
@@ -545,6 +538,9 @@ class ClosetFragment : Fragment() {
             var clothes = Clothes(clothesImg)
             clothesList.add(clothes)
 
+            // 리사이클러뷰 업데이트
+            val adapter = ClothesListAdapter(clothesList)
+            recyclerView.adapter = adapter
         }
 
     }

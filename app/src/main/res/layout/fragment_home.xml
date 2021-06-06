@@ -59,9 +59,9 @@
                 android:layout_marginTop="10dp">
 
                 <ImageView
-                    android:id="@+id/img_weather"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:id="@+id/img_weatherH"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="20dp" />
 
                 <LinearLayout
@@ -83,7 +83,7 @@
                     <TextView
                         android:id="@+id/tv_MinMaxH"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="12º / 23º"
                         android:layout_gravity="center"
@@ -120,7 +120,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginLeft="40dp">
+                    android:layout_marginLeft="60dp"
+                    >
 
                     <ImageButton
                         android:id="@+id/btn_weathergo"
