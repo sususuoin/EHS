@@ -3,7 +3,6 @@ package com.example.ehs.Home
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,30 +10,48 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ehs.Calendar.CalendarActivity
+import com.example.ehs.Login.AutoLogin
+import com.example.ehs.MainActivity
 import com.example.ehs.R
+import com.example.ehs.Weather.WeatherActivity
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.android.synthetic.main.fragment_cody.*
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.delay
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
-
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class HomeFragment : Fragment() {
+
+    var getLatitude: Double? = null // 위도
+    var getLongitude: Double? = null // 경도
+
     private var a: Activity? = null
     val now: LocalDateTime = LocalDateTime.now()
     var Strnow = now?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
     // lateinit var text: TextView
     lateinit var calendarbtn: ImageButton
+    lateinit var weathergo : ImageButton
+    lateinit var updatebtn : ImageButton
     lateinit var crecyclerview: androidx.recyclerview.widget.RecyclerView
     lateinit var crecyclerview2: androidx.recyclerview.widget.RecyclerView
-
     lateinit var img_weather: ImageView
+
 
     // 요일 받아오기
     var sun: String? = null
@@ -59,6 +76,16 @@ class HomeFragment : Fragment() {
         Log.d(TAG, "HomeFragment - onCreate() called")
         AndroidThreeTen.init(a)
 
+
+        // MainActivity로부터 위도, 경도 받아오기
+        arguments?.let {
+            getLatitude = it.getDouble("Latitude")
+            getLongitude = it.getDouble("Longitude")
+        }
+        Log.d("HomeFragment", "위도 : ${getLatitude}")
+        Log.d("HomeFragment", "경도 : ${getLongitude}")
+
+
     }
     // 프래그먼트를 안고 있는 액티비티에 붙었을 때
     override fun onAttach(context: Context) {
@@ -67,8 +94,6 @@ class HomeFragment : Fragment() {
             a = context
         }
         Log.d(TAG, "HomeFragment - onAttach() called")
-
-
 
     }
 
@@ -82,21 +107,35 @@ class HomeFragment : Fragment() {
         week(Strnow!!)
         Log.d(TAG, "HomeFragment - onCreateView() called")
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        //text = view.findViewById(R.id.textView)
 
 
-        img_weather = view.findViewById(R.id.img_weather)
 
+        // 변수 선언
+        img_weather = view.findViewById(R.id.img_weatherH)
         img_weather.setImageResource(R.drawable.ic_add)
-
         calendarbtn = view.findViewById(R.id.btn_calendar)
+        weathergo = view.findViewById(R.id.btn_weathergo)
+        updatebtn = view.findViewById(R.id.btn_updateH)
+
 
         calendarbtn.setOnClickListener{
             activity?.let{
                 val intent = Intent(context, CalendarActivity::class.java)
                 startActivity(intent) }
         }
-
+        weathergo.setOnClickListener{
+            activity?.let{
+                val intent = Intent(context, WeatherActivity::class.java)
+                startActivity(intent) }
+        }
+        updatebtn.setOnClickListener {
+            Toast.makeText(a, "날씨 업데이트", Toast.LENGTH_SHORT).show()
+            (activity as MainActivity).getLocation()
+            // MainActivity로부터 위도, 경도 받아오기
+            Log.d("HomeFragment", "위도 : ${getLatitude}")
+            Log.d("HomeFragment", "경도 : ${getLongitude}")
+            getweather()
+        }
 
         /**
          * 캘린더 리사이클러뷰 객체
@@ -141,8 +180,78 @@ class HomeFragment : Fragment() {
         crecyclerview2.layoutManager = lm2
         crecyclerview2.setHasFixedSize(true)
 
+
         return view
+    } // oncreateview 끝
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getweather()
+
     }
+
+
+
+
+
+    fun getweather () {
+        //Create Retrofit Builder
+        val retrofit = Retrofit.Builder()
+            .baseUrl(WeatherActivity.BaseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(WeatherActivity.WeatherService::class.java)
+        val call = service.getCurrentWeatherData(getLatitude.toString(), getLongitude.toString(),
+            WeatherActivity.AppId
+        )
+        call.enqueue(object : Callback<WeatherActivity.WeatherResponse> {
+            override fun onFailure(call: Call<WeatherActivity.WeatherResponse>, t: Throwable) {
+                Log.d("HomeFragment", "result :" + t.message)
+            }
+
+            override fun onResponse(
+                call: Call<WeatherActivity.WeatherResponse>,
+                response: Response<WeatherActivity.WeatherResponse>
+            ) {
+                if (response.code() == 200) {
+                    val weatherResponse = response.body()
+                    Log.d("HomeFragment", "result: " + weatherResponse.toString())
+                    val cTemp = weatherResponse!!.main!!.temp - 273.15  //켈빈을 섭씨로 변환
+                    val minTemp = weatherResponse!!.main!!.temp_min - 273.15
+                    val maxTemp = weatherResponse!!.main!!.temp_max - 273.15
+
+//                    var cutting = WeatherActivity.city?.split(' ') // 공백을 기준으로 리스트 생성해서 필요한 주소값만 출력하기
+//                    Log.d("잘리냐", "어케생겨먹었니" + WeatherActivity.city)
+//                    WeatherActivity.city = cutting[1]+" "+cutting[2]+" "+cutting[3]
+//                    Log.d("잘리냐", "어케생겨먹었니" + WeatherActivity.city)
+
+                    val intcTemp = cTemp.roundToInt()
+                    val intMinTemp = minTemp.roundToInt()
+                    val intMaxTemp = maxTemp.roundToInt()
+                    val weatherIMG = weatherResponse!!.weather!!.get(0).icon.toString()
+
+                    when (weatherIMG) { // 날씨에 맞는 아이콘 출력
+                        "01d" -> img_weather.setImageResource(R.drawable.ic_sun)
+                        "01n" -> img_weather.setImageResource(R.drawable.ic_sun_night)
+                        "02d" -> img_weather.setImageResource(R.drawable.ic_sun_c)
+                        "02n" -> img_weather.setImageResource(R.drawable.ic_suncloud_night)
+                        "03n", "03d", "04d", "04n" -> img_weather.setImageResource(R.drawable.ic_cloud_many)
+                        "09d", "09n", "10d", "10n" -> img_weather.setImageResource(R.drawable.ic_rain)
+                        "11d", "11n" -> img_weather.setImageResource(R.drawable.ic_thunder)
+                        "13d", "13n" -> img_weather.setImageResource(R.drawable.ic_snow)
+                        "50n", "50d" -> img_weather.setImageResource(R.drawable.ic_mist)
+                    }
+
+                    tv_cityH.text = AutoHome.getLocation(a!!)
+                    tv_MinMaxH.text = intMinTemp.toString() + "\u00B0" + "/ " + intMaxTemp.toString() + "\u00B0"
+                    tv_cTempH.text = intcTemp.toString() + "\u00B0"
+                }
+            }
+
+        })
+    }
+
 
     /**
      * 특정 날짜의 같은 한 주간의 날짜 범위
@@ -211,5 +320,7 @@ class HomeFragment : Fragment() {
         Log.d("일", "요일" + sun)
         Log.d("일", "요일" + mon)
     }
+
+
 
 }

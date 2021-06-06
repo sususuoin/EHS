@@ -3,10 +3,16 @@
     package="com.example.ehs">
     <!-- 네트워크 사용에 대한 퍼미션 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 정확한 위치 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -22,7 +28,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AI.AIActivity"></activity>
+        <activity android:name=".Weather.WeatherActivity"/>
+        <activity android:name=".Mypage.UserModifyActivity" />
+        <activity android:name=".AI.AIActivity" />
         <activity android:name=".Calendar.CalendarActivity" />
         <activity android:name=".Closet.ClothesSaveActivity" />
         <activity android:name=".MainActivity" />
@@ -30,7 +38,6 @@
         <activity android:name=".Login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
