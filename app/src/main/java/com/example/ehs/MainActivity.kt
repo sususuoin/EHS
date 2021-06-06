@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.location.*
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,13 +18,15 @@ import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.ClosetFragment
+import com.example.ehs.Closet.ClosetServer_Request
 import com.example.ehs.Fashionista.Fashionista
 import com.example.ehs.Fashionista.FashionistaFragment
 import com.example.ehs.Fashionista.FashionistaList
 import com.example.ehs.Fashionista.FashionistaUser_Request
 import com.example.ehs.Feed.FeedFragment
-import com.example.ehs.Home.AutoLocation
+import com.example.ehs.Home.AutoHome
 import com.example.ehs.Home.HomeFragment
+import com.example.ehs.Login.AutoLogin
 import com.example.ehs.Mypage.MypageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.gun0912.tedpermission.PermissionListener
@@ -103,13 +106,7 @@ class MainActivity : AppCompatActivity() {
         AndroidThreeTen.init(this)
 
 
-        bundle.putString("userId", userId);
-        bundle.putString("userPw", userPw);
-        bundle.putString("userName", userName);
-        bundle.putString("userEmail", userEmail);
-        bundle.putString("userBirth", userBirth);
-        bundle.putString("userGender", userGender);
-        bundle.putString("userLevel", userLevel);
+
 
         // 바텀 네비게이션
         bottom_nav.setOnNavigationItemSelectedListener(onBottomNavItemSeletedListener)
@@ -122,10 +119,11 @@ class MainActivity : AppCompatActivity() {
 
         //권한설정
         setPermission()
-        FashionistaUser()
         setLocation_Permission()
 
 
+        FashionistaUser()
+        ClosetImg()
     }
 
     // 바텀 네비게이션 아이템 클릭 리스너 설정
@@ -147,6 +145,8 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "MainActivity - 옷장 버튼 클릭!")
                     closetFragment = ClosetFragment.newInstance()
                     replaceFragment(closetFragment)
+
+                    closetFragment.arguments = bundle
                 }
                 R.id.menu_feed -> {
                     Log.d(TAG, "MainActivity - 피드 버튼 클릭!")
@@ -159,9 +159,6 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(mypageFragment)
                     Log.d(TAG, "아이야 제발로 나와줘라" + userId)
 
-                    //mypage 프래그먼트로 번들 전달
-                    //프래그먼트로 번들 전달
-                    mypageFragment.arguments = bundle
                 }
             } // when문 끝
             true
@@ -215,7 +212,11 @@ class MainActivity : AppCompatActivity() {
             if (permissionCheck == PackageManager.PERMISSION_DENIED) {
 
                 // 권한 없음
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_ACCESS_FINE_LOCATION)
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_ACCESS_FINE_LOCATION
+                )
                 Log.d("권한", "1")
             } else {
                 Log.d("권한", "2")
@@ -229,7 +230,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         // grantResults[0] 거부 -> -1
         // grantResults[0] 허용 -> 0 (PackageManager.PERMISSION_GRANTED)
@@ -269,16 +274,23 @@ class MainActivity : AppCompatActivity() {
                     getLongitude = location?.longitude.toString()
                     getLatitude = location?.latitude.toString()
 
-                    AutoLocation.setLongitude(this, getLongitude)
-                    AutoLocation.setLatitude(this, getLatitude)
+                    AutoHome.setLongitude(this, getLongitude)
+                    AutoHome.setLatitude(this, getLatitude)
 
 
-                    Log.d("호롤", "죽여라" + "위도" + getLatitude + "경도" + getLongitude + "zz" + gpsLocationListener)
+                    Log.d(
+                        "호롤",
+                        "죽여라" + "위도" + getLatitude + "경도" + getLongitude + "zz" + gpsLocationListener
+                    )
 
                     val mGeoCoder = Geocoder(applicationContext, Locale.KOREAN)
                     var mResultList: List<Address>? = null
                     try {
-                        mResultList = mGeoCoder.getFromLocation(location?.latitude!!, location?.longitude!!, 1)
+                        mResultList = mGeoCoder.getFromLocation(
+                            location?.latitude!!,
+                            location?.longitude!!,
+                            1
+                        )
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
@@ -302,7 +314,11 @@ class MainActivity : AppCompatActivity() {
                     val mGeoCoder = Geocoder(applicationContext, Locale.KOREAN)
                     var mResultList: List<Address>? = null
                     try {
-                        mResultList = mGeoCoder.getFromLocation(location?.latitude!!, location?.longitude!!, 1)
+                        mResultList = mGeoCoder.getFromLocation(
+                            location?.latitude!!,
+                            location?.longitude!!,
+                            1
+                        )
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
@@ -319,7 +335,7 @@ class MainActivity : AppCompatActivity() {
 
                 }
             }
-            AutoLocation.setLocation(this@MainActivity, city)
+            AutoHome.setLocation(this@MainActivity, city)
         }
     }
 
@@ -379,6 +395,56 @@ class MainActivity : AppCompatActivity() {
         queue.add(fashionistaUserRequest)
 
 
+    }
+
+
+    fun ClosetImg() {
+
+        Log.d("~~~~~~?", "~~~~~~~")
+        userId = AutoLogin.getUserId(this)
+
+        var cuserId: String
+        var cclothesName: String
+        var clothesArr = mutableListOf<String>()
+
+        val responseListener: Response.Listener<String?> =
+            Response.Listener<String?> { response ->
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    var response = jsonObject.toString()
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    Log.d("~~~~~?", response)
+                    Log.d("~~~~~~?", arr.toString())
+
+
+                    for (i in 0 until arr.length()) {
+                        val clothesObject = arr.getJSONObject(i)
+                        Log.d("~~~~~~ ?", arr[i].toString())
+
+                        cuserId = clothesObject.getString("userId")
+                        cclothesName = clothesObject.getString("clothesName")
+
+                        Log.d("~~~~~~123?", cclothesName)
+
+                        clothesArr.add(cclothesName)
+                        Log.d("~호?", clothesArr.toString())
+
+                        bundle.putStringArrayList("clothesArr", clothesArr as ArrayList<String>)
+                        intent.putExtras(bundle)
+                    }
+
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        val closetServer_Request = ClosetServer_Request(userId!!, responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(closetServer_Request)
     }
 
 

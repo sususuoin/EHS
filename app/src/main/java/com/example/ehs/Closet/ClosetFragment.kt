@@ -49,7 +49,6 @@ import java.util.*
 
 class ClosetFragment : Fragment() {
 
-    private var a: Activity? = null
     val Fragment.packageManager get() = activity?.packageManager // 패키지 매니저 적용
 
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(
@@ -87,10 +86,12 @@ class ClosetFragment : Fragment() {
 
     val clothesList = mutableListOf<Clothes>()
 
-
+    var bundle : Bundle? = arguments
+    var clothesArr = ArrayList<String>()
 
 
     companion object {
+        var a: Activity? = null
         const val TAG : String = "로그"
         fun newInstance() : ClosetFragment { // newInstance()라는 함수를 호출하면 ClosetFragment를 반환함
             return ClosetFragment()
@@ -114,55 +115,62 @@ class ClosetFragment : Fragment() {
 
         var a_bitmap : Bitmap? = null
 
-
-        val uThread: Thread = object : Thread() {
-            override fun run() {
-                try {
-
-                    //서버에 올려둔 이미지 URL
-                    val url = URL("http://54.180.101.123/clothes/16222893411622289338856.JPEG")
-
-                    //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
-                    /* URLConnection 생성자가 protected로 선언되어 있으므로
-                     개발자가 직접 HttpURLConnection 객체 생성 불가 */
-                    val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-
-                    /* openConnection()메서드가 리턴하는 urlConnection 객체는
-                    HttpURLConnection의 인스턴스가 될 수 있으므로 캐스팅해서 사용한다*/
-
-                    conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
-                    conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
-                    val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
-                    a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
+        clothesArr = arguments?.getStringArrayList("clothesArr") as ArrayList<String>
+        Log.d("Closet프래그먼터리스트", clothesArr.toString())
 
 
-                } catch (e: MalformedURLException) {
-                    e.printStackTrace()
-                } catch (e: IOException) {
-                    e.printStackTrace()
+        for (i in 0 until clothesArr.size) {
+            val uThread: Thread = object : Thread() {
+                override fun run() {
+                    try {
+
+                        Log.d("Closet프래그먼터리스트123", clothesArr[i])
+
+                        //서버에 올려둔 이미지 URL
+                        val url = URL("http://54.180.101.123/clothes/" + clothesArr[i])
+
+                        //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
+                        /* URLConnection 생성자가 protected로 선언되어 있으므로
+                         개발자가 직접 HttpURLConnection 객체 생성 불가 */
+                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                        /* openConnection()메서드가 리턴하는 urlConnection 객체는
+                        HttpURLConnection의 인스턴스가 될 수 있으므로 캐스팅해서 사용한다*/
+
+                        conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
+                        conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                        val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
+                        a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
+
+
+                    } catch (e: MalformedURLException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
-        }
 
-        uThread.start() // 작업 Thread 실행
-
-
-        try {
-
-            //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
-            //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
-            //join() 메서드는 InterruptedException을 발생시킨다.
-            uThread.join()
-
-            //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
-            //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
-
-            var clothes = Clothes(a_bitmap)
-            clothesList.add(clothes)
+            uThread.start() // 작업 Thread 실행
 
 
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
+            try {
+
+                //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
+                //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
+                //join() 메서드는 InterruptedException을 발생시킨다.
+                uThread.join()
+
+                //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+                //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
+
+                var clothes = Clothes(a_bitmap)
+                clothesList.add(clothes)
+
+
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
         }
 
     }
@@ -374,32 +382,18 @@ class ClosetFragment : Fragment() {
             }
         }
 
-//
-//        GlobalScope.launch(Dispatchers.Main) {
-//            uploadBitmap(bmp)
-//
-//
-//            delay(2000L)
-//
-//        }
-//        val intent = Intent(a, ClothesSaveActivity::class.java)
-//        intent.putExtra("originImgName", originImgName);
-//        Log.d(TAG, originImgName)
-//        startActivity(intent)
-
 
         GlobalScope.launch(Dispatchers.Main) {
             launch(Dispatchers.Main) {
                 uploadBitmap(bmp)
             }
 
-            delay(8000L)
+            delay(3000L)
 
             val intent = Intent(a, ClothesSaveActivity::class.java)
             intent.putExtra("originImgName", originImgName);
             Log.d(TAG, originImgName)
             startActivity(intent)
-
 
         }
 
@@ -462,26 +456,26 @@ class ClosetFragment : Fragment() {
 
     fun uploadBitmap(bitmap: Bitmap) {
         val clothesUploadRequest: ClothesUpload_Request = object : ClothesUpload_Request(
-                Method.POST, "http://54.180.101.123/upload4.php",
-                Response.Listener<NetworkResponse> { response ->
-                    try {
+            Method.POST, "http://54.180.101.123/upload4.php",
+            Response.Listener<NetworkResponse> { response ->
+                try {
 
-                        val obj = JSONObject(String(response!!.data))
-                        originImgName = obj.get("file_name") as String
+                    val obj = JSONObject(String(response!!.data))
+                    originImgName = obj.get("file_name") as String
 
-                        Log.d("서버에 저장되어진 파일이름", originImgName)
+                    Log.d("서버에 저장되어진 파일이름", originImgName)
 
-                        Toast.makeText(a, originImgName, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(a, originImgName, Toast.LENGTH_SHORT).show()
 
 
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    }
-                },
-                Response.ErrorListener { error ->
-                    Toast.makeText(a, error.message, Toast.LENGTH_LONG).show()
-                    Log.e("GotError", "" + error.message)
-                }) {
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(a, error.message, Toast.LENGTH_LONG).show()
+                Log.e("GotError", "" + error.message)
+            }) {
                 override fun getByteData(): Map<String, DataPart>? {
                     val params: MutableMap<String, DataPart> = HashMap()
                     val imagename = System.currentTimeMillis()

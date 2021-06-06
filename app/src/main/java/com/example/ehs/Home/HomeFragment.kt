@@ -18,7 +18,6 @@ import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.example.ehs.Weather.WeatherActivity
 import com.jakewharton.threetenabp.AndroidThreeTen
-import kotlinx.android.synthetic.main.fragment_cody.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -73,8 +72,8 @@ class HomeFragment : Fragment() {
         Log.d(TAG, "HomeFragment - onCreate() called")
         AndroidThreeTen.init(a)
 
-        getLongitude = AutoLocation.getLongitude(a!!)
-        getLatitude = AutoLocation.getLatitude(a!!)
+        getLongitude = AutoHome.getLongitude(a!!)
+        getLatitude = AutoHome.getLatitude(a!!)
 
 //
 //        // MainActivity로부터 위도, 경도 받아오기
@@ -132,8 +131,8 @@ class HomeFragment : Fragment() {
             Toast.makeText(a, "날씨 업데이트", Toast.LENGTH_SHORT).show()
             (activity as MainActivity).getLocation()
 
-            getLongitude = AutoLocation.getLongitude(a!!)
-            getLatitude = AutoLocation.getLatitude(a!!)
+            getLongitude = AutoHome.getLongitude(a!!)
+            getLatitude = AutoHome.getLatitude(a!!)
 
             // MainActivity로부터 위도, 경도 받아오기
             Log.d("HomeFragment", "위도 : ${getLatitude}")
@@ -247,7 +246,7 @@ class HomeFragment : Fragment() {
                         "50n", "50d" -> img_weather.setImageResource(R.drawable.ic_mist)
                     }
 
-                    tv_cityH.text = AutoLocation.getLocation(a!!)
+                    tv_cityH.text = AutoHome.getLocation(a!!)
                     tv_MinMaxH.text = intMinTemp.toString() + "\u00B0" + "/ " + intMaxTemp.toString() + "\u00B0"
                     tv_cTempH.text = intcTemp.toString() + "\u00B0"
                 }
