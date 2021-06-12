@@ -105,21 +105,7 @@ class ClosetFragment : Fragment() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "ClosetFragment - onCreate() called")
         AndroidThreeTen.init(a)
-
-    }
-    // 프레그먼트를 안고 있는 액티비티에 붙었을 때
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is Activity) {
-            a = context
-        }
-        Log.d(TAG, "ClosetFragment - onAttach() called")
-
         var a_bitmap : Bitmap? = null
-//
-//        clothesArr = arguments?.getStringArrayList("clothesArr") as ArrayList<String>
-//        Log.d("Closet프래그먼터리스트", clothesArr.toString())
-
         clothesArr2 = AutoCloset.getClothesName(a!!)
         Log.d("111111", clothesArr2.toString())
 
@@ -131,7 +117,7 @@ class ClosetFragment : Fragment() {
                         Log.d("Closet프래그먼터리스트123", clothesArr2[i])
 
                         //서버에 올려둔 이미지 URL
-                        val url = URL("http://54.180.101.123/clothes/" + clothesArr2[i])
+                        val url = URL("http://54.180.101.123/img/clothes/" + clothesArr2[i])
 
                         //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
                         /* URLConnection 생성자가 protected로 선언되어 있으므로
@@ -178,6 +164,22 @@ class ClosetFragment : Fragment() {
         }
 
     }
+    // 프레그먼트를 안고 있는 액티비티에 붙었을 때
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is Activity) {
+            a = context
+        }
+        Log.d(TAG, "ClosetFragment - onAttach() called")
+
+
+//
+//        clothesArr = arguments?.getStringArrayList("clothesArr") as ArrayList<String>
+//        Log.d("Closet프래그먼터리스트", clothesArr.toString())
+
+
+
+    }
     // 뷰가 생성되었을 때 화면과 연결
     // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
     override fun onCreateView(
@@ -221,7 +223,7 @@ class ClosetFragment : Fragment() {
         view.mPlusButton.setOnClickListener { view ->
 
             var task = back()
-            task.execute("http://54.180.101.123/clothes/16220975141622097513127.JPEG")
+            task.execute("http://54.180.101.123/img/clothes/16220975141622097513127.JPEG")
         }
 
         return view

@@ -11,20 +11,7 @@ object AutoCloset {
 
     fun setClothesName(context: Context, input: ArrayList<String>) {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_CLOSET, Context.MODE_PRIVATE)
-
         val editor = prefs.edit()
-//        var arr2 = ArrayList<String>()
-//        for (i in 0 until input.size) {
-//            arr2.add(input.get(i))
-//        }
-//        if (!input.isEmpty()) {
-//            editor.putString("MY_clothesName", input.toString())
-//        } else {
-//            editor.putString("MY_clothesName", null)
-//        }
-//        editor.commit()
-
-
         val a = JSONArray()
         for (i in 0 until input.size) {
             a.put(input[i])

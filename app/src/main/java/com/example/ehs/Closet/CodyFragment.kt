@@ -11,14 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
-import kotlinx.android.synthetic.main.fragment_closet.*
+
 import kotlinx.android.synthetic.main.fragment_cody.*
 import kotlinx.android.synthetic.main.fragment_cody.view.*
 import java.io.IOException
@@ -32,6 +32,9 @@ class CodyFragment : Fragment() {
 
     lateinit var codyadapter: CodyAdapter
     val codydatas = mutableListOf<CodyData>()
+
+
+
 
     private var a: Activity? = null
     val Fragment.packageManager get() = activity?.packageManager // 패키지 매니저 적용
@@ -76,6 +79,7 @@ class CodyFragment : Fragment() {
             a = context
         }
         Log.d(TAG, "CodyFragment - onAttach() called")
+
 
         var a_bitmap : Bitmap? = null
         val uThread: Thread = object : Thread() {
