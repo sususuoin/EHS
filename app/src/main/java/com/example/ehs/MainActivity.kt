@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.location.*
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -40,7 +39,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -108,8 +106,6 @@ class MainActivity : AppCompatActivity() {
         AndroidThreeTen.init(this)
 
 
-
-
         // 바텀 네비게이션
         bottom_nav.setOnNavigationItemSelectedListener(onBottomNavItemSeletedListener)
 
@@ -125,7 +121,8 @@ class MainActivity : AppCompatActivity() {
 
 
         FashionistaUser()
-        ClosetImg()
+        // ClosetImg()
+
     }
 
     // 바텀 네비게이션 아이템 클릭 리스너 설정
@@ -144,11 +141,12 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(fashionistaFragment)
                 }
                 R.id.menu_closet -> {
+                    ClosetImg()
                     Log.d(TAG, "MainActivity - 옷장 버튼 클릭!")
                     closetFragment = ClosetFragment.newInstance()
                     replaceFragment(closetFragment)
-
                     closetFragment.arguments = bundle
+
                 }
                 R.id.menu_feed -> {
                     Log.d(TAG, "MainActivity - 피드 버튼 클릭!")
