@@ -1,4 +1,5 @@
 package com.example.ehs.BottomSheet
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -37,6 +38,9 @@ class BottomSheet_color : BottomSheetDialogFragment() {
     var brownclicked = false
     var purpleclicked = false
     var navyclicked = false
+    lateinit var bottomSheetButtonClickListener : BottomSheetButtonClickListener
+
+
 
 
     override fun onCreateView(
@@ -48,10 +52,20 @@ class BottomSheet_color : BottomSheetDialogFragment() {
         return inflater.inflate(R.layout.bottomsheet_color, container, false)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try{
+            bottomSheetButtonClickListener = context as BottomSheetButtonClickListener
+        }catch (e: ClassCastException) {
+            Log.d("호호홓ㅎ", "onAttach error")
+        }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         view?.findViewById<Button>(R.id.btn_choicecom)?.setOnClickListener {
             Log.d("카테고리", "선택사항은" + colorchoice)
+            bottomSheetButtonClickListener.onColorButtonClicked(colorchoice!!)
             dismiss()
         }
         view?.findViewById<ImageButton>(R.id.btn_white)?.setOnClickListener { whiteclicked()  }
@@ -75,6 +89,12 @@ class BottomSheet_color : BottomSheetDialogFragment() {
         view?.findViewById<ImageButton>(R.id.btn_purple)?.setOnClickListener { purpleclicked()  }
         view?.findViewById<ImageButton>(R.id.btn_navy)?.setOnClickListener { navyclicked()  }
     }
+
+    interface BottomSheetButtonClickListener{
+        fun onColorButtonClicked(text: String)
+    }
+
+
     /**
      * 함수호출 : 각 카테고리 버튼 클릭 시 색깔 바꿈 & 값 받아오기
      */
