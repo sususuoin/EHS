@@ -14,6 +14,7 @@ class Register_Request(
         userBirth: String,
         userGender: String,
         userLevel: String,
+        HashTag: String,
         listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {
 
     private val map: MutableMap<String, String>
@@ -38,5 +39,6 @@ class Register_Request(
         map["userBirth"] = userBirth
         map["userGender"] = userGender
         map["userLevel"] = userLevel
+        map["HashTag"] = HashTag
     }
 }

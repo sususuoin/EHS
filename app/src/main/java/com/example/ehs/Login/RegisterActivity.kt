@@ -1,12 +1,10 @@
 package com.example.ehs.Login
 
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
@@ -21,15 +19,24 @@ class RegisterActivity : AppCompatActivity() {
 
     var isExistBlank = false //회원가입 빈칸이 있을 때
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        val mainIntent = Intent(this, LoginActivity::class.java) // 인텐트를 생성
+        val loginintent = Intent(this, LoginActivity::class.java) // 인텐트를 생성
 
+        val aiIntent = intent
+        var airesult = aiIntent.getStringExtra("airesult")
 
+        Log.d("인텐트 잘 받아와졌니~~?", airesult!!)
+
+        if(airesult.toFloat() > 90) {
+            Log.d("원투쓰리", "은정이 원투쓰리")
+            tv_level.text = "전문가"
+        }
+        else {
+            tv_level.text = "일반인"
+        }
 
         rg_gender.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId) {
@@ -40,6 +47,7 @@ class RegisterActivity : AppCompatActivity() {
 
         btn_register.setOnClickListener {
             Log.d(TAG, "회원가입성공 클릭")
+            Log.d(TAG, airesult!!)
 
 
             var userId = et_id.text.toString()
@@ -69,8 +77,8 @@ class RegisterActivity : AppCompatActivity() {
 
                             if(success) {
                                 Toast.makeText(this@RegisterActivity, "회원가입 성공", Toast.LENGTH_SHORT).show()
-                                finish()
 
+                                startActivity(loginintent)
 
                                 //회원가입 실패시
                             } else {
@@ -88,7 +96,18 @@ class RegisterActivity : AppCompatActivity() {
                 }
 
                 //서버로 Volley를 이용해서 요청
-                val registerRequest = Register_Request(userId, userPw, userName, userEmail, userBirth, userGender, userLevel, responseListener)
+                var HashTag = "기본값"
+                val registerRequest = Register_Request(
+                    userId,
+                    userPw,
+                    userName,
+                    userEmail,
+                    userBirth,
+                    userGender,
+                    userLevel,
+                    HashTag,
+                    responseListener
+                )
                 val queue = Volley.newRequestQueue(this@RegisterActivity)
                 queue.add(registerRequest)
 
@@ -106,8 +125,9 @@ class RegisterActivity : AppCompatActivity() {
         tv_back.setOnClickListener {
             Log.d(TAG, "뒤로가기클릭")
 
-            startActivity(mainIntent)
+            startActivity(loginintent)
             finish()
+
 
         }
 
