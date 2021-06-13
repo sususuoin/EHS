@@ -32,8 +32,9 @@ android {
         jvmTarget = '1.8'
     }
 
-    buildFeatures{  //viewBinding 설정
+    buildFeatures {  //viewBinding 설정
         viewBinding true
+    }
 
     aaptOptions {
         noCompress "tflite"
@@ -42,7 +43,9 @@ android {
         mlModelBinding true
 
     }
+
 }
+
 
 dependencies {
 
@@ -87,4 +90,6 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite:2.5.0'
     implementation 'org.tensorflow:tensorflow-lite-gpu:2.2.0'
     implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
+
+
 }

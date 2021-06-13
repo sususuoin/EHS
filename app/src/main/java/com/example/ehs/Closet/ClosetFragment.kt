@@ -233,12 +233,13 @@ class ClosetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+
         val gridLayoutManager = GridLayoutManager(a, 3)
-        rv_feed.layoutManager = gridLayoutManager
+        recyclerView.layoutManager = gridLayoutManager
 
 
         val adapter = ClothesListAdapter(clothesList)
-        rv_feed.adapter = adapter
+        recyclerView.adapter = adapter
         //recylerview 이거 fashionista.xml에 있는 변수
     }
 

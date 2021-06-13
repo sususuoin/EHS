@@ -118,9 +118,11 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
             Log.d(TAG, "서버에 저장을 시작합니다")
 
             GlobalScope.launch(Dispatchers.Main) {
-                launch(Dispatchers.Main) {
+                var laun = launch(Dispatchers.Main) {
                     uploadBitmap(clothesImg)
                 }
+
+                laun.start()
                 delay(10000L)
                 uploadDB(userId)
 
