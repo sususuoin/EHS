@@ -28,7 +28,7 @@ class AIActivity : AppCompatActivity() {
     val REQUEST_OPEN_GALLERY = 2
 
 
-    var bitmap : Bitmap? = null
+    lateinit var bitmap : Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,30 +53,26 @@ class AIActivity : AppCompatActivity() {
                 Log.d("평가하기", bitmap.toString())
 
                 var resized : Bitmap = Bitmap.createScaledBitmap(bitmap!!, 224, 224, true)
-                Log.d("111111", resized.toString())
+
 
                 var model = ModelUnquant.newInstance(this)
-                Log.d("22222", model.toString())
-
-                var inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
-                Log.d("33333", inputFeature0.toString())
-
-                var buffer = ByteBuffer.allocate(224 * 224 * 3 * DataType.FLOAT32.byteSize())
-                Log.d("44444", buffer.toString())
-
-                var asdf = resized.copyPixelsToBuffer(buffer)
-                Log.d("55555", asdf.toString())
-
-
+                var inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+                var tbuffer = TensorImage.fromBitmap(resized)
+                var byteBuffer = tbuffer.buffer
+                inputFeature0.loadBuffer(byteBuffer)
                 var outputs = model.process(inputFeature0)
-                Log.d("66666", outputs.toString())
-
-
                 var outputFeature0 = outputs.outputFeature0AsTensorBuffer
-                Log.d("aaa", outputFeature0.floatArray[0].toString())
-                Log.d("bbb", outputFeature0.floatArray[1].toString())
+                var best = outputFeature0.floatArray[0].div(255.0)*100 // best값 백분율로
+                var worst = outputFeature0.floatArray[1].div(255.0)*100 // worst값 백분율로
+                Log.d("best", best.toString())
+                Log.d("worst", worst.toString())
 
-                tv_result.text = outputFeature0.floatArray[1].toString()
+                if(best>worst){
+                    tv_result.text = "best:"+best.toString()
+                }else{
+                    tv_result.text = "worst:"+worst.toString()
+                } // 박수쳐~~~~~~ 호로로로로로로로롤
+
 
                 model.close()
 
