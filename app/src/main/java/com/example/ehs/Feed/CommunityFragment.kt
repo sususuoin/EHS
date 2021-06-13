@@ -52,10 +52,18 @@ class CommunityFragment : Fragment() {
             (activity as MainActivity?)!!.replaceFragment(FeedFragment.newInstance())
         }
 
-//        var one = Community("EHS","오늘 뭐입지~?")
-//        var two = Community("jj","방가방가 햄토리 친구드루")
-//        communityList.add(one)
-//        communityList.add(two)
+        var one = Community("EHS","오늘 뭐입지~?")
+        var two = Community("jj","방가방가 햄토리 친구드루")
+        communityList.add(one)
+        communityList.add(two)
+        communityList.add(one)
+        communityList.add(one)
+        communityList.add(one)
+        communityList.add(two)
+        communityList.add(one)
+        communityList.add(two)
+        communityList.add(one)
+        communityList.add(two)
 
         return view
     }
