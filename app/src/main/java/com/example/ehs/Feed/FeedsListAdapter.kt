@@ -32,7 +32,7 @@ class FeedsListAdapter(private val items: List<Feeds>)
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-//        layoutParams.height = 700
+        layoutParams.height = 720
         holder.itemView.requestLayout()
 
 
