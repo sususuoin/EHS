@@ -30,7 +30,6 @@ import com.android.volley.toolbox.Volley
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
-import kotlinx.android.synthetic.main.activity_clothes_save.*
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.fragment_closet.view.*
 import kotlinx.coroutines.Dispatchers
@@ -235,11 +234,11 @@ class ClosetFragment : Fragment() {
 
 
         val gridLayoutManager = GridLayoutManager(a, 3)
-        recyclerView.layoutManager = gridLayoutManager
+        rv_feed.layoutManager = gridLayoutManager
 
 
         val adapter = ClothesListAdapter(clothesList)
-        recyclerView.adapter = adapter
+        rv_feed.adapter = adapter
         //recylerview 이거 fashionista.xml에 있는 변수
     }
 

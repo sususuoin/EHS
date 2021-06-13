@@ -1,5 +1,6 @@
 package com.example.ehs.Feed
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -7,13 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ehs.MainActivity
 import com.example.ehs.R
+import kotlinx.android.synthetic.main.fragment_community.*
 import kotlinx.android.synthetic.main.fragment_community.view.*
+import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 import kotlinx.android.synthetic.main.fragment_feed.view.tv_community
 
 class CommunityFragment : Fragment() {
+    private var a: Activity? = null
+    val communityList = mutableListOf<Community>()
 
     companion object {
         const val TAG : String = "커뮤니티 프레그먼트"
@@ -45,7 +51,26 @@ class CommunityFragment : Fragment() {
             Log.d("CommunityFragment", "피드로 이동")
             (activity as MainActivity?)!!.replaceFragment(FeedFragment.newInstance())
         }
+
+        var one = Community("EHS","오늘 뭐입지~?")
+        var two = Community("jj","방가방가 햄토리 친구드루")
+        communityList.add(one)
+        communityList.add(two)
+
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        val gridLayoutManager = GridLayoutManager(a, 2)
+        rv_community.layoutManager = gridLayoutManager
+
+
+        val adapter = CommunityListAdapter(communityList)
+        rv_community.adapter = adapter
+        //recylerview 이거 fashionista.xml에 있는 변수
     }
 
 }
