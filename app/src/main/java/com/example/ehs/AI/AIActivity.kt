@@ -1,16 +1,16 @@
 package com.example.ehs.AI
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ClipData
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.example.ehs.Login.RegisterActivity
 import com.example.ehs.R
@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.activity_ai.*
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import java.nio.ByteBuffer
 import java.util.*
 
 
@@ -32,7 +31,10 @@ class AIActivity : AppCompatActivity() {
     val REQUEST_OPEN_GALLERY = 2
 
 
-    var bitmap : Bitmap? = null
+    var bitmap1 : Bitmap? = null
+    var bitmap2 : Bitmap? = null
+    var bitmap3 : Bitmap? = null
+
     lateinit var airesult :String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,37 +64,74 @@ class AIActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     fun AIpredict() {
-        if(bitmap==null) {
+        if(bitmap1==null && bitmap2==null && bitmap3==null) {
             Toast.makeText(this, "사진을 선택하시오", Toast.LENGTH_SHORT).show()
         }
         else {
-            Log.d("평가하기", bitmap.toString())
+            Log.d("평가하기", bitmap1.toString())
 
-            val resized : Bitmap = Bitmap.createScaledBitmap(bitmap!!, 224, 224, true)
+            val resized1 : Bitmap = Bitmap.createScaledBitmap(bitmap1!!, 224, 224, true)
+            val resized2 : Bitmap = Bitmap.createScaledBitmap(bitmap2!!, 224, 224, true)
+            val resized3 : Bitmap = Bitmap.createScaledBitmap(bitmap3!!, 224, 224, true)
 
 
             val model = ModelUnquant.newInstance(this@AIActivity)
 
             //input
-            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
-            val tbuffer = TensorImage.fromBitmap(resized)
-            val byteBuffer = tbuffer.buffer
-            inputFeature0.loadBuffer(byteBuffer)
+            val inputFeature1 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+            val inputFeature2 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+            val inputFeature3 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+
+            val tbuffer1 = TensorImage.fromBitmap(resized1)
+            val tbuffer2 = TensorImage.fromBitmap(resized2)
+            val tbuffer3 = TensorImage.fromBitmap(resized3)
+
+            val byteBuffer1 = tbuffer1.buffer
+            val byteBuffer2 = tbuffer2.buffer
+            val byteBuffer3 = tbuffer3.buffer
+
+            inputFeature1.loadBuffer(byteBuffer1)
+            inputFeature2.loadBuffer(byteBuffer2)
+            inputFeature3.loadBuffer(byteBuffer3)
 
             //output
-            val outputs = model.process(inputFeature0)
-            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
-            val best = outputFeature0.floatArray[0].div(255.0)*100 // best값 백분율로
-            val worst = outputFeature0.floatArray[1].div(255.0)*100 // worst값 백분율로
-            Log.d("best", best.toString())
-            Log.d("worst", worst.toString())
+            val outputs1 = model.process(inputFeature1)
+            val outputs2 = model.process(inputFeature2)
+            val outputs3 = model.process(inputFeature3)
 
+            val outputFeature1 = outputs1.outputFeature0AsTensorBuffer
+            val outputFeature2 = outputs2.outputFeature0AsTensorBuffer
+            val outputFeature3 = outputs3.outputFeature0AsTensorBuffer
+
+            val best1 = outputFeature1.floatArray[0].div(255.0)*100 // best값 백분율로
+            val worst1 = outputFeature1.floatArray[1].div(255.0)*100 // worst값 백분율로
+
+            val best2 = outputFeature2.floatArray[0].div(255.0)*100 // best값 백분율로
+            val worst2 = outputFeature2.floatArray[1].div(255.0)*100 // worst값 백분율로
+
+            val best3 = outputFeature3.floatArray[0].div(255.0)*100 // best값 백분율로
+            val worst3 = outputFeature3.floatArray[1].div(255.0)*100 // worst값 백분율로
+
+            Log.d("best111", best1.toString())
+            Log.d("worst1111", worst1.toString())
+            Log.d("best2222", best2.toString())
+            Log.d("worst2222", worst2.toString())
+            Log.d("best33333", best3.toString())
+            Log.d("worst3333", worst3.toString())
+
+
+            val best = (best1 + best2 + best3)/3
+            Log.d("베스트 평균", best.toString())
+
+            val worst = (worst1 + worst2 + worst3)/3
+            Log.d("베스트 평균", best.toString())
 
             if(best>worst){
-                tv_result.text = "best:"+best.toString()
+                tv_result.text = "best:$best"
             }else{
-                tv_result.text = "worst:"+worst.toString()
+                tv_result.text = "worst:$worst"
             } // 박수쳐~~~~~~ 호로로로로로로로롤
             //오예 짞짝짞짜까ㅉ까짞 신은정 짱짱맨~~
 
@@ -121,39 +160,57 @@ class AIActivity : AppCompatActivity() {
                 }
                 REQUEST_OPEN_GALLERY -> { // requestcode가 REQUEST_OPEN_GALLERY이면
 
-
+                    iv_aiImg1.setImageResource(0)
+                    iv_aiImg2.setImageResource(0)
+                    iv_aiImg3.setImageResource(0)
 
                     val currentImageUrl: Uri? = data?.data // data의 data형태로 들어옴
-//                    uploadImgName = getName(currentImageUrl)
+                    val clipData: ClipData? = data?.clipData
 
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(
-                            this.contentResolver,
-                            currentImageUrl
-                        )
-
-                        tv_result.text=""
-                        btn_ai.isVisible = true
-                        btn_register.isVisible = false
-
-                        iv_aiImg1.setImageBitmap(bitmap)
-
-
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+                    if (clipData != null) {
+                        for (i in 0..2) {
+                            if (i < clipData.itemCount) {
+                                val urione = clipData.getItemAt(i).uri
+                                when (i) {
+                                    0 -> {
+                                        iv_aiImg1.setImageURI(urione)
+                                        bitmap1 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
+                                    }
+                                    1 -> {
+                                        iv_aiImg2.setImageURI(urione)
+                                        bitmap2 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
+                                    }
+                                    2 -> {
+                                        iv_aiImg3.setImageURI(urione)
+                                        bitmap3 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
+        tv_result.text = ""
+        btn_ai.isVisible = true
+        btn_register.isVisible = false
+
     }
 
     /**
      * 갤러리 오픈 함수
      */
     fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
-        startActivityForResult(intent, REQUEST_OPEN_GALLERY)
+//        val intent = Intent(Intent.ACTION_PICK)
+//        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
+//        startActivityForResult(intent, REQUEST_OPEN_GALLERY)
+
+
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI)
+        //사진을 여러개 선택할수 있도록 한다
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        intent.type = "image/*"
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_OPEN_GALLERY)
     }
 
     /**

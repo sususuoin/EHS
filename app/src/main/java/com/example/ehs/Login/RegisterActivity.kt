@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
 
         Log.d("인텐트 잘 받아와졌니~~?", airesult!!)
 
-        if(airesult.toFloat() > 90) {
+        if(airesult.toFloat() > 70) {
             Log.d("원투쓰리", "은정이 원투쓰리")
             tv_level.text = "전문가"
         }
