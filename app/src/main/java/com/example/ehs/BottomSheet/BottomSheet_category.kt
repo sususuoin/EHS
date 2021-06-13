@@ -1,5 +1,6 @@
 package com.example.ehs.BottomSheet
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.widget.Toast
 import com.example.ehs.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bottomsheet_category.*
+import kotlinx.android.synthetic.main.activity_clothes_save.*
 
 
 /**
@@ -26,6 +28,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
     var capclicked = false
     var bagclicked = false
     var etcclicked = false
+    lateinit var bottomSheetButtonClickListener : BottomSheetButtonClickListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,10 +39,20 @@ class BottomSheet_category : BottomSheetDialogFragment() {
         return inflater.inflate(R.layout.bottomsheet_category, container, false)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try{
+            bottomSheetButtonClickListener = context as BottomSheetButtonClickListener
+        }catch (e: ClassCastException) {
+            Log.d("호호홓ㅎ", "onAttach error")
+        }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         view?.findViewById<Button>(R.id.btn_choicecom)?.setOnClickListener {
             Log.d("카테고리", "선택사항은" + choice)
+            bottomSheetButtonClickListener.onCategoryButtonClicked(choice!!)
             dismiss()
         }
         view?.findViewById<Button>(R.id.btn_top)?.setOnClickListener { Topclicked() }
@@ -51,6 +64,13 @@ class BottomSheet_category : BottomSheetDialogFragment() {
         view?.findViewById<Button>(R.id.btn_bag)?.setOnClickListener { Bagclicked() }
         view?.findViewById<Button>(R.id.btn_etc)?.setOnClickListener { Etcclicked() }
     }
+
+
+    interface BottomSheetButtonClickListener{
+        fun onCategoryButtonClicked(text: String)
+    }
+
+
 
     /**
      * 함수호출 : 각 카테고리 버튼 클릭 시 색깔 바꿈 & 값 받아오기

@@ -1,5 +1,6 @@
 package com.example.ehs.BottomSheet
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,8 @@ class BottomSheet_season : BottomSheetDialogFragment() {
     var springfallclicked = false
     var summerclicked = false
     var winterclicked = false
+    lateinit var bottomSheetButtonClickListener : BottomSheetButtonClickListener
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,18 +30,31 @@ class BottomSheet_season : BottomSheetDialogFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.bottomsheet_season, container, false)
     }
-
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try{
+            bottomSheetButtonClickListener = context as BottomSheetButtonClickListener
+        }catch (e: ClassCastException) {
+            Log.d("호호홓ㅎ", "onAttach error")
+        }
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         view?.findViewById<Button>(R.id.btn_choicecom)?.setOnClickListener {
             Seasonchoice()
             Log.d("카테고리", "선택사항은  -> " + seasonchoice)
+            bottomSheetButtonClickListener.onSeasonButtonClicked(seasonchoice!!)
             dismiss()
         }
         view?.findViewById<Button>(R.id.btn_springfall)?.setOnClickListener { SpringFallclicked()}
         view?.findViewById<Button>(R.id.btn_summer)?.setOnClickListener { Summerclicked() }
         view?.findViewById<Button>(R.id.btn_winter)?.setOnClickListener { Winterclicked() }
     }
+
+    interface BottomSheetButtonClickListener{
+        fun onSeasonButtonClicked(text: String)
+    }
+
 
     /**
      * 함수호출 : 각 카테고리 버튼 클릭 시 색깔 바꿈 & 값 받아오기

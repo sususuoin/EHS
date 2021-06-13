@@ -9,13 +9,14 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import com.example.ehs.Login.AutoLogin
 import com.example.ehs.BottomSheet.BottomSheet_category
 import com.example.ehs.BottomSheet.BottomSheet_color
 import com.example.ehs.BottomSheet.BottomSheet_season
+import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_clothes_save.*
 import kotlinx.coroutines.*
@@ -29,14 +30,14 @@ import java.net.URL
 import java.util.*
 
 
-class ClothesSaveActivity : AppCompatActivity(){
+class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomSheetButtonClickListener, BottomSheet_color.BottomSheetButtonClickListener, BottomSheet_season.BottomSheetButtonClickListener {
     val TAG: String = "옷저장하는 화면"
 
     lateinit var clothesName : String
     lateinit var clothesImg : Bitmap
 
     val serverUrl = "http://54.180.101.123/upload3.php"
-    var originURL :String = "http://54.180.101.123/clothes/origin/"
+    var originURL :String = "http://54.180.101.123/img/clothes/origin/"
     lateinit var realURL : String
 
     lateinit var mProgressDialog: ProgressDialog
@@ -77,15 +78,20 @@ class ClothesSaveActivity : AppCompatActivity(){
 //        clothesImg = BitmapFactory.decodeByteArray(arr, 0, arr!!.size)
 //        iv_clothes.setImageBitmap(clothesImg)
 
-        // 액션바 대신 툴바를 사용하도록 설정한다
+        /**
+         * 액션바 대신 툴바를 사용하도록 설정
+         */
+        val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         val ab = supportActionBar!!
         ab.setDisplayShowTitleEnabled(false)
+
+        //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
 
         tv_category.setOnClickListener {
-            val bottomSheet = BottomSheet_category()
+            val bottomSheet: BottomSheet_category = BottomSheet_category()
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
 
@@ -115,9 +121,9 @@ class ClothesSaveActivity : AppCompatActivity(){
                 launch(Dispatchers.Main) {
                     uploadBitmap(clothesImg)
                 }
-
                 delay(10000L)
                 uploadDB(userId)
+
             }
 
             Log.d(TAG, "서버에 저장을 완료했다다")
@@ -126,24 +132,19 @@ class ClothesSaveActivity : AppCompatActivity(){
 
         }
 
-
-
-        //은정아 혹시 이 메모를 보고있따면 이아래에 이거 필요없다면 지워주겟니 ?
-        fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            when (id) {
-                android.R.id.home -> {
-                    finish()
-                    return true
-                }
-            }
-            return super.onOptionsItemSelected(item)
-        }
-
 //onCreate() 끝
 
+    }
 
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when (id) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
@@ -167,11 +168,9 @@ class ClothesSaveActivity : AppCompatActivity(){
 
                         val obj = JSONObject(String(response!!.data))
                         Toast.makeText(this, obj.toString(), Toast.LENGTH_SHORT).show()
-                        clothesName= obj.getString("file_name")
+                        clothesName = obj.getString("file_name")
 
                         Log.d("은정이와 수인이는 호롤로로 ", clothesName)
-
-
 
 
                     } catch (e: JSONException) {
@@ -207,7 +206,8 @@ class ClothesSaveActivity : AppCompatActivity(){
 
                     if(success) {
                         Toast.makeText(
-                            this@ClothesSaveActivity, jsonObject.toString(), Toast.LENGTH_LONG).show()
+                            this@ClothesSaveActivity, jsonObject.toString(), Toast.LENGTH_LONG
+                        ).show()
 
 
                     } else {
@@ -222,8 +222,13 @@ class ClothesSaveActivity : AppCompatActivity(){
 
         }
 
-        val clothesPath = "http://54.180.101.123/clothes/"
-        val clothesSave_Request = ClothesSave_Request(userId, clothesPath, clothesName, responseListener)
+        val clothesPath = "http://54.180.101.123/img/clothes/"
+        val clothesSave_Request = ClothesSave_Request(
+            userId,
+            clothesPath,
+            clothesName,
+            responseListener
+        )
         val queue = Volley.newRequestQueue(this@ClothesSaveActivity)
         queue.add(clothesSave_Request)
     }
@@ -250,7 +255,6 @@ class ClothesSaveActivity : AppCompatActivity(){
                 conn.connect()
                 val iss: InputStream = conn.inputStream
                 clothesImg = BitmapFactory.decodeStream(iss)
-
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -260,30 +264,22 @@ class ClothesSaveActivity : AppCompatActivity(){
 
         override fun onPostExecute(img: Bitmap) {
             mProgressDialog.dismiss()
-
             iv_clothes.setImageBitmap(clothesImg)
         }
 
 
     }
 
+    // 바텀시트에서 선택한거 적용
+    override fun onCategoryButtonClicked(text: String) {
+        tv_category.text = text
+    }
+    override fun onColorButtonClicked(text: String) {
+        tv_color.text = text
+    }
+    override fun onSeasonButtonClicked(text: String) {
+        tv_season.text = text
+    }
 
-
-//
-//    fun setImg(originURL : String) : Bitmap {
-//        try {
-//            val myFileUrl = URL(originURL)
-//            val conn: HttpURLConnection = myFileUrl.openConnection() as HttpURLConnection
-//            conn.setDoInput(true)
-//            conn.connect()
-//            val iss: InputStream = conn.getInputStream()
-//            clothesImg = BitmapFactory.decodeStream(iss)
-//        } catch (e : IOException) {
-//            e.printStackTrace()
-//        }
-//        return clothesImg
-//    }
-//
-//
 
 }

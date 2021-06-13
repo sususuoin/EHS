@@ -3,18 +3,23 @@ package com.example.ehs.AI
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.ehs.R
+import com.example.ehs.ml.ModelUnquant
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.activity_ai.*
-import java.io.File
+import org.tensorflow.lite.DataType
+import org.tensorflow.lite.support.image.TensorImage
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import java.nio.ByteBuffer
+import java.util.*
+
 
 class AIActivity : AppCompatActivity() {
 
@@ -22,6 +27,8 @@ class AIActivity : AppCompatActivity() {
     val REQUEST_IMAGE_CAPTURE = 1 // 카메라 사진 촬영 요청코드, 한번 지정되면 값이 바뀌지 않음
     val REQUEST_OPEN_GALLERY = 2
 
+
+    lateinit var bitmap : Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +40,51 @@ class AIActivity : AppCompatActivity() {
         btn_album.setOnClickListener {
             openGallery()
         }
+
+        btn_ai.setOnClickListener {
+
+            Log.d("평가하기", "버튼클릭")
+
+
+            if(bitmap==null) {
+                Toast.makeText(this, "사진을 선택하시오", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                Log.d("평가하기", bitmap.toString())
+
+                var resized : Bitmap = Bitmap.createScaledBitmap(bitmap!!, 224, 224, true)
+
+
+                var model = ModelUnquant.newInstance(this)
+                var inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+                var tbuffer = TensorImage.fromBitmap(resized)
+                var byteBuffer = tbuffer.buffer
+                inputFeature0.loadBuffer(byteBuffer)
+                var outputs = model.process(inputFeature0)
+                var outputFeature0 = outputs.outputFeature0AsTensorBuffer
+                var best = outputFeature0.floatArray[0].div(255.0)*100 // best값 백분율로
+                var worst = outputFeature0.floatArray[1].div(255.0)*100 // worst값 백분율로
+                Log.d("best", best.toString())
+                Log.d("worst", worst.toString())
+
+                if(best>worst){
+                    tv_result.text = "best:"+best.toString()
+                }else{
+                    tv_result.text = "worst:"+worst.toString()
+                } // 박수쳐~~~~~~ 호로로로로로로로롤
+
+
+                model.close()
+
+            }
+
+
+
+
+
+        }
     }
+
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -41,47 +92,25 @@ class AIActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) { //resultCode가 Ok이고
                 REQUEST_IMAGE_CAPTURE -> { // requestcode가 REQUEST_IMAGE_CAPTURE이면
-//                    val bitmap: Bitmap
-//                    val file = File(currentPhotoPath)
-//                    var fileuri = Uri.fromFile(file)
-//                    uploadImgName = getName(fileuri)
-//                    if (Build.VERSION.SDK_INT < 28) { // 안드로이드 9.0 (Pie) 버전보다 낮을 경우
-//                        bitmap = MediaStore.Images.Media.getBitmap(a!!.contentResolver, fileuri)
-//
-//                        bmp = bitmap
-//
-//                    } else { // 안드로이드 9.0 (Pie) 버전보다 높을 경우
-//                        val decode = ImageDecoder.createSource(a!!.contentResolver, fileuri)
-//                        bitmap = ImageDecoder.decodeBitmap(decode)
-//
-//                        bmp = bitmap
-//
-//
-//                    }
-//
-//                    if (file.exists()) {
-//                        file.delete()
-//                    }
-//                    if (fileuri != null) {
-//                        fileuri = null
-//                    }
+
                 }
                 REQUEST_OPEN_GALLERY -> { // requestcode가 REQUEST_OPEN_GALLERY이면
-//                    val currentImageUrl: Uri? = data?.data // data의 data형태로 들어옴
+                    tv_result.text=""
+                    val currentImageUrl: Uri? = data?.data // data의 data형태로 들어옴
 //                    uploadImgName = getName(currentImageUrl)
-//
-//                    try {
-//                        val bitmap = MediaStore.Images.Media.getBitmap(
-//                            a!!.contentResolver,
-//                            currentImageUrl
-//                        )
-//
-//                        bmp = bitmap
-//
-//
-//                    } catch (e: Exception) {
-//                        e.printStackTrace()
-//                    }
+
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(
+                            this.contentResolver,
+                            currentImageUrl
+                        )
+
+                        iv_aiImg.setImageBitmap(bitmap)
+
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
             }
         }
