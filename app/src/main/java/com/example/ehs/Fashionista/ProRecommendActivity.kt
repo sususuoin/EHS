@@ -1,13 +1,12 @@
-package com.example.ehs.AI
+package com.example.ehs.Fashionista
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.ehs.R
 
-class AIProActivity : AppCompatActivity() {
+class ProRecommendActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ai_pro)
+        setContentView(R.layout.activity_pro_recommend)
     }
 }
-
