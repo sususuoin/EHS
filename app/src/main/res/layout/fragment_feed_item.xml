@@ -35,7 +35,7 @@
             <ImageButton
                 android:id="@+id/btn_haert"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="0.5dp"
                 android:layout_weight="1"
                 android:background="#00FFFFFF"
@@ -44,7 +44,7 @@
             <ImageButton
                 android:id="@+id/btn_talk"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#00FFFFFF"
                 app:srcCompat="@drawable/ic_talk" />
@@ -57,8 +57,8 @@
 
             <ImageView
                 android:id="@+id/iv_userphoto"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_weight="0"
                 app:srcCompat="@drawable/ic_mypage" />
 
@@ -78,7 +78,7 @@
             android:id="@+id/tv_feedtext"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="3dp"
             android:layout_marginRight="15dp"
             android:fontFamily="sans-serif"

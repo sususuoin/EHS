@@ -57,7 +57,7 @@
     <Spinner
         android:id="@+id/spinner2"
         android:layout_width="109dp"
-        android:layout_height="7dp"
+        android:layout_height="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
@@ -67,10 +67,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_community"
         android:layout_width="match_parent"
-        android:layout_height="580dp"
+        android:layout_height="670dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="0dp"
         tools:listitem="@layout/fragment_community_item" />
 
 </LinearLayout>
