@@ -26,6 +26,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
+        <activity android:name=".AI.AIProActivity"></activity>
+        <activity android:name=".Fashionista.ProfilePlus_Activity" />
+        <activity android:name=".Fashionista.FashionistaProfile_Activity" />
         <activity android:name=".Weather.WeatherActivity"/>
         <activity android:name=".Mypage.UserModifyActivity" />
         <activity android:name=".AI.AIActivity" />
@@ -38,6 +41,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            // 원래자리
         </activity>
 
         <provider
