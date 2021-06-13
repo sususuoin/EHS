@@ -97,17 +97,7 @@ class RegisterActivity : AppCompatActivity() {
 
                 //서버로 Volley를 이용해서 요청
                 var HashTag = "기본값"
-                val registerRequest = Register_Request(
-                    userId,
-                    userPw,
-                    userName,
-                    userEmail,
-                    userBirth,
-                    userGender,
-                    userLevel,
-                    HashTag,
-                    responseListener
-                )
+                val registerRequest = Register_Request(userId, userPw, userName, userEmail, userBirth, userGender, userLevel, HashTag, responseListener)
                 val queue = Volley.newRequestQueue(this@RegisterActivity)
                 queue.add(registerRequest)
 

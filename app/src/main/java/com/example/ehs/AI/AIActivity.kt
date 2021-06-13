@@ -136,7 +136,7 @@ class AIActivity : AppCompatActivity() {
                         btn_ai.isVisible = true
                         btn_register.isVisible = false
 
-                        iv_aiImg.setImageBitmap(bitmap)
+                        iv_aiImg1.setImageBitmap(bitmap)
 
 
                     } catch (e: Exception) {

@@ -30,11 +30,10 @@ class FashionistaProfile_Activity : AppCompatActivity() {
         ab.setDisplayHomeAsUpEnabled(true) // 여기까지 툴바 설정 완료
         
 
-        btn_profilePlus.setOnClickListener(
-            {
-                val intent = Intent(this, ProfilePlus_Activity::class.java)
-                startActivity(intent) 
-            }) // 액티비티 이동
+        btn_profilePlus.setOnClickListener {
+            val intent = Intent(this, ProfilePlus_Activity::class.java)
+            startActivity(intent)
+        } // 액티비티 이동
 
         val feedList = arrayListOf(
             FashionistaUserProfiles(R.drawable.test_userfeed),
