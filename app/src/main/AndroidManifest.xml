@@ -22,7 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AI.AIActivity"></activity>
+        <activity android:name=".AI.AIProActivity"></activity>
+        <activity android:name=".Fashionista.ProfilePlus_Activity" />
+        <activity android:name=".Fashionista.FashionistaProfile_Activity" />
+        <activity android:name=".AI.AIActivity" />
         <activity android:name=".Calendar.CalendarActivity" />
         <activity android:name=".Closet.ClothesSaveActivity" />
         <activity android:name=".MainActivity" />
@@ -33,6 +36,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            // 원래자리
         </activity>
 
         <provider

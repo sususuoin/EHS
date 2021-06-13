@@ -49,9 +49,7 @@ class ClothesListAdapter(private val items: List<Clothes>) : RecyclerView.Adapte
 
 
         fun bind(listener: View.OnClickListener, item: Clothes) {
-
             view.clothes.setImageBitmap(item.clothes)
-
             view.setOnClickListener(listener)
         }
     }
