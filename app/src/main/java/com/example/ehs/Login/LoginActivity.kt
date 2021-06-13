@@ -50,18 +50,15 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val registerIntent = Intent(this, RegisterActivity::class.java) // 인텐트를 생성
+
 
         tv_register.setOnClickListener {
             Log.d(TAG, "회원가입 클릭")
-            startActivity(registerIntent)
-        }
-
-        btn_ai.setOnClickListener {
             val aiActivity = Intent(this, AIActivity::class.java) // 인텐트를 생성
             startActivity(aiActivity)
 
         }
+
 
         if (AutoLogin.getUserId(this).isNullOrBlank() || AutoLogin.getUserPw(this).isNullOrBlank()
         ) {

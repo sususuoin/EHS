@@ -7,8 +7,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
+import com.example.ehs.Login.RegisterActivity
 import com.example.ehs.R
 import com.example.ehs.ml.ModelUnquant
 import com.gun0912.tedpermission.PermissionListener
@@ -28,11 +32,13 @@ class AIActivity : AppCompatActivity() {
     val REQUEST_OPEN_GALLERY = 2
 
 
-    lateinit var bitmap : Bitmap
+    var bitmap : Bitmap? = null
+    lateinit var airesult :String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ai)
+        btn_register.isVisible = false
 
         //권한설정
         setPermission()
@@ -44,45 +50,64 @@ class AIActivity : AppCompatActivity() {
         btn_ai.setOnClickListener {
 
             Log.d("평가하기", "버튼클릭")
+            AIpredict()
+        }
+
+        btn_register.setOnClickListener {
+            Log.d("회원가입 화면으로 이동", "버튼클릭")
+            Log.d("333", airesult)
+            val registerIntent = Intent(this, RegisterActivity::class.java) // 인텐트를 생성
+            registerIntent.putExtra("airesult", airesult)
+            startActivity(registerIntent)
+        }
+    }
+
+    fun AIpredict() {
+        if(bitmap==null) {
+            Toast.makeText(this, "사진을 선택하시오", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            Log.d("평가하기", bitmap.toString())
+
+            val resized : Bitmap = Bitmap.createScaledBitmap(bitmap!!, 224, 224, true)
 
 
-            if(bitmap==null) {
-                Toast.makeText(this, "사진을 선택하시오", Toast.LENGTH_SHORT).show()
-            }
-            else {
-                Log.d("평가하기", bitmap.toString())
+            val model = ModelUnquant.newInstance(this@AIActivity)
 
-                var resized : Bitmap = Bitmap.createScaledBitmap(bitmap!!, 224, 224, true)
+            //input
+            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+            val tbuffer = TensorImage.fromBitmap(resized)
+            val byteBuffer = tbuffer.buffer
+            inputFeature0.loadBuffer(byteBuffer)
 
-
-                var model = ModelUnquant.newInstance(this)
-                var inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
-                var tbuffer = TensorImage.fromBitmap(resized)
-                var byteBuffer = tbuffer.buffer
-                inputFeature0.loadBuffer(byteBuffer)
-                var outputs = model.process(inputFeature0)
-                var outputFeature0 = outputs.outputFeature0AsTensorBuffer
-                var best = outputFeature0.floatArray[0].div(255.0)*100 // best값 백분율로
-                var worst = outputFeature0.floatArray[1].div(255.0)*100 // worst값 백분율로
-                Log.d("best", best.toString())
-                Log.d("worst", worst.toString())
-
-                if(best>worst){
-                    tv_result.text = "best:"+best.toString()
-                }else{
-                    tv_result.text = "worst:"+worst.toString()
-                } // 박수쳐~~~~~~ 호로로로로로로로롤
+            //output
+            val outputs = model.process(inputFeature0)
+            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+            val best = outputFeature0.floatArray[0].div(255.0)*100 // best값 백분율로
+            val worst = outputFeature0.floatArray[1].div(255.0)*100 // worst값 백분율로
+            Log.d("best", best.toString())
+            Log.d("worst", worst.toString())
 
 
-                model.close()
+            if(best>worst){
+                tv_result.text = "best:"+best.toString()
+            }else{
+                tv_result.text = "worst:"+worst.toString()
+            } // 박수쳐~~~~~~ 호로로로로로로로롤
+            //오예 짞짝짞짜까ㅉ까짞 신은정 짱짱맨~~
 
-            }
+
+            airesult = best.toString()
+            btn_ai.isVisible = false
+            btn_register.isVisible = true
+            Log.d("이것이 베스트점수 결과로다", airesult)
 
 
-
+            model.close()
 
 
         }
+
     }
 
 
@@ -95,7 +120,9 @@ class AIActivity : AppCompatActivity() {
 
                 }
                 REQUEST_OPEN_GALLERY -> { // requestcode가 REQUEST_OPEN_GALLERY이면
-                    tv_result.text=""
+
+
+
                     val currentImageUrl: Uri? = data?.data // data의 data형태로 들어옴
 //                    uploadImgName = getName(currentImageUrl)
 
@@ -104,6 +131,10 @@ class AIActivity : AppCompatActivity() {
                             this.contentResolver,
                             currentImageUrl
                         )
+
+                        tv_result.text=""
+                        btn_ai.isVisible = true
+                        btn_register.isVisible = false
 
                         iv_aiImg.setImageBitmap(bitmap)
 
