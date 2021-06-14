@@ -53,11 +53,15 @@
             android:background="@color/ourcolor" />
     </LinearLayout>
 
-    <TextView
-        android:layout_width="71dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="170dp"
-        android:text="즐겨찾기란다~~" />
+
+    <ImageButton
+        android:id="@+id/btn_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="@color/white"
+        android:src="@drawable/banner" />
+
+
 
 
 </LinearLayout>
