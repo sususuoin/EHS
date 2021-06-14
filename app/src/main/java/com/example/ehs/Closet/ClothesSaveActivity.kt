@@ -3,10 +3,12 @@ package com.example.ehs.Closet
 import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -19,6 +21,8 @@ import com.example.ehs.BottomSheet.BottomSheet_season
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_clothes_save.*
+import kotlinx.android.synthetic.main.bottomsheet_category.*
+import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.coroutines.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -85,9 +89,11 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
         setSupportActionBar(toolbar)
         val ab = supportActionBar!!
         ab.setDisplayShowTitleEnabled(false)
-
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
+        
+        // 처음에 컬러버튼 안보이게
+        btn_colorview.visibility = View.INVISIBLE
 
 
         tv_category.setOnClickListener {
@@ -95,7 +101,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
 
-        tv_color.setOnClickListener {
+        ll_color.setOnClickListener {
             val bottomSheet = BottomSheet_color()
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
@@ -106,7 +112,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
         }
 
         // 에디트 버튼 클릭
-        btn_edit.setOnClickListener {
+        btn_edit_clothes.setOnClickListener {
 
         }
 
@@ -138,6 +144,9 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
     }
 
+    /**
+     * 툴바 뒤로가기 버튼 기능 구현
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         when (id) {
@@ -278,6 +287,68 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
     }
     override fun onColorButtonClicked(text: String) {
         tv_color.text = text
+        btn_colorview.visibility = View.VISIBLE
+        if(text == "흰색"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.white))
+        }
+        if(text == "크림"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.cream))
+
+        }
+        if(text == "연회색"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.lightgray))
+        }
+        if(text == "진회색"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.darkgray))
+        }
+        if(text == "검정"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.black))
+        }
+        if(text == "주황"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.orange))
+        }
+        if(text == "베이지"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.beige))
+        }
+        if(text == "노랑"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.yellow))
+        }
+        if(text == "연두"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.lightgreen))
+        }
+        if(text == "하늘"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.skyblue))
+        }
+        if(text == "분홍"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.pink))
+        }
+        if(text == "연분홍"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.lightpink))
+        }
+        if(text == "초록"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.green))
+        }
+        if(text == "카키"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.kaki))
+        }
+        if(text == "파랑"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.blue))
+        }
+        if(text == "빨강"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.red))
+        }
+        if(text == "와인"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.wine))
+        }
+        if(text == "갈색"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.brown))
+        }
+        if(text == "보라"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.purple))
+        }
+        if(text == "네이비"){
+            btn_colorview.setBackgroundColor(this.resources.getColor(R.color.navy))
+        }
     }
     override fun onSeasonButtonClicked(text: String) {
         tv_season.text = text

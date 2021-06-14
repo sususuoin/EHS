@@ -12,7 +12,6 @@ import android.widget.Toast
 import com.example.ehs.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bottomsheet_category.*
-import kotlinx.android.synthetic.main.activity_clothes_save.*
 
 
 /**
@@ -44,7 +43,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
         try{
             bottomSheetButtonClickListener = context as BottomSheetButtonClickListener
         }catch (e: ClassCastException) {
-            Log.d("호호홓ㅎ", "onAttach error")
+            Log.d("BottomSheet_category", "onAttach error")
         }
     }
 
@@ -83,7 +82,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     btn_top.setBackgroundResource(R.drawable.button_choice_background)
                     btn_top.setTextColor(Color.rgb(99,80,172))
                     topclicked = true
-                    choice = "top"
+                    choice = "상의"
                 } else {
                     btn_top.setBackgroundResource(R.drawable.button_background)
                     btn_top.setTextColor(Color.BLACK)
@@ -91,7 +90,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     choice = null
                 }
             }
-            "top" -> {
+            "상의" -> {
                 btn_top.setBackgroundResource(R.drawable.button_background)
                 btn_top.setTextColor(Color.BLACK)
                 topclicked = false
@@ -110,7 +109,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     btn_outer.setBackgroundResource(R.drawable.button_choice_background)
                     btn_outer.setTextColor(Color.rgb(99,80,172))
                     outerclicked = true
-                    choice = "outer"
+                    choice = "아우터"
                 } else {
                     btn_outer.setBackgroundResource(R.drawable.button_background)
                     btn_outer.setTextColor(Color.BLACK)
@@ -118,7 +117,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     choice = null
                 }
             }
-            "outer" -> {
+            "아우터" -> {
                 btn_outer.setBackgroundResource(R.drawable.button_background)
                 btn_outer.setTextColor(Color.BLACK)
                 outerclicked = false
@@ -137,7 +136,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     btn_bottom.setBackgroundResource(R.drawable.button_choice_background)
                     btn_bottom.setTextColor(Color.rgb(99,80,172))
                     bottomclicked = true
-                    choice = "bottom"
+                    choice = "하의"
                 } else {
                     btn_bottom.setBackgroundResource(R.drawable.button_background)
                     btn_bottom.setTextColor(Color.BLACK)
@@ -145,7 +144,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     choice = null
                 }
             }
-            "bottom" -> {
+            "하의" -> {
                 btn_bottom.setBackgroundResource(R.drawable.button_background)
                 btn_bottom.setTextColor(Color.BLACK)
                 bottomclicked = false
@@ -164,7 +163,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     btn_dress.setBackgroundResource(R.drawable.button_choice_background)
                     btn_dress.setTextColor(Color.rgb(99,80,172))
                     dressclicked = true
-                    choice = "dress"
+                    choice = "원피스"
                 } else {
                     btn_dress.setBackgroundResource(R.drawable.button_background)
                     btn_dress.setTextColor(Color.BLACK)
@@ -172,7 +171,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     choice = null
                 }
             }
-            "dress" -> {
+            "원피스" -> {
                 btn_dress.setBackgroundResource(R.drawable.button_background)
                 btn_dress.setTextColor(Color.BLACK)
                 dressclicked = false
@@ -191,7 +190,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     btn_shoes.setBackgroundResource(R.drawable.button_choice_background)
                     btn_shoes.setTextColor(Color.rgb(99,80,172))
                     shoesclicked = true
-                    choice = "shoes"
+                    choice = "신발"
                 } else {
                     btn_shoes.setBackgroundResource(R.drawable.button_background)
                     btn_shoes.setTextColor(Color.BLACK)
@@ -199,7 +198,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     choice = null
                 }
             }
-            "shoes" -> {
+            "신발" -> {
                 btn_shoes.setBackgroundResource(R.drawable.button_background)
                 btn_shoes.setTextColor(Color.BLACK)
                 shoesclicked = false
@@ -218,7 +217,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     btn_cap.setBackgroundResource(R.drawable.button_choice_background)
                     btn_cap.setTextColor(Color.rgb(99,80,172))
                     capclicked = true
-                    choice = "cap"
+                    choice = "모자"
                 } else {
                     btn_cap.setBackgroundResource(R.drawable.button_background)
                     btn_cap.setTextColor(Color.BLACK)
@@ -226,7 +225,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     choice = null
                 }
             }
-            "cap" -> {
+            "모자" -> {
                 btn_cap.setBackgroundResource(R.drawable.button_background)
                 btn_cap.setTextColor(Color.BLACK)
                 capclicked = false
@@ -245,7 +244,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     btn_bag.setBackgroundResource(R.drawable.button_choice_background)
                     btn_bag.setTextColor(Color.rgb(99,80,172))
                     bagclicked = true
-                    choice = "bag"
+                    choice = "가방"
                 } else {
                     btn_bag.setBackgroundResource(R.drawable.button_background)
                     btn_bag.setTextColor(Color.BLACK)
@@ -253,7 +252,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     choice = null
                 }
             }
-            "bag" -> {
+            "가방" -> {
                 btn_bag.setBackgroundResource(R.drawable.button_background)
                 btn_bag.setTextColor(Color.BLACK)
                 bagclicked = false
@@ -272,7 +271,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     btn_etc.setBackgroundResource(R.drawable.button_choice_background)
                     btn_etc.setTextColor(Color.rgb(99,80,172))
                     etcclicked = true
-                    choice = "etc"
+                    choice = "기타"
                 } else {
                     btn_etc.setBackgroundResource(R.drawable.button_background)
                     btn_etc.setTextColor(Color.BLACK)
@@ -280,7 +279,7 @@ class BottomSheet_category : BottomSheetDialogFragment() {
                     choice = null
                 }
             }
-            "etc" -> {
+            "기타" -> {
                 btn_etc.setBackgroundResource(R.drawable.button_background)
                 btn_etc.setTextColor(Color.BLACK)
                 etcclicked = false

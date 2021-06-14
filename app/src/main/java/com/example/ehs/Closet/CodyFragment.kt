@@ -1,19 +1,31 @@
 package com.example.ehs.Closet
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.android.volley.NetworkResponse
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
+import com.example.ehs.Calendar.CalendarActivity
 
 import com.example.ehs.MainActivity
 import com.example.ehs.R
@@ -21,22 +33,22 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 
 import kotlinx.android.synthetic.main.fragment_cody.*
 import kotlinx.android.synthetic.main.fragment_cody.view.*
-import java.io.IOException
-import java.io.InputStream
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.*
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class CodyFragment : Fragment() {
 
-    lateinit var codyadapter: CodyAdapter
-    val codydatas = mutableListOf<CodyData>()
-
-
-
-
-    private var a: Activity? = null
     val Fragment.packageManager get() = activity?.packageManager // 패키지 매니저 적용
 
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(
@@ -57,10 +69,29 @@ class CodyFragment : Fragment() {
     )}
     private var clicked = false
 
+    val REQUEST_IMAGE_CAPTURE = 1 // 카메라 사진 촬영 요청코드, 한번 지정되면 값이 바뀌지 않음
+    val REQUEST_OPEN_GALLERY = 2
+
+    lateinit var currentPhotoPath: String // 문자열 형태의 사진 경로 값 (초기 값을 null로 시작하고 싶을 때)
+
+
+    lateinit var bmp : Bitmap
+    lateinit var uploadImgName : String
+    lateinit var originImgName : String
+
+
+    val codyList = mutableListOf<Cody>()
+    var codyArr2 = ArrayList<String>()
+
+    //lateinit var codyadapter: CodyListAdapter
+
+
+
 
     companion object {
+        var a: Activity? = null
         const val TAG : String = "로그"
-        fun newInstance() : CodyFragment { // newInstance()라는 함수를 호출하면 HomeFragment를 반환함
+        fun newInstance() : CodyFragment { // newInstance()라는 함수를 호출하면 CodyFragment를 반환함
             return CodyFragment()
         }
     }
@@ -70,6 +101,63 @@ class CodyFragment : Fragment() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "CodyFragment - onCreate() called")
         AndroidThreeTen.init(a)
+        var a_bitmap : Bitmap? = null
+        codyArr2 = AutoCody.getCodyName(a!!)
+        Log.d("111111", codyArr2.toString())
+
+        for (i in 0 until codyArr2.size) {
+            val uThread: Thread = object : Thread() {
+                override fun run() {
+                    try {
+
+                        Log.d("Closet프래그먼터리스트123", codyArr2[i])
+
+                        //서버에 올려둔 이미지 URL
+                        val url = URL("http://54.180.101.123/img/clothes/" + codyArr2[i])
+
+                        //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
+                        /* URLConnection 생성자가 protected로 선언되어 있으므로
+                         개발자가 직접 HttpURLConnection 객체 생성 불가 */
+                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                        /* openConnection()메서드가 리턴하는 urlConnection 객체는
+                        HttpURLConnection의 인스턴스가 될 수 있으므로 캐스팅해서 사용한다*/
+
+                        conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
+                        conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                        val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
+                        a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
+
+
+                    } catch (e: MalformedURLException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+
+            uThread.start() // 작업 Thread 실행
+
+
+            try {
+
+                //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
+                //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
+                //join() 메서드는 InterruptedException을 발생시킨다.
+                uThread.join()
+
+                //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+                //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
+
+                var cody = Cody(a_bitmap)
+                codyList.add(cody)
+
+
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+        }
 
     }
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
@@ -79,60 +167,6 @@ class CodyFragment : Fragment() {
             a = context
         }
         Log.d(TAG, "CodyFragment - onAttach() called")
-
-
-        var a_bitmap : Bitmap? = null
-        val uThread: Thread = object : Thread() {
-            override fun run() {
-                try {
-
-                    //서버에 올려둔 이미지 URL
-                    val url = URL("http://54.180.101.123/clothes/16229003541622900353767.JPEG")
-
-                    //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
-                    /* URLConnection 생성자가 protected로 선언되어 있으므로
-                     개발자가 직접 HttpURLConnection 객체 생성 불가 */
-                    val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-
-                    /* openConnection()메서드가 리턴하는 urlConnection 객체는
-                    HttpURLConnection의 인스턴스가 될 수 있으므로 캐스팅해서 사용한다*/
-
-                    conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
-                    conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
-                    val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
-                    a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
-                } catch (e: MalformedURLException) {
-                    e.printStackTrace()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-
-        }
-        uThread.start() // 작업 Thread 실행
-
-        try {
-            //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
-            //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
-            //join() 메서드는 InterruptedException을 발생시킨다.
-            uThread.join()
-
-            //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
-            //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
-            var clothes = CodyData(a_bitmap)
-            codydatas.add(clothes)
-            codydatas.add(clothes)
-            codydatas.add(clothes)
-            codydatas.add(clothes)
-            codydatas.add(clothes)
-            codydatas.add(clothes)
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
-
-
-
-
     }
 
     // 뷰가 생성되었을 때 화면과 연결
@@ -155,10 +189,14 @@ class CodyFragment : Fragment() {
         view.btn_addcody.setOnClickListener { view ->
             Log.d("클릭!!", "코디추가 버튼 클릭!!")
             onAddButtonClicked()
+            val intent = Intent(context, CodySaveActivity::class.java)
+            startActivity(intent)
         }
         view.tv_addcody.setOnClickListener { view ->
             Log.d("클릭!!", "코디추가 텍스트 클릭!!")
             onAddButtonClicked()
+            val intent = Intent(context, CodySaveActivity::class.java)
+            startActivity(intent)
         }
 
         return view
@@ -170,20 +208,11 @@ class CodyFragment : Fragment() {
 
         val gridLayoutManager = GridLayoutManager(a, 3)
         recycler_cody.layoutManager = gridLayoutManager
-        initRecycler() // 리사이클러
-        //recycler_cody.adapter = codyadapter
+
+        val adapter = CodyListAdapter(codyList)
+        recycler_cody.adapter = adapter
+
         //recylerview 이거 fashionista.xml에 있는 변수
-    }
-
-    private fun initRecycler() {
-        codyadapter = CodyAdapter(a!!)
-        recycler_cody.adapter = codyadapter
-
-        codydatas.apply {
-            codyadapter.datas = codydatas
-            codyadapter.notifyDataSetChanged()
-
-        }
     }
 
     fun onAddButtonClicked() {
@@ -224,6 +253,185 @@ class CodyFragment : Fragment() {
             tv_addcody.isClickable = false
         }
     }
+
+    /**
+     * 이미지 파일 생성
+     */
+    private fun createImageFile(): File {
+        val timestamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = getActivity()?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile("JPEG_${timestamp}_", ".jpg", storageDir)
+            .apply { currentPhotoPath = absolutePath }
+    }
+
+    // startAcitivityForResult를 통해서 기본 카메라 앱으로부터 받아온 사진 결과 값
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK) {
+            when(requestCode) { //resultCode가 Ok이고
+                REQUEST_IMAGE_CAPTURE -> { // requestcode가 REQUEST_IMAGE_CAPTURE이면
+                    val bitmap: Bitmap
+                    val file = File(currentPhotoPath)
+                    var fileuri = Uri.fromFile(file)
+                    uploadImgName = getName(fileuri)
+                    if (Build.VERSION.SDK_INT < 28) { // 안드로이드 9.0 (Pie) 버전보다 낮을 경우
+                        bitmap = MediaStore.Images.Media.getBitmap(ClosetFragment.a!!.contentResolver, fileuri)
+
+                        bmp = bitmap
+
+                    } else { // 안드로이드 9.0 (Pie) 버전보다 높을 경우
+                        val decode = ImageDecoder.createSource(ClosetFragment.a!!.contentResolver, fileuri)
+                        bitmap = ImageDecoder.decodeBitmap(decode)
+
+                        bmp = bitmap
+
+
+                    }
+
+                    savePhoto(bitmap)
+                    if (file.exists()) {
+                        file.delete()
+                    }
+                    if (fileuri != null) {
+                        fileuri = null
+                    }
+                }
+                REQUEST_OPEN_GALLERY -> { // requestcode가 REQUEST_OPEN_GALLERY이면
+                    val currentImageUrl: Uri? = data?.data // data의 data형태로 들어옴
+                    uploadImgName = getName(currentImageUrl)
+
+                    try {
+                        val bitmap = MediaStore.Images.Media.getBitmap(
+                            ClosetFragment.a!!.contentResolver,
+                            currentImageUrl
+                        )
+
+                        bmp = bitmap
+
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        }
+
+
+        GlobalScope.launch(Dispatchers.Main) {
+            launch(Dispatchers.Main) {
+                uploadBitmap(bmp)
+            }
+
+            delay(3000L)
+
+            val intent = Intent(ClosetFragment.a, ClothesSaveActivity::class.java)
+            intent.putExtra("originImgName", originImgName);
+            Log.d(ClosetFragment.TAG, originImgName)
+            startActivity(intent)
+
+        }
+
+    }
+
+    /**
+     * 갤러리에 저장
+     */
+    private fun savePhoto(bitmap: Bitmap) {
+        val folderPath = Environment.getExternalStorageDirectory().absolutePath + "/Pictures/Omonemo/" // 사진폴더로 저장하기 위한 경로 선언
+        val timestamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val fileName = "${timestamp}.jpeg"
+        val folder = File(folderPath)
+        if(!folder.isDirectory) { // 현재 해당 경로에 폴더가 존재하지 않는다면
+            folder.mkdir() // make diretory 줄임말로 해당 경로에 폴더를 자동으로 새로 만든다
+        }
+        // 실제적인 저장처리
+        val out = FileOutputStream(folderPath + fileName)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+        out.close()
+        Toast.makeText(ClosetFragment.a!!, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show()
+
+    }
+
+    /**
+     * 갤러리 오픈 함수
+     */
+    fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
+        startActivityForResult(intent, REQUEST_OPEN_GALLERY)
+    }
+
+
+    private fun getPath(uri: Uri?): String {
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = activity!!.managedQuery(uri, projection, null, null, null)
+        val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor.moveToFirst()
+        return cursor.getString(column_index)
+    }
+
+    // 파일명 찾기
+    private fun getName(uri: Uri?): String {
+        val projection = arrayOf(MediaStore.Images.ImageColumns.DISPLAY_NAME)
+        val cursor = activity!!.managedQuery(uri, projection, null, null, null)
+        val column_index: Int = cursor
+            .getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME)
+        cursor.moveToFirst()
+        return cursor.getString(column_index)
+    }
+
+
+    fun getFileDataFromDrawable(bitmap: Bitmap): ByteArray? {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        return byteArrayOutputStream.toByteArray()
+    }
+
+
+    fun uploadBitmap(bitmap: Bitmap) {
+        val clothesUploadRequest: ClothesUpload_Request = object : ClothesUpload_Request(
+            Method.POST, "http://54.180.101.123/upload4.php",
+            Response.Listener<NetworkResponse> { response ->
+                try {
+
+                    val obj = JSONObject(String(response!!.data))
+                    originImgName = obj.get("file_name") as String
+
+                    Log.d("서버에 저장되어진 파일이름", originImgName)
+
+                    Toast.makeText(ClosetFragment.a, originImgName, Toast.LENGTH_SHORT).show()
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(ClosetFragment.a, error.message, Toast.LENGTH_LONG).show()
+                Log.e("GotError", "" + error.message)
+            }) {
+            override fun getByteData(): Map<String, DataPart>? {
+                val params: MutableMap<String, DataPart> = HashMap()
+                val imagename = System.currentTimeMillis()
+                val uploadImgName = imagename.toString()
+                Log.d("은정이는 민재이모", uploadImgName)
+                params["image"] = DataPart(
+                    "$uploadImgName.JPEG",
+                    getFileDataFromDrawable(bitmap)!!
+                )
+                return params
+            }
+        }
+
+        //adding the request to volley
+        Volley.newRequestQueue(ClosetFragment.a).add(clothesUploadRequest)
+
+    }
+
+
+
+
+
 
 
 }

@@ -105,10 +105,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!whiteclicked) {
                     btn_white.setImageResource(R.drawable.ic_check_black)
                     whiteclicked = true
-                    colorchoice = "white"
+                    colorchoice = "흰색"
                 }
             }
-            "white" -> {
+            "흰색" -> {
                 btn_white.setImageIcon(null)
                 whiteclicked = false
                 colorchoice = null
@@ -125,10 +125,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!creamclicked) {
                     btn_cream.setImageResource(R.drawable.ic_check_black)
                     creamclicked = true
-                    colorchoice = "cream"
+                    colorchoice = "크림"
                 }
             }
-            "cream" -> {
+            "크림" -> {
                 btn_cream.setImageIcon(null)
                 creamclicked = false
                 colorchoice = null
@@ -145,10 +145,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!lightgrayclicked) {
                     btn_lightgray.setImageResource(R.drawable.ic_check_white)
                     lightgrayclicked = true
-                    colorchoice = "lightgray"
+                    colorchoice = "연회색"
                 }
             }
-            "lightgray" -> {
+            "연회색" -> {
                 btn_lightgray.setImageIcon(null)
                 lightgrayclicked = false
                 colorchoice = null
@@ -165,10 +165,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!darkgrayclicked) {
                     btn_darkgray.setImageResource(R.drawable.ic_check_white)
                     darkgrayclicked = true
-                    colorchoice = "darkgray"
+                    colorchoice = "진회색"
                 }
             }
-            "darkgray" -> {
+            "진회색" -> {
                 btn_darkgray.setImageIcon(null)
                 darkgrayclicked = false
                 colorchoice = null
@@ -183,10 +183,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!blackclicked) {
                     btn_black.setImageResource(R.drawable.ic_check_white)
                     blackclicked = true
-                    colorchoice = "black"
+                    colorchoice = "검정"
                 }
             }
-            "black" -> {
+            "검정" -> {
                 btn_black.setImageIcon(null)
                 blackclicked = false
                 colorchoice = null
@@ -203,10 +203,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!orangeclicked) {
                     btn_orange.setImageResource(R.drawable.ic_check_white)
                     orangeclicked = true
-                    colorchoice = "orange"
+                    colorchoice = "주황"
                 }
             }
-            "orange" -> {
+            "주황" -> {
                 btn_orange.setImageIcon(null)
                 orangeclicked = false
                 colorchoice = null
@@ -223,10 +223,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!beigeclicked) {
                     btn_beige.setImageResource(R.drawable.ic_check_white)
                     beigeclicked = true
-                    colorchoice = "beige"
+                    colorchoice = "베이지"
                 }
             }
-            "beige" -> {
+            "베이지" -> {
                 btn_beige.setImageIcon(null)
                 beigeclicked = false
                 colorchoice = null
@@ -243,10 +243,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!yellowclicked) {
                     btn_yellow.setImageResource(R.drawable.ic_check_white)
                     yellowclicked = true
-                    colorchoice = "yellow"
+                    colorchoice = "노랑"
                 }
             }
-            "yellow" -> {
+            "노랑" -> {
                 btn_yellow.setImageIcon(null)
                 yellowclicked = false
                 colorchoice = null
@@ -263,10 +263,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!lightgreenclicked) {
                     btn_lightgreen.setImageResource(R.drawable.ic_check_white)
                     lightgreenclicked = true
-                    colorchoice = "lightgreen"
+                    colorchoice = "연두"
                 }
             }
-            "lightgreen" -> {
+            "연두" -> {
                 btn_lightgreen.setImageIcon(null)
                 lightgreenclicked = false
                 colorchoice = null
@@ -283,10 +283,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!skyblueclicked) {
                     btn_skyblue.setImageResource(R.drawable.ic_check_white)
                     skyblueclicked = true
-                    colorchoice = "skyblue"
+                    colorchoice = "하늘"
                 }
             }
-            "skyblue" -> {
+            "하늘" -> {
                 btn_skyblue.setImageIcon(null)
                 skyblueclicked = false
                 colorchoice = null
@@ -303,10 +303,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!pinkclicked) {
                     btn_pink.setImageResource(R.drawable.ic_check_white)
                     pinkclicked = true
-                    colorchoice = "pink"
+                    colorchoice = "분홍"
                 }
             }
-            "pink" -> {
+            "분홍" -> {
                 btn_pink.setImageIcon(null)
                 pinkclicked = false
                 colorchoice = null
@@ -323,10 +323,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!lightpinkclicked ) {
                     btn_lightpink.setImageResource(R.drawable.ic_check_white)
                     lightpinkclicked  = true
-                    colorchoice = "lightpink"
+                    colorchoice = "연분홍"
                 }
             }
-            "lightpink" -> {
+            "연분홍" -> {
                 btn_lightpink.setImageIcon(null)
                 lightpinkclicked  = false
                 colorchoice = null
@@ -343,10 +343,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!greenclicked ) {
                     btn_green.setImageResource(R.drawable.ic_check_white)
                     greenclicked  = true
-                    colorchoice = "green"
+                    colorchoice = "초록"
                 }
             }
-            "green" -> {
+            "초록" -> {
                 btn_green.setImageIcon(null)
                 greenclicked  = false
                 colorchoice = null
@@ -363,10 +363,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!kakiclicked ) {
                     btn_kaki.setImageResource(R.drawable.ic_check_white)
                     kakiclicked  = true
-                    colorchoice = "kaki"
+                    colorchoice = "카키"
                 }
             }
-            "kaki" -> {
+            "카키" -> {
                 btn_kaki.setImageIcon(null)
                 kakiclicked  = false
                 colorchoice = null
@@ -383,10 +383,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!blueclicked ) {
                     btn_blue.setImageResource(R.drawable.ic_check_white)
                     blueclicked  = true
-                    colorchoice = "blue"
+                    colorchoice = "파랑"
                 }
             }
-            "blue" -> {
+            "파랑" -> {
                 btn_blue.setImageIcon(null)
                 blueclicked  = false
                 colorchoice = null
@@ -403,10 +403,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!redclicked) {
                     btn_red.setImageResource(R.drawable.ic_check_white)
                     redclicked = true
-                    colorchoice = "red"
+                    colorchoice = "빨강"
                 }
             }
-            "red" -> {
+            "빨강" -> {
                 btn_red.setImageIcon(null)
                 redclicked = false
                 colorchoice = null
@@ -423,10 +423,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!wineclicked ) {
                     btn_wine.setImageResource(R.drawable.ic_check_white)
                     wineclicked = true
-                    colorchoice = "wine"
+                    colorchoice = "와인"
                 }
             }
-            "wine" -> {
+            "와인" -> {
                 btn_wine.setImageIcon(null)
                 wineclicked = false
                 colorchoice = null
@@ -443,10 +443,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!brownclicked) {
                     btn_brown.setImageResource(R.drawable.ic_check_white)
                     brownclicked = true
-                    colorchoice = "brown"
+                    colorchoice = "갈색"
                 }
             }
-            "brown" -> {
+            "갈색" -> {
                 btn_brown.setImageIcon(null)
                 brownclicked = false
                 colorchoice = null
@@ -463,10 +463,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!purpleclicked) {
                     btn_purple.setImageResource(R.drawable.ic_check_white)
                     purpleclicked = true
-                    colorchoice = "purple"
+                    colorchoice = "보라"
                 }
             }
-            "purple" -> {
+            "보라" -> {
                 btn_purple.setImageIcon(null)
                 purpleclicked = false
                 colorchoice = null
@@ -483,10 +483,10 @@ class BottomSheet_color : BottomSheetDialogFragment() {
                 if (!navyclicked) {
                     btn_navy.setImageResource(R.drawable.ic_check_white)
                     navyclicked = true
-                    colorchoice = "navy"
+                    colorchoice = "네이비"
                 }
             }
-            "navy" -> {
+            "네이비" -> {
                 btn_navy.setImageIcon(null)
                 navyclicked = false
                 colorchoice = null

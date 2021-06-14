@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:padding="15dp"
         android:gravity="center"
-        android:text="패션 설정"
+        android:text="스타일 설정"
         android:textColor="@color/ourcolor"
         android:textSize="18sp"
         android:textStyle="bold"/>
