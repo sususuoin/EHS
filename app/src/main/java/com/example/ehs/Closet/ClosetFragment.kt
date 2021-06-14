@@ -219,12 +219,6 @@ class ClosetFragment : Fragment() {
             onAddButtonClicked()
         }
 
-        view.mPlusButton.setOnClickListener { view ->
-
-            var task = back()
-            task.execute("http://54.180.101.123/img/clothes/16220975141622097513127.JPEG")
-        }
-
         return view
     }
 
@@ -499,52 +493,6 @@ class ClosetFragment : Fragment() {
         Volley.newRequestQueue(a).add(clothesUploadRequest)
 
     }
-
-
-    open inner class back : AsyncTask<String?, Int?, Bitmap>() {
-
-
-        protected override fun onPreExecute() {
-
-            // Create a progressdialog
-            mProgressDialog = ProgressDialog(a)
-            mProgressDialog.setTitle("Loading...")
-            mProgressDialog.setMessage("Image uploading...")
-            mProgressDialog.setCanceledOnTouchOutside(false)
-            mProgressDialog.setIndeterminate(false)
-            mProgressDialog.show()
-        }
-
-
-        override fun doInBackground(vararg urls: String?): Bitmap {
-            try {
-                val myFileUrl = URL(urls[0])
-                val conn: HttpURLConnection = myFileUrl.openConnection() as HttpURLConnection
-                conn.doInput = true
-                conn.connect()
-                val iss: InputStream = conn.inputStream
-                clothesImg = BitmapFactory.decodeStream(iss)
-
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            return clothesImg
-
-        }
-
-        override fun onPostExecute(img: Bitmap) {
-            mProgressDialog.dismiss()
-
-            var clothes = Clothes(clothesImg)
-            clothesList.add(clothes)
-
-            // 리사이클러뷰 업데이트
-            val adapter = ClothesListAdapter(clothesList)
-            recyclerView.adapter = adapter
-        }
-
-    }
-
 
 
 }

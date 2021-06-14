@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.AutoCloset
+import com.example.ehs.Closet.AutoCody
 import com.example.ehs.Closet.ClosetFragment
 import com.example.ehs.Closet.ClosetServer_Request
 import com.example.ehs.Fashionista.Fashionista
@@ -142,6 +143,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_closet -> {
                     ClosetImg()
+                    CodyImg()
                     Log.d(TAG, "MainActivity - 옷장 버튼 클릭!")
                     closetFragment = ClosetFragment.newInstance()
                     replaceFragment(closetFragment)
@@ -448,6 +450,60 @@ class MainActivity : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this)
         queue.add(closetServer_Request)
     }
+
+    fun CodyImg() {
+
+        Log.d("~~~~~~?", "~~~~~~~")
+        userId = AutoLogin.getUserId(this)
+
+        var cuserId: String
+        var codyName: String
+        var codyArr = mutableListOf<String>()
+
+        val responseListener: Response.Listener<String?> =
+            Response.Listener<String?> { response ->
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    var response = jsonObject.toString()
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    Log.d("~~~~~?", response)
+                    Log.d("~~~~~~?", arr.toString())
+
+
+                    for (i in 0 until arr.length()) {
+                        val codyObject = arr.getJSONObject(i)
+                        Log.d("~~~~~~ ?", arr[i].toString())
+
+                        cuserId = codyObject.getString("userId")
+                        codyName = codyObject.getString("clothesName")
+
+                        Log.d("~~~~~~123?", codyName)
+
+                        codyArr.add(codyName)
+                        Log.d("~호?", codyArr.toString())
+
+                        AutoCody.setCodyName(this, codyArr as ArrayList<String>)
+//
+//                        bundle.putStringArrayList("clothesArr", clothesArr as ArrayList<String>)
+//                        intent.putExtras(bundle)
+                    }
+
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        val closetServer_Request = ClosetServer_Request(userId!!, responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(closetServer_Request)
+    }
+
+
+
 
 
 }
