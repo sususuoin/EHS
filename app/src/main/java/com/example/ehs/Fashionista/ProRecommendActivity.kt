@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_pro_recommend.*
 
 class ProRecommendActivity : AppCompatActivity() {
 
-    var userId : String= ""
+    lateinit var userId : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
