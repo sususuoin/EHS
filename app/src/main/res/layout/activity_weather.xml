@@ -86,5 +86,11 @@
             android:text="TextView"
             android:textColor="@color/black"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_weather"
+            android:layout_width="290dp"
+            android:layout_height="152dp"
+            android:layout_marginLeft="60dp"
+            android:orientation="horizontal" />
 
 </LinearLayout>

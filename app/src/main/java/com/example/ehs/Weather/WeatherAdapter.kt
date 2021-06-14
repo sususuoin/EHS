@@ -1,0 +1,61 @@
+package com.example.ehs.Weather
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.ehs.R
+import kotlinx.android.synthetic.main.activity_weather_item.view.*
+import kotlinx.android.synthetic.main.fragment_feed_item.view.*
+
+class WeatherAdapter(val itemList: ArrayList<Weathers>)
+    :RecyclerView.Adapter<WeatherAdapter.CustomViewHolder>()
+{
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
+            WeatherAdapter.CustomViewHolder {
+        // 연결될 화면
+        val view = LayoutInflater.from(parent.context).
+        inflate(R.layout.activity_weather_item, parent, false)
+        // view는 fashionista_user_item을 Adapter에 붙여줌
+
+
+        return CustomViewHolder(view).apply {
+
+
+        }
+
+
+    }
+    override fun getItemCount(): Int {
+        //item들의 총 개수
+        return itemList.size
+    }
+    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+        //어디서 이미지를 가져온지 모르겟음 ;;; 정말 나는 화가나 ㅎㅎ
+        holder.imgcolthes.setImageResource(itemList[position].clothes)
+        holder.clothesname.text = itemList[position].clothesname
+
+
+
+
+        val layoutParams = holder.itemView.layoutParams
+        layoutParams.height = 450
+        layoutParams.width = 400
+        holder.itemView.requestLayout()
+    }
+
+
+
+
+    class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val imgcolthes = itemView.findViewById<ImageView>(R.id.iv_clothes)
+        val clothesname = itemView.findViewById<TextView>(R.id.tv_clothesname)
+
+
+    }
+
+}
