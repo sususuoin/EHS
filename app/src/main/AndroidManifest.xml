@@ -17,19 +17,17 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        android:hardwareAccelerated="false"
-        android:largeHeap="true"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Fashionista.ProRecommendActivity"></activity>
-
-
-
+        <activity android:name=".Closet.CodySaveActivity"></activity>
+        <activity android:name=".Fashionista.ProRecommendActivity" />
         <activity android:name=".Fashionista.ProfilePlus_Activity" />
         <activity android:name=".Fashionista.FashionistaProfile_Activity" />
         <activity android:name=".Weather.WeatherActivity" />

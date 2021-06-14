@@ -116,7 +116,6 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/btn_color_radius"
-
                 android:backgroundTint="@color/cream" />
 
             <TextView
