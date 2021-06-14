@@ -107,7 +107,7 @@ class ClosetFragment : Fragment() {
         var a_bitmap : Bitmap? = null
         clothesArr2 = AutoCloset.getClothesName(a!!)
         Log.d("111111", clothesArr2.toString())
-        
+
 
         for (i in 0 until clothesArr2.size) {
             val uThread: Thread = object : Thread() {
@@ -156,7 +156,6 @@ class ClosetFragment : Fragment() {
 
                 var clothes = Clothes(a_bitmap)
                 clothesList.add(clothes)
-
 
             } catch (e: InterruptedException) {
                 e.printStackTrace()
@@ -235,6 +234,7 @@ class ClosetFragment : Fragment() {
 
         val adapter = ClothesListAdapter(clothesList)
         recyclerView.adapter = adapter
+        adapter.notifyDataSetChanged()
         //recylerview 이거 fashionista.xml에 있는 변수
     }
 
