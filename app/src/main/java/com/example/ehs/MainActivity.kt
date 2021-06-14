@@ -16,10 +16,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import com.example.ehs.Closet.AutoCloset
-import com.example.ehs.Closet.AutoCody
-import com.example.ehs.Closet.ClosetFragment
-import com.example.ehs.Closet.ClosetServer_Request
+import com.example.ehs.Closet.*
 import com.example.ehs.Fashionista.Fashionista
 import com.example.ehs.Fashionista.FashionistaFragment
 import com.example.ehs.Fashionista.FashionistaList
@@ -457,7 +454,7 @@ class MainActivity : AppCompatActivity() {
         userId = AutoLogin.getUserId(this)
 
         var cuserId: String
-        var codyName: String
+        var codyImgName: String
         var codyArr = mutableListOf<String>()
 
         val responseListener: Response.Listener<String?> =
@@ -478,17 +475,15 @@ class MainActivity : AppCompatActivity() {
                         Log.d("~~~~~~ ?", arr[i].toString())
 
                         cuserId = codyObject.getString("userId")
-                        codyName = codyObject.getString("clothesName")
+                        codyImgName = codyObject.getString("codyImgName")
 
-                        Log.d("~~~~~~123?", codyName)
+                        Log.d("~~~~~~123?", codyImgName)
 
-                        codyArr.add(codyName)
+                        codyArr.add(codyImgName)
                         Log.d("~호?", codyArr.toString())
 
                         AutoCody.setCodyName(this, codyArr as ArrayList<String>)
-//
-//                        bundle.putStringArrayList("clothesArr", clothesArr as ArrayList<String>)
-//                        intent.putExtras(bundle)
+
                     }
 
 
@@ -497,9 +492,9 @@ class MainActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-        val closetServer_Request = ClosetServer_Request(userId!!, responseListener)
+        val codyServer_Request = CodyServer_Request(userId!!, responseListener)
         val queue = Volley.newRequestQueue(this)
-        queue.add(closetServer_Request)
+        queue.add(codyServer_Request)
     }
 
 

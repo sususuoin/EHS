@@ -26,7 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Closet.CodySaveActivity"></activity>
+        <activity android:name=".Closet.CodySaveActivity" />
         <activity android:name=".Fashionista.ProRecommendActivity" />
         <activity android:name=".Fashionista.ProfilePlus_Activity" />
         <activity android:name=".Fashionista.FashionistaProfile_Activity" />
@@ -43,7 +43,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            // 원래자리
         </activity>
 
         <provider

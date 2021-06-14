@@ -45,6 +45,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
     lateinit var realURL : String
 
     lateinit var mProgressDialog: ProgressDialog
+    var userId : String= ""
 
     override fun onDestroy() {
         super.onDestroy()
@@ -61,7 +62,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
         setContentView(R.layout.activity_clothes_save)
 
         //사용자 아이디받아오기
-        var userId = AutoLogin.getUserId(this@ClothesSaveActivity)
+        userId = AutoLogin.getUserId(this@ClothesSaveActivity)
 
         val intent = intent
         val originImgName = getIntent().getStringExtra("originImgName")
@@ -122,20 +123,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
 
             Log.d(TAG, "서버에 저장을 시작합니다")
-
-            GlobalScope.launch(Dispatchers.Main) {
-                var laun = launch(Dispatchers.Main) {
-                    uploadBitmap(clothesImg)
-                }
-
-                laun.start()
-                delay(10000L)
-                uploadDB(userId)
-
-            }
-
-            Log.d(TAG, "서버에 저장을 완료했다다")
-            this.finish()
+            uploadBitmap(clothesImg)
 
 
         }
@@ -182,6 +170,12 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
                         clothesName = obj.getString("file_name")
 
                         Log.d("은정이와 수인이는 호롤로로 ", clothesName)
+
+
+                        uploadDB(userId)
+
+                        Log.d(TAG, "서버에 저장을 완료했다다")
+                        this.finish()
 
 
                     } catch (e: JSONException) {
@@ -234,12 +228,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
         }
 
         val clothesPath = "http://54.180.101.123/img/clothes/"
-        val clothesSave_Request = ClothesSave_Request(
-            userId,
-            clothesPath,
-            clothesName,
-            responseListener
-        )
+        val clothesSave_Request = ClothesSave_Request(userId, clothesPath, clothesName, responseListener)
         val queue = Volley.newRequestQueue(this@ClothesSaveActivity)
         queue.add(clothesSave_Request)
     }

@@ -107,6 +107,7 @@ class ClosetFragment : Fragment() {
         var a_bitmap : Bitmap? = null
         clothesArr2 = AutoCloset.getClothesName(a!!)
         Log.d("111111", clothesArr2.toString())
+        
 
         for (i in 0 until clothesArr2.size) {
             val uThread: Thread = object : Thread() {
@@ -382,20 +383,7 @@ class ClosetFragment : Fragment() {
             }
         }
 
-
-        GlobalScope.launch(Dispatchers.Main) {
-            launch(Dispatchers.Main) {
-                uploadBitmap(bmp)
-            }
-
-            delay(3000L)
-
-            val intent = Intent(a, ClothesSaveActivity::class.java)
-            intent.putExtra("originImgName", originImgName);
-            Log.d(TAG, originImgName)
-            startActivity(intent)
-
-        }
+        uploadBitmap(bmp)
 
     }
 
@@ -466,6 +454,11 @@ class ClosetFragment : Fragment() {
                     Log.d("서버에 저장되어진 파일이름", originImgName)
 
                     Toast.makeText(a, originImgName, Toast.LENGTH_SHORT).show()
+
+                    val intent = Intent(a, ClothesSaveActivity::class.java)
+                    intent.putExtra("originImgName", originImgName);
+                    Log.d(TAG, originImgName)
+                    startActivity(intent)
 
 
                 } catch (e: JSONException) {

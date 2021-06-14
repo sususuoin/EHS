@@ -113,7 +113,7 @@ class CodyFragment : Fragment() {
                         Log.d("Closet프래그먼터리스트123", codyArr2[i])
 
                         //서버에 올려둔 이미지 URL
-                        val url = URL("http://54.180.101.123/img/clothes/" + codyArr2[i])
+                        val url = URL("http://54.180.101.123/img/cody/" + codyArr2[i])
 
                         //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
                         /* URLConnection 생성자가 protected로 선언되어 있으므로
