@@ -174,8 +174,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
                         uploadDB(userId)
 
-                        Log.d(TAG, "서버에 저장을 완료했다다")
-                        this.finish()
+
 
 
                     } catch (e: JSONException) {
@@ -214,6 +213,8 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
                             this@ClothesSaveActivity, jsonObject.toString(), Toast.LENGTH_LONG
                         ).show()
 
+                        Log.d(TAG, "서버에 저장을 완료했다다")
+                        finish()
 
                     } else {
                         Toast.makeText(this@ClothesSaveActivity, "실패 두둥탁", Toast.LENGTH_LONG).show()
