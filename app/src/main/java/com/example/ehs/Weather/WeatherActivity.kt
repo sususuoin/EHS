@@ -1,33 +1,22 @@
 package com.example.ehs.Weather
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Insets.add
-import android.graphics.drawable.ClipDrawable.HORIZONTAL
 import android.location.*
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.widget.HorizontalScrollView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.OneShotPreDrawListener.add
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
-import com.example.ehs.Feed.Feeds
 import com.example.ehs.R
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.synthetic.main.activity_fashionista_profile.*
 import kotlinx.android.synthetic.main.activity_weather.*
-import kotlinx.android.synthetic.main.fragment_closet.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,22 +28,16 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
-import kotlin.properties.Delegates
 
 class WeatherActivity : AppCompatActivity() {
     var getLongitude: Double? = null // 위도
     var getLatitude: Double? = null // 경도
-    val weatherList = arrayListOf<Weathers>() // 날씨별 옷차림
-    val one = Weathers(R.drawable.weather_dress,"hi")
 
 
-
-//    val weatherList =  arrayListOf<Weathers>()
-//    val five = Weathers(R.drawable.weather_dress,"hi")
+    val weatherList = mutableListOf<Weathers>() // 날씨별 옷차림
 
 
-
-
+    lateinit var intcTemp2 : String
 
     companion object {
         var BaseUrl = "http://api.openweathermap.org/"
@@ -64,12 +47,8 @@ class WeatherActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        getLocation()
-        getweather ()
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
-
         /**
          * 액션바 대신 툴바를 사용하도록 설정
          */
@@ -82,41 +61,32 @@ class WeatherActivity : AppCompatActivity() {
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
 
-
         btn_updateW.setOnClickListener {
             getLocation()
-            getweather ()
+            getweather()
+
+
         }
 
-//        lm.removeUpdates(gpsLocationListener)
-
-
-
-        //----------------------
-
+        //처음실행되는것들
+        getLocation()
+        getweather()
 
 
         val Linear = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true)
         rv_weather.layoutManager = Linear
         rv_weather.setHasFixedSize(true)
 
-        rv_weather.adapter = WeatherAdapter(weatherList)
+        val adapter = WeatherAdapter(weatherList)
+        rv_weather.adapter= adapter
 
-        //--------------------------
+        val one = Weathers(R.drawable.weather_dress,"hi")
+        weatherList.add(one)
+        adapter.notifyDataSetChanged()
+
 
 
     } // oncreate 대괄호
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        when (id) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
     private fun getLocation() {
         val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -230,6 +200,9 @@ class WeatherActivity : AppCompatActivity() {
                     val intMaxTemp = maxTemp.roundToInt()
                     val weatherIMG = weatherResponse!!.weather!!.get(0).icon.toString()
 
+                    intcTemp2 = intcTemp.toString()
+                    viewclothes(intcTemp2)
+
                     when (weatherIMG) { // 날씨에 맞는 아이콘 출력
                         "01d" -> img_weather.setImageResource(R.drawable.ic_sun)
                         "01n" -> img_weather.setImageResource(R.drawable.ic_sun_night)
@@ -241,18 +214,50 @@ class WeatherActivity : AppCompatActivity() {
                         "13d", "13n" -> img_weather.setImageResource(R.drawable.ic_snow)
                         "50n", "50d" -> img_weather.setImageResource(R.drawable.ic_mist)
                     }
-                    when (intcTemp) {
-                        24, 25, 26,27, 28, 29, 30 -> weatherList.add(one)
-                    }
                     tv_city.text = city
                     //tv_city.text = cutting?.subList(2, 6).toString().replace(",", " ").replace("[", " ").replace("]", " ") // []가 같이 출력되어서 []를 공백으로 치환
                     tv_MinMaxTemp.text = intMinTemp.toString() + "\u00B0" + "/ " + intMaxTemp.toString() + "\u00B0"
                     tv_cTemp.text = intcTemp.toString() + "\u00B0" + "C"
+
+
                 }
             }
 
         })
     }
+
+
+    fun viewclothes(intcTemp2 : String ) {
+        Log.d("농심 짜파게티~", intcTemp2)
+
+        when (intcTemp2) {
+            "24", "25", "26", "28"-> {
+                val one = Weathers(R.drawable.exfirst,"hi")
+                weatherList.add(one)
+
+                val adapter = WeatherAdapter(weatherList)
+                rv_weather.adapter= adapter
+                adapter.notifyDataSetChanged()
+
+
+            }
+        }
+
+    }
+
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when (id) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
 
     val gpsLocationListener = object : LocationListener {

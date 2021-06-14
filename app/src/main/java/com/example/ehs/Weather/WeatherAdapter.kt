@@ -10,11 +10,8 @@ import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_weather_item.view.*
 import kotlinx.android.synthetic.main.fragment_feed_item.view.*
 
-class WeatherAdapter(val itemList: ArrayList<Weathers>)
-    :RecyclerView.Adapter<WeatherAdapter.CustomViewHolder>()
-{
-
-
+class WeatherAdapter(val itemList: List<Weathers>)
+    :RecyclerView.Adapter<WeatherAdapter.CustomViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             WeatherAdapter.CustomViewHolder {
         // 연결될 화면
