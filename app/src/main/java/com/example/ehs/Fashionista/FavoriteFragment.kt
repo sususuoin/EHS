@@ -1,6 +1,7 @@
 package com.example.ehs.Fashionista
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,6 +25,7 @@ class FavoriteFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "FeedFragment - onCreate() called")
+
     }
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
     override fun onAttach(context: Context) {
@@ -43,6 +45,12 @@ class FavoriteFragment : Fragment() {
             Log.d("FashionistaFragment", "피드로 이동")
             (activity as MainActivity?)!!.replaceFragment(FashionistaFragment.newInstance())
         }
+        // 추천배너 클릭 시
+        view.btn_recommend.setOnClickListener {
+            val intent = Intent(context, ProRecommendActivity::class.java)
+            startActivity(intent)
+        }
+
         return view
     }
 
