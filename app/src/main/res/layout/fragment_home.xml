@@ -97,9 +97,8 @@
 
                 <TextView
                     android:id="@+id/tv_cityH"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
                     android:gravity="center"
                     android:text="서울시 금천구 독산동"
                     android:textColor="@color/darkgray"
@@ -110,7 +109,7 @@
                     android:id="@+id/btn_updateH"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="30dp"
                     app:srcCompat="@drawable/ic_update"
                     android:background="@drawable/btn_color_radius"
                     android:layout_gravity="center"
@@ -120,7 +119,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginLeft="60dp"
+                    android:layout_gravity="right"
+                    android:gravity="right"
                     >
 
                     <ImageButton
@@ -136,7 +136,6 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="날씨별 옷차림"
-                        android:layout_gravity="center"
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         android:textStyle="bold" />
