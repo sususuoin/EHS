@@ -89,7 +89,7 @@ class WeatherActivity : AppCompatActivity() {
         rv_weather.addItemDecoration(h_decoration)
 
 
-        val Linear = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true)
+        val Linear = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rv_weather.layoutManager = Linear
         rv_weather.setHasFixedSize(true)
 

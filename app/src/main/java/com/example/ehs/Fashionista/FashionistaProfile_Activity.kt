@@ -2,15 +2,14 @@ package com.example.ehs.Fashionista
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.ehs.Calendar.CalendarActivity
 import com.example.ehs.R
-import com.example.ehs.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_fashionista_profile.*
 
 class FashionistaProfile_Activity : AppCompatActivity() {
@@ -18,7 +17,12 @@ class FashionistaProfile_Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fashionista_profile)
-        
+
+        val intent = intent
+        var fashionistaId = intent.getStringExtra("fashionistaId")
+        Log.d("왜 빈칸일까 ..? 왜지..? 왜 ?", fashionistaId!!)
+        tv_profileid.text = fashionistaId
+
         /**
          * 액션바 대신 툴바를 사용하도록 설정
          */

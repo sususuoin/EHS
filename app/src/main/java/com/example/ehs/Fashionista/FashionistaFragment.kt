@@ -35,6 +35,8 @@ class FashionistaFragment : Fragment() {
 //        Fashionista("delp", "캐쥬얼")
 //    )
 
+    lateinit var fashionistaListAdapter : FashionistaListAdapter
+
 
     private var pDialog: ProgressDialog? = null
 
@@ -76,6 +78,7 @@ class FashionistaFragment : Fragment() {
             Log.d("FashionistaFragment", "피드로 이동")
             (activity as MainActivity?)!!.replaceFragment(FavoriteFragment.newInstance())
         }
+
 
 //        FashionistaUser()
 

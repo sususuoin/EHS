@@ -2,8 +2,10 @@ package com.example.ehs.Fashionista
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -32,20 +34,22 @@ class FashionistaListAdapter (private val itemList : List<Fashionista>)
         layoutParams.height = 200
         holder.itemView.requestLayout()
 
+        holder.bind(FashionistaList[position])
 
         holder.apply {
             bind(item)
             itemView.setOnClickListener {
 
+                Toast.makeText(holder.itemView.context, "asdf ${FashionistaList[position].name}", Toast.LENGTH_SHORT).show()
+                var fashionistaId = FashionistaList[position].name
+                Log.d("전문가 아이디", FashionistaList[position].name)
                 val intent = Intent(holder.itemView?.context, FashionistaProfile_Activity::class.java)
-
+                intent.putExtra("fashionistaId", fashionistaId)
                 ContextCompat.startActivity(holder.itemView.context,intent,null)
             } // item 클릭하면 FashionistaProfile_Activity로 이동
         }
 
     }
-
-
 
 
 

@@ -32,13 +32,8 @@ class WeatherAdapter(val itemList: List<Weathers>)
         return itemList.size
     }
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        //어디서 이미지를 가져온지 모르겟음 ;;; 정말 나는 화가나 ㅎㅎ
         holder.imgcolthes.setImageResource(itemList[position].clothes)
         holder.clothesname.text = itemList[position].clothesname
-
-
-
-
 
 
         val layoutParams = holder.itemView.layoutParams
