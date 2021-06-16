@@ -39,9 +39,11 @@ class WeatherAdapter(val itemList: List<Weathers>)
 
 
 
+
+
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 450
-        layoutParams.width = 400
+        layoutParams.height = 400
+        layoutParams.width = 300
         holder.itemView.requestLayout()
     }
 
