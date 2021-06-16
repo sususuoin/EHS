@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,6 +45,7 @@ class HomeFragment : Fragment() {
     lateinit var crecyclerview: androidx.recyclerview.widget.RecyclerView
     lateinit var crecyclerview2: androidx.recyclerview.widget.RecyclerView
     lateinit var img_weather: ImageView
+    lateinit var tv_weathergo : TextView
 
 
     // 요일 받아오기
@@ -115,18 +117,22 @@ class HomeFragment : Fragment() {
         calendarbtn = view.findViewById(R.id.btn_calendar)
         weathergo = view.findViewById(R.id.btn_weathergo)
         updatebtn = view.findViewById(R.id.btn_updateH)
+        tv_weathergo = view.findViewById(R.id.tv_weathergo)
 
 
         calendarbtn.setOnClickListener{
-            activity?.let{
-                val intent = Intent(context, CalendarActivity::class.java)
-                startActivity(intent) }
+            val intent = Intent(a, CalendarActivity::class.java)
+            startActivity(intent)
         }
         weathergo.setOnClickListener{
-            activity?.let{
-                val intent = Intent(context, WeatherActivity::class.java)
-                startActivity(intent) }
+            val intent = Intent(a, WeatherActivity::class.java)
+            startActivity(intent)
         }
+        tv_weathergo.setOnClickListener{
+            val intent = Intent(a, WeatherActivity::class.java)
+            startActivity(intent)
+        }
+
         updatebtn.setOnClickListener {
             Toast.makeText(a, "날씨 업데이트", Toast.LENGTH_SHORT).show()
             (activity as MainActivity).getLocation()
