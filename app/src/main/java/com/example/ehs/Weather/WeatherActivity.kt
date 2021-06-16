@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ehs.R
 import com.google.gson.annotations.SerializedName
@@ -35,6 +36,18 @@ class WeatherActivity : AppCompatActivity() {
 
 
     val weatherList = mutableListOf<Weathers>() // 날씨별 옷차림
+    lateinit var one : Weathers
+    lateinit var twoo : Weathers
+    lateinit var three : Weathers
+    lateinit var four : Weathers
+    lateinit var five : Weathers
+    lateinit var six : Weathers
+    lateinit var seven : Weathers
+    lateinit var eight : Weathers
+    lateinit var nine : Weathers
+    lateinit var ten : Weathers
+
+
 
 
     lateinit var intcTemp2 : String
@@ -72,6 +85,9 @@ class WeatherActivity : AppCompatActivity() {
         getLocation()
         getweather()
 
+        val h_decoration = DividerItemDecoration(applicationContext, LinearLayoutManager.HORIZONTAL)
+        rv_weather.addItemDecoration(h_decoration)
+
 
         val Linear = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true)
         rv_weather.layoutManager = Linear
@@ -80,9 +96,10 @@ class WeatherActivity : AppCompatActivity() {
         val adapter = WeatherAdapter(weatherList)
         rv_weather.adapter= adapter
 
-        val one = Weathers(R.drawable.weather_dress,"hi")
-        weatherList.add(one)
-        adapter.notifyDataSetChanged()
+
+//        val one = Weathers(R.drawable.weather_dress,"hi")
+//        weatherList.add(one)
+//        adapter.notifyDataSetChanged()
 
 
 
@@ -227,21 +244,150 @@ class WeatherActivity : AppCompatActivity() {
     }
 
 
+    fun addclothes(){
+        weatherList.add(one)
+        weatherList.add(twoo)
+        weatherList.add(three)
+        weatherList.add(four)
+        weatherList.add(five)
+        weatherList.add(six)
+        weatherList.add(seven)
+        weatherList.add(eight)
+        weatherList.add(nine)
+        weatherList.add(ten)
+
+
+        val adapter = WeatherAdapter(weatherList)
+        rv_weather.adapter= adapter
+        adapter.notifyDataSetChanged()
+
+    } // weathers에 이미지를 추가해줌
+
     fun viewclothes(intcTemp2 : String ) {
         Log.d("농심 짜파게티~", intcTemp2)
 
         when (intcTemp2) {
-            "24", "25", "26", "28"-> {
-                val one = Weathers(R.drawable.exfirst,"hi")
-                weatherList.add(one)
+            "28","29","30","31","32","33","34"-> {
+                one = Weathers(R.drawable.weather_a_dress,"원피스")
+                twoo = Weathers(R.drawable.weather_a_shortpants,"반바지")
+                three = Weathers(R.drawable.weather_a_sandel,"샌들")
+                four = Weathers(R.drawable.weather_a_croptee,"크롭티")
+                five = Weathers(R.drawable.weather_a_ndress,"원피스")
+                six = Weathers(R.drawable.weather_a_tee,"나시")
+                seven = Weathers(R.drawable.weather_a_denim,"청바지")
+                eight = Weathers(R.drawable.weather_a_pinktee,"반팔")
+                nine = Weathers(R.drawable.weather_a_whitepants,"린넨바지")
+                ten = Weathers(R.drawable.weather_a_shortshirt,"반팔셔츠")
 
-                val adapter = WeatherAdapter(weatherList)
-                rv_weather.adapter= adapter
-                adapter.notifyDataSetChanged()
+                addclothes()
+            }
 
+           "23", "24","25",  "26", "27"-> {
+               one = Weathers(R.drawable.weather_b_denim_short,"반바지")
+               twoo = Weathers(R.drawable.weather_b_sandel,"샌들")
+               three = Weathers(R.drawable.weather_b_skirt,"치마")
+               four = Weathers(R.drawable.weather_b_tee,"반팔")
+               five = Weathers(R.drawable.weather_b_shirt,"얇은 셔츠")
+               six = Weathers(R.drawable.weather_b_begietee,"카라티 셔츠")
+               seven = Weathers(R.drawable.weather_b_dress,"원피스")
+               eight = Weathers(R.drawable.weather_b_cottenpants,"면바지")
+               nine = Weathers(R.drawable.weather_b_piktee,"카라티")
+               ten = Weathers(R.drawable.weather_b_pinkshirt,"얇은 셔츠")
+
+               addclothes()
+           }
+           "20","21","22"-> {
+               one = Weathers(R.drawable.weather_c_dress,"원피스")
+               twoo = Weathers(R.drawable.weather_c_shirtss,"셔츠")
+               three = Weathers(R.drawable.weather_c_skirt,"원피스")
+               four = Weathers(R.drawable.weather_c_pants,"청바지")
+               five = Weathers(R.drawable.weather_c_blouse,"블라우스")
+               six = Weathers(R.drawable.weather_c_shirts,"셔츠")
+               seven = Weathers(R.drawable.weather_c_longskirt,"치마")
+               eight = Weathers(R.drawable.weather_c_tee,"긴팔")
+               nine = Weathers(R.drawable.weather_c_denim,"청바지")
+               ten = Weathers(R.drawable.weather_c_shortskirt,"치마")
+
+               addclothes()
+           }
+            "17","18","19"-> {
+                one = Weathers(R.drawable.weather_d_cardigun,"가디건")
+                twoo = Weathers(R.drawable.weather_d_denim,"청바지")
+                three = Weathers(R.drawable.weather_d_ymantoman,"맨투맨")
+                four = Weathers(R.drawable.weather_d_longskirt,"치마")
+                five = Weathers(R.drawable.weather_d_dress,"원피스")
+                six = Weathers(R.drawable.weather_d_pants,"바지")
+                seven = Weathers(R.drawable.weather_d_mantoman,"맨투맨")
+                eight = Weathers(R.drawable.weather_d_denimskirt,"치마")
+                nine = Weathers(R.drawable.weather_d_knitedress,"원피스")
+                ten = Weathers(R.drawable.weather_d_gcardigun,"가디건")
+
+                addclothes()
+
+            }
+            "12","13","14","15","16"-> {
+                one = Weathers(R.drawable.weather_e_cardigun,"가디건")
+                twoo = Weathers(R.drawable.weather_e_yjacket,"야상")
+                three = Weathers(R.drawable.weather_e_boots,"부츠")
+                four = Weathers(R.drawable.weather_e_skirt,"치마")
+                five = Weathers(R.drawable.weather_e_tjacket,"자켓")
+                six = Weathers(R.drawable.weahter_e_denim,"청바지")
+                seven = Weathers(R.drawable.weather_e_dress,"원피스")
+                eight = Weathers(R.drawable.weather_e_jumper,"점퍼")
+                nine = Weathers(R.drawable.weather_e_bskirt,"치마")
+                ten = Weathers(R.drawable.weather_e_jacket,"블루종")
+
+                addclothes()
+
+            }
+            "9","10","11"-> {
+                one = Weathers(R.drawable.weather_f_tjacket,"트렌치코트")
+                twoo = Weathers(R.drawable.weather_f_hood,"후드집업")
+                three = Weathers(R.drawable.waether_f_knite,"니트")
+                four = Weathers(R.drawable.weather_f_ya,"야상")
+                five = Weathers(R.drawable.weather_f_jacket,"자켓")
+                six = Weathers(R.drawable.weather_f_skirt,"치마")
+                seven = Weathers(R.drawable.weather_f_knite,"니트")
+                eight = Weathers(R.drawable.weather_f_dress,"원피스")
+                nine = Weathers(R.drawable.weather_f_denim,"청바지")
+                ten = Weathers(R.drawable.weather_f_skirtt,"치마")
+
+                addclothes()
+
+            }
+            "8","7","6","5"-> {
+                one = Weathers(R.drawable.weather_g_popojumper,"양털후리스")
+                twoo = Weathers(R.drawable.weather_g_dresss,"원피스")
+                three = Weathers(R.drawable.weather_g_keckknite,"반폴라")
+                four = Weathers(R.drawable.weather_g_leatherjacket,"가죽자켓")
+                five = Weathers(R.drawable.weather_g_knite,"니트")
+                six = Weathers(R.drawable.weather_g_jumper,"항공점퍼")
+                seven = Weathers(R.drawable.weather_g_pants,"청바지")
+                eight = Weathers(R.drawable.weather_g_coat,"코트")
+                nine = Weathers(R.drawable.weather_g_skirt,"치마")
+                ten = Weathers(R.drawable.weather_g_dress,"원피스")
+
+                addclothes()
+
+            }
+            "4","3","2","1","0","-1","-2"-> {
+                one = Weathers(R.drawable.weather_h_knitey,"목폴라")
+                twoo = Weathers(R.drawable.weather_h_coatdd,"떡볶이코트")
+                three = Weathers(R.drawable.weather_h_keck,"목도리")
+                four = Weathers(R.drawable.weather_h_padding,"패딩")
+                five = Weathers(R.drawable.weather_h_knite,"니트")
+                six = Weathers(R.drawable.weather_h_skirt,"치마")
+                seven = Weathers(R.drawable.weather_h_jackett,"무스탕")
+                eight = Weathers(R.drawable.weather_h_coat,"코트")
+                nine = Weathers(R.drawable.weather_h_pants,"청바지")
+                ten = Weathers(R.drawable.weather_h_skirtt,"치마")
+
+                addclothes()
 
             }
         }
+
+
 
     }
 
@@ -273,6 +419,8 @@ class WeatherActivity : AppCompatActivity() {
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
     }
+
+
 
 
     interface WeatherService {
