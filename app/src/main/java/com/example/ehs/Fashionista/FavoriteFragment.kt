@@ -3,11 +3,13 @@ package com.example.ehs.Fashionista
 import android.app.Activity
 import android.content.Context
 import android.content.LocusId
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.Fragment
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
@@ -38,6 +40,8 @@ class FavoriteFragment : Fragment() {
         Log.d(TAG, "FeedFragment - onCreate() called")
 
         userId = AutoLogin.getUserId(a!!)
+
+
 
     }
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
