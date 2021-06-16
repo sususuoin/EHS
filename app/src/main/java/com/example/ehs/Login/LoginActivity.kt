@@ -97,6 +97,8 @@ class LoginActivity : AppCompatActivity() {
                             var userBirth = jsonObject.getString("userBirth")
                             var userGender = jsonObject.getString("userGender")
                             var userLevel = jsonObject.getString("userLevel")
+                            var HashTag = jsonObject.getString("HashTag")
+                            var userProfileImg = jsonObject.getString("userProfileImg")
 
 
                             Log.d(TAG, userId)
