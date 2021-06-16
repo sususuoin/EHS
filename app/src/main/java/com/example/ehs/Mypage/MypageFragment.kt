@@ -13,6 +13,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.example.ehs.Calendar.CalendarActivity
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.Login.LoginActivity
@@ -110,12 +112,12 @@ class MypageFragment : Fragment() {
         tv_level = view.findViewById(R.id.tv_level);
 
         var userId = AutoLogin.getUserId(a!!)
-        var userPw = AutoLogin.getUserId(a!!)
-        var userName = AutoLogin.getUserId(a!!)
-        var userEmail = AutoLogin.getUserId(a!!)
-        var userBirth = AutoLogin.getUserId(a!!)
-        var userGender = AutoLogin.getUserId(a!!)
-        var userLevel = AutoLogin.getUserId(a!!)
+        var userPw = AutoLogin.getUserPw(a!!)
+        var userName = AutoLogin.getUserName(a!!)
+        var userEmail = AutoLogin.getUserEmail(a!!)
+        var userBirth = AutoLogin.getUserBirth(a!!)
+        var userGender = AutoLogin.getUserGender(a!!)
+        var userLevel = AutoLogin.getUserLevel(a!!)
 
         //fragment1의 TextView에 전달 받은 text 띄우기
         tv_id.text = userId
@@ -128,6 +130,12 @@ class MypageFragment : Fragment() {
 
 
         return view
+    }
+
+    // Fragment 새로고침
+    fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
+        var ft: FragmentTransaction = fragmentManager.beginTransaction()
+        ft.detach(fragment).attach(fragment).commit()
     }
 
 
