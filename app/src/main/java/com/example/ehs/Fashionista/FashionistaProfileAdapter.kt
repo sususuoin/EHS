@@ -36,7 +36,6 @@ class FashionistaProfileAdapter (val ProfilefeedList : ArrayList<FashionistaUser
         return ProfilefeedList.size
     }
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        //어디서 이미지를 가져온지 모르겟음 ;;; 정말 나는 화가나 ㅎㅎ
 //        holder.feed.setImageResource(ProfilefeedList[position].profilefeed)
 
         val layoutParams = holder.itemView.layoutParams

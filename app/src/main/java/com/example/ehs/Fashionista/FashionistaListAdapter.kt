@@ -36,12 +36,16 @@ class FashionistaListAdapter (private val itemList : List<Fashionista>)
         holder.apply {
             bind(item)
             itemView.setOnClickListener {
+
                 val intent = Intent(holder.itemView?.context, FashionistaProfile_Activity::class.java)
+
                 ContextCompat.startActivity(holder.itemView.context,intent,null)
             } // item 클릭하면 FashionistaProfile_Activity로 이동
         }
 
     }
+
+
 
 
 

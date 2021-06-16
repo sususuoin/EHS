@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.Fragment
 import com.android.volley.Response
@@ -84,12 +85,19 @@ class FavoriteFragment : Fragment() {
 
                     var jsonObject = JSONObject(response)
                     var success = jsonObject.getBoolean("success")
-                    var codyStyle = jsonObject.getString("codyStyle")
+
                     Log.d(TAG, userId)
                     Log.d(TAG, success.toString())
 
-                    //이거 auto로 저장시킨다음에 액티비티로 넘겨주자 어떄 ?좋아~~~~~예 하늘이짱짱맨 콜~~
-                    Log.d(TAG, codyStyle)
+                    if(!success) {
+                        Toast.makeText(a!!, "코디를 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        var codyStyle = jsonObject.getString("codyStyle")
+                        Log.d(TAG, codyStyle)
+
+
+                    }
 
 
 

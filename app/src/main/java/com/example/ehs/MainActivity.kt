@@ -3,9 +3,12 @@ package com.example.ehs
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.location.*
 import android.os.Build
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -360,6 +363,8 @@ class MainActivity : AppCompatActivity() {
 
         var fuserId: String
         var fuserLevel: String
+        var fuserProfileImg : String
+        var fuserProfile : Bitmap?
 
         val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
             override fun onResponse(response: String?) {
@@ -380,8 +385,10 @@ class MainActivity : AppCompatActivity() {
 
                         fuserId = fuserObject.getString("userId")
                         fuserLevel = fuserObject.getString("userLevel")
+                        fuserProfileImg = fuserObject.getString("userProfileImg")
+                        fuserProfile = StringToBitmap(fuserProfileImg)
 
-                        var fashin = Fashionista(fuserId, fuserLevel)
+                        var fashin = Fashionista(fuserId, fuserLevel, fuserProfile)
                         FashionistaList.add(fashin)
                     }
                 } catch (e: JSONException) {
@@ -498,6 +505,16 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    fun StringToBitmap(encodedString: String?): Bitmap? {
+        return try {
+            val encodeByte: ByteArray = Base64.decode(encodedString,
+                Base64.DEFAULT) // String 화 된 이미지를  base64방식으로 인코딩하여 byte배열을 만듬
+            BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size) //만들어진 bitmap을 return
+        } catch (e: Exception) {
+            e.message
+            null
+        }
+    }
 
 
 

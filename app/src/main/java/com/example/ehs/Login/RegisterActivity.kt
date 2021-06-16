@@ -34,7 +34,7 @@ class RegisterActivity : AppCompatActivity() {
         val aiIntent = intent
         var airesult = aiIntent.getStringExtra("airesult")
 
-        bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.basic5)
+        bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.basicprofile)
 
 
 //
