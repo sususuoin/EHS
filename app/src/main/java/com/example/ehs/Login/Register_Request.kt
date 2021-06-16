@@ -15,6 +15,7 @@ class Register_Request(
         userGender: String,
         userLevel: String,
         HashTag: String,
+        userProfileImg: String,
         listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {
 
     private val map: MutableMap<String, String>
@@ -40,5 +41,6 @@ class Register_Request(
         map["userGender"] = userGender
         map["userLevel"] = userLevel
         map["HashTag"] = HashTag
+        map["userProfileImg"] = userProfileImg
     }
 }

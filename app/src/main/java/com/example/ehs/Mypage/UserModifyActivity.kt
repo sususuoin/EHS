@@ -30,11 +30,14 @@ class UserModifyActivity : AppCompatActivity() {
         var userBirth = AutoLogin.getUserBirth(this)
         var userGender = AutoLogin.getUserGender(this)
         var userEmail = AutoLogin.getUserEmail(this)
+        var userProfileImg = AutoLogin.getUserProfileImg(this)
+        var userProfile = AutoLogin.StringToBitmap(userProfileImg)
 
         et_userName.setText(userName)
         et_userPassword.setText(userPw)
         et_userBirth.setText(userBirth)
         et_userGender.setText(userGender)
+        iv_userProfileImg.setImageBitmap(userProfile)
 
         btn_modify.setOnClickListener {
             userName = et_userName.text.toString()
@@ -48,6 +51,7 @@ class UserModifyActivity : AppCompatActivity() {
             AutoLogin.setUserBirth(this@UserModifyActivity, userBirth)
             AutoLogin.setUserGender(this@UserModifyActivity, userGender)
 
+            finish()
 
 
 

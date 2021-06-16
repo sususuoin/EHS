@@ -2,7 +2,11 @@ package com.example.ehs.Login
 
 
 import android.content.Intent
+import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,12 +16,14 @@ import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_register.*
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.ByteArrayOutputStream
 
 
 class RegisterActivity : AppCompatActivity() {
     val TAG: String = "회원가입화면"
 
     var isExistBlank = false //회원가입 빈칸이 있을 때
+    var bitmap : Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +33,17 @@ class RegisterActivity : AppCompatActivity() {
 
         val aiIntent = intent
         var airesult = aiIntent.getStringExtra("airesult")
+
+        bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.basic5)
+
+
+//
+//        bitmap = resize(bitmap!!)
+//        val userProfileImg: String = bitmapToByteArray(bitmap!!)
+
+        var userProfileImg = BitmapToString(bitmap!!)
+        Log.d(TAG + "asdfasdF", userProfileImg!!)
+
 
         Log.d("인텐트 잘 받아와졌니~~?", airesult!!)
 
@@ -48,6 +65,8 @@ class RegisterActivity : AppCompatActivity() {
         btn_register.setOnClickListener {
             Log.d(TAG, "회원가입성공 클릭")
             Log.d(TAG, airesult!!)
+
+
 
 
             var userId = et_id.text.toString()
@@ -97,7 +116,16 @@ class RegisterActivity : AppCompatActivity() {
 
                 //서버로 Volley를 이용해서 요청
                 var HashTag = "기본값"
-                val registerRequest = Register_Request(userId, userPw, userName, userEmail, userBirth, userGender, userLevel, HashTag, responseListener)
+                val registerRequest = Register_Request(userId,
+                    userPw,
+                    userName,
+                    userEmail,
+                    userBirth,
+                    userGender,
+                    userLevel,
+                    HashTag,
+                    userProfileImg,
+                    responseListener)
                 val queue = Volley.newRequestQueue(this@RegisterActivity)
                 queue.add(registerRequest)
 
@@ -123,6 +151,13 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
+
+    fun BitmapToString(bitmap: Bitmap): String? {
+        val baos = ByteArrayOutputStream() //바이트 배열을 차례대로 읽어 들이기위한 ByteArrayOutputStream클래스 선언
+        bitmap.compress(Bitmap.CompressFormat.PNG, 70, baos) //bitmap을 압축 (숫자 70은 70%로 압축한다는 뜻)
+        val bytes = baos.toByteArray() //해당 bitmap을 byte배열로 바꿔준다.
+        return Base64.encodeToString(bytes, Base64.DEFAULT) //String을 retrurn
+    }
 
 
 
