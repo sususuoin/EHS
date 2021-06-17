@@ -9,8 +9,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import com.example.ehs.Login.RegisterActivity
 import com.example.ehs.R
@@ -40,6 +42,17 @@ class AIActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ai)
+
+        /**
+         * 액션바 대신 툴바를 사용하도록 설정
+         */
+        val toolbar = findViewById(R.id.toolbar_ai) as Toolbar
+        setSupportActionBar(toolbar)
+        val ab = supportActionBar!!
+        ab.setDisplayShowTitleEnabled(false)
+        //뒤로 가기 버튼 생성
+        ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
+
         btn_register.isVisible = false
 
         //권한설정
@@ -233,6 +246,20 @@ class AIActivity : AppCompatActivity() {
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 android.Manifest.permission.CAMERA
             ).check()
+    }
+
+    /**
+     * 툴바 뒤로가기 기능
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when (id) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }
