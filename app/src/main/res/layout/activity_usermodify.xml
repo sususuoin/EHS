@@ -24,7 +24,7 @@
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_userProfileImg"
         android:layout_width="150dp"
         android:layout_height="150dp"

@@ -2,6 +2,7 @@ package com.example.ehs.Fashionista
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_fashionista_profile.*
 
+
 class FashionistaProfile_Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +22,13 @@ class FashionistaProfile_Activity : AppCompatActivity() {
 
         val intent = intent
         var fashionistaId = intent.getStringExtra("fashionistaId")
+        val arr = intent.getByteArrayExtra("fashionistaProfile")
+        val fashionistaProfile = BitmapFactory.decodeByteArray(arr, 0, arr!!.size)
+        iv_profile.setImageBitmap(fashionistaProfile)
+
+
+
+        //Log.d("비트맵", fashionistaProfile!!)
         Log.d("왜 빈칸일까 ..? 왜지..? 왜 ?", fashionistaId!!)
         tv_profileid.text = fashionistaId
 
