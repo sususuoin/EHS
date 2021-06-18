@@ -26,6 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Feed.CommunityEditActivity"></activity>
+        <activity android:name=".Feed.CommunityDetailActivity" />
         <activity android:name=".Closet.CodySaveActivity" />
         <activity android:name=".Fashionista.ProRecommendActivity" />
         <activity android:name=".Fashionista.ProfilePlus_Activity" />

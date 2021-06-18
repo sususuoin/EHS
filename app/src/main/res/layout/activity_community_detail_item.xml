@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="vertical"
+    android:background="@drawable/recy_edge"
+android:paddingVertical="3dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_detail_talkPhoto"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/ic_mypage" />
+
+        <TextView
+            android:id="@+id/tv_detail_talkUser"
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="2dp"
+            android:text="EHS"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_detail_talkText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="댓글내용~"
+        android:textSize="13sp"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="5dp"/>
+</LinearLayout>
