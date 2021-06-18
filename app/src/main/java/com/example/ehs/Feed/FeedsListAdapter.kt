@@ -32,7 +32,8 @@ class FeedsListAdapter(private val items: List<Feeds>)
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 720
+        layoutParams.height = 790
+        layoutParams.width = 500
         holder.itemView.requestLayout()
 
 
@@ -51,7 +52,7 @@ class FeedsListAdapter(private val items: List<Feeds>)
         fun bind(listener: View.OnClickListener, item: Feeds) {
 
             view.tv_userID.setText(item.userID)
-            view.tv_feedtext.setText(item.feedtext)
+            view.tv_styletag.setText(item.styletag)
             view.setOnClickListener(listener)
         }
     }

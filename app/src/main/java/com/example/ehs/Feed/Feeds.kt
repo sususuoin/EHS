@@ -2,7 +2,7 @@ package com.example.ehs.Feed
 
 import android.graphics.Bitmap
 
-class Feeds ( val userID : String, val feedtext : String)
+class Feeds ( val userID : String, val styletag : String)
 
 //val userphoto : Bitmap, val feedphoto : Bitmap,
 // 일단 Int로 받는ㄷ 비트맵으로 바꿔주기

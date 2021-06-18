@@ -125,7 +125,7 @@
                 android:layout_width="20sp"
                 android:layout_height="20dp"
                 android:background="@drawable/ic_talk"
-                android:backgroundTint="@color/blue" />
+                android:backgroundTint="@color/darkgray" />
 
             <TextView
                 android:id="@+id/tv_detail_talkNum"

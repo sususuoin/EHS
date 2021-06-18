@@ -35,5 +35,6 @@
     <color name="purple">#7119ac</color>
 
     <color name="ourcolor">#6350ac</color>
+    <color name="light">@color/lightGrey</color>
 
 </resources>
