@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,61 +7,31 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="175dp"
-        android:layout_height="335dp"
+        android:layout_width="188dp"
+        android:layout_height="290dp"
+        android:backgroundTint="@color/white"
         android:orientation="vertical"
         android:verticalScrollbarPosition="right"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp">
+        android:background="@drawable/fab_text_bg">
 
         <ImageView
             android:id="@+id/iv_feedphoto"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_width="160dp"
+            android:layout_height="220dp"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/test_userfeed_d" />
-
-        <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="24dp"
-            android:layout_marginRight="115dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_haert"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="1dp"
-                android:background="@drawable/ic_noheart"
-                android:backgroundTint="#F60505" />
-
-            <Button
-                android:id="@+id/btn_talk"
-                android:layout_width="15sp"
-                android:layout_height="15dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/ic_talk"
-                android:backgroundTint="@color/blue" />
-        </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
 
             <ImageView
                 android:id="@+id/iv_userphoto"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_weight="0"
+                android:layout_marginLeft="10dp"
                 app:srcCompat="@drawable/ic_mypage" />
-
 
             <TextView
                 android:id="@+id/tv_userID"
@@ -74,16 +44,35 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_feedtext"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginRight="15dp"
-            android:fontFamily="sans-serif"
-            android:text="피드 호호홓"
-            android:textSize="12sp" />
+            android:layout_height="20dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:id="@+id/tv_styletag"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="sans-serif"
+                android:text="#스타일"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_haert"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_noheart"
+                android:backgroundTint="#F60505"
+                android:gravity="right" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

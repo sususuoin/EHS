@@ -57,9 +57,11 @@ class FeedFragment : Fragment() {
 
 
 
-        var fashin = Feeds("gkgk","gkgk")
-        var hi = Feeds("jj","안냥")
+        var fashin = Feeds("gkgk","#스트릿")
+        var hi = Feeds("jj","#아메카지")
         feedsList.add(fashin)
+        feedsList.add(hi)
+        feedsList.add(hi)
         feedsList.add(hi)
 
         return view

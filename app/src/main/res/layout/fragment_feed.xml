@@ -52,28 +52,44 @@
             android:background="@color/darkgray" />
 
     </LinearLayout>
-
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="109dp"
-        android:layout_height="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="0dp"
-        android:layout_weight="1"
-        android:entries="@array/feed"
-        android:scrollbarSize="5dp"></Spinner>
-
-
-    />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_userfeed"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="670dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="0dp"
-        tools:listitem="@layout/fragment_feed_item" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:background="@color/lightGrey">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="오늘의 피드"
+                android:layout_marginLeft="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_marginLeft="230dp"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:entries="@array/feed"
+                android:scrollbarSize="5dp" />
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_userfeed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/fragment_feed_item" />
+    </LinearLayout>
+
 
 
 </LinearLayout>
