@@ -27,27 +27,27 @@
             app:srcCompat="@drawable/test_userfeed_d" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="24dp"
             android:layout_marginRight="115dp"
             android:orientation="horizontal">
 
-            <ImageButton
+            <Button
                 android:id="@+id/btn_haert"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="0.5dp"
-                android:layout_weight="1"
-                android:background="#00FFFFFF"
-                app:srcCompat="@drawable/ic_noheart" />
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/ic_noheart"
+                android:backgroundTint="#F60505" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/btn_talk"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00FFFFFF"
-                app:srcCompat="@drawable/ic_talk" />
+                android:layout_width="15sp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_talk"
+                android:backgroundTint="@color/blue" />
         </LinearLayout>
 
         <LinearLayout

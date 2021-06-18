@@ -1,86 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/recy_edge">
 
     <LinearLayout
-        android:layout_width="175dp"
-        android:layout_height="335dp"
+        android:layout_width="397dp"
+        android:layout_height="80dp"
+        android:gravity="center"
         android:orientation="vertical"
         android:verticalScrollbarPosition="right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp">
+        app:layout_constraintVertical_bias="0.0">
 
-        <ImageView
-            android:id="@+id/iv_commuPhoto"
+
+        <TextView
+            android:id="@+id/tv_commu_title"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:srcCompat="@drawable/test_userfeed" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_marginRight="115dp"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/btn_C_heart"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="0.5dp"
-                android:layout_weight="1"
-                android:background="#00FFFFFF"
-                app:srcCompat="@drawable/ic_noheart" />
-
-            <ImageButton
-                android:id="@+id/btn_C_talk"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00FFFFFF"
-                app:srcCompat="@drawable/ic_talk" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/iv_C_userphoto"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="0"
-                app:srcCompat="@drawable/ic_mypage" />
-
-            <TextView
-                android:id="@+id/tv_C_userID"
-                android:layout_width="144dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-medium"
-                android:text="EHS" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="제목"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_commu_text"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginRight="15dp"
+            android:layout_height="20dp"
+            android:layout_margin="5dp"
             android:fontFamily="sans-serif"
-            android:text="커뮤커뮤~~"
+            android:text="글내용"
+            android:textColor="@android:color/black"
             android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_C_userphoto"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                app:srcCompat="@drawable/ic_mypage" />
+
+            <TextView
+                android:id="@+id/tv_C_userID"
+                android:layout_width="315dp"
+                android:layout_height="20dp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@android:color/black"
+                android:text="EHS"
+                android:layout_marginLeft="3dp"
+                android:textSize="12sp" />
+
+            <ImageButton
+                android:id="@+id/btn_C_heart"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginTop="0.5dp"
+                android:background="@drawable/ic_noheart"
+                android:backgroundTint="#F60505" />
+
+            <ImageButton
+                android:id="@+id/btn_C_talk"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_talk"
+                android:backgroundTint="@color/blue" />
+        </LinearLayout>
+
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

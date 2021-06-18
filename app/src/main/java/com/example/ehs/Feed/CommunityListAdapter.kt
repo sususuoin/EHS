@@ -1,13 +1,14 @@
 package com.example.ehs.Feed
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_community_item.view.*
-import kotlinx.android.synthetic.main.fragment_feed_item.view.*
 
 class CommunityListAdapter(private val items: List<Community>)
     : RecyclerView.Adapter<CommunityListAdapter.ViewHolder>() {
@@ -32,13 +33,21 @@ class CommunityListAdapter(private val items: List<Community>)
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 720
+        layoutParams.height = 220
         holder.itemView.requestLayout()
 
 
         holder.apply {
             bind(listener, item)
-            itemView.tag = item
+//            itemView.tag = item
+            itemView.setOnClickListener {
+
+                val intent = Intent(holder.itemView?.context, CommunityDetailActivity::class.java)
+//                intent.putExtra("fashionistaId", fashionistaId)
+                ContextCompat.startActivity(holder.itemView.context,intent,null)
+            } // item 클릭하면 FashionistaProfile_Activity로 이동
+
+
         }
     }
 
