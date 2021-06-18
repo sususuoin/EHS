@@ -101,5 +101,8 @@ dependencies {
     //당겨서 새로고침
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
+    //동그란 이미지 뷰
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
 
 }
