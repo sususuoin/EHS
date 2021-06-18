@@ -97,10 +97,6 @@ class WeatherActivity : AppCompatActivity() {
         rv_weather.adapter= adapter
 
 
-//        val one = Weathers(R.drawable.weather_dress,"hi")
-//        weatherList.add(one)
-//        adapter.notifyDataSetChanged()
-
 
 
     } // oncreate 대괄호
@@ -232,7 +228,6 @@ class WeatherActivity : AppCompatActivity() {
                         "50n", "50d" -> img_weather.setImageResource(R.drawable.ic_mist)
                     }
                     tv_city.text = city
-                    //tv_city.text = cutting?.subList(2, 6).toString().replace(",", " ").replace("[", " ").replace("]", " ") // []가 같이 출력되어서 []를 공백으로 치환
                     tv_MinMaxTemp.text = intMinTemp.toString() + "\u00B0" + "/ " + intMaxTemp.toString() + "\u00B0"
                     tv_cTemp.text = intcTemp.toString() + "\u00B0" + "C"
 

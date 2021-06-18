@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -54,23 +55,40 @@
     </LinearLayout>
 
 
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="109dp"
-        android:layout_height="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:entries="@array/feed"
-        android:scrollbarSize="5dp"></Spinner>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="109dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:entries="@array/feed"
+            android:scrollbarSize="5dp"></Spinner>
+
+
+
+        <ImageButton
+            android:id="@+id/btn_communityEdit"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="240dp"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_modify"
+
+            />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_community"
         android:layout_width="match_parent"
-        android:layout_height="670dp"
+        android:layout_height="600dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="0dp"
-        tools:listitem="@layout/fragment_community_item" />
+        tools:listitem="@layout/fragment_community_item"
+        android:orientation="vertical"/>
 
 </LinearLayout>

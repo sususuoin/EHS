@@ -77,13 +77,15 @@ class CalendarActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
         val formatter = DateTimeFormatter.ofPattern("yyyy년 MMMM")
         return date!!.format(formatter)
     }
-
+    
+    // 전월
     @RequiresApi(Build.VERSION_CODES.O)
     fun previousMonthAction(view: View?) {
         selectedDate = selectedDate!!.minusMonths(1)
         setMonthView()
     }
-
+    
+    // 다음월
     @RequiresApi(Build.VERSION_CODES.O)
     fun nextMonthAction(view: View?) {
         selectedDate = selectedDate!!.plusMonths(1)
