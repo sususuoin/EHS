@@ -2,6 +2,7 @@ package com.example.ehs.Fashionista
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.LocusId
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -14,12 +15,15 @@ import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.Fragment
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.example.ehs.Closet.AutoCloset
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_favorite.view.*
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.ArrayList
 
 class FavoriteFragment : Fragment() {
 
@@ -70,33 +74,66 @@ class FavoriteFragment : Fragment() {
         view.btn_recommend.setOnClickListener {
 
             recommend()
-//            val intent = Intent(context, ProRecommendActivity::class.java)
-//            startActivity(intent)
-
         }
 
         return view
     }
 
     fun recommend() {
+        var proStyle : String
+        var prouserId : String
+        var proprofileImg : String
+        var proIdArr = mutableListOf<String>()
+        var proImgArr = mutableListOf<String>()
         val responseListener: Response.Listener<String?> =
             Response.Listener<String?> { response ->
                 try {
 
                     var jsonObject = JSONObject(response)
-                    var success = jsonObject.getBoolean("success")
+                    var response = jsonObject.toString()
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    Log.d("~~1", response)
+                    Log.d("~~2", arr.toString())
+
+
+                    for (i in 0 until arr.length()) {
+                        val proObject = arr.getJSONObject(i)
+                        Log.d("~~3", arr[i].toString())
+
+                        proStyle = proObject.getString("codyStyle")
+                        prouserId = proObject.getString("userId")
+                        proprofileImg = proObject.getString("userProfileImg")
+
+
+                        proIdArr.add(prouserId)
+                        proImgArr.add(proprofileImg)
+
+
+                        AutoPro.setStyle(a!!, proStyle)
+                        AutoPro.setProProfileId(a!!, proIdArr as ArrayList<String>)
+                        AutoPro.setProProfileImg(a!!, proImgArr as ArrayList<String>)
+
+                        val intent = Intent(a!!, ProRecommendActivity::class.java)
+                        startActivity(intent)
+
+                    }
+
+
+
+
+
+
 
                     Log.d(TAG, userId)
-                    Log.d(TAG, success.toString())
 
-                    if(!success) {
+                    if(response==null) {
                         Toast.makeText(a!!, "코디를 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
                     }
                     else {
                         var codyStyle = jsonObject.getString("codyStyle")
-                        Log.d(TAG, codyStyle)
-
-
+                        Log.d("유저 스타일은", codyStyle)
                     }
 
 
