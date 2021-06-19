@@ -48,6 +48,9 @@ class HomeFragment : Fragment() {
     lateinit var crecyclerview2: androidx.recyclerview.widget.RecyclerView
     lateinit var img_weather: ImageView
     lateinit var tv_weathergo : TextView
+    lateinit var tv_cityH : TextView
+    lateinit var tv_MinMaxH : TextView
+    lateinit var tv_cTempH : TextView
 
 
     // 요일 받아오기
@@ -121,7 +124,9 @@ class HomeFragment : Fragment() {
         updatebtn = view.findViewById(R.id.btn_updateH)
         aibtn = view.findViewById(R.id.btn_goAI)
         tv_weathergo = view.findViewById(R.id.tv_weathergo)
-
+        tv_cityH = view.findViewById(R.id.tv_cityH)
+        tv_MinMaxH = view.findViewById(R.id.tv_MinMaxH)
+        tv_cTempH = view.findViewById(R.id.tv_cTempH)
 
         calendarbtn.setOnClickListener{
             val intent = Intent(a, CalendarActivity::class.java)
@@ -259,7 +264,7 @@ class HomeFragment : Fragment() {
                         "50n", "50d" -> img_weather.setImageResource(R.drawable.ic_mist)
                     }
 
-                    tv_cityH.text = AutoHome.getLocation(a!!)
+                    tv_cityH.text =AutoHome.getLocation(a!!)
                     tv_MinMaxH.text = intMinTemp.toString() + "\u00B0" + "/ " + intMaxTemp.toString() + "\u00B0"
                     tv_cTempH.text = intcTemp.toString() + "\u00B0"
                 }

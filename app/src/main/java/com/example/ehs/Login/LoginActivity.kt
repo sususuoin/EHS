@@ -51,7 +51,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
 
-
         tv_register.setOnClickListener {
             Log.d(TAG, "회원가입 클릭")
             val aiActivity = Intent(this, AIActivity::class.java) // 인텐트를 생성
@@ -60,7 +59,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
 
-        if (AutoLogin.getUserId(this).isBlank() || AutoLogin.getUserPw(this).isBlank()) {
+        if (AutoLogin.getUserId(this)==""|| AutoLogin.getUserId(this)==null || AutoLogin.getUserPw(this).isBlank()) {
+            //아이디입력창이 비어있다면
             Login()
         } else {
             // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동

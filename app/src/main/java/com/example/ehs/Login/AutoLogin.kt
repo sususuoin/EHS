@@ -115,13 +115,13 @@ object AutoLogin {
     }
 
     fun StringToBitmap(encodedString: String?): Bitmap? {
-        return try {
-            val encodeByte: ByteArray = Base64.decode(encodedString,
-                Base64.DEFAULT) // String 화 된 이미지를  base64방식으로 인코딩하여 byte배열을 만듬
-            BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size) //만들어진 bitmap을 return
-        } catch (e: Exception) {
-            e.message
-            null
+
+        try{
+            val encodeByte: ByteArray = Base64.decode(encodedString, Base64.DEFAULT) // String 화 된 이미지를  base64방식으로 인코딩하여 byte배열을 만듬
+            return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size) //만들어진 bitmap을 return
+        }catch (e: Exception) {
+            e.printStackTrace()
+            return null
         }
     }
 

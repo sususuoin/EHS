@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
 
         FashionistaUser()
-        // ClosetImg()
+        ClosetImg()
 
     }
 
@@ -138,13 +138,16 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_fashionista -> {
                     Log.d(TAG, "MainActivity - 패셔니스타 버튼 클릭!")
+
+                    FashionistaUser()
                     fashionistaFragment = FashionistaFragment.newInstance()
                     replaceFragment(fashionistaFragment)
                 }
                 R.id.menu_closet -> {
+                    Log.d(TAG, "MainActivity - 옷장 버튼 클릭!")
+
                     ClosetImg()
                     CodyImg()
-                    Log.d(TAG, "MainActivity - 옷장 버튼 클릭!")
                     closetFragment = ClosetFragment.newInstance()
                     replaceFragment(closetFragment)
                     closetFragment.arguments = bundle
@@ -219,14 +222,11 @@ class MainActivity : AppCompatActivity() {
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     REQUEST_ACCESS_FINE_LOCATION
                 )
-                Log.d("권한", "1")
             } else {
-                Log.d("권한", "2")
                 getLocation()
                 // ACCESS_FINE_LOCATION 에 대한 권한이 이미 있음.
             }
         } else {
-            Log.d("권한", "3")
 
         }
 
@@ -371,22 +371,16 @@ class MainActivity : AppCompatActivity() {
                 try {
 
                     var jsonObject = JSONObject(response)
-                    var response = jsonObject.toString()
 
                     val arr: JSONArray = jsonObject.getJSONArray("response")
 
-                    Log.d("이이이이잉~~나는 언제잘수있을까 ?", response)
-                    Log.d("이이이이잉~~나는 언제잘수있을까123 ?", arr.toString())
-
-
                     for (i in 0 until arr.length()) {
                         val fuserObject = arr.getJSONObject(i)
-                        Log.d("이이이이잉~~나는sad12  ?", arr[i].toString())
 
                         fuserId = fuserObject.getString("userId")
                         fuserLevel = fuserObject.getString("userLevel")
                         fuserProfileImg = fuserObject.getString("userProfileImg")
-                        fuserProfile = StringToBitmap(fuserProfileImg)
+                        fuserProfile = AutoLogin.StringToBitmap(fuserProfileImg)
 
                         var fashin = Fashionista(fuserId, fuserLevel, fuserProfile)
                         FashionistaList.add(fashin)
@@ -439,9 +433,7 @@ class MainActivity : AppCompatActivity() {
                         Log.d("~호?", clothesArr.toString())
 
                         AutoCloset.setClothesName(this, clothesArr as ArrayList<String>)
-//
-//                        bundle.putStringArrayList("clothesArr", clothesArr as ArrayList<String>)
-//                        intent.putExtras(bundle)
+
                     }
 
 
@@ -502,18 +494,6 @@ class MainActivity : AppCompatActivity() {
         val codyServer_Request = CodyServer_Request(userId!!, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(codyServer_Request)
-    }
-
-
-    fun StringToBitmap(encodedString: String?): Bitmap? {
-        return try {
-            val encodeByte: ByteArray = Base64.decode(encodedString,
-                Base64.DEFAULT) // String 화 된 이미지를  base64방식으로 인코딩하여 byte배열을 만듬
-            BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size) //만들어진 bitmap을 return
-        } catch (e: Exception) {
-            e.message
-            null
-        }
     }
 
 
