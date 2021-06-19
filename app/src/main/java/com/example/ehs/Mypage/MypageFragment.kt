@@ -82,6 +82,7 @@ class MypageFragment : Fragment() {
                 startActivity(intent) }
         }
 
+
         view.btn_logout.setOnClickListener { view ->
             Log.d("클릭!!", "로그아웃 버튼 클릭!!")
             var logoutalert = AlertDialog.Builder(a!!)

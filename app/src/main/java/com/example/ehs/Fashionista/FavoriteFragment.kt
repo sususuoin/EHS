@@ -72,7 +72,6 @@ class FavoriteFragment : Fragment() {
         }
         // 추천배너 클릭 시
         view.btn_recommend.setOnClickListener {
-
             recommend()
         }
 
@@ -97,7 +96,6 @@ class FavoriteFragment : Fragment() {
                     Log.d("~~1", response)
                     Log.d("~~2", arr.toString())
 
-
                     for (i in 0 until arr.length()) {
                         val proObject = arr.getJSONObject(i)
                         Log.d("~~3", arr[i].toString())
@@ -114,33 +112,14 @@ class FavoriteFragment : Fragment() {
                         AutoPro.setStyle(a!!, proStyle)
                         AutoPro.setProProfileId(a!!, proIdArr as ArrayList<String>)
                         AutoPro.setProProfileImg(a!!, proImgArr as ArrayList<String>)
-
-                        val intent = Intent(a!!, ProRecommendActivity::class.java)
-                        startActivity(intent)
-
                     }
-
-
-
-
-
-
-
-                    Log.d(TAG, userId)
-
-                    if(response==null) {
-                        Toast.makeText(a!!, "코디를 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
-                    }
-                    else {
-                        var codyStyle = jsonObject.getString("codyStyle")
-                        Log.d("유저 스타일은", codyStyle)
-                    }
-
-
-
+                    // 추천 액티비티로 이동
+                    val intent = Intent(a!!, ProRecommendActivity::class.java)
+                    startActivity(intent)
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
+                    Toast.makeText(a!!, "코디를 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
                 }
             }
         val proRecommendRequest = ProRecommend_Request(userId!!, responseListener)
