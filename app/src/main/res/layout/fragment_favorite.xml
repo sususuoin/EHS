@@ -18,8 +18,7 @@
             android:layout_height="60dp"
             android:gravity="center"
             android:text="패셔니스타"
-            android:textSize="20dp"
-            />
+            android:textSize="20dp" />
 
 
         <TextView
@@ -60,6 +59,41 @@
         android:layout_height="68dp"
         android:background="@color/white"
         android:src="@drawable/banner" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="즐겨찾기"
+            android:textColor="@color/darkgray"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_favoritecount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="10"
+            android:textColor="@color/darkgray"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_favorite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="vertical"
+
+        />
+
 
 
 
