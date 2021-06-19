@@ -107,15 +107,11 @@ class ProfilePlus_Activity : AppCompatActivity() {
      * 갤러리 오픈 함수
      */
     fun openGallery() {
-
-
-
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI)
-        //사진을 여러개 선택할수 있도록 한다
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        intent.type = "image/*"
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_OPEN_GALLERY)
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
+        startActivityForResult(intent, REQUEST_OPEN_GALLERY)
     }
+
 
     /**
      * 테드 퍼미션 설정
