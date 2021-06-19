@@ -94,4 +94,12 @@ object AutoPro {
     }
 
 
+    fun clearPro(context: Context) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = prefs.edit()
+        editor.clear()
+        editor.commit()
+    }
+
+
 }

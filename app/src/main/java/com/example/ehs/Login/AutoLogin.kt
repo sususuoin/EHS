@@ -10,7 +10,7 @@ import android.util.Base64
 object AutoLogin {
     private val MY_ACCOUNT : String = "account"
 
-    fun setUserId(context: Context, input: String) {
+    fun setUserId(context: Context, input: String?) {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE)
         val editor : SharedPreferences.Editor = prefs.edit()
         editor.putString("MY_ID", input)

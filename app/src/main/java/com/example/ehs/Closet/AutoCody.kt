@@ -7,10 +7,10 @@ import org.json.JSONException
 
 
 object AutoCody {
-    private val MY_CLOSET : String = "cody"
+    private val MY_CODY : String = "cody"
 
     fun setCodyName(context: Context, input: ArrayList<String>) {
-        val prefs : SharedPreferences = context.getSharedPreferences(MY_CLOSET, Context.MODE_PRIVATE)
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_CODY, Context.MODE_PRIVATE)
         val editor = prefs.edit()
         val a = JSONArray()
         for (i in 0 until input.size) {
@@ -26,7 +26,7 @@ object AutoCody {
     }
 
     fun getCodyName(context: Context): ArrayList<String> {
-        val prefs : SharedPreferences = context.getSharedPreferences(MY_CLOSET, Context.MODE_PRIVATE)
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_CODY, Context.MODE_PRIVATE)
         val arr = prefs.getString("MY_codyName", "")
         val urls = ArrayList<String>()
         if (arr != null) {
@@ -44,5 +44,11 @@ object AutoCody {
 
     }
 
+    fun clearCody(context: Context) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_CODY, Context.MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = prefs.edit()
+        editor.clear()
+        editor.commit()
+    }
 
 }
