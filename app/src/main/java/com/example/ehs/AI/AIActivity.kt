@@ -79,8 +79,8 @@ class AIActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun AIpredict() {
-        if(bitmap1==null && bitmap2==null && bitmap3==null) {
-            Toast.makeText(this, "사진을 선택하시오", Toast.LENGTH_SHORT).show()
+        if(bitmap1==null || bitmap2==null || bitmap3==null) {
+            Toast.makeText(this, "사진 3개를 선택하시오", Toast.LENGTH_SHORT).show()
         }
         else {
             Log.d("평가하기", bitmap1.toString())
