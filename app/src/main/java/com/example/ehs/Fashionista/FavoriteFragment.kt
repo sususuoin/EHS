@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.LocusId
+import android.content.res.Resources
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
@@ -13,12 +15,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.AutoCloset
+import com.example.ehs.Feed.Community
+import com.example.ehs.Feed.CommunityListAdapter
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
+import kotlinx.android.synthetic.main.fragment_community.*
+import kotlinx.android.synthetic.main.fragment_favorite.*
 import kotlinx.android.synthetic.main.fragment_favorite.view.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -28,6 +35,7 @@ import java.util.ArrayList
 class FavoriteFragment : Fragment() {
 
     private var a: Activity? = null
+    val favoriteList = mutableListOf<Favorite>()
     lateinit var userId: String
 
 
@@ -75,7 +83,36 @@ class FavoriteFragment : Fragment() {
             recommend()
         }
 
+        val resources: Resources = this.resources
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.basicprofile)
+
+        var one = Favorite("lu__eun","#스트릿", bitmap)
+        var two = Favorite("Ha_nle","#데일리", bitmap)
+        var three = Favorite("tndlstksxk","#아메카지", bitmap)
+
+        favoriteList.add(one)
+        favoriteList.add(two)
+        favoriteList.add(three)
+        favoriteList.add(one)
+        favoriteList.add(two)
+        favoriteList.add(three)
+        favoriteList.add(one)
+        favoriteList.add(two)
+        favoriteList.add(three)
+
+
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        val gridLayoutManager = LinearLayoutManager(a)
+        rv_favorite.layoutManager = gridLayoutManager
+
+        val adapter = FavoriteListAdapter(favoriteList)
+        rv_favorite.adapter = adapter
     }
 
     fun recommend() {
