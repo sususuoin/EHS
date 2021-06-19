@@ -58,46 +58,28 @@
 
     <ScrollView
         android:id="@+id/scrollView3"
-        android:layout_width="420dp"
-        android:layout_height="737dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_logo"
-                android:layout_width="162dp"
-                android:layout_height="62dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.064"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.02"
-                app:srcCompat="@drawable/logo"></ImageView>
-
             <TextView
-                android:id="@+id/tv_myfavorite"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="즐겨찾기"
-                app:layout_constraintBottom_toBottomOf="@+id/scrollView3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.811"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.063" />
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:background="@color/ourcolor"
+                android:text="이달의 랭킹"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_gravity="center"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
@@ -133,7 +115,7 @@
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
-                    android:layout_width="match_parent"
+                    android:layout_width="170dp"
                     android:layout_height="244dp"
                     android:layout_gravity="center"
                     android:orientation="vertical">
@@ -197,14 +179,23 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:background="@color/ourcolor"
+                android:text="패셔니스타"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_gravity="center"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:orientation="horizontal">
-
-
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="10dp">
                 <Spinner
                     android:id="@+id/spinner"
                     android:layout_width="150dp"
@@ -214,8 +205,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mRecyclerView"
-                android:layout_width="406dp"
-                android:layout_height="418dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="20dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </LinearLayout>
