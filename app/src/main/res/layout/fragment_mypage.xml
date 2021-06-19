@@ -45,12 +45,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="325dp">
 
         <LinearLayout
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="vertical">
 
 
@@ -64,17 +64,16 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:layout_marginLeft="15dp"
                 android:text="이름"
-                 />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="이메일"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="15dp"
+                android:text="이메일" />
 
             <TextView
                 android:id="@+id/tv_pw"
@@ -137,10 +136,20 @@
                 app:layout_constraintVertical_bias="0.435" />
 
 
-
-
         </LinearLayout>
 
+
     </ScrollView>
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/piechart_mypage"
+        android:layout_width="match_parent"
+        android:layout_height="264dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        android:layout_marginRight="50dp"/>
 
 </LinearLayout>

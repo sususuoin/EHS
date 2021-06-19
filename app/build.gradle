@@ -104,5 +104,7 @@ dependencies {
     //동그란 이미지 뷰
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
+    //원형 그래프
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 }
