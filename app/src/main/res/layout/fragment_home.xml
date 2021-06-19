@@ -20,7 +20,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo"></ImageView>
+            app:srcCompat="@drawable/logo" />
     </LinearLayout>
 
 
@@ -35,6 +35,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btn_goAI"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:background="@color/white"
+                android:src="@drawable/banner" />
 
             <TextView
                 android:id="@+id/tv_weather"

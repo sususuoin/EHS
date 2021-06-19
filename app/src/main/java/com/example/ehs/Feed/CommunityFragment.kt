@@ -18,6 +18,8 @@ import com.example.ehs.Mypage.UserModifyActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_community.*
 import kotlinx.android.synthetic.main.fragment_community.view.*
+import kotlinx.android.synthetic.main.fragment_community_item.*
+import kotlinx.android.synthetic.main.fragment_community_item.view.*
 import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 import kotlinx.android.synthetic.main.fragment_feed.view.tv_community
@@ -26,6 +28,7 @@ class CommunityFragment : Fragment() {
     private var a: Activity? = null
     val communityList = mutableListOf<Community>()
     lateinit var btncommunityEdit: ImageButton
+
 
 
 
@@ -63,6 +66,12 @@ class CommunityFragment : Fragment() {
                 val intent = Intent(context, CommunityEditActivity::class.java)
                 startActivity(intent) }
         }
+
+//------------------------------------------------------------------다시
+//        view.btn_C_heart.setOnClickListener {
+//            btn_C_heart.background = R.drawable.ic_heart
+//        }
+        //------------------------------------------------------------------
 
         view.tv_feed2.setOnClickListener {
             Log.d("CommunityFragment", "피드로 이동")
