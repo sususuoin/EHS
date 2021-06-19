@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ehs.AI.Main_AIActivity
 import com.example.ehs.Calendar.CalendarActivity
 import com.example.ehs.MainActivity
 import com.example.ehs.R
@@ -39,6 +40,7 @@ class HomeFragment : Fragment() {
     var Strnow = now?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
     // lateinit var text: TextView
+    lateinit var aibtn : ImageButton
     lateinit var calendarbtn: ImageButton
     lateinit var weathergo : ImageButton
     lateinit var updatebtn : ImageButton
@@ -117,6 +119,7 @@ class HomeFragment : Fragment() {
         calendarbtn = view.findViewById(R.id.btn_calendar)
         weathergo = view.findViewById(R.id.btn_weathergo)
         updatebtn = view.findViewById(R.id.btn_updateH)
+        aibtn = view.findViewById(R.id.btn_goAI)
         tv_weathergo = view.findViewById(R.id.tv_weathergo)
 
 
@@ -130,6 +133,10 @@ class HomeFragment : Fragment() {
         }
         tv_weathergo.setOnClickListener{
             val intent = Intent(a, WeatherActivity::class.java)
+            startActivity(intent)
+        }
+        aibtn.setOnClickListener {
+            val intent = Intent(a, Main_AIActivity::class.java)
             startActivity(intent)
         }
 
