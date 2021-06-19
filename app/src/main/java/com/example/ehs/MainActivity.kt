@@ -302,6 +302,7 @@ class MainActivity : AppCompatActivity() {
                         Log.d("MainActivity 내 주소 ", mResultList[0].getAddressLine(0))
                         var cutting = city?.split(' ') // 공백을 기준으로 리스트 생성해서 필요한 주소값만 출력하기
                         city = cutting[1] + " " + cutting[2] + " " + cutting[3]
+                        AutoHome.setLocation(this@MainActivity, city)
 
                     }
                 }
@@ -334,9 +335,7 @@ class MainActivity : AppCompatActivity() {
 
                     }
                 }
-                else -> {
 
-                }
             }
 
         }
