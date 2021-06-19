@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -27,15 +26,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.fragment_closet.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.*
@@ -44,6 +41,7 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ClosetFragment : Fragment() {
@@ -89,7 +87,7 @@ class ClosetFragment : Fragment() {
 //    var clothesArr = ArrayList<String>()
 
     var clothesArr2 = ArrayList<String>()
-
+    lateinit var userId : String
 
     companion object {
         var a: Activity? = null
@@ -105,9 +103,16 @@ class ClosetFragment : Fragment() {
         Log.d(TAG, "ClosetFragment - onCreate() called")
         AndroidThreeTen.init(a)
         var a_bitmap : Bitmap? = null
+
+        userId = AutoLogin.getUserId(a!!)
+
         clothesArr2 = AutoCloset.getClothesName(a!!)
         Log.d("111111", clothesArr2.toString())
 
+
+        //clothes테이블에서 나의 데이터가져오기
+        //현재는 날씨
+        clothesResponse()
 
         for (i in 0 until clothesArr2.size) {
             val uThread: Thread = object : Thread() {
@@ -484,6 +489,46 @@ class ClosetFragment : Fragment() {
 
         //adding the request to volley
         Volley.newRequestQueue(a).add(clothesUploadRequest)
+
+    }
+
+
+    fun clothesResponse() {
+
+        var cuserId : String
+        var cColor : String
+        var cColorArr = mutableListOf<String>()
+        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+            override fun onResponse(response: String?) {
+                try {
+
+                    var jsonObject = JSONObject(response)
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    for (i in 0 until arr.length()) {
+                        val proObject = arr.getJSONObject(i)
+
+                        cuserId = proObject.getString("userId")
+                        cColor = proObject.getString("clothesColor")
+
+                        cColorArr.add(cColor)
+
+                        //이거해주면 마이페이지프래그먼트랑 겹쳐서 오토클로젯에 하나더 만들어줘야할듯
+//                        AutoCloset.setClothesColor(a!!, cColorArr as ArrayList<String>)
+
+                    }
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        val clothesResponse = Clothes_Response(userId, responseListener)
+        val queue = Volley.newRequestQueue(a!!)
+        queue.add(clothesResponse)
+
 
     }
 

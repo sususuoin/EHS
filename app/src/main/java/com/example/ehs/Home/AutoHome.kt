@@ -43,4 +43,12 @@ object AutoHome {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_HOME, Context.MODE_PRIVATE)
         return prefs.getString("MY_Latitude", "").toString()
     }
+
+
+    fun clearHome(context: Context) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_HOME, Context.MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = prefs.edit()
+        editor.clear()
+        editor.commit()
+    }
 }

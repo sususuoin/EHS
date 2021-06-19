@@ -9,23 +9,24 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.icu.lang.UCharacter.IndicPositionalCategory.TOP
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
-import android.util.Size
-import android.view.Gravity.TOP
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.TOP
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.example.ehs.Feed.Community
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
+import com.example.ehs.Closet.AutoCloset
+import com.example.ehs.Closet.AutoCody
+import com.example.ehs.Fashionista.AutoPro
+import com.example.ehs.Home.AutoHome
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.Login.LoginActivity
 import com.example.ehs.R
@@ -36,9 +37,10 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
-import com.github.mikephil.charting.utils.ColorTemplate
-import kotlinx.android.synthetic.main.fragment_mypage.*
 import kotlinx.android.synthetic.main.fragment_mypage.view.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 
 class MypageFragment : Fragment() {
@@ -57,6 +59,21 @@ class MypageFragment : Fragment() {
     lateinit var modifybtn: ImageButton
     lateinit var pieChart: PieChart
 
+
+    var userColorArr = ArrayList<String>()
+    var userColorCntArr = ArrayList<String>()
+
+    lateinit var userId :String
+    lateinit var userPw :String
+    lateinit var userName :String
+    lateinit var userEmail :String
+    lateinit var userBirth :String
+    lateinit var userGender :String
+    lateinit var userLevel :String
+    var userProfile : Bitmap? =null
+
+
+
     companion object {
         const val TAG: String = "마이페이지 프레그먼트"
         fun newInstance(): MypageFragment { // newInstance()라는 함수를 호출하면 HomeFragment를 반환함
@@ -68,6 +85,27 @@ class MypageFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "MypageFragment - onCreate() called")
+
+        userColorArr = AutoCloset.getClothesColor(a!!)
+        userColorCntArr = AutoCloset.getColorCnt(a!!)
+        Log.d("처음배열1", userColorArr.toString())
+        Log.d("처음배열1", userColorCntArr.toString())
+
+        userId = AutoLogin.getUserId(a!!)
+        userPw = AutoLogin.getUserPw(a!!)
+        userName = AutoLogin.getUserName(a!!)
+        userEmail = AutoLogin.getUserEmail(a!!)
+        userBirth = AutoLogin.getUserBirth(a!!)
+        userGender = AutoLogin.getUserGender(a!!)
+        userLevel = AutoLogin.getUserLevel(a!!)
+
+        var userProfileImg = AutoLogin.getUserProfileImg(a!!)
+        userProfile = StringToBitmap(userProfileImg)
+
+
+        getColor()
+
+
     }
 
 
@@ -117,7 +155,12 @@ class MypageFragment : Fragment() {
                         // 확인 버튼 클릭 시
                         DialogInterface.BUTTON_POSITIVE -> {
                             // 로그아웃 설정
+                            AutoLogin.setUserId(a!!, null)
                             AutoLogin.clearUser(a!!)
+                            AutoHome.clearHome(a!!)
+                            AutoPro.clearPro(a!!)
+                            AutoCody.clearCody(a!!)
+                            AutoCloset.clearCloset(a!!)
                             val intent = Intent(a, LoginActivity::class.java)
                             startActivity(intent)
                         }
@@ -138,16 +181,6 @@ class MypageFragment : Fragment() {
         tv_level = view.findViewById(R.id.tv_level);
         iv_profileimg = view.findViewById(R.id.iv_profileimg);
 
-        var userId = AutoLogin.getUserId(a!!)
-        var userPw = AutoLogin.getUserPw(a!!)
-        var userName = AutoLogin.getUserName(a!!)
-        var userEmail = AutoLogin.getUserEmail(a!!)
-        var userBirth = AutoLogin.getUserBirth(a!!)
-        var userGender = AutoLogin.getUserGender(a!!)
-        var userLevel = AutoLogin.getUserLevel(a!!)
-
-        var userProfileImg = AutoLogin.getUserProfileImg(a!!)
-        var userProfile = StringToBitmap(userProfileImg)
 
 //        userProfile = resize(userProfile!!)
 
@@ -166,9 +199,6 @@ class MypageFragment : Fragment() {
 
         setupPieChart()
         loadPieChartData()
-
-
-
 
         return view
     }
@@ -214,22 +244,12 @@ class MypageFragment : Fragment() {
             setUsePercentValues(true)
             setEntryLabelTextSize(10f)
             setEntryLabelColor(Color.BLACK)
-//            centerText = "방가방가햄토리즈"
             setCenterTextSize(15f)
             description.isEnabled = false
             setExtraOffsets(5f, 10f, 5f, 5f)
-//            setHoleColor(Color.WHITE)
             transparentCircleRadius = 61f
-//            rawRotationAngle = 50f
-
-
-//범례(오른쪽 상단)
 
             val legend: Legend = pieChart.getLegend()
-//            legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP // 범례
-//            legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT // 화면과 라벨 방향
-//            legend.orientation = Legend.LegendOrientation.VERTICAL
-//            legend.setDrawInside(false)
             legend.isEnabled = false
 
 
@@ -239,82 +259,66 @@ class MypageFragment : Fragment() {
 
     fun loadPieChartData() {
 
+        val colorstwo: ArrayList<Int> = ArrayList()
+
+        lateinit var colorname : String
+
         val entries: ArrayList<PieEntry> = ArrayList()
         with(entries) {
 
-            add(PieEntry(1f, "흰색"))
-            add(PieEntry(2f, "크림색"))
-            add(PieEntry(4f, "연회색"))
-            add(PieEntry(4f, "진회색"))
-            add(PieEntry(4f, "검정"))
+            for (i in 0 until userColorArr.size) {
 
-            add(PieEntry(4f, "주황"))
-            add(PieEntry(4f, "베이지"))
-            add(PieEntry(4f, "노랑"))
-            add(PieEntry(4f, "연두"))
-            add(PieEntry(4f, "하늘"))
+                val f: Float = userColorCntArr[i].toFloat()
+                add(PieEntry(f, userColorArr[i]))
 
-            add(PieEntry(4f, "분홍"))
-            add(PieEntry(4f, "연분홍"))
-            add(PieEntry(4f, "초록"))
-            add(PieEntry(4f, "카키"))
-            add(PieEntry(4f, "파랑"))
+                when(userColorArr[i]) {
+                    "흰색" -> colorname = "#FFFFFF"
+                    "크림" -> colorname = "#fefcec"
+                    "연회색" -> colorname = "#e7e7e7"
+                    "진회색" -> colorname = "#7a7a7a"
+                    "검정" -> colorname = "#000000"
 
-            add(PieEntry(4f, "빨강"))
-            add(PieEntry(4f, "와인"))
-            add(PieEntry(4f, "갈색"))
-            add(PieEntry(4f, "보라"))
-            add(PieEntry(4f, "네이비"))
+                    "주황" -> colorname = "#fe820d"
+                    "베이지" -> colorname = "#e2c79c"
+                    "노랑" -> colorname = "#ffe600"
+                    "연두" -> colorname = "#c4db88"
+                    "하늘" -> colorname = "#c5e2ff"
 
+                    "분홍" -> colorname = "#ff8290"
+                    "연분홍" -> colorname = "#fee0de"
+                    "초록" -> colorname = "#00a03e"
+                    "카키" -> colorname = "#666b16"
+                    "파랑" -> colorname = "#1f4ce2"
 
-
-        }
-        val colors: ArrayList<Int> = ArrayList()
-        val colorstwo: ArrayList<Int> = ArrayList()
-        with(colorstwo) {
-
-            add(Color.parseColor("#FFFFFFFF")) //white
-            add(Color.parseColor("#fefcec")) //cream
-            add(Color.parseColor("#e7e7e7")) //lightgray
-            add(Color.parseColor("#7a7a7a")) //darkgray
-            add(Color.parseColor("#FF000000")) //black
-
-            add(Color.parseColor("#fe820d")) //orange
-            add(Color.parseColor("#e2c79c")) //beige
-            add(Color.parseColor("#ffe600")) //yellow
-            add(Color.parseColor("#c4db88")) //lightgreen
-            add(Color.parseColor("#c5e2ff")) //skyblue
-
-            add(Color.parseColor("#ff8290")) //pink
-            add(Color.parseColor("#fee0de")) //lightpink
-            add(Color.parseColor("#00a03e")) //green
-            add(Color.parseColor("#666b16")) //kaki
-            add(Color.parseColor("#1f4ce2")) //blue
-
-            add(Color.parseColor("#ed1212")) //red
-            add(Color.parseColor("#9d2140")) //wine
-            add(Color.parseColor("#844f1e")) //brown
-            add(Color.parseColor("#7119ac")) //purple
-            add(Color.parseColor("#060350")) //navy
+                    "빨강" -> colorname = "#ed1212"
+                    "와인" -> colorname = "#9d2140"
+                    "갈색" -> colorname = "#844f1e"
+                    "보라" -> colorname = "#7119ac"
+                    "네이비" -> colorname = "#060350"
+                }
 
 
+                with(colorstwo) {
+                    add(Color.parseColor(colorname))
+                }
 
 
+            }
 
         }
-
-
-        for (color in ColorTemplate.MATERIAL_COLORS) {
-            colors.add(color)
-        }
-        for (color in ColorTemplate.VORDIPLOM_COLORS) {
-            colors.add(color)
-        }
+//        val colors: ArrayList<Int> = ArrayList()
+//
+//        for (color in ColorTemplate.MATERIAL_COLORS) {
+//            colors.add(color)
+//        }
+//        for (color in ColorTemplate.VORDIPLOM_COLORS) {
+//            colors.add(color)
+//        }
 
         val dataSet: PieDataSet = PieDataSet(entries, "Expense Category")
 
 
-        dataSet.setColors(colorstwo)
+        dataSet.colors = colorstwo
 
         val data: PieData = PieData(dataSet)
         data.setDrawValues(true)
@@ -328,6 +332,48 @@ class MypageFragment : Fragment() {
         // 애니메이션
         pieChart.animateY(1400, Easing.EaseInOutQuad)
 
+
+    }
+
+
+    fun getColor() {
+        var cColor : String
+        var cCnt : String
+        var cColorArr = mutableListOf<String>()
+        var cCntArr = mutableListOf<String>()
+
+        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+            override fun onResponse(response: String?) {
+                try {
+
+                    var jsonObject = JSONObject(response)
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    for (i in 0 until arr.length()) {
+                        val proObject = arr.getJSONObject(i)
+
+                        cColor = proObject.getString("clothesColor")
+                        cCnt = proObject.getString("cnt")
+
+                        cColorArr.add(cColor)
+                        cCntArr.add(cCnt)
+
+                        Log.d("유저색", cColor)
+                        Log.d("유저색갯수", cCnt)
+                        AutoCloset.setClothesColor(a!!, cColorArr as ArrayList<String>)
+                        AutoCloset.setColorCnt(a!!, cCntArr as ArrayList<String>)
+                    }
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        val clothescolorResponse = ClothesColor_Response(userId, responseListener)
+        val queue = Volley.newRequestQueue(a)
+        queue.add(clothescolorResponse)
 
     }
 }
