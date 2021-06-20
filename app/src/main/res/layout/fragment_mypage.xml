@@ -5,13 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:backgroundTint="@color/white">
+        android:backgroundTint="@color/white"
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,21 +34,22 @@
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:src="@drawable/ic_modify"
-            android:backgroundTint="@color/white" />
+            android:backgroundTint="@color/white"
+            />
 
         <ImageButton
             android:id="@+id/btn_logout"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginLeft="15dp"
             android:src="@drawable/ic_logout"
             android:backgroundTint="@color/white" />
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="325dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,8 +61,8 @@
                 android:id="@+id/iv_profileimg"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
-                android:layout_marginVertical="10dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:layout_marginVertical="10dp" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -67,9 +70,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="이름"
-                android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_email"
@@ -78,45 +81,49 @@
                 android:layout_gravity="center"
                 android:text="이메일" />
 
-            <TextView
-                android:id="@+id/tv_pw"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="비밀번호"/>
-
-            <TextView
-                android:id="@+id/tv_gender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="성별" />
 
             <TextView
                 android:id="@+id/tv_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="등급" />
+                android:text="등급"
+                android:layout_gravity="center"/>
 
             <TextView
                 android:id="@+id/tv_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="아이디" />
-
-            <TextView
-                android:id="@+id/tv_birth"
-                android:layout_width="wrap_content"
+                android:text="아이디"
+                android:layout_gravity="center"/>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="생년월일" />
+                android:orientation="horizontal"
+                android:layout_marginTop="50dp"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tv_name2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="이름"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="님의 컬러 PICK!"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/piechart_mypage"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"/>
         </LinearLayout>
-
-
     </ScrollView>
-
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/piechart_mypage"
-        android:layout_width="match_parent"
-        android:layout_height="264dp"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center"/>
-
 </LinearLayout>
