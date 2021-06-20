@@ -53,6 +53,7 @@ class FeedsListAdapter(private val items: List<Feeds>)
 
             view.tv_userID.setText(item.userID)
             view.tv_styletag.setText(item.styletag)
+            view.iv_feedphoto.setImageBitmap(item.feedImg)
             view.setOnClickListener(listener)
         }
     }

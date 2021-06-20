@@ -48,14 +48,11 @@ class MypageFragment : Fragment() {
 
 
     lateinit var tv_id: TextView
-    lateinit var tv_pw: TextView
     lateinit var tv_name: TextView
+    lateinit var tv_name2: TextView
     lateinit var tv_email: TextView
-    lateinit var tv_birth: TextView
-    lateinit var tv_gender: TextView
     lateinit var tv_level: TextView
     lateinit var iv_profileimg: ImageView
-
     lateinit var modifybtn: ImageButton
     lateinit var pieChart: PieChart
 
@@ -172,14 +169,12 @@ class MypageFragment : Fragment() {
             logoutalert.show()
         }
 
-        tv_id = view.findViewById(R.id.tv_id);
-        tv_pw = view.findViewById(R.id.tv_pw);
-        tv_name = view.findViewById(R.id.tv_name);
-        tv_email = view.findViewById(R.id.tv_email);
-        tv_birth = view.findViewById(R.id.tv_birth);
-        tv_gender = view.findViewById(R.id.tv_gender);
-        tv_level = view.findViewById(R.id.tv_level);
-        iv_profileimg = view.findViewById(R.id.iv_profileimg);
+        tv_id = view.findViewById(R.id.tv_id)
+        tv_name = view.findViewById(R.id.tv_name)
+        tv_name2 = view.findViewById(R.id.tv_name2)
+        tv_email = view.findViewById(R.id.tv_email)
+        tv_level = view.findViewById(R.id.tv_level)
+        iv_profileimg = view.findViewById(R.id.iv_profileimg)
 
 
 //        userProfile = resize(userProfile!!)
@@ -187,11 +182,9 @@ class MypageFragment : Fragment() {
 
         //fragment1의 TextView에 전달 받은 text 띄우기
         tv_id.text = userId
-        tv_pw.text = userPw
         tv_name.text = userName
+        tv_name2.text = userName
         tv_email.text = userEmail
-        tv_birth.text = userBirth
-        tv_gender.text = userGender
         tv_level.text = userLevel
 
 //        iv_profileimg.setImageResource(R.drawable.exfirst)

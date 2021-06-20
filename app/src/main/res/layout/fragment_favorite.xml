@@ -53,12 +53,12 @@
     </LinearLayout>
 
 
-    <ImageButton
+    <ImageView
         android:id="@+id/btn_recommend"
         android:layout_width="match_parent"
-        android:layout_height="68dp"
+        android:layout_height="180dp"
         android:background="@color/white"
-        android:src="@drawable/banner" />
+        android:src="@drawable/banner_recommendpro" />
 
     <LinearLayout
         android:layout_width="match_parent"

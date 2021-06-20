@@ -139,7 +139,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_fashionista -> {
                     Log.d(TAG, "MainActivity - 패셔니스타 버튼 클릭!")
 
-                    FashionistaUser()
                     fashionistaFragment = FashionistaFragment.newInstance()
                     replaceFragment(fashionistaFragment)
                 }

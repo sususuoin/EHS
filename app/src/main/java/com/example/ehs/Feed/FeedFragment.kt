@@ -2,6 +2,8 @@ package com.example.ehs.Feed
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -55,14 +57,22 @@ class FeedFragment : Fragment() {
             (activity as MainActivity?)!!.replaceFragment(CommunityFragment.newInstance())
         }
 
+        val resources: Resources = this.resources
+        val bitmap1 = BitmapFactory.decodeResource(resources, R.drawable.cody1)
+        val bitmap2 = BitmapFactory.decodeResource(resources, R.drawable.cody2)
+        val bitmap3 = BitmapFactory.decodeResource(resources, R.drawable.cody3)
+        val bitmap4 = BitmapFactory.decodeResource(resources, R.drawable.cody4)
 
 
-        var fashin = Feeds("gkgk","#스트릿")
-        var hi = Feeds("jj","#아메카지")
-        feedsList.add(fashin)
-        feedsList.add(hi)
-        feedsList.add(hi)
-        feedsList.add(hi)
+
+        var feed1 = Feeds("skychoi","#데일리", bitmap1)
+        var feed2 = Feeds("jj","#스트릿", bitmap2)
+        var feed3 = Feeds("eunjeong","#캐주얼", bitmap3)
+        var feed4 = Feeds("tndlstkxk","#데일리", bitmap4)
+        feedsList.add(feed1)
+        feedsList.add(feed2)
+        feedsList.add(feed3)
+        feedsList.add(feed4)
 
         return view
     }
