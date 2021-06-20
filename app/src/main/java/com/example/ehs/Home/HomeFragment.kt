@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
     var Strnow = now?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
     // lateinit var text: TextView
-    lateinit var aibtn : ImageButton
+    lateinit var aibtn : ImageView
     lateinit var calendarbtn: ImageButton
     lateinit var weathergo : ImageButton
     lateinit var updatebtn : ImageButton
