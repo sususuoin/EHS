@@ -16,9 +16,11 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
+import com.example.ehs.BottomSheet.BottomSheet_fashion
 import com.example.ehs.R
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import kotlinx.android.synthetic.main.activity_cody_save.*
 import kotlinx.android.synthetic.main.activity_profile_plus_.*
 import java.io.File
 import java.io.IOException
@@ -35,9 +37,13 @@ class ProfilePlus_Activity : AppCompatActivity() {
     lateinit var bmp : Bitmap
     lateinit var uploadImgName : String
 
+    lateinit var codyStyle : String
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_plus_)
+        iv_profileplus.setImageResource(R.drawable.profile_phoro)
 
 
 
@@ -149,6 +155,8 @@ class ProfilePlus_Activity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     } // 툴바 뒤로가기 액션 설정 끝
 
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK) {
@@ -214,7 +222,12 @@ class ProfilePlus_Activity : AppCompatActivity() {
     }
 
 
-
+    // 바텀시트에서 선택한 항목 보여주기
+//    override fun onFashionButtonClicked(text: String) {
+//        tv_fashion.text = text
+//        codyStyle = text
+//
+//    }
 
 
 }
