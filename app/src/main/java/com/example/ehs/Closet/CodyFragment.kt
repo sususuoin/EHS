@@ -1,7 +1,6 @@
 package com.example.ehs.Closet
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -25,12 +24,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import com.example.ehs.Calendar.CalendarActivity
-
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
-
 import kotlinx.android.synthetic.main.fragment_cody.*
 import kotlinx.android.synthetic.main.fragment_cody.view.*
 import kotlinx.coroutines.Dispatchers
@@ -159,6 +155,7 @@ class CodyFragment : Fragment() {
             }
         }
 
+
     }
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
     override fun onAttach(context: Context) {
@@ -189,7 +186,7 @@ class CodyFragment : Fragment() {
         view.btn_addcody.setOnClickListener { view ->
             Log.d("클릭!!", "코디추가 버튼 클릭!!")
             onAddButtonClicked()
-            val intent = Intent(context, CodySaveActivity::class.java)
+            val intent = Intent(a, CodyMakeActivity::class.java)
             startActivity(intent)
         }
         view.tv_addcody.setOnClickListener { view ->
@@ -364,7 +361,7 @@ class CodyFragment : Fragment() {
 
     private fun getPath(uri: Uri?): String {
         val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = activity!!.managedQuery(uri, projection, null, null, null)
+        val cursor = a!!.managedQuery(uri, projection, null, null, null)
         val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
         cursor.moveToFirst()
         return cursor.getString(column_index)
@@ -373,7 +370,7 @@ class CodyFragment : Fragment() {
     // 파일명 찾기
     private fun getName(uri: Uri?): String {
         val projection = arrayOf(MediaStore.Images.ImageColumns.DISPLAY_NAME)
-        val cursor = activity!!.managedQuery(uri, projection, null, null, null)
+        val cursor = a!!.managedQuery(uri, projection, null, null, null)
         val column_index: Int = cursor
             .getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME)
         cursor.moveToFirst()
