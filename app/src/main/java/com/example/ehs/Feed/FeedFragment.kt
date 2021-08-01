@@ -9,16 +9,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ehs.MainActivity
 import com.example.ehs.R
+import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.android.synthetic.main.fragment_feed.view.*
+import kotlinx.android.synthetic.main.fragment_feed_item.view.*
 
 class FeedFragment : Fragment() {
     private var a: Activity? = null
     val feedsList = mutableListOf<Feeds>()
+
+
 
     companion object {
         const val TAG : String = "피드 프레그먼트"
@@ -56,6 +63,10 @@ class FeedFragment : Fragment() {
             Log.d("FeedFragment", "커뮤니티로 이동")
             (activity as MainActivity?)!!.replaceFragment(CommunityFragment.newInstance())
         }
+
+
+
+
 
         val resources: Resources = this.resources
         val bitmap1 = BitmapFactory.decodeResource(resources, R.drawable.cody1)

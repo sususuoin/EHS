@@ -63,11 +63,21 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/btn_haert"
+                android:id="@+id/btn_like"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_noheart"
+                android:background="@drawable/ic_like"
+                android:backgroundTint="#F60505"
+                android:gravity="right"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/btn_nolike"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_nolike"
                 android:backgroundTint="#F60505"
                 android:gravity="right" />
 

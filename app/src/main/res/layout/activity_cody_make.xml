@@ -61,7 +61,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp">
                     <TextView
                         android:id="@+id/tv_all"
                         android:layout_width="wrap_content"
@@ -104,8 +105,11 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_codymake"
+                    android:background="@color/lightgray"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="6dp"
                     tools:listitem="@layout/clothes" />
 
             </LinearLayout>
