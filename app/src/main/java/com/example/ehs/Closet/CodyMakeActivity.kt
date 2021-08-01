@@ -1,16 +1,20 @@
 package com.example.ehs.Closet
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_cody_make.*
+import java.io.ByteArrayOutputStream
 import java.io.InputStream
+
 
 class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
     var clickCount = 0
@@ -38,7 +42,27 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
         // 옷 추가 버튼 클릭
-        btn_addclothes.setOnClickListener { Add_Image() }
+        btn_addclothes.setOnClickListener {
+            Add_Image()
+        }
+
+        btn_codymade.setOnClickListener{
+            ll_codymake.setDrawingCacheEnabled(true)
+            ll_codymake.buildDrawingCache()
+
+            //조합한 코디를 캡쳐하여 비트맵으로 변경
+            val saveBitmap: Bitmap = ll_codymake.getDrawingCache()
+
+            val intent = Intent(this, CodySaveActivity::class.java)
+
+            val stream = ByteArrayOutputStream()
+            saveBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            val byteArray: ByteArray = stream.toByteArray()
+            intent.putExtra("saveBitmap", byteArray)
+            startActivity(intent)
+
+
+        }
 
         // 스케일제스쳐 디텍터 인스턴스
         mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
@@ -49,14 +73,14 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
     private fun Add_Image() { // 이미지 추가
         // 애셋매니저
         val am = resources.assets
-        var `is`: InputStream? = null
+        var iss: InputStream? = null
 
         try {
             // 애셋 폴더에 저장된 field.png 열기.
-            `is` = am.open("cody.jpg")
+            iss = am.open("cody.jpg")
 
             // 입력스트림 is를 통해 field.png 을 Bitmap 객체로 변환.
-            val bm = BitmapFactory.decodeStream(`is`)
+            val bm = BitmapFactory.decodeStream(iss)
 
             // 만들어진 Bitmap 객체를 이미지뷰에 표시.
             iv = ImageView(this)
@@ -68,14 +92,14 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
             iv!!.setOnTouchListener(this)
             mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
 
-            `is`.close()
+            iss.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        if (`is` != null) {
+        if (iss != null) {
             try {
-                `is`.close()
+                iss.close()
             } catch (e: Exception) {
                 e.printStackTrace()
             }

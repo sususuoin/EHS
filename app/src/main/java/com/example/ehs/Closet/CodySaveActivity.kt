@@ -5,11 +5,11 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.android.volley.NetworkResponse
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.BottomSheet.BottomSheet_fashion
@@ -23,9 +23,6 @@ import java.util.*
 
 
 class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetButtonClickListener {
-
-    lateinit var bitmap : Bitmap
-
 
     lateinit var codyStyle : String
     var userId : String= ""
@@ -45,6 +42,12 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
+        val intent = intent
+        val arr = getIntent().getByteArrayExtra("saveBitmap")
+        var image : Bitmap = BitmapFactory.decodeByteArray(arr, 0, arr!!.size)
+
+
+
         // 바텀시트 열기
         tv_fashion.setOnClickListener {
             val bottomSheet = BottomSheet_fashion()
@@ -52,13 +55,11 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         }
 
 
-        iv_cody.setImageResource(R.drawable.exfirst)
-        bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.exfirst)
-
+        iv_cody.setImageBitmap(image)
 
         // 완료하기 버튼 클릭 시
         btn_complete_cody.setOnClickListener{
-            uploadCody(bitmap)
+            uploadCody(image)
         }
 
 
@@ -112,7 +113,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
 
     }
 
-    fun uploadDB(userId: String, codyImgName: String ) {
+    fun uploadDB(userId: String, codyImgName: String) {
         val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
             override fun onResponse(response: String?) {
                 try {
@@ -120,7 +121,9 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                     var success = jsonObject.getBoolean("success")
 
                     if(success) {
-                        Toast.makeText(this@CodySaveActivity, jsonObject.toString(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@CodySaveActivity,
+                            jsonObject.toString(),
+                            Toast.LENGTH_LONG).show()
                         finish()
 
                     } else {
@@ -134,7 +137,11 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         }
 
         val codyImgPath = "http://13.125.7.2/img/cody/"
-        val codySave_Request = CodySave_Request(userId, codyImgPath, codyImgName, codyStyle, responseListener)
+        val codySave_Request = CodySave_Request(userId,
+            codyImgPath,
+            codyImgName,
+            codyStyle,
+            responseListener)
         val queue = Volley.newRequestQueue(this@CodySaveActivity)
         queue.add(codySave_Request)
     }
