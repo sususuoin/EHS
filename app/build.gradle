@@ -106,4 +106,7 @@ dependencies {
     //원형 그래프
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    // 버튼 애니메이션
+    implementation 'com.airbnb.android:lottie:3.4.4'
+
 }
