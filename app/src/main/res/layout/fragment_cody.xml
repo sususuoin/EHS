@@ -186,8 +186,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_cody"
         android:layout_width="match_parent"
-        android:layout_height="610dp"
+        android:layout_height="680dp"
+        android:background="@color/lightgray"
         android:clipToPadding="false"
+        android:paddingLeft="6dp"
+        android:paddingTop="6dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -195,7 +198,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2"
         app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/recycler_cody"/>
+        tools:listitem="@layout/recycler_cody" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add2"
