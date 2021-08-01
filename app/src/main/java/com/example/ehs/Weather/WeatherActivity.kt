@@ -262,7 +262,23 @@ class WeatherActivity : AppCompatActivity() {
         Log.d("농심 짜파게티~", intcTemp2)
 
         when (intcTemp2) {
-            "28","29","30","31","32","33","34"-> {
+            "34", "35", "36", "37", "38", "39", "40", "41", "42" -> {
+                one = Weathers(R.drawable.weather_i_dress,"원피스")
+                twoo = Weathers(R.drawable.weather_i_croptop,"크롭탑")
+                three = Weathers(R.drawable.weather_i_shortpants,"반바지")
+                four = Weathers(R.drawable.weather_i_swimming,"수영복")
+                five = Weathers(R.drawable.weather_i_jjori,"슬리퍼")
+                six = Weathers(R.drawable.weather_i_tee,"반팔")
+                seven = Weathers(R.drawable.weather_i_bluetop,"나시")
+                eight = Weathers(R.drawable.weather_i_skirt,"치마")
+                nine = Weathers(R.drawable.weather_i_umbrella,"양산")
+                ten = Weathers(R.drawable.weather_i_top,"나시")
+
+                addclothes()
+
+            }
+
+            "28","29","30","31","32","33"-> {
                 one = Weathers(R.drawable.weather_a_dress,"원피스")
                 twoo = Weathers(R.drawable.weather_a_shortpants,"반바지")
                 three = Weathers(R.drawable.weather_a_sandel,"샌들")
