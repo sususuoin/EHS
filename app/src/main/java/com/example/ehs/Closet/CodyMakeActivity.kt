@@ -5,15 +5,22 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.ehs.Feed.Feeds
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_cody_make.*
 import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 
 
 class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
@@ -26,6 +33,10 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
     private var mScaleGestureDetector: ScaleGestureDetector? = null
     private var mScaleFactor = 1.0f
     private var iv : ImageView? = null // 우선 이미지 만들어 놓기 나중에 이걸 터치 된 걸로 바꿔야 하는데 지금은 모름
+
+    val codyMakeList = mutableListOf<Clothes>()
+    var clothesArr2 = ArrayList<String>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +62,12 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
             ll_codymake.buildDrawingCache()
 
             //조합한 코디를 캡쳐하여 비트맵으로 변경
-            val saveBitmap: Bitmap = ll_codymake.getDrawingCache()
+            var saveBitmap: Bitmap = ll_codymake.getDrawingCache()
 
             val intent = Intent(this, CodySaveActivity::class.java)
-
-            val stream = ByteArrayOutputStream()
+            var stream = ByteArrayOutputStream()
             saveBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-            val byteArray: ByteArray = stream.toByteArray()
+            var byteArray: ByteArray = stream.toByteArray()
             intent.putExtra("saveBitmap", byteArray)
             startActivity(intent)
 
@@ -68,7 +78,76 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
         mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
         clickCount = 0
 
+
+
+        val gridLayoutManager = GridLayoutManager(this, 3)
+        rv_codymake.layoutManager = gridLayoutManager
+
+        val adapter = CodyMakeListAdapter(codyMakeList)
+        rv_codymake.adapter = adapter
+        //recylerview 이거 fashionista.xml에 있는 변수
+
+
+        clothesArr2 = AutoCloset.getClothesName(ClosetFragment.a!!)
+        Log.d("111111", clothesArr2.toString())
+
+        var a_bitmap : Bitmap? = null
+        for (i in 0 until clothesArr2.size) {
+            val uThread: Thread = object : Thread() {
+                override fun run() {
+                    try {
+
+                        Log.d("Closet프래그먼터리스트123", clothesArr2[i])
+
+                        //서버에 올려둔 이미지 URL
+                        val url = URL("http://13.125.7.2/img/clothes/" + clothesArr2[i])
+
+                        //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
+                        /* URLConnection 생성자가 protected로 선언되어 있으므로
+                         개발자가 직접 HttpURLConnection 객체 생성 불가 */
+                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                        /* openConnection()메서드가 리턴하는 urlConnection 객체는
+                        HttpURLConnection의 인스턴스가 될 수 있으므로 캐스팅해서 사용한다*/
+
+                        conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
+                        conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                        val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
+                        a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
+
+
+                    } catch (e: MalformedURLException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+
+            uThread.start() // 작업 Thread 실행
+
+
+            try {
+
+                //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
+                //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
+                //join() 메서드는 InterruptedException을 발생시킨다.
+                uThread.join()
+
+                //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+                //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
+
+                var clothes = Clothes(a_bitmap)
+                codyMakeList.add(clothes)
+
+
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+        }
+
     }
+
 
     private fun Add_Image() { // 이미지 추가
         // 애셋매니저

@@ -42,11 +42,6 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
-        val intent = intent
-        val arr = getIntent().getByteArrayExtra("saveBitmap")
-        var image : Bitmap = BitmapFactory.decodeByteArray(arr, 0, arr!!.size)
-
-
 
         // 바텀시트 열기
         tv_fashion.setOnClickListener {
@@ -54,6 +49,10 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
 
+
+        val intent = intent
+        var arr = intent.getByteArrayExtra("saveBitmap")
+        var image : Bitmap = BitmapFactory.decodeByteArray(arr, 0, arr!!.size)
 
         iv_cody.setImageBitmap(image)
 
@@ -88,6 +87,8 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                     Toast.makeText(ClosetFragment.a, codyImgName, Toast.LENGTH_SHORT).show()
 
                     uploadDB(userId, codyImgName)
+
+//                    finish()
 
 
                 } catch (e: JSONException) {

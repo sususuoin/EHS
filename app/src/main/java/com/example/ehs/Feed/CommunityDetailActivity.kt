@@ -4,17 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.ehs.Fashionista.FashionistaProfileAdapter
-import com.example.ehs.Fashionista.FashionistaUserProfiles
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_community_detail.*
-import kotlinx.android.synthetic.main.activity_fashionista_profile.*
-import kotlinx.android.synthetic.main.activity_fashionista_profile.rv_feed
-import okio.Utf8.size
-import java.nio.file.Files.size
 
 class CommunityDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

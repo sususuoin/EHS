@@ -162,6 +162,7 @@ class ClosetFragment : Fragment() {
                 var clothes = Clothes(a_bitmap)
                 clothesList.add(clothes)
 
+
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }

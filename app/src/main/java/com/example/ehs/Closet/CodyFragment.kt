@@ -192,7 +192,7 @@ class CodyFragment : Fragment() {
         view.tv_addcody.setOnClickListener { view ->
             Log.d("클릭!!", "코디추가 텍스트 클릭!!")
             onAddButtonClicked()
-            val intent = Intent(context, CodySaveActivity::class.java)
+            val intent = Intent(context, CodyMakeActivity::class.java)
             startActivity(intent)
         }
 
