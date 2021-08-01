@@ -99,54 +99,6 @@ object AutoPro {
 
     }
 
-
-
-    fun FashionistaUser() {
-
-        var fuserId: String
-        var fuserLevel: String
-        var fuserProfileImg : String
-        var fuserProfile : Bitmap?
-
-        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
-            override fun onResponse(response: String?) {
-                try {
-
-                    var jsonObject = JSONObject(response)
-                    var response = jsonObject.toString()
-
-                    val arr: JSONArray = jsonObject.getJSONArray("response")
-
-                    Log.d("이이이이잉~~나는 언제잘수있을까 ?", response)
-                    Log.d("이이이이잉~~나는 언제잘수있을까123 ?", arr.toString())
-
-
-                    for (i in 0 until arr.length()) {
-                        val fuserObject = arr.getJSONObject(i)
-                        Log.d("이이이이잉~~나는sad12  ?", arr[i].toString())
-
-                        fuserId = fuserObject.getString("userId")
-                        fuserLevel = fuserObject.getString("userLevel")
-                        fuserProfileImg = fuserObject.getString("userProfileImg")
-                        fuserProfile = AutoLogin.StringToBitmap(fuserProfileImg)
-
-                        var fashin = Fashionista(fuserId, fuserLevel, fuserProfile)
-                        FashionistaList.add(fashin)
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-        val fashionistaUserRequest = FashionistaUser_Request(responseListener)
-        val context : Context? = null
-        val queue = Volley.newRequestQueue(context)
-        queue.add(fashionistaUserRequest)
-
-
-    }
-
-
     fun clearPro(context: Context) {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
         val editor : SharedPreferences.Editor = prefs.edit()

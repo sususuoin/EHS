@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.AutoCloset
 import com.example.ehs.Closet.AutoCody
 import com.example.ehs.Fashionista.AutoPro
+import com.example.ehs.Fashionista.FashionistaList
 import com.example.ehs.Home.AutoHome
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.Login.LoginActivity
@@ -152,12 +153,15 @@ class MypageFragment : Fragment() {
                         // 확인 버튼 클릭 시
                         DialogInterface.BUTTON_POSITIVE -> {
                             // 로그아웃 설정
+
                             AutoLogin.setUserId(a!!, null)
                             AutoLogin.clearUser(a!!)
                             AutoHome.clearHome(a!!)
+                            FashionistaList.clear()
                             AutoPro.clearPro(a!!)
                             AutoCody.clearCody(a!!)
                             AutoCloset.clearCloset(a!!)
+
                             val intent = Intent(a, LoginActivity::class.java)
                             startActivity(intent)
                         }
