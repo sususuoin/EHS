@@ -11,6 +11,8 @@ class ClothesSave_Request (
     clothesPath : String,
     clothesName : String,
     clothesColor : String,
+    clothesCategory : String,
+    clothesSeason : String,
     listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {
 
     private val map: MutableMap<String, String>
@@ -32,5 +34,7 @@ class ClothesSave_Request (
         map["clothesPath"] = clothesPath
         map["clothesName"] = clothesName
         map["clothesColor"] = clothesColor
+        map["clothesCategory"] = clothesCategory
+        map["clothesSeason"] = clothesSeason
     }
 }

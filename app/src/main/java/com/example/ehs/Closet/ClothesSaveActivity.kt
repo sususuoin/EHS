@@ -230,9 +230,12 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
 
         var clothesColor : String = tv_color.text as String
+        var clothesCategory : String = tv_category.text as String
+        var clothesSeason : String = tv_season.text as String
+
         Log.e("옷컬러검색", clothesColor)
         val clothesPath = "http://13.125.7.2/img/clothes/"
-        val clothesSave_Request = ClothesSave_Request(userId, clothesPath, clothesName, clothesColor, responseListener)
+        val clothesSave_Request = ClothesSave_Request(userId, clothesPath, clothesName, clothesColor, clothesCategory, clothesSeason, responseListener)
         val queue = Volley.newRequestQueue(this@ClothesSaveActivity)
         queue.add(clothesSave_Request)
     }
