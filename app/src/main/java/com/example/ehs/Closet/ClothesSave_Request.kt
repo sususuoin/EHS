@@ -22,7 +22,7 @@ class ClothesSave_Request (
 
     companion object {
         //서버 URL 설정(php 파일 연동)
-        private const val URL = "http://54.180.101.123/ClothesSave_Request.php"
+        private const val URL = "http://13.125.7.2/ClothesSave_Request.php"
     }
 
     //private Map<String, String>parameters;

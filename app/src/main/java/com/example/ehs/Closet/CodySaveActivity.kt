@@ -75,7 +75,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
 
     fun uploadCody(bitmap: Bitmap) {
         val codyUploadRequest: CodyUpload_Request = object : CodyUpload_Request(
-            Method.POST, "http://54.180.101.123/codyupload.php",
+            Method.POST, "http://13.125.7.2/codyupload.php",
             Response.Listener<NetworkResponse> { response ->
                 try {
 
@@ -133,7 +133,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
             }
         }
 
-        val codyImgPath = "http://54.180.101.123/img/cody/"
+        val codyImgPath = "http://13.125.7.2/img/cody/"
         val codySave_Request = CodySave_Request(userId, codyImgPath, codyImgName, codyStyle, responseListener)
         val queue = Volley.newRequestQueue(this@CodySaveActivity)
         queue.add(codySave_Request)

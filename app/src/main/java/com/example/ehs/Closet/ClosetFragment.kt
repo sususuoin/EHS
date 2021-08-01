@@ -122,7 +122,7 @@ class ClosetFragment : Fragment() {
                         Log.d("Closet프래그먼터리스트123", clothesArr2[i])
 
                         //서버에 올려둔 이미지 URL
-                        val url = URL("http://54.180.101.123/img/clothes/" + clothesArr2[i])
+                        val url = URL("http://13.125.7.2/img/clothes/" + clothesArr2[i])
 
                         //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
                         /* URLConnection 생성자가 protected로 선언되어 있으므로
@@ -423,7 +423,7 @@ class ClosetFragment : Fragment() {
 
     private fun getPath(uri: Uri?): String {
         val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = activity!!.managedQuery(uri, projection, null, null, null)
+        val cursor = a!!.managedQuery(uri, projection, null, null, null)
         val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
         cursor.moveToFirst()
         return cursor.getString(column_index)
@@ -432,7 +432,7 @@ class ClosetFragment : Fragment() {
     // 파일명 찾기
     private fun getName(uri: Uri?): String {
         val projection = arrayOf(MediaStore.Images.ImageColumns.DISPLAY_NAME)
-        val cursor = activity!!.managedQuery(uri, projection, null, null, null)
+        val cursor = a!!.managedQuery(uri, projection, null, null, null)
         val column_index: Int = cursor
             .getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME)
         cursor.moveToFirst()
@@ -449,7 +449,7 @@ class ClosetFragment : Fragment() {
 
     fun uploadBitmap(bitmap: Bitmap) {
         val clothesUploadRequest: ClothesUpload_Request = object : ClothesUpload_Request(
-            Method.POST, "http://54.180.101.123/upload4.php",
+            Method.POST, "http://13.125.7.2/upload4.php",
             Response.Listener<NetworkResponse> { response ->
                 try {
 
