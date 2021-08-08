@@ -9,11 +9,12 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.ehs.Feed.Feeds
 import com.example.ehs.R
+import com.example.ehs.databinding.ActivityCodyMakeBinding
 import kotlinx.android.synthetic.main.activity_cody_make.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -24,6 +25,7 @@ import java.net.URL
 
 
 class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
+    private lateinit var binding : ActivityCodyMakeBinding
     var clickCount = 0
     private var RootLayout: ViewGroup? = null
     private var Position_X = 0
@@ -35,12 +37,31 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
     private var iv : ImageView? = null // 우선 이미지 만들어 놓기 나중에 이걸 터치 된 걸로 바꿔야 하는데 지금은 모름
 
     val codyMakeList = mutableListOf<Clothes>()
+    val adapter = CodyMakeListAdapter(codyMakeList)
     var clothesArr2 = ArrayList<String>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cody_make)
+        binding = ActivityCodyMakeBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        val gridLayoutManager = GridLayoutManager(this, 3)
+        binding.rvCodymake.layoutManager = gridLayoutManager
+        binding.rvCodymake.adapter = adapter
+
+        adapter.setItemClickListener(object: CodyMakeListAdapter.OnItemClickListener{
+            override fun onClick(v: View, position: Int) {
+                // 옷 클릭 시 화면에 선택한 옷 추가
+                var newclothes : Bitmap? = codyMakeList[position].clothes
+                if (newclothes != null) {
+                    Add_image(newclothes)
+                }
+
+            }
+        })
+
         /**
          * 액션바 대신 툴바를 사용하도록 설정
          */
@@ -54,7 +75,7 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
 
         // 옷 추가 버튼 클릭
         btn_addclothes.setOnClickListener {
-            Add_Image()
+            //Add_Image()
         }
 
         btn_codymade.setOnClickListener{
@@ -80,11 +101,10 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
 
 
 
-        val gridLayoutManager = GridLayoutManager(this, 3)
-        rv_codymake.layoutManager = gridLayoutManager
 
-        val adapter = CodyMakeListAdapter(codyMakeList)
-        rv_codymake.adapter = adapter
+
+
+
         //recylerview 이거 fashionista.xml에 있는 변수
 
 
@@ -149,21 +169,12 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
     }
 
 
-    private fun Add_Image() { // 이미지 추가
-        // 애셋매니저
-        val am = resources.assets
-        var iss: InputStream? = null
+    private fun Add_image(newclothes : Bitmap) { // 이미지 추가
 
         try {
-            // 애셋 폴더에 저장된 field.png 열기.
-            iss = am.open("cody.jpg")
-
-            // 입력스트림 is를 통해 field.png 을 Bitmap 객체로 변환.
-            val bm = BitmapFactory.decodeStream(iss)
-
             // 만들어진 Bitmap 객체를 이미지뷰에 표시.
             iv = ImageView(this)
-            iv!!.setImageBitmap(bm)
+            iv!!.setImageBitmap(newclothes)
             val layoutParams = RelativeLayout.LayoutParams(400, 400)
             iv!!.layoutParams = layoutParams
             RootLayout!!.addView(iv, layoutParams)
@@ -171,20 +182,9 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
             iv!!.setOnTouchListener(this)
             mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
 
-            iss.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
-        if (iss != null) {
-            try {
-                iss.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-
-
     }
 
     

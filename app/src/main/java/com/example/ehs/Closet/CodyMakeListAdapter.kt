@@ -25,9 +25,12 @@ class CodyMakeListAdapter(private val items: List<Clothes>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.itemView.setOnClickListener {
+            itemClickListener.onClick(it, position)
+        }
         val item = items[position]
         val listener = View.OnClickListener { it ->
-            Toast.makeText(it.context, "Clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(holder.itemView.context, "asdf ${items[position].clothes}", Toast.LENGTH_SHORT).show()
         }
 
         //리스트사이간격조절
@@ -44,15 +47,26 @@ class CodyMakeListAdapter(private val items: List<Clothes>)
     }
 
 
+
+
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
         private var view: View = v
 
-
         fun bind(listener: View.OnClickListener, item: Clothes) {
-
             view.clothes.setImageBitmap(item.clothes)
-            view.setOnClickListener(listener)
+
         }
     }
+
+    // (2) 리스너 인터페이스
+    interface OnItemClickListener {
+        fun onClick(v: View, position: Int)
+    }
+    // (3) 외부에서 클릭 시 이벤트 설정
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
+    }
+    // (4) setItemClickListener로 설정한 함수 실행
+    private lateinit var itemClickListener : OnItemClickListener
 }
