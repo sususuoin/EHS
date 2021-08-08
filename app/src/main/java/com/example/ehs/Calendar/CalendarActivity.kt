@@ -1,8 +1,8 @@
 package com.example.ehs.Calendar
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -96,10 +96,15 @@ class CalendarActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onItemClick(position: Int, dayText: String?) {
         if (dayText != "") {
-            println("호로로")
-            val message =
+            var selectday =
                 "Selected Date" + " " + monthYearFromDate(selectedDate) + " " + dayText + "일"
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, selectday, Toast.LENGTH_SHORT).show()
+
+
+            val intent = Intent(this@CalendarActivity, CalendarChoiceActivity::class.java)
+            intent.putExtra("selectday", selectday)
+            startActivity(intent)
+
         }
     }
 

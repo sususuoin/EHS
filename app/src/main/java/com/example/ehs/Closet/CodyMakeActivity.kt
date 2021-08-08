@@ -73,11 +73,6 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
-        // 옷 추가 버튼 클릭
-        btn_addclothes.setOnClickListener {
-            //Add_Image()
-        }
-
         btn_codymade.setOnClickListener{
             ll_codymake.setDrawingCacheEnabled(true)
             ll_codymake.buildDrawingCache()

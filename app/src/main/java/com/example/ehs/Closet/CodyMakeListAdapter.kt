@@ -25,6 +25,7 @@ class CodyMakeListAdapter(private val items: List<Clothes>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        // (1) 리스트 내 항목 클릭 시 onClick() 호출
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
         }

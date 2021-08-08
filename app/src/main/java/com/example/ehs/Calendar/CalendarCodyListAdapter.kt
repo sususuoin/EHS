@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.recycler_cody.view.*
 
-class CodyListAdapter(private val items: List<Cody>) : RecyclerView.Adapter<CodyListAdapter.ViewHolder>() {
+class CalendarCodyListAdapter(private val items: List<Cody>) : RecyclerView.Adapter<CalendarCodyListAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return items.size
@@ -20,13 +20,6 @@ class CodyListAdapter(private val items: List<Cody>) : RecyclerView.Adapter<Cody
 
         return ViewHolder(inflatedView)
     }
-
-
-//    var datas = mutableListOf<Cody>()
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-//        val inflatedView = LayoutInflater.from(context).inflate(R.layout.recycler_cody,parent,false)
-//        return ViewHolder(inflatedView)
-//    }
 
 
     // 아이템 클릭 리스너

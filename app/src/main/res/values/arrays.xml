@@ -7,8 +7,6 @@
         <item>하의</item>
         <item>원피스</item>
         <item>신발</item>
-        <item>모자</item>
-        <item>가방</item>
         <item>기타</item>
     </string-array>
 
@@ -21,6 +19,13 @@
     <string-array name="feed">
         <item>최신순</item>
         <item>인기순</item>
+    </string-array>
+
+    <string-array name="season">
+        <item>계절 전체</item>
+        <item>봄·가을</item>
+        <item>여름</item>
+        <item>겨울</item>
     </string-array>
 
 

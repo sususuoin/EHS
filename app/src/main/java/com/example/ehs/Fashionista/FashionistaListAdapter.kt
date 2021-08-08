@@ -23,17 +23,16 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FashionistaViewHolder {
         val inflatedView = LayoutInflater.from(parent.context)
             .inflate(R.layout.fashionista, parent, false)
-        return FashionistaViewHolder(inflatedView);
+        return FashionistaViewHolder(inflatedView)
     }
 
     override fun onBindViewHolder(holder: FashionistaViewHolder, position: Int) {
         val item = itemList[position]
+        holder.bind(FashionistaList[position])
 
         val layoutParams = holder.itemView.layoutParams
         layoutParams.height = 200
         holder.itemView.requestLayout()
-
-        holder.bind(FashionistaList[position])
 
         holder.apply {
             bind(item)

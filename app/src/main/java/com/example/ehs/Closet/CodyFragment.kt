@@ -203,7 +203,7 @@ class CodyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val gridLayoutManager = GridLayoutManager(a, 3)
+        val gridLayoutManager = GridLayoutManager(a, 2)
         recycler_cody.layoutManager = gridLayoutManager
 
         val adapter = CodyListAdapter(codyList)
