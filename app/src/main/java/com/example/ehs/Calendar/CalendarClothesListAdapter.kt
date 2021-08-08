@@ -1,35 +1,30 @@
-package com.example.ehs.Closet
+package com.example.ehs.Calendar
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ehs.Closet.Clothes
 import com.example.ehs.R
-import kotlinx.android.synthetic.main.recycler_cody.view.*
+import kotlinx.android.synthetic.main.clothes.view.*
 
-class CodyListAdapter(private val items: List<Cody>) : RecyclerView.Adapter<CodyListAdapter.ViewHolder>() {
+
+class CalendarClothesListAdapter(private val items: MutableList<Clothes>)
+    : RecyclerView.Adapter<CalendarClothesListAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return items.size
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflatedView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recycler_cody, parent, false)
+            .inflate(R.layout.clothes, parent, false)
 
         return ViewHolder(inflatedView)
     }
 
-
-//    var datas = mutableListOf<Cody>()
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-//        val inflatedView = LayoutInflater.from(context).inflate(R.layout.recycler_cody,parent,false)
-//        return ViewHolder(inflatedView)
-//    }
-
-
-    // 아이템 클릭 리스너
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         val listener = View.OnClickListener { it ->
@@ -38,7 +33,8 @@ class CodyListAdapter(private val items: List<Cody>) : RecyclerView.Adapter<Cody
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 530
+        layoutParams.height = 350
+        layoutParams.width = 350
         holder.itemView.requestLayout()
 
 
@@ -49,11 +45,27 @@ class CodyListAdapter(private val items: List<Cody>) : RecyclerView.Adapter<Cody
     }
 
 
+
+
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+
         private var view: View = v
-        fun bind(listener: View.OnClickListener, item: Cody) {
-            view.cody.setImageBitmap(item.cody)
+
+        fun bind(listener: View.OnClickListener, item: Clothes) {
+            view.clothes.setImageBitmap(item.clothes)
             view.setOnClickListener(listener)
+
         }
     }
+
+//    // (2) 리스너 인터페이스
+//    interface OnItemClickListener {
+//        fun onClick(v: View, position: Int)
+//    }
+//    // (3) 외부에서 클릭 시 이벤트 설정
+//    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+//        this.itemClickListener = onItemClickListener
+//    }
+//    // (4) setItemClickListener로 설정한 함수 실행
+//    private lateinit var itemClickListener : OnItemClickListener
 }
