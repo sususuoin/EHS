@@ -1,5 +1,6 @@
 package com.example.ehs.Closet
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -14,6 +15,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.BottomSheet.BottomSheet_fashion
 import com.example.ehs.Login.AutoLogin
+import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_cody_save.*
 import org.json.JSONException
@@ -24,8 +26,10 @@ import java.util.*
 
 class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetButtonClickListener {
 
-    lateinit var codyStyle : String
+    var codyStyle : String = ""
     var userId : String= ""
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +62,14 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
 
         // 완료하기 버튼 클릭 시
         btn_complete_cody.setOnClickListener{
-            uploadCody(image)
+
+            if(codyStyle == "" || codyStyle == null ) {
+                Toast.makeText(this@CodySaveActivity, "스타일을 꼭 설정해주세요", Toast.LENGTH_LONG).show()
+            }
+            else {
+                uploadCody(image)
+            }
+
         }
 
 
@@ -84,9 +95,9 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
 
                     Log.d("서버에 저장되어진 파일이름", codyImgName)
 
-                    Toast.makeText(ClosetFragment.a, codyImgName, Toast.LENGTH_SHORT).show()
-
+                    Toast.makeText(this, codyImgName, Toast.LENGTH_SHORT).show()
                     uploadDB(userId, codyImgName)
+
 
 //                    finish()
 
@@ -96,7 +107,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                 }
             },
             Response.ErrorListener { error ->
-                Toast.makeText(ClosetFragment.a, error.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()
                 Log.e("GotError", "" + error.message)
             }) {
             override fun getByteData(): Map<String, DataPart>? {
@@ -110,7 +121,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         }
 
         //adding the request to volley
-        Volley.newRequestQueue(ClosetFragment.a).add(codyUploadRequest)
+        Volley.newRequestQueue(this).add(codyUploadRequest)
 
     }
 
@@ -122,10 +133,11 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                     var success = jsonObject.getBoolean("success")
 
                     if(success) {
-                        Toast.makeText(this@CodySaveActivity,
-                            jsonObject.toString(),
-                            Toast.LENGTH_LONG).show()
-                        finish()
+                        Toast.makeText(this@CodySaveActivity, jsonObject.toString(), Toast.LENGTH_LONG).show()
+//                        finish()
+
+                        val intent = Intent(this@CodySaveActivity, MainActivity::class.java)
+                        startActivity(intent)
 
                     } else {
                         Toast.makeText(this@CodySaveActivity, "실패 두둥탁", Toast.LENGTH_LONG).show()
