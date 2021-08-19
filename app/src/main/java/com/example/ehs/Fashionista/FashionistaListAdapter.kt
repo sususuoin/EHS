@@ -10,14 +10,20 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
+import com.example.ehs.Closet.ClothesSave_Request
+import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
+import kotlinx.android.synthetic.main.activity_clothes_save.*
 import kotlinx.android.synthetic.main.fashionista.view.*
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 
 
 class FashionistaListAdapter(private val itemList: List<Fashionista>)
     : RecyclerView.Adapter<FashionistaViewHolder>()  {
-
 
     override fun getItemCount(): Int {
         return itemList.size
@@ -36,6 +42,14 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
         val layoutParams = holder.itemView.layoutParams
         layoutParams.height = 200
         holder.itemView.requestLayout()
+
+        var favoriteuserIdArr = AutoPro.getFavoriteuserId(holder.itemView.context)
+        for (i in 0 until favoriteuserIdArr.size) {
+            if (itemList[position].name == favoriteuserIdArr[i]) {
+                holder.itemView.findViewById<Button>(R.id.btn_Star_empty).visibility = View.GONE;
+                holder.itemView.findViewById<Button>(R.id.btn_Star_fill).visibility = View.VISIBLE;
+            }
+        }
 
         holder.apply {
             bind(item)
@@ -60,37 +74,71 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
             } // item 클릭하면 FashionistaProfile_Activity로 이동
 
             itemView.btn_Star_empty.setOnClickListener {
+
                 //비어있는 스타 클릭시 채어지는 스타로변경 (즐겨찾기에 등록)
-                star_fill(itemView)
+                itemView.findViewById<Button>(R.id.btn_Star_empty).visibility = View.GONE;
+                itemView.findViewById<Button>(R.id.btn_Star_fill).visibility = View.VISIBLE;
+
+                val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+                    override fun onResponse(response: String?) {
+                        try {
+                            val jsonObject = JSONObject(response)
+                            var success = jsonObject.getBoolean("success")
+
+                            if(success) {
+                                Toast.makeText(itemView.context, "즐겨찾기 성공", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(itemView.context, "즐겨찾기 실패", Toast.LENGTH_SHORT).show()
+                                return
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+
+                var userId = AutoLogin.getUserId(itemView.context)
+                var prouserId = itemList[position].name
+                val favoritesave_Request = FavoriteSave_Request(userId, prouserId, responseListener)
+                val queue = Volley.newRequestQueue(itemView.context)
+                queue.add(favoritesave_Request)
 
             }
 
             itemView.btn_Star_fill.setOnClickListener {
                 Log.d("클릭","즐겨찾기 취소버튼클릭")
                 //채워져있는 스타를 클릭시 비워져있는 스타로 변경 (즐겨찾기 취소)
-                star_empty(itemView)
+                itemView.findViewById<Button>(R.id.btn_Star_empty).visibility = View.VISIBLE;
+                itemView.findViewById<Button>(R.id.btn_Star_fill).visibility = View.GONE;
+
+
+                val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+                    override fun onResponse(response: String?) {
+                        try {
+                            val jsonObject = JSONObject(response)
+                            var success = jsonObject.getBoolean("success")
+
+                            if(success) {
+                                Toast.makeText(itemView.context, "즐겨찾기 삭제", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(itemView.context, "즐겨찾기 삭제실패", Toast.LENGTH_SHORT).show()
+                                return
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+
+                var userId = AutoLogin.getUserId(itemView.context)
+                var prouserId = itemList[position].name
+                val favoriteupdate_Request = FavoriteUpdate_Request(userId, prouserId, responseListener)
+                val queue = Volley.newRequestQueue(itemView.context)
+                queue.add(favoriteupdate_Request)
 
             }
         }
 
     }
-
-    private fun star_fill(it : View) {
-        it.findViewById<Button>(R.id.btn_Star_empty).visibility = View.GONE;
-        it.findViewById<Button>(R.id.btn_Star_fill).visibility = View.VISIBLE;
-
-        //디비저장
-
-
-    }
-
-    private fun star_empty(it : View ) {
-        it.findViewById<Button>(R.id.btn_Star_empty).visibility = View.VISIBLE;
-        it.findViewById<Button>(R.id.btn_Star_fill).visibility = View.GONE;
-    }
-
-
-
-
 
 }

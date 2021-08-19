@@ -411,7 +411,6 @@ class MainActivity : AppCompatActivity() {
 
     fun ClosetImg() {
 
-        Log.d("~~~~~~?", "~~~~~~~")
         userId = AutoLogin.getUserId(this)
 
         var cuserId: String
@@ -427,21 +426,14 @@ class MainActivity : AppCompatActivity() {
 
                     val arr: JSONArray = jsonObject.getJSONArray("response")
 
-                    Log.d("~~~~~?", response)
-                    Log.d("~~~~~~?", arr.toString())
-
 
                     for (i in 0 until arr.length()) {
                         val clothesObject = arr.getJSONObject(i)
-                        Log.d("~~~~~~ ?", arr[i].toString())
-
                         cuserId = clothesObject.getString("userId")
                         cclothesName = clothesObject.getString("clothesName")
 
-                        Log.d("~~~~~~123?", cclothesName)
 
                         clothesArr.add(cclothesName)
-                        Log.d("~호?", clothesArr.toString())
 
                         AutoCloset.setClothesName(this, clothesArr as ArrayList<String>)
 
@@ -460,7 +452,6 @@ class MainActivity : AppCompatActivity() {
 
     fun CodyImg() {
 
-        Log.d("~~~~~~?", "~~~~~~~")
         userId = AutoLogin.getUserId(this)
 
         var cuserId: String
@@ -476,21 +467,13 @@ class MainActivity : AppCompatActivity() {
 
                     val arr: JSONArray = jsonObject.getJSONArray("response")
 
-                    Log.d("~~~~~?", response)
-                    Log.d("~~~~~~?", arr.toString())
-
-
                     for (i in 0 until arr.length()) {
                         val codyObject = arr.getJSONObject(i)
-                        Log.d("~~~~~~ ?", arr[i].toString())
 
                         cuserId = codyObject.getString("userId")
                         codyImgName = codyObject.getString("codyImgName")
 
-                        Log.d("~~~~~~123?", codyImgName)
-
                         codyArr.add(codyImgName)
-                        Log.d("~호?", codyArr.toString())
 
                         AutoCody.setCodyName(this, codyArr as ArrayList<String>)
 

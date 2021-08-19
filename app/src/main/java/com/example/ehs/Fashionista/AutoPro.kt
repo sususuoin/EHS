@@ -198,6 +198,46 @@ object AutoPro {
 
     }
 
+    fun setFavoriteuserId(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_FavoriteuserId", a.toString())
+        } else {
+            editor.putString("MY_FavoriteuserId", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getFavoriteuserId(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_FavoriteuserId", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
+
+
+
+
+
+
     fun clearPro(context: Context) {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
         val editor : SharedPreferences.Editor = prefs.edit()
