@@ -1,15 +1,25 @@
 package com.example.ehs.Home
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
-class CalendarlistAdapter(val context: Context, val calendarList: ArrayList<Calendarlist>) : RecyclerView.Adapter<CalendarlistAdapter.Holder>() {
+class CalendarlistAdapter(
+    val context: Context,
+    val calendarList: ArrayList<Calendarlist>)
+
+    : RecyclerView.Adapter<CalendarlistAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
 
         val view = LayoutInflater.from(context).inflate(R.layout.calendar_main, parent, false)
@@ -35,12 +45,26 @@ class CalendarlistAdapter(val context: Context, val calendarList: ArrayList<Cale
         fun bind (calendar: Calendarlist, context: Context) {
             /* dogPhoto의 setImageResource에 들어갈 이미지의 id를 파일명(String)으로 찾고,
             이미지가 없는 경우 안드로이드 기본 아이콘을 표시한다.*/
+
+            var today : LocalDate = LocalDate.now()
+            val formatter = DateTimeFormatter.ofPattern("dd")
+            val nowday = today.format(formatter).toString()
+
+            if(calendar.day == nowday) {
+                day!!.setTextColor(ContextCompat.getColor(context!! ,R.color.ourcolor))
+                yoil!!.setTextColor(ContextCompat.getColor(context!! ,R.color.ourcolor))
+            }
+
+
+
             if (calendar.photo != "") {
                 val resourceId = context.resources.getIdentifier(calendar.photo, "drawable", context.packageName)
                 cody?.setImageResource(resourceId)
             } else {
                 cody?.setImageResource(R.drawable.ic_add)
             }
+
+
 
             /* 나머지 TextView와 String 데이터를 연결한다. */
             day?.text = calendar.day
