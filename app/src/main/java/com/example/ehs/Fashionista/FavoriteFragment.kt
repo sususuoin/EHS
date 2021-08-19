@@ -93,12 +93,6 @@ class FavoriteFragment : Fragment() {
         favoriteList.add(one)
         favoriteList.add(two)
         favoriteList.add(three)
-        favoriteList.add(one)
-        favoriteList.add(two)
-        favoriteList.add(three)
-        favoriteList.add(one)
-        favoriteList.add(two)
-        favoriteList.add(three)
 
 
         return view
@@ -132,27 +126,37 @@ class FavoriteFragment : Fragment() {
 
                     Log.d("~~1", response)
                     Log.d("~~2", arr.toString())
+                    Log.d("~~22", arr.length().toString())
 
-                    for (i in 0 until arr.length()) {
-                        val proObject = arr.getJSONObject(i)
-                        Log.d("~~3", arr[i].toString())
-
-                        proStyle = proObject.getString("codyStyle")
-                        prouserId = proObject.getString("userId")
-                        proprofileImg = proObject.getString("userProfileImg")
-
-
-                        proIdArr.add(prouserId)
-                        proImgArr.add(proprofileImg)
-
-
-                        AutoPro.setStyle(a!!, proStyle)
-                        AutoPro.setProProfileId(a!!, proIdArr as ArrayList<String>)
-                        AutoPro.setProProfileImg(a!!, proImgArr as ArrayList<String>)
+                    if(arr.length().toString() == "0") {
+                        Toast.makeText(a!!, "전문가부족현상으로 다음에 이용해주시기 바랍니다.", Toast.LENGTH_SHORT).show()
+                        return@Listener
                     }
-                    // 추천 액티비티로 이동
-                    val intent = Intent(a!!, ProRecommendActivity::class.java)
-                    startActivity(intent)
+
+                    else {
+                        for (i in 0 until arr.length()) {
+                            val proObject = arr.getJSONObject(i)
+                            Log.d("~~3", arr[i].toString())
+
+                            proStyle = proObject.getString("codyStyle")
+                            prouserId = proObject.getString("userId")
+                            proprofileImg = proObject.getString("userProfileImg")
+
+
+                            proIdArr.add(prouserId)
+                            proImgArr.add(proprofileImg)
+
+
+                            AutoPro.setStyle(a!!, proStyle)
+                            AutoPro.setProProfileId(a!!, proIdArr as ArrayList<String>)
+                            AutoPro.setProProfileImg(a!!, proImgArr as ArrayList<String>)
+                        }
+                        // 추천 액티비티로 이동
+                        val intent = Intent(a!!, ProRecommendActivity::class.java)
+                        startActivity(intent)
+                    }
+
+
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
