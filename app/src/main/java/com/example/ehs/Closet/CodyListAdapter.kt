@@ -22,13 +22,6 @@ class CodyListAdapter(private val items: List<Cody>) : RecyclerView.Adapter<Cody
     }
 
 
-//    var datas = mutableListOf<Cody>()
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-//        val inflatedView = LayoutInflater.from(context).inflate(R.layout.recycler_cody,parent,false)
-//        return ViewHolder(inflatedView)
-//    }
-
-
     // 아이템 클릭 리스너
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]

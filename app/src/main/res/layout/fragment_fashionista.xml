@@ -204,11 +204,15 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+
                 android:id="@+id/mRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="941dp"
                 android:layout_marginHorizontal="20dp"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
 
         </LinearLayout>
 

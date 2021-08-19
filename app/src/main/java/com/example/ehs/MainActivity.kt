@@ -20,9 +20,8 @@ import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.*
-import com.example.ehs.Fashionista.Fashionista
+import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Fashionista.FashionistaFragment
-import com.example.ehs.Fashionista.FashionistaList
 import com.example.ehs.Fashionista.FashionistaUser_Request
 import com.example.ehs.Feed.FeedFragment
 import com.example.ehs.Home.AutoHome
@@ -121,8 +120,8 @@ class MainActivity : AppCompatActivity() {
         setLocation_Permission()
 
 
-        FashionistaUser()
-        ClosetImg()
+
+
 
     }
 
@@ -139,6 +138,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_fashionista -> {
                     Log.d(TAG, "MainActivity - 패셔니스타 버튼 클릭!")
 
+                    FashionistaUser()
                     fashionistaFragment = FashionistaFragment.newInstance()
                     replaceFragment(fashionistaFragment)
                 }
@@ -363,7 +363,11 @@ class MainActivity : AppCompatActivity() {
         var fuserId: String
         var fuserLevel: String
         var fuserProfileImg : String
-        var fuserProfile : Bitmap?
+
+
+        var fuserIdArr = mutableListOf<String>()
+        var fuserLevelArr = mutableListOf<String>()
+        var fuserProImgArr = mutableListOf<String>()
 
         val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
             override fun onResponse(response: String?) {
@@ -379,10 +383,18 @@ class MainActivity : AppCompatActivity() {
                         fuserId = fuserObject.getString("userId")
                         fuserLevel = fuserObject.getString("userLevel")
                         fuserProfileImg = fuserObject.getString("userProfileImg")
-                        fuserProfile = AutoLogin.StringToBitmap(fuserProfileImg)
+//                        fuserProfile = AutoLogin.StringToBitmap(fuserProfileImg)
 
-                        var fashin = Fashionista(fuserId, fuserLevel, fuserProfile)
-                        FashionistaList.add(fashin)
+                        fuserIdArr.add(fuserId)
+                        fuserLevelArr.add(fuserLevel)
+                        fuserProImgArr.add(fuserProfileImg)
+
+                        AutoPro.setProuserId(this@MainActivity, fuserIdArr as ArrayList<String>)
+                        AutoPro.setProuserLevel(this@MainActivity, fuserLevelArr as ArrayList<String>)
+                        AutoPro.setProuserProImg(this@MainActivity, fuserProImgArr as ArrayList<String>)
+
+//                        var fashin = Fashionista(fuserId, fuserLevel, fuserProfile)
+//                        FashionistaList.add(fashin)
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()

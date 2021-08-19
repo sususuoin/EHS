@@ -3,6 +3,7 @@ package com.example.ehs.Fashionista
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,34 +12,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
 import com.example.ehs.MainActivity
-import androidx.fragment.app.FragmentTransaction
-import com.android.volley.Response
-import com.android.volley.toolbox.Volley
+import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
-import kotlinx.android.synthetic.main.fragment_closet.view.*
 import kotlinx.android.synthetic.main.fragment_fashionista.*
-import kotlinx.android.synthetic.main.fragment_fashionista.view.*
-import kotlinx.android.synthetic.main.fragment_favorite.view.*
 import kotlinx.android.synthetic.main.fragment_favorite.view.tv_favorite
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 
 
 class FashionistaFragment : Fragment() {
     private var a: Activity? = null
 
+    var fuserIdArr2 = ArrayList<String>()
+    var fuserLevelArr2 = ArrayList<String>()
+    var fuserProImgArr2 = ArrayList<String>()
 
-//    val FashionistaList = mutableListOf<Fashionista>(
-//        Fashionista("john", "#데일리"),
-//        Fashionista("mir", "#빈티지"),
-//        Fashionista("delp", "캐쥬얼")
-//    )
-
-    lateinit var fashionistaListAdapter : FashionistaListAdapter
-
-
-    private var pDialog: ProgressDialog? = null
+    val FashionistaList = mutableListOf<Fashionista>()
 
     companion object {
         const val TAG : String = "패셔니스타 프래그먼트"
@@ -52,6 +39,20 @@ class FashionistaFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "FashionistaFragment - onCreate() called")
+
+        fuserIdArr2 = AutoPro.getProuserId(a!!)
+        Log.d(TAG+"내맘", fuserIdArr2.toString())
+        fuserLevelArr2 = AutoPro.getProuserLevel(a!!)
+        fuserProImgArr2 = AutoPro.getProuserProImg(a!!)
+
+        var fuserProfile : Bitmap?
+        for (i in 0 until fuserIdArr2.size) {
+
+            fuserProfile = AutoLogin.StringToBitmap(fuserProImgArr2[i])
+            var fashin = Fashionista(fuserIdArr2[i], fuserLevelArr2[i], fuserProfile)
+            FashionistaList.add(fashin)
+            fuserProfile == null
+        }
 
 
     }
@@ -80,10 +81,6 @@ class FashionistaFragment : Fragment() {
         }
 
 
-//        FashionistaUser()
-
-//        var fashin = Fashionista("ghgh", "gkgk")
-//        FashionistaList.add(fashin)
 
         return view
     }
@@ -97,6 +94,8 @@ class FashionistaFragment : Fragment() {
         mRecyclerView.adapter = adapter
 
     }
+
+
 
 
 

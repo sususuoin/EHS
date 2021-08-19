@@ -28,7 +28,7 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
 
     override fun onBindViewHolder(holder: FashionistaViewHolder, position: Int) {
         val item = itemList[position]
-        holder.bind(FashionistaList[position])
+        holder.bind(itemList[position])
 
         val layoutParams = holder.itemView.layoutParams
         layoutParams.height = 200
@@ -39,16 +39,16 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
             itemView.setOnClickListener {
 
                 Toast.makeText(holder.itemView.context,
-                    "asdf ${FashionistaList[position].name}",
+                    "asdf ${itemList[position].name}",
                     Toast.LENGTH_SHORT).show()
-                var fashionistaId = FashionistaList[position].name
-                var fashionistaProfile = FashionistaList[position].profile
+                var fashionistaId = itemList[position].name
+                var fashionistaProfile = itemList[position].profile
 
                 val stream = ByteArrayOutputStream()
                 fashionistaProfile!!.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                 val byteArray = stream.toByteArray()
 
-                Log.d("전문가 아이디", FashionistaList[position].name)
+                Log.d("전문가 아이디", itemList[position].name)
                 val intent = Intent(holder.itemView?.context,
                     FashionistaProfile_Activity::class.java)
                 intent.putExtra("fashionistaId", fashionistaId)

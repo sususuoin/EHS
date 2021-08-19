@@ -26,7 +26,6 @@ import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.AutoCloset
 import com.example.ehs.Closet.AutoCody
 import com.example.ehs.Fashionista.AutoPro
-import com.example.ehs.Fashionista.FashionistaList
 import com.example.ehs.Home.AutoHome
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.Login.LoginActivity
@@ -157,7 +156,6 @@ class MypageFragment : Fragment() {
                             AutoLogin.setUserId(a!!, null)
                             AutoLogin.clearUser(a!!)
                             AutoHome.clearHome(a!!)
-                            FashionistaList.clear()
                             AutoPro.clearPro(a!!)
                             AutoCody.clearCody(a!!)
                             AutoCloset.clearCloset(a!!)
@@ -303,14 +301,6 @@ class MypageFragment : Fragment() {
             }
 
         }
-//        val colors: ArrayList<Int> = ArrayList()
-//
-//        for (color in ColorTemplate.MATERIAL_COLORS) {
-//            colors.add(color)
-//        }
-//        for (color in ColorTemplate.VORDIPLOM_COLORS) {
-//            colors.add(color)
-//        }
 
         val dataSet: PieDataSet = PieDataSet(entries, "Expense Category")
 
