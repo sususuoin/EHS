@@ -13,13 +13,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ehs.AI.Main_AIActivity
 import com.example.ehs.Calendar.CalendarActivity
+import com.example.ehs.Closet.ClosetFragment
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.example.ehs.Weather.WeatherActivity
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -45,7 +48,6 @@ class HomeFragment : Fragment() {
     lateinit var weathergo : ImageButton
     lateinit var updatebtn : ImageButton
     lateinit var crecyclerview: androidx.recyclerview.widget.RecyclerView
-    lateinit var crecyclerview2: androidx.recyclerview.widget.RecyclerView
     lateinit var img_weather: ImageView
     lateinit var tv_weathergo : TextView
     lateinit var tv_cityH : TextView
@@ -165,42 +167,29 @@ class HomeFragment : Fragment() {
             Calendarlist(sun!!, "일", ""),
             Calendarlist(mon!!, "월", ""),
             Calendarlist(tue!!, "화", ""),
-            Calendarlist(wed!!, "수", "")
-        )
-        var calendarList2 = arrayListOf<Calendarlist>(
+            Calendarlist(wed!!, "수", ""),
             Calendarlist(thu!!, "목", ""),
             Calendarlist(fri!!, "금", ""),
             Calendarlist(sat!!, "토", ""),
             Calendarlist(" 캘린더로 이동", "", "ic_right")
-
         )
 
 
+
         /**
-         * 캘린더 리사이클러 뷰1(일-수)
+         * 캘린더 리사이클러 뷰
          */
+
+        crecyclerview = view.findViewById(R.id.rv_homecalendar)
+        val gridLayoutManager = GridLayoutManager(a, 4)
+        crecyclerview.layoutManager = gridLayoutManager
+
         val cAdapter = CalendarlistAdapter(a!!, calendarList)
-        crecyclerview = view.findViewById(R.id.cRecyclerView)
         crecyclerview.adapter = cAdapter
 
         // RecyclerView Adapter에서는 레이아웃 매니저 (LayoutManager) 를 설정
         // recyclerView에 setHasFixedSize 옵션에 true 값을 준다.
-        val lm = LinearLayoutManager(a, LinearLayoutManager.HORIZONTAL, false)
-        crecyclerview.layoutManager = lm
         crecyclerview.setHasFixedSize(true)
-
-        /**
-         * 캘린더 리사이클러 뷰2(목-끝)
-         */
-        val cAdapter2 = CalendarlistAdapter(a!!, calendarList2)
-        crecyclerview2 = view.findViewById(R.id.cRecyclerView2)
-        crecyclerview2.adapter = cAdapter2
-        // RecyclerView Adapter에서는 레이아웃 매니저 (LayoutManager) 를 설정
-        // recyclerView에 setHasFixedSize 옵션에 true 값을 준다.
-        val lm2 = LinearLayoutManager(a, LinearLayoutManager.HORIZONTAL, false)
-        crecyclerview2.layoutManager = lm2
-        crecyclerview2.setHasFixedSize(true)
-
 
         return view
     } // oncreateview 끝
