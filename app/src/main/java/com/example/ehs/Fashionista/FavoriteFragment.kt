@@ -33,6 +33,9 @@ class FavoriteFragment : Fragment() {
     val favoriteList = mutableListOf<Favorite>()
     lateinit var userId: String
 
+    var favoriteuserIdArr = ArrayList<String>()
+    var favoriteuserHashTagArr = ArrayList<String>()
+    var favoriteuserProImgArr = ArrayList<String>()
 
     companion object {
         const val TAG : String = "커뮤니티 프레그먼트"
@@ -48,6 +51,10 @@ class FavoriteFragment : Fragment() {
         Log.d(TAG, "FeedFragment - onCreate() called")
 
         userId = AutoLogin.getUserId(a!!)
+
+        favoriteuserIdArr = AutoPro.getFavoriteuserId2(a!!)
+        favoriteuserHashTagArr = AutoPro.getFavoriteuserHashTag(a!!)
+        favoriteuserProImgArr = AutoPro.getFavoriteuserImg(a!!)
 
 
 
@@ -87,17 +94,25 @@ class FavoriteFragment : Fragment() {
             recommend()
         }
 
-        val resources: Resources = this.resources
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.basicprofile)
+//        val resources: Resources = this.resources
+//        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.basicprofile)
 
-        var one = Favorite("lu__eun","#스트릿", bitmap)
-        var two = Favorite("Ha_nle","#데일리", bitmap)
-        var three = Favorite("tndlstksxk","#아메카지", bitmap)
+//        var one = Favorite("lu__eun","#스트릿", bitmap)
+//        var two = Favorite("Ha_nle","#데일리", bitmap)
+//        var three = Favorite("tndlstksxk","#아메카지", bitmap)
+//
+//        favoriteList.add(one)
+//        favoriteList.add(two)
+//        favoriteList.add(three)
 
-        favoriteList.add(one)
-        favoriteList.add(two)
-        favoriteList.add(three)
-
+        if(favoriteuserIdArr.size!=0) {
+            for(i in 0 until favoriteuserIdArr.size) {
+                var favoriteuserProfile = AutoLogin.StringToBitmap(favoriteuserProImgArr[i])
+                var favorite = Favorite(favoriteuserIdArr[i], '#'+favoriteuserHashTagArr[i], favoriteuserProfile)
+                favoriteList.add(favorite)
+                favoriteuserProfile ==null
+            }
+        }
 
         return view
     }

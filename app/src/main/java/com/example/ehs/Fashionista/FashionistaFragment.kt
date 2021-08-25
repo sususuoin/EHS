@@ -33,6 +33,7 @@ class FashionistaFragment : Fragment() {
     var fuserIdArr2 = ArrayList<String>()
     var fuserLevelArr2 = ArrayList<String>()
     var fuserProImgArr2 = ArrayList<String>()
+    var favoriteListArr = ArrayList<String>()
 
     val FashionistaList = mutableListOf<Fashionista>()
     val adapter = FashionistaListAdapter(FashionistaList)
@@ -56,6 +57,8 @@ class FashionistaFragment : Fragment() {
         Log.d(TAG+"내맘", fuserIdArr2.toString())
         fuserLevelArr2 = AutoPro.getProuserLevel(a!!)
         fuserProImgArr2 = AutoPro.getProuserProImg(a!!)
+
+        favoriteListArr = AutoPro.getFavoriteuserId(a!!)
 
         userId = AutoLogin.getUserId(a!!)
 
@@ -96,7 +99,13 @@ class FashionistaFragment : Fragment() {
         
         view.tv_favorite.setOnClickListener {
             Log.d("FashionistaFragment", "피드로 이동")
-            (activity as MainActivity?)!!.replaceFragment(FavoriteFragment.newInstance())
+            if(favoriteListArr.size ==0) {
+                (activity as MainActivity?)!!.replaceFragment(FavoriteFragment.newInstance())
+            }
+            else {
+                favoriteListUp()
+            }
+
         }
 
 
@@ -157,6 +166,57 @@ class FashionistaFragment : Fragment() {
         val favoritecheck_Request = FavoriteCheck_Request(userId!!, responseListener)
         val queue = Volley.newRequestQueue(a)
         queue.add(favoritecheck_Request)
+    }
+
+
+    private fun favoriteListUp() {
+
+        var favoriteuserId: String
+        var favoriteuserHashTag: String
+        var favoriteuserProfileImg : String
+
+        var favoriteuserIdArr = mutableListOf<String>()
+        var favoriteuserHashTagArr = mutableListOf<String>()
+        var favoriteuserProImgArr = mutableListOf<String>()
+
+        for (i in 0 until favoriteListArr.size) {
+            val responseListener: Response.Listener<String?> =
+                Response.Listener<String?> { response ->
+                    try {
+
+                        var jsonObject = JSONObject(response)
+
+                        val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                        for (i in 0 until arr.length()) {
+                            val fuserObject = arr.getJSONObject(i)
+
+                            favoriteuserId = fuserObject.getString("userId")
+                            favoriteuserHashTag = fuserObject.getString("HashTag")
+                            favoriteuserProfileImg = fuserObject.getString("userProfileImg")
+
+                            favoriteuserIdArr.add(favoriteuserId)
+                            favoriteuserHashTagArr.add(favoriteuserHashTag)
+                            favoriteuserProImgArr.add(favoriteuserProfileImg)
+
+                            AutoPro.setFavoriteuserId2(a!!, favoriteuserIdArr as java.util.ArrayList<String>)
+                            AutoPro.setFavoriteuserHashTag(a!!, favoriteuserHashTagArr as java.util.ArrayList<String>)
+                            AutoPro.setFavoriteuserImg(a!!, favoriteuserProImgArr as java.util.ArrayList<String>)
+
+                            (activity as MainActivity?)!!.replaceFragment(FavoriteFragment.newInstance())
+
+                        }
+
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
+            var proId = favoriteListArr[i]
+            val favoriteListUp_Request = FavoriteListUp_Request(proId!!, responseListener)
+            val queue = Volley.newRequestQueue(a)
+            queue.add(favoriteListUp_Request)
+        }
+
     }
 
 

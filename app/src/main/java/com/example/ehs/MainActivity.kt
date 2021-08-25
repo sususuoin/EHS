@@ -389,10 +389,8 @@ class MainActivity : AppCompatActivity() {
                         fuserProImgArr.add(fuserProfileImg)
 
                         AutoPro.setProuserId(this@MainActivity, fuserIdArr as ArrayList<String>)
-                        AutoPro.setProuserLevel(this@MainActivity,
-                            fuserLevelArr as ArrayList<String>)
-                        AutoPro.setProuserProImg(this@MainActivity,
-                            fuserProImgArr as ArrayList<String>)
+                        AutoPro.setProuserLevel(this@MainActivity, fuserLevelArr as ArrayList<String>)
+                        AutoPro.setProuserProImg(this@MainActivity, fuserProImgArr as ArrayList<String>)
 
 //                        var fashin = Fashionista(fuserId, fuserLevel, fuserProfile)
 //                        FashionistaList.add(fashin)
