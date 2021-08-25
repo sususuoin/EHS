@@ -17,8 +17,10 @@ import com.example.ehs.Closet.CodyServer_Request
 
 import com.example.ehs.MainActivity
 import com.example.ehs.Login.AutoLogin
+import com.example.ehs.Mypage.MypageFragment
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_fashionista.*
+import kotlinx.android.synthetic.main.fragment_fashionista.view.*
 import kotlinx.android.synthetic.main.fragment_favorite.view.tv_favorite
 import org.json.JSONArray
 import org.json.JSONException
@@ -33,6 +35,7 @@ class FashionistaFragment : Fragment() {
     var fuserProImgArr2 = ArrayList<String>()
 
     val FashionistaList = mutableListOf<Fashionista>()
+    val adapter = FashionistaListAdapter(FashionistaList)
 
     lateinit var userId :String
 
@@ -84,7 +87,12 @@ class FashionistaFragment : Fragment() {
     ): View? {
         Log.d(TAG, "FashionistaFragment - onCreateView() called")
         val view = inflater.inflate(R.layout.fragment_fashionista, container, false)
-        
+
+        view.tv_fashionista.setOnClickListener {
+            Log.d("FashionistaFragment", "나로 이동")
+            (activity as MainActivity?)!!.replaceFragment(this)
+            adapter.notifyDataSetChanged()
+        }
         
         view.tv_favorite.setOnClickListener {
             Log.d("FashionistaFragment", "피드로 이동")
@@ -102,10 +110,14 @@ class FashionistaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        val adapter = FashionistaListAdapter(FashionistaList)
         mRecyclerView.adapter = adapter
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("FashionistaFragment", "RESUME")
+        adapter.notifyDataSetChanged()
     }
 
     fun favorite_check() {

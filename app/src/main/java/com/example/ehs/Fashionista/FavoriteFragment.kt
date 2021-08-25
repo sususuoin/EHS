@@ -3,24 +3,19 @@ package com.example.ehs.Fashionista
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.LocusId
 import android.content.res.Resources
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import com.example.ehs.Closet.AutoCloset
-import com.example.ehs.Feed.Community
-import com.example.ehs.Feed.CommunityListAdapter
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
@@ -74,10 +69,19 @@ class FavoriteFragment : Fragment() {
     ): View? {
         Log.d(TAG, "FavoriteFragment - onCreateView() called")
         val view = inflater.inflate(R.layout.fragment_favorite, container, false)
+
         view.tv_fashionista2.setOnClickListener {
             Log.d("FashionistaFragment", "피드로 이동")
             (activity as MainActivity?)!!.replaceFragment(FashionistaFragment.newInstance())
         }
+
+        view.tv_favorite.setOnClickListener {
+            Log.d("FashionistaFragment", "두두둥2")
+            var ft: FragmentTransaction = requireFragmentManager().beginTransaction()
+            ft.detach(this).attach(this).commit()
+        }
+
+
         // 추천배너 클릭 시
         view.btn_recommend.setOnClickListener {
             recommend()

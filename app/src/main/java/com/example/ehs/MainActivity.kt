@@ -3,12 +3,9 @@ package com.example.ehs
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.location.*
 import android.os.Build
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +14,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.*
@@ -75,6 +74,8 @@ class MainActivity : AppCompatActivity() {
     // 첫 번째 뒤로 가기 버튼을 누를 때 표시
     private var toast: Toast? = null
 
+    var swipeRefreshLayout: SwipeRefreshLayout? = null
+
     override fun onBackPressed() {
         //super.onBackPressed();
         // 기존 뒤로 가기 버튼의 기능을 막기 위해 주석 처리 또는 삭제
@@ -121,9 +122,15 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout!!.setOnRefreshListener(OnRefreshListener {
+            Log.d("당겨서", "새로고침")
+            //새로고침 작업 실행
+            swipeRefreshLayout!!.isRefreshing = false
+        })
 
     }
+
 
     // 바텀 네비게이션 아이템 클릭 리스너 설정
     private val onBottomNavItemSeletedListener =
@@ -176,14 +183,6 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    fun addFragment(fragment: Fragment?) {
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragments_frame, fragment!!)
-        fragmentTransaction.commit()
-    }
-
-
     /**
      * 테드 퍼미션 설정
      */
@@ -234,7 +233,7 @@ class MainActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String?>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         // grantResults[0] 거부 -> -1
@@ -390,8 +389,10 @@ class MainActivity : AppCompatActivity() {
                         fuserProImgArr.add(fuserProfileImg)
 
                         AutoPro.setProuserId(this@MainActivity, fuserIdArr as ArrayList<String>)
-                        AutoPro.setProuserLevel(this@MainActivity, fuserLevelArr as ArrayList<String>)
-                        AutoPro.setProuserProImg(this@MainActivity, fuserProImgArr as ArrayList<String>)
+                        AutoPro.setProuserLevel(this@MainActivity,
+                            fuserLevelArr as ArrayList<String>)
+                        AutoPro.setProuserProImg(this@MainActivity,
+                            fuserProImgArr as ArrayList<String>)
 
 //                        var fashin = Fashionista(fuserId, fuserLevel, fuserProfile)
 //                        FashionistaList.add(fashin)
