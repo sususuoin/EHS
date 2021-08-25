@@ -1,6 +1,8 @@
 package com.example.ehs.Fashionista
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_community_item.view.*
 import kotlinx.android.synthetic.main.fragment_favorite_item.view.*
+import java.io.ByteArrayOutputStream
 
 class FavoriteListAdapter(private val items: List<Favorite>)
     : RecyclerView.Adapter<FavoriteListAdapter.ViewHolder>() {
@@ -43,8 +46,22 @@ class FavoriteListAdapter(private val items: List<Favorite>)
 //            itemView.tag = item
             itemView.setOnClickListener {
 
-            } // item 클릭하면 FashionistaProfile_Activity로 이동
+                Toast.makeText(holder.itemView.context,
+                    "asdf ${items[position].proId}",
+                    Toast.LENGTH_SHORT).show()
+                var fashionistaId = items[position].proId
+                var fashionistaProfile = items[position].profile
 
+                val stream = ByteArrayOutputStream()
+                fashionistaProfile!!.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                val byteArray = stream.toByteArray()
+
+                Log.d("전문가 아이디", items[position].proId)
+                val intent = Intent(holder.itemView.context, FashionistaProfile_Activity::class.java)
+                intent.putExtra("fashionistaId", fashionistaId)
+                intent.putExtra("fashionistaProfile", byteArray)
+                ContextCompat.startActivity(holder.itemView.context, intent, null)
+            } // item 클릭하면 FashionistaProfile_Activity로 이동
 
         }
     }

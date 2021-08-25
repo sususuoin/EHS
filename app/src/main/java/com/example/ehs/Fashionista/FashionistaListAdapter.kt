@@ -66,12 +66,14 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
                 val byteArray = stream.toByteArray()
 
                 Log.d("전문가 아이디", itemList[position].name)
-                val intent = Intent(holder.itemView?.context,
-                    FashionistaProfile_Activity::class.java)
+                val intent = Intent(holder.itemView.context, FashionistaProfile_Activity::class.java)
                 intent.putExtra("fashionistaId", fashionistaId)
                 intent.putExtra("fashionistaProfile", byteArray)
                 ContextCompat.startActivity(holder.itemView.context, intent, null)
             } // item 클릭하면 FashionistaProfile_Activity로 이동
+
+
+
 
             itemView.btn_Star_empty.setOnClickListener {
 
