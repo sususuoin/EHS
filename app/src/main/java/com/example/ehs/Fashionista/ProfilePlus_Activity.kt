@@ -2,28 +2,38 @@ package com.example.ehs.Fashionista
 
 
 import android.app.Activity
+import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Context
-
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import com.example.ehs.BottomSheet.BottomSheet_fashion
+import com.android.volley.NetworkResponse
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
+import com.example.ehs.Closet.ClothesUpload_Request
+import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import kotlinx.android.synthetic.main.activity_clothes_save.*
 import kotlinx.android.synthetic.main.activity_cody_save.*
 import kotlinx.android.synthetic.main.activity_profile_plus_.*
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -35,37 +45,43 @@ class ProfilePlus_Activity : AppCompatActivity() {
 
     lateinit var currentPhotoPath: String // 문자열 형태의 사진 경로 값 (초기 값을 null로 시작하고 싶을 때)
 
-    private var isFabOpen = false
     lateinit var bmp : Bitmap
     lateinit var uploadImgName : String
 
-    lateinit var codyStyle : String
+    lateinit var plusImgName : String
+    lateinit var clothesImg : Bitmap
+    lateinit var userId : String
 
+    lateinit var dialog : ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_plus_)
-        iv_profileplus.setImageResource(R.drawable.profile_phoro)
 
+        userId = AutoLogin.getUserId(this)
 
-
-
-        /**
-         * 액션바 대신 툴바를 사용하도록 설정
-         */
-        val toolbar = findViewById(R.id.toolbar_profile_Edit) as Toolbar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar_profile_Edit)
         val ab = supportActionBar!!
         ab.setDisplayShowTitleEnabled(false)
         // 툴바에 뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 여기까지 툴바 설정 완료
 
+        var profile_intent = intent
+        var plusImgArr = profile_intent.getByteArrayExtra("plusImgArr")
+        var plusImg2 = BitmapFactory.decodeByteArray(plusImgArr, 0, plusImgArr!!.size)
+        iv_profileplus.setImageBitmap(plusImg2)
+
 
         btn_profile_ok.setOnClickListener {
-            val returnIntent = Intent()
-            setResult(Activity.RESULT_OK, returnIntent)
-            finish()
+            dialog = ProgressDialog(this);
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.setMessage("데이터를 확인하는 중입니다.");
+            dialog.show();
+
+            uploadPlus(plusImg2)
         }
+
+
         btn_profile_gallery.setOnClickListener {
             openGallery()
         }
@@ -76,7 +92,7 @@ class ProfilePlus_Activity : AppCompatActivity() {
         //키보드입력시 다른 곳 클릭시 키보드 내려감
         layout_ProfilePlus.setOnClickListener{
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(et_PlusTitle.windowToken, 0)
+            imm.hideSoftInputFromWindow(et_PlusContent.windowToken, 0)
         }
 
     }
@@ -209,7 +225,6 @@ class ProfilePlus_Activity : AppCompatActivity() {
                         iv_profileplus.setImageBitmap(bmp)
 
 
-
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -229,12 +244,80 @@ class ProfilePlus_Activity : AppCompatActivity() {
     }
 
 
-    // 바텀시트에서 선택한 항목 보여주기
-//    override fun onFashionButtonClicked(text: String) {
-//        tv_fashion.text = text
-//        codyStyle = text
-//
-//    }
+    fun uploadPlus(bitmap : Bitmap) {
+        val clothesUploadRequest: ClothesUpload_Request =
+            object : ClothesUpload_Request(
+                Method.POST, "http://13.125.7.2/uploadPlus.php",
+                Response.Listener<NetworkResponse> { response ->
+                    try {
+
+                        val obj = JSONObject(String(response!!.data))
+                        Toast.makeText(this, obj.toString(), Toast.LENGTH_SHORT).show()
+                        plusImgName = obj.getString("file_name")
+                        uploadDB(userId)
+
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener { error ->
+                    Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()
+                    Log.e("GotError", "" + error.message)
+                }) {
+                override fun getByteData(): Map<String, DataPart>? {
+                    val params: MutableMap<String, DataPart> = HashMap()
+                    val imagename = System.currentTimeMillis()
+
+                    params["image"] = DataPart("$imagename.JPEG", getFileDataFromDrawable(bitmap)!!)
+                    return params
+                }
+            }
+
+        //adding the request to volley
+        Volley.newRequestQueue(this).add(clothesUploadRequest)
+
+    }
+
+    fun uploadDB(userId: String) {
+        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+            override fun onResponse(response: String?) {
+                try {
+                    val jsonObject = JSONObject(response)
+                    var success = jsonObject.getBoolean("success")
+
+                    if(success) {
+                        Toast.makeText(this@ProfilePlus_Activity, jsonObject.toString(), Toast.LENGTH_LONG).show()
+                        if (dialog != null){
+                            dialog.dismiss();
+                            finish()
+                        }
+
+
+                    } else {
+                        Toast.makeText(this@ProfilePlus_Activity, "실패 두둥탁", Toast.LENGTH_LONG).show()
+
+                        return
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+
+        }
+        val plusImgPath = "http://13.125.7.2/img/fashionista_profile/"
+        val profilePlusSave_Request = ProfilePlusSave_Request(userId, plusImgPath, plusImgName, responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(profilePlusSave_Request)
+    }
+
+
+    fun getFileDataFromDrawable(bitmap: Bitmap): ByteArray? {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        return byteArrayOutputStream.toByteArray()
+    }
+
+
 
 
 }

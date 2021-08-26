@@ -2,19 +2,26 @@ package com.example.ehs.Fashionista
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_fashionista_profile.*
+import kotlinx.android.synthetic.main.activity_profile_plus_.*
+import java.io.ByteArrayOutputStream
 
 
 class FashionistaProfile_Activity : AppCompatActivity() {
+
+    val REQUEST_OPEN_GALLERY = 2
+    lateinit var bitmap : Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +51,8 @@ class FashionistaProfile_Activity : AppCompatActivity() {
         
 
         btn_profilePlus.setOnClickListener {
-            val intent = Intent(this, ProfilePlus_Activity::class.java)
-            startActivity(intent)
-        } // 액티비티 이동
+            openGallery()
+        }
 
         val feedList = arrayListOf(
             FashionistaUserProfiles(R.drawable.test_userfeed),
@@ -76,13 +82,43 @@ class FashionistaProfile_Activity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     } // 툴바 뒤로가기 액션 설정 끝
     
-    
+
+    /**
+     * 갤러리 오픈 함수
+     */
+    fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
+        startActivityForResult(intent, REQUEST_OPEN_GALLERY)
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK) {
+            when(requestCode) { //resultCode가 Ok이고
+                REQUEST_OPEN_GALLERY -> { // requestcode가 REQUEST_OPEN_GALLERY이면
+                    val currentImageUrl: Uri? = data?.data // data의 data형태로 들어옴
+//                    uploadImgName = getName(currentImageUrl)
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, currentImageUrl)
 
-        if(resultCode == Activity.RESULT_OK){
-            Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show()
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            }
         }
+
+        val intent = Intent(this, ProfilePlus_Activity::class.java)
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        val plusImgArr = stream.toByteArray()
+        intent.putExtra("plusImgArr", plusImgArr)
+        startActivity(intent)
+
     }
+
+
+
 }

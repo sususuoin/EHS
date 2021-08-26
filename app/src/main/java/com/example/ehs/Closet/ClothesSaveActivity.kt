@@ -45,7 +45,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
     lateinit var realURL : String
 
     lateinit var mProgressDialog: ProgressDialog
-    var userId : String= ""
+    lateinit var userId : String
 
     override fun onDestroy() {
         super.onDestroy()
