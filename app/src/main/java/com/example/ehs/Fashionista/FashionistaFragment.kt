@@ -203,7 +203,7 @@ class FashionistaFragment : Fragment() {
                             AutoPro.setFavoriteuserHashTag(a!!, favoriteuserHashTagArr as java.util.ArrayList<String>)
                             AutoPro.setFavoriteuserImg(a!!, favoriteuserProImgArr as java.util.ArrayList<String>)
 
-                            (activity as MainActivity?)!!.replaceFragment(FavoriteFragment.newInstance())
+                            (activity as MainActivity?)?.replaceFragment(FavoriteFragment.newInstance())
 
                         }
 

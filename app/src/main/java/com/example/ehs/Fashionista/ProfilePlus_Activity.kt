@@ -2,6 +2,7 @@ package com.example.ehs.Fashionista
 
 
 import android.app.Activity
+import android.content.Context
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -13,6 +14,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
@@ -71,6 +73,12 @@ class ProfilePlus_Activity : AppCompatActivity() {
             takeCapture()
         }
 
+
+        //키보드입력시 다른 곳 클릭시 키보드 내려감
+        layout_ProfilePlus.setOnClickListener{
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(editTextTextPersonName4.windowToken, 0)
+        }
 
     }
 
