@@ -1,7 +1,6 @@
 package com.example.ehs.Fashionista
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -10,14 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import com.example.ehs.Closet.AutoCody
-import com.example.ehs.Closet.CodyServer_Request
 
 import com.example.ehs.MainActivity
 import com.example.ehs.Login.AutoLogin
-import com.example.ehs.Mypage.MypageFragment
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_fashionista.*
 import kotlinx.android.synthetic.main.fragment_fashionista.view.*
@@ -126,7 +124,14 @@ class FashionistaFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d("FashionistaFragment", "RESUME")
+        refreshFragment(this, getFragmentManager())
         adapter.notifyDataSetChanged()
+    }
+
+    // Fragment 새로고침
+    fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager?) {
+        var ft: FragmentTransaction? = fragmentManager?.beginTransaction()
+        ft?.detach(fragment)?.attach(fragment)?.commit()
     }
 
     fun favorite_check() {

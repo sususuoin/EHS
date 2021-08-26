@@ -74,6 +74,7 @@ class AIActivity : AppCompatActivity() {
             val registerIntent = Intent(this, RegisterActivity::class.java) // 인텐트를 생성
             registerIntent.putExtra("airesult", airesult)
             startActivity(registerIntent)
+            finish()
         }
     }
 

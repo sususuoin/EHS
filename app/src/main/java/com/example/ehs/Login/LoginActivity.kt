@@ -1,11 +1,9 @@
 package com.example.ehs.Login
 
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Response
@@ -41,9 +39,11 @@ class LoginActivity : AppCompatActivity() {
         // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
         // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지나지 않았으면 종료
         if (System.currentTimeMillis() <= backKeyPressedTime + 1500) {
-            Toast.makeText(this, "이용해 주셔서 감사합니다.", Toast.LENGTH_LONG).show()
-            moveTaskToBack(true);
-            finishAndRemoveTask();
+            this.finishAffinity()
+            // 현재 작업중인 쓰레드가 다 종료되면, 종료 시키라는 명령어
+            System.runFinalization()
+            // 현재 액티비티를 종료시킨다.
+            System.exit(0)
 
         }
     }
@@ -60,7 +60,6 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
-
         if (AutoLogin.getUserId(this)==""|| AutoLogin.getUserId(this)==null || AutoLogin.getUserPw(this).isBlank()) {
             //아이디입력창이 비어있다면
             Login()
@@ -70,13 +69,6 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
-        }
-
-
-        //키보드입력시 다른 곳 클릭시 키보드 내려감
-        layout_login.setOnClickListener{
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(et_id.windowToken, 0)
         }
 
 
@@ -123,7 +115,9 @@ class LoginActivity : AppCompatActivity() {
                             AutoLogin.setUserLevel(this@LoginActivity, userLevel)
                             AutoLogin.setUserProfileImg(this@LoginActivity, userProfileImg)
 
-                            Toast.makeText(this@LoginActivity, "${AutoLogin.getUserId(this@LoginActivity)}님 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@LoginActivity,
+                                "${AutoLogin.getUserId(this@LoginActivity)}님 로그인 되었습니다.",
+                                Toast.LENGTH_SHORT).show()
 
                             Log.d(TAG, userId)
                             startActivity(mainIntent)

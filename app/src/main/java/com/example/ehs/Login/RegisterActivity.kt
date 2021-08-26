@@ -124,6 +124,7 @@ class RegisterActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                                 Toast.makeText(this@RegisterActivity, "회원가입 성공", Toast.LENGTH_SHORT).show()
 
                                 startActivity(loginintent)
+                                finish()
 
                                 //회원가입 실패시
                             } else {

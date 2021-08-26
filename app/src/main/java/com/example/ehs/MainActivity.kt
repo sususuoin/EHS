@@ -37,7 +37,9 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
+import java.lang.System.exit
 import java.util.*
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -90,10 +92,8 @@ class MainActivity : AppCompatActivity() {
         // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
         // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지나지 않았으면 종료
         if (System.currentTimeMillis() <= backKeyPressedTime + 1500) {
-            Toast.makeText(this, "이용해 주셔서 감사합니다.", Toast.LENGTH_LONG).show()
-            moveTaskToBack(true);
-            finish();
-            android.os.Process.killProcess(android.os.Process.myPid());
+            moveTaskToBack(true)
+            finish()
 
         }
     }

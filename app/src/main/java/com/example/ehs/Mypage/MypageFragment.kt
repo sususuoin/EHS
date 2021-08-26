@@ -15,9 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -37,6 +35,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
+import kotlinx.android.synthetic.main.fragment_mypage.*
 import kotlinx.android.synthetic.main.fragment_mypage.view.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -46,16 +45,7 @@ import org.json.JSONObject
 class MypageFragment : Fragment() {
     private var a: Context? = null
 
-
-    lateinit var tv_id: TextView
-    lateinit var tv_name: TextView
-    lateinit var tv_name2: TextView
-    lateinit var tv_email: TextView
-    lateinit var tv_level: TextView
-    lateinit var iv_profileimg: ImageView
-    lateinit var modifybtn: ImageButton
     lateinit var pieChart: PieChart
-
 
     var userColorArr = ArrayList<String>()
     var userColorCntArr = ArrayList<String>()
@@ -128,13 +118,9 @@ class MypageFragment : Fragment() {
         val view: View = inflater!!.inflate(R.layout.fragment_mypage, container, false)
         pieChart = view.findViewById(R.id.piechart_mypage)
 
-
-        modifybtn = view.findViewById(R.id.btn_modify)
-        modifybtn.setOnClickListener {
-            activity?.let {
-                val intent = Intent(context, UserModifyActivity::class.java)
-                startActivity(intent)
-            }
+        view.btn_modify.setOnClickListener {
+            val intent = Intent(a, UserModifyActivity::class.java)
+            startActivity(intent)
 
         }
 
@@ -152,7 +138,7 @@ class MypageFragment : Fragment() {
                         // 확인 버튼 클릭 시
                         DialogInterface.BUTTON_POSITIVE -> {
                             // 로그아웃 설정
-
+                            Log.d("${AutoLogin.getUserId(a!!)}님", "로그아웃 버튼 클릭!!")
                             AutoLogin.setUserId(a!!, null)
                             AutoLogin.clearUser(a!!)
                             AutoHome.clearHome(a!!)
@@ -160,8 +146,10 @@ class MypageFragment : Fragment() {
                             AutoCody.clearCody(a!!)
                             AutoCloset.clearCloset(a!!)
 
-                            val intent = Intent(a, LoginActivity::class.java)
-                            startActivity(intent)
+                            //액티비티는 finish() 프래그먼트는 밑에처럼
+                            activity?.supportFragmentManager?.beginTransaction()?.remove(this@MypageFragment)?.commit()
+                            val myintent = Intent(a, LoginActivity::class.java)
+                            startActivity(myintent)
                         }
                     }
                 }
@@ -171,26 +159,17 @@ class MypageFragment : Fragment() {
             logoutalert.show()
         }
 
-        tv_id = view.findViewById(R.id.tv_id)
-        tv_name = view.findViewById(R.id.tv_name)
-        tv_name2 = view.findViewById(R.id.tv_name2)
-        tv_email = view.findViewById(R.id.tv_email)
-        tv_level = view.findViewById(R.id.tv_level)
-        iv_profileimg = view.findViewById(R.id.iv_profileimg)
-
-
-//        userProfile = resize(userProfile!!)
 
 
         //fragment1의 TextView에 전달 받은 text 띄우기
-        tv_id.text = userId
-        tv_name.text = userName
-        tv_name2.text = userName
-        tv_email.text = userEmail
-        tv_level.text = userLevel
+        view.tv_id.text = userId
+        view.tv_name.text = userName
+        view.tv_name2.text = userName
+        view.tv_email.text = userEmail
+        view.tv_level.text = userLevel
 
 //        iv_profileimg.setImageResource(R.drawable.exfirst)
-        iv_profileimg.setImageBitmap(userProfile)
+        view.iv_profileimg.setImageBitmap(userProfile)
 
         setupPieChart()
         loadPieChartData()
