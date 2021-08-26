@@ -10,6 +10,7 @@ class ProfilePlusSave_Request (
     userId: String,
     plusImgPath : String,
     plusImgName : String,
+    plusContent : String,
     listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {
 
     private val map: MutableMap<String, String>
@@ -30,5 +31,6 @@ class ProfilePlusSave_Request (
         map["userId"] = userId
         map["plusImgPath"] = plusImgPath
         map["plusImgName"] = plusImgName
+        map["plusContent"] = plusContent
     }
 }

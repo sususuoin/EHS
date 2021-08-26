@@ -53,12 +53,14 @@ class ProfilePlus_Activity : AppCompatActivity() {
     lateinit var userId : String
 
     lateinit var dialog : ProgressDialog
+    var plusContent : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_plus_)
 
         userId = AutoLogin.getUserId(this)
+
 
         setSupportActionBar(toolbar_profile_Edit)
         val ab = supportActionBar!!
@@ -73,9 +75,10 @@ class ProfilePlus_Activity : AppCompatActivity() {
 
 
         btn_profile_ok.setOnClickListener {
+            plusContent = et_PlusContent.text.toString()
             dialog = ProgressDialog(this);
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog.setMessage("데이터를 확인하는 중입니다.");
+            dialog.setMessage("업로드 중입니다.")
             dialog.show();
 
             uploadPlus(plusImg2)
@@ -245,6 +248,7 @@ class ProfilePlus_Activity : AppCompatActivity() {
 
 
     fun uploadPlus(bitmap : Bitmap) {
+        Log.d("aehsehsehs", plusContent)
         val clothesUploadRequest: ClothesUpload_Request =
             object : ClothesUpload_Request(
                 Method.POST, "http://13.125.7.2/uploadPlus.php",
@@ -252,7 +256,7 @@ class ProfilePlus_Activity : AppCompatActivity() {
                     try {
 
                         val obj = JSONObject(String(response!!.data))
-                        Toast.makeText(this, obj.toString(), Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this, obj.toString(), Toast.LENGTH_SHORT).show()
                         plusImgName = obj.getString("file_name")
                         uploadDB(userId)
 
@@ -286,12 +290,11 @@ class ProfilePlus_Activity : AppCompatActivity() {
                     var success = jsonObject.getBoolean("success")
 
                     if(success) {
-                        Toast.makeText(this@ProfilePlus_Activity, jsonObject.toString(), Toast.LENGTH_LONG).show()
+//                        Toast.makeText(this@ProfilePlus_Activity, jsonObject.toString(), Toast.LENGTH_LONG).show()
                         if (dialog != null){
                             dialog.dismiss();
                             finish()
                         }
-
 
                     } else {
                         Toast.makeText(this@ProfilePlus_Activity, "실패 두둥탁", Toast.LENGTH_LONG).show()
@@ -305,7 +308,7 @@ class ProfilePlus_Activity : AppCompatActivity() {
 
         }
         val plusImgPath = "http://13.125.7.2/img/fashionista_profile/"
-        val profilePlusSave_Request = ProfilePlusSave_Request(userId, plusImgPath, plusImgName, responseListener)
+        val profilePlusSave_Request = ProfilePlusSave_Request(userId, plusImgPath, plusImgName, plusContent, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(profilePlusSave_Request)
     }
