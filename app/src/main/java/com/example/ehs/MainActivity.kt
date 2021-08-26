@@ -74,7 +74,6 @@ class MainActivity : AppCompatActivity() {
     // 첫 번째 뒤로 가기 버튼을 누를 때 표시
     private var toast: Toast? = null
 
-    var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     override fun onBackPressed() {
         //super.onBackPressed();
@@ -122,12 +121,14 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        swipeRefreshLayout = findViewById(R.id.swipe_refresh);
-        swipeRefreshLayout!!.setOnRefreshListener(OnRefreshListener {
-            Log.d("당겨서", "새로고침")
+        swipe_refresh.setOnRefreshListener {
             //새로고침 작업 실행
-            swipeRefreshLayout!!.isRefreshing = false
-        })
+            Log.d("당겨서", "새로고침")
+
+            //업데이트끝 동그뱅이 없어지게함
+            swipe_refresh.isRefreshing = false
+        }
+
 
     }
 
@@ -389,8 +390,10 @@ class MainActivity : AppCompatActivity() {
                         fuserProImgArr.add(fuserProfileImg)
 
                         AutoPro.setProuserId(this@MainActivity, fuserIdArr as ArrayList<String>)
-                        AutoPro.setProuserLevel(this@MainActivity, fuserLevelArr as ArrayList<String>)
-                        AutoPro.setProuserProImg(this@MainActivity, fuserProImgArr as ArrayList<String>)
+                        AutoPro.setProuserLevel(this@MainActivity,
+                            fuserLevelArr as ArrayList<String>)
+                        AutoPro.setProuserProImg(this@MainActivity,
+                            fuserProImgArr as ArrayList<String>)
 
 //                        var fashin = Fashionista(fuserId, fuserLevel, fuserProfile)
 //                        FashionistaList.add(fashin)
