@@ -2,6 +2,7 @@ package com.example.ehs.Fashionista
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.ehs.Closet.AutoCloset
 import org.json.JSONArray
 import org.json.JSONException
 
@@ -339,6 +340,41 @@ object AutoPro {
 
     }
 
+
+    fun setplusImgName(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_PlusImgName", a.toString())
+        } else {
+            editor.putString("MY_PlusImgName", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getplusImgName(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_PlusImgName", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
 
 
 

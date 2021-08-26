@@ -1,3 +1,5 @@
 package com.example.ehs.Fashionista
 
-class FashionistaUserProfiles(val profilefeed : Int)
+import android.graphics.Bitmap
+
+class FashionistaUserProfiles(val plusImg : Bitmap?)

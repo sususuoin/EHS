@@ -11,21 +11,38 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.ehs.Closet.AutoCloset
+import com.example.ehs.Closet.Clothes
+import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_fashionista_profile.*
 import kotlinx.android.synthetic.main.activity_profile_plus_.*
 import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 
 
 class FashionistaProfile_Activity : AppCompatActivity() {
 
     val REQUEST_OPEN_GALLERY = 2
     lateinit var bitmap : Bitmap
+    lateinit var userId : String
+
+    val FashionistaFeedList = mutableListOf<FashionistaUserProfiles>()
+    var FashionistaFeedArr = ArrayList<String>()
+    var a_bitmap : Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fashionista_profile)
+        userId = AutoLogin.getUserId(this)
+        FashionistaFeedArr = AutoPro.getplusImgName(this)
+        Log.d("텔미", FashionistaFeedArr.toString())
 
         val intent = intent
         var fashionistaId = intent.getStringExtra("fashionistaId")
@@ -33,11 +50,14 @@ class FashionistaProfile_Activity : AppCompatActivity() {
         val fashionistaProfile = BitmapFactory.decodeByteArray(arr, 0, arr!!.size)
         iv_profile.setImageBitmap(fashionistaProfile)
 
-
-
         //Log.d("비트맵", fashionistaProfile!!)
-        Log.d("왜 빈칸일까 ..? 왜지..? 왜 ?", fashionistaId!!)
         tv_profileid.text = fashionistaId
+
+        if(fashionistaId == userId) {
+            btn_profilePlus.isVisible
+        } else {
+            btn_profilePlus.isVisible = false
+        }
 
         /**
          * 액션바 대신 툴바를 사용하도록 설정
@@ -54,18 +74,48 @@ class FashionistaProfile_Activity : AppCompatActivity() {
             openGallery()
         }
 
-        val feedList = arrayListOf(
-            FashionistaUserProfiles(R.drawable.test_userfeed),
-            FashionistaUserProfiles(R.drawable.test_userfeed_b),
-            FashionistaUserProfiles(R.drawable.test_userfeed_c),
-            FashionistaUserProfiles(R.drawable.test_userfeed_d)
-        )
 
         val gridLayoutManager = GridLayoutManager(applicationContext, 3)
         rv_feed.layoutManager = gridLayoutManager
         rv_feed.setHasFixedSize(true)
+        var adapter = FashionistaProfileAdapter(FashionistaFeedList as ArrayList<FashionistaUserProfiles>)
+        rv_feed.adapter = adapter
 
-        rv_feed.adapter = FashionistaProfileAdapter(feedList)
+
+        for (i in 0 until FashionistaFeedArr.size) {
+            val uThread: Thread = object : Thread() {
+                override fun run() {
+                    try {
+                        val url = URL("http://13.125.7.2/img/fashionista_profile/" + FashionistaFeedArr[i])
+
+                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                        conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
+                        conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                        val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
+                        a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
+
+                    } catch (e: MalformedURLException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+            uThread.start() // 작업 Thread 실행
+
+            try {
+
+                uThread.join()
+
+                var fashionistaFeed = FashionistaUserProfiles(a_bitmap)
+                FashionistaFeedList.add(fashionistaFeed)
+
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+        }
+
     }
 
     /**
@@ -75,6 +125,7 @@ class FashionistaProfile_Activity : AppCompatActivity() {
         val id = item.itemId
         when (id) {
             android.R.id.home -> {
+
                 finish()
                 return true
             }

@@ -1,5 +1,6 @@
 package com.example.ehs.Fashionista
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.util.Log
@@ -9,10 +10,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_community_item.view.*
 import kotlinx.android.synthetic.main.fragment_favorite_item.view.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.ByteArrayOutputStream
+import java.util.ArrayList
 
 class FavoriteListAdapter(private val items: List<Favorite>)
     : RecyclerView.Adapter<FavoriteListAdapter.ViewHolder>() {
@@ -46,6 +53,11 @@ class FavoriteListAdapter(private val items: List<Favorite>)
 //            itemView.tag = item
             itemView.setOnClickListener {
 
+                var dialog = ProgressDialog(holder.itemView.context)
+                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                dialog.setMessage("업로드 중입니다.")
+                dialog.show()
+
                 Toast.makeText(holder.itemView.context,
                     "asdf ${items[position].proId}",
                     Toast.LENGTH_SHORT).show()
@@ -56,11 +68,51 @@ class FavoriteListAdapter(private val items: List<Favorite>)
                 fashionistaProfile!!.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                 val byteArray = stream.toByteArray()
 
-                Log.d("전문가 아이디", items[position].proId)
-                val intent = Intent(holder.itemView.context, FashionistaProfile_Activity::class.java)
-                intent.putExtra("fashionistaId", fashionistaId)
-                intent.putExtra("fashionistaProfile", byteArray)
-                ContextCompat.startActivity(holder.itemView.context, intent, null)
+                var userId = fashionistaId
+                var cuserId: String
+                var plusImgName: String
+                var FashionistaFeedArr = mutableListOf<String>()
+
+                val responseListener: Response.Listener<String?> =
+                    Response.Listener<String?> { response ->
+                        try {
+
+                            var jsonObject = JSONObject(response)
+                            val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                            if(arr.length() == 0) {
+                                FashionistaFeedArr.clear()
+                            }
+                            else {
+                                for (i in 0 until arr.length()) {
+                                    val plusObject = arr.getJSONObject(i)
+                                    cuserId = plusObject.getString("userId")
+                                    plusImgName = plusObject.getString("plusImgName")
+                                    FashionistaFeedArr.add(plusImgName)
+                                    Log.d("으음없는건가,..?", plusImgName)
+                                }
+                            }
+
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+
+                        AutoPro.setplusImgName(holder.itemView.context, FashionistaFeedArr as ArrayList<String>)
+
+                        Log.d("전문가 아이디", items[position].proId)
+                        val intent = Intent(holder.itemView.context, FashionistaProfile_Activity::class.java)
+                        intent.putExtra("fashionistaId", fashionistaId)
+                        intent.putExtra("fashionistaProfile", byteArray)
+
+                        dialog.dismiss()
+                        ContextCompat.startActivity(holder.itemView.context, intent, null)
+
+                    }
+                val fashionistaProfileServer_Request = FashionistaProfileServer_Request(userId!!, responseListener)
+                val queue = Volley.newRequestQueue(holder.itemView.context)
+                queue.add(fashionistaProfileServer_Request)
+
+
             } // item 클릭하면 FashionistaProfile_Activity로 이동
 
         }

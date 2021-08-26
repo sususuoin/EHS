@@ -36,6 +36,7 @@ class FavoriteFragment : Fragment() {
     var favoriteuserIdArr = ArrayList<String>()
     var favoriteuserHashTagArr = ArrayList<String>()
     var favoriteuserProImgArr = ArrayList<String>()
+    var adapter = FavoriteListAdapter(favoriteList)
 
     companion object {
         const val TAG : String = "커뮤니티 프레그먼트"
@@ -84,8 +85,7 @@ class FavoriteFragment : Fragment() {
 
         view.tv_favorite.setOnClickListener {
             Log.d("FashionistaFragment", "두두둥2")
-            var ft: FragmentTransaction = requireFragmentManager().beginTransaction()
-            ft.detach(this).attach(this).commit()
+            adapter.notifyDataSetChanged()
         }
 
 
@@ -94,16 +94,16 @@ class FavoriteFragment : Fragment() {
             recommend()
         }
 
-//        val resources: Resources = this.resources
-//        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.basicprofile)
+        val resources: Resources = this.resources
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.basicprofile)
 
 //        var one = Favorite("lu__eun","#스트릿", bitmap)
 //        var two = Favorite("Ha_nle","#데일리", bitmap)
-//        var three = Favorite("tndlstksxk","#아메카지", bitmap)
+        var three = Favorite("tndlstksxk","#아메카지", bitmap)
 //
 //        favoriteList.add(one)
 //        favoriteList.add(two)
-//        favoriteList.add(three)
+        favoriteList.add(three)
 
         if(favoriteuserIdArr.size!=0) {
             for(i in 0 until favoriteuserIdArr.size) {
@@ -124,7 +124,7 @@ class FavoriteFragment : Fragment() {
         val gridLayoutManager = LinearLayoutManager(a)
         rv_favorite.layoutManager = gridLayoutManager
 
-        val adapter = FavoriteListAdapter(favoriteList)
+
         rv_favorite.adapter = adapter
     }
 

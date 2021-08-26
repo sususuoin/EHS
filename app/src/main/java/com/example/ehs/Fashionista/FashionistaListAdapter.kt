@@ -1,5 +1,6 @@
 package com.example.ehs.Fashionista
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.util.Log
@@ -17,9 +18,11 @@ import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_clothes_save.*
 import kotlinx.android.synthetic.main.fashionista.view.*
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
+import java.util.ArrayList
 
 
 class FashionistaListAdapter(private val itemList: List<Fashionista>)
@@ -44,6 +47,7 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
         holder.itemView.requestLayout()
 
         var favoriteuserIdArr = AutoPro.getFavoriteuserId(holder.itemView.context)
+
         for (i in 0 until favoriteuserIdArr.size) {
             if (itemList[position].name == favoriteuserIdArr[i]) {
                 holder.itemView.findViewById<Button>(R.id.btn_Star_empty).visibility = View.GONE;
@@ -54,10 +58,12 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
         holder.apply {
             bind(item)
             itemView.setOnClickListener {
+                var dialog = ProgressDialog(holder.itemView.context)
+                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                dialog.setMessage("업로드 중입니다.")
+                dialog.show()
 
-                Toast.makeText(holder.itemView.context,
-                    "asdf ${itemList[position].name}",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(holder.itemView.context, "asdf ${itemList[position].name}", Toast.LENGTH_SHORT).show()
                 var fashionistaId = itemList[position].name
                 var fashionistaProfile = itemList[position].profile
 
@@ -65,11 +71,49 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
                 fashionistaProfile!!.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                 val byteArray = stream.toByteArray()
 
-                Log.d("전문가 아이디", itemList[position].name)
-                val intent = Intent(holder.itemView.context, FashionistaProfile_Activity::class.java)
-                intent.putExtra("fashionistaId", fashionistaId)
-                intent.putExtra("fashionistaProfile", byteArray)
-                ContextCompat.startActivity(holder.itemView.context, intent, null)
+
+                var userId = fashionistaId
+                var cuserId: String
+                var plusImgName: String
+                var FashionistaFeedArr = mutableListOf<String>()
+
+                val responseListener: Response.Listener<String?> =
+                    Response.Listener<String?> { response ->
+                        try {
+
+                            var jsonObject = JSONObject(response)
+                            val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                            if(arr.length() == 0) {
+                                FashionistaFeedArr.clear()
+                            }
+                            else {
+                                for (i in 0 until arr.length()) {
+                                    val plusObject = arr.getJSONObject(i)
+                                    cuserId = plusObject.getString("userId")
+                                    plusImgName = plusObject.getString("plusImgName")
+                                    FashionistaFeedArr.add(plusImgName)
+                                    Log.d("으음없는건가,..?", plusImgName)
+                                }
+                            }
+
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+
+                        AutoPro.setplusImgName(holder.itemView.context, FashionistaFeedArr as ArrayList<String>)
+                        Log.d("전문가 아이디", fashionistaId)
+                        val intent = Intent(holder.itemView.context, FashionistaProfile_Activity::class.java)
+                        intent.putExtra("fashionistaId", fashionistaId)
+                        intent.putExtra("fashionistaProfile", byteArray)
+
+                        dialog.dismiss()
+                        ContextCompat.startActivity(holder.itemView.context, intent, null)
+
+                    }
+                val fashionistaProfileServer_Request = FashionistaProfileServer_Request(userId!!, responseListener)
+                val queue = Volley.newRequestQueue(holder.itemView.context)
+                queue.add(fashionistaProfileServer_Request)
             } // item 클릭하면 FashionistaProfile_Activity로 이동
 
 

@@ -287,11 +287,7 @@ class MainActivity : AppCompatActivity() {
                     val mGeoCoder = Geocoder(applicationContext, Locale.KOREAN)
                     var mResultList: List<Address>? = null
                     try {
-                        mResultList = mGeoCoder.getFromLocation(
-                            location?.latitude!!,
-                            location?.longitude!!,
-                            1
-                        )
+                        mResultList = mGeoCoder.getFromLocation(location?.latitude!!, location?.longitude!!, 1)
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }

@@ -76,10 +76,10 @@ class ProfilePlus_Activity : AppCompatActivity() {
 
         btn_profile_ok.setOnClickListener {
             plusContent = et_PlusContent.text.toString()
-            dialog = ProgressDialog(this);
-            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog = ProgressDialog(this)
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
             dialog.setMessage("업로드 중입니다.")
-            dialog.show();
+            dialog.show()
 
             uploadPlus(plusImg2)
         }
@@ -292,7 +292,7 @@ class ProfilePlus_Activity : AppCompatActivity() {
                     if(success) {
 //                        Toast.makeText(this@ProfilePlus_Activity, jsonObject.toString(), Toast.LENGTH_LONG).show()
                         if (dialog != null){
-                            dialog.dismiss();
+                            dialog.dismiss()
                             finish()
                         }
 
