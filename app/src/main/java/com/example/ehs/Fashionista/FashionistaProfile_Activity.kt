@@ -179,6 +179,7 @@ class FashionistaProfile_Activity : AppCompatActivity() {
         var userId = fashionistaId
         var FollowerCount: String
         var PostCount: String
+        var HashTag: String
 
         val responseListener: Response.Listener<String?> =
             Response.Listener<String?> { response ->
@@ -191,12 +192,14 @@ class FashionistaProfile_Activity : AppCompatActivity() {
                         val countObject = arr.getJSONObject(i)
                         FollowerCount = countObject.getString("FollowerCount")
                         PostCount = countObject.getString("PostCount")
+                        HashTag = countObject.getString("HashTag")
 
                         Log.d("으음없는건가,..1212?", FollowerCount)
                         Log.d("으음없는건가,..1212?", PostCount)
 
                         tv_follower.text = FollowerCount
                         tv_post.text = PostCount
+                        tv_hashtag.text = "#"+HashTag
 
                     }
                 } catch (e: JSONException) {

@@ -115,7 +115,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         FashionistaUser()
-
+        ClosetImg()
+        CodyImg()
     }
 
 
