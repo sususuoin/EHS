@@ -129,6 +129,9 @@ class MainActivity : AppCompatActivity() {
             swipe_refresh.isRefreshing = false
         }
 
+        FashionistaUser()
+        ClosetImg()
+        CodyImg()
 
     }
 
@@ -146,6 +149,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_fashionista -> {
                     Log.d(TAG, "MainActivity - 패셔니스타 버튼 클릭!")
 
+                    //여기에다 실행하면 처음에 안뜸
                     FashionistaUser()
                     fashionistaFragment = FashionistaFragment.newInstance()
                     replaceFragment(fashionistaFragment)
@@ -153,8 +157,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_closet -> {
                     Log.d(TAG, "MainActivity - 옷장 버튼 클릭!")
 
-                    ClosetImg()
-                    CodyImg()
                     closetFragment = ClosetFragment.newInstance()
                     replaceFragment(closetFragment)
                     closetFragment.arguments = bundle

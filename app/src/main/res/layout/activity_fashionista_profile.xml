@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Follow"
+                    android:text="Follower"
                     android:textAlignment="center"
                     android:textSize="18sp"
                     android:textStyle="bold" />

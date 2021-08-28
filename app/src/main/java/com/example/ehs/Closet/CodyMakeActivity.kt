@@ -95,13 +95,7 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
         clickCount = 0
 
 
-
-
-
-
-
         //recylerview 이거 fashionista.xml에 있는 변수
-
 
         clothesArr2 = AutoCloset.getClothesName(ClosetFragment.a!!)
         Log.d("111111", clothesArr2.toString())
