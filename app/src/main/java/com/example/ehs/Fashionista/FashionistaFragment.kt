@@ -166,7 +166,6 @@ class FashionistaFragment : Fragment() {
                             AutoPro.setFavoriteuserHashTag(a!!, favoriteuserHashTagArr as java.util.ArrayList<String>)
                             AutoPro.setFavoriteuserImg(a!!, favoriteuserProImgArr as java.util.ArrayList<String>)
 
-                            (activity as MainActivity?)?.replaceFragment(FavoriteFragment.newInstance())
 
                         }
 
@@ -178,6 +177,7 @@ class FashionistaFragment : Fragment() {
             val favoriteListUp_Request = FavoriteListUp_Request(proId!!, responseListener)
             val queue = Volley.newRequestQueue(a)
             queue.add(favoriteListUp_Request)
+            (activity as MainActivity?)?.replaceFragment(FavoriteFragment.newInstance())
         }
 
     }
