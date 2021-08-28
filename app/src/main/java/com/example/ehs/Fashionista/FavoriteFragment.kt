@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
@@ -58,6 +59,16 @@ class FavoriteFragment : Fragment() {
         favoriteuserProImgArr = AutoPro.getFavoriteuserImg(a!!)
 
 
+        if(favoriteuserIdArr.size!=0) {
+            var favoriteuserProfile : Bitmap?
+            for(i in 0 until favoriteuserIdArr.size) {
+                favoriteuserProfile = AutoLogin.StringToBitmap(favoriteuserProImgArr[i])
+                var favorite = Favorite(favoriteuserIdArr[i], '#'+favoriteuserHashTagArr[i], favoriteuserProfile)
+                favoriteList.add(favorite)
+                favoriteuserProfile == null
+            }
+        }
+
 
     }
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
@@ -66,7 +77,7 @@ class FavoriteFragment : Fragment() {
         if (context is Activity) {
             a = context
         }
-        Log.d(TAG, "FeedFragment - onAttach() called")
+        Log.d(TAG, "FavoriteFragment - onAttach() called")
     }
     // 뷰가 생성되었을 때 화면과 연결
     // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
@@ -79,7 +90,7 @@ class FavoriteFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_favorite, container, false)
 
         view.tv_fashionista2.setOnClickListener {
-            Log.d("FashionistaFragment", "패셔니스타로 이동")
+            Log.d("FavoriteFragment", "패셔니스타로 이동")
             (activity as MainActivity?)!!.replaceFragment(FashionistaFragment.newInstance())
         }
 
@@ -105,14 +116,14 @@ class FavoriteFragment : Fragment() {
 //        FfavoriteList.add(two)
 //        favoriteList.add(three)
 
-        if(favoriteuserIdArr.size!=0) {
-            for(i in 0 until favoriteuserIdArr.size) {
-                var favoriteuserProfile = AutoLogin.StringToBitmap(favoriteuserProImgArr[i])
-                var favorite = Favorite(favoriteuserIdArr[i], '#'+favoriteuserHashTagArr[i], favoriteuserProfile)
-                favoriteList.add(favorite)
-                favoriteuserProfile ==null
-            }
-        }
+//        if(favoriteuserIdArr.size!=0) {
+//            for(i in 0 until favoriteuserIdArr.size) {
+//                var favoriteuserProfile = AutoLogin.StringToBitmap(favoriteuserProImgArr[i])
+//                var favorite = Favorite(favoriteuserIdArr[i], '#'+favoriteuserHashTagArr[i], favoriteuserProfile)
+//                favoriteList.add(favorite)
+//                favoriteuserProfile == null
+//            }
+//        }
 
         return view
     }
