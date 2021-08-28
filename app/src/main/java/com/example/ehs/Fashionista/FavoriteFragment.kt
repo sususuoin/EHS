@@ -138,6 +138,7 @@ class FavoriteFragment : Fragment() {
 
 
         rv_favorite.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
 
     fun recommend() {

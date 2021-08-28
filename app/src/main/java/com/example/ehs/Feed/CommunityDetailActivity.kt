@@ -40,6 +40,7 @@ class CommunityDetailActivity : AppCompatActivity() {
         rv_detail.setHasFixedSize(true)
 
         rv_detail.adapter = CommunityDetailAdapter(talkList)
+        CommunityDetailAdapter(talkList).notifyDataSetChanged()
 
         tv_detail_talkNum.text =talkList.size.toString() // 댓글 개수
         Log.d("나와라~",talkList.size.toString())

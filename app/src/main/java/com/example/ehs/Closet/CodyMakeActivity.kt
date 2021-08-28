@@ -50,6 +50,7 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
         val gridLayoutManager = GridLayoutManager(this, 3)
         binding.rvCodymake.layoutManager = gridLayoutManager
         binding.rvCodymake.adapter = adapter
+        adapter.notifyDataSetChanged()
 
         adapter.setItemClickListener(object: CodyMakeListAdapter.OnItemClickListener{
             override fun onClick(v: View, position: Int) {

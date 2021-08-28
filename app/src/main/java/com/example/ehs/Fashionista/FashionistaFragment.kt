@@ -69,7 +69,7 @@ class FashionistaFragment : Fragment() {
         }
 
 
-        favorite_check()
+        (activity as MainActivity).favorite_check()
 
     }
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
@@ -98,6 +98,7 @@ class FashionistaFragment : Fragment() {
         view.tv_favorite.setOnClickListener {
             Log.d("FashionistaFragment", "즐겨찾기로 이동")
             if(favoriteListArr.size ==0) {
+//                Log.d("FashionistaFraㅂㅈgment", "즐겨ㄷㅂㅈ찾기로 이동")
                 (activity as MainActivity?)!!.replaceFragment(FavoriteFragment.newInstance())
             }
             else {
@@ -105,8 +106,7 @@ class FashionistaFragment : Fragment() {
             }
 
         }
-
-        favorite_check()
+        (activity as MainActivity).favorite_check()
         return view
     }
 
@@ -115,6 +115,7 @@ class FashionistaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mRecyclerView.adapter = adapter
+        adapter.notifyDataSetChanged()
 
     }
 
@@ -166,7 +167,7 @@ class FashionistaFragment : Fragment() {
                             AutoPro.setFavoriteuserHashTag(a!!, favoriteuserHashTagArr as java.util.ArrayList<String>)
                             AutoPro.setFavoriteuserImg(a!!, favoriteuserProImgArr as java.util.ArrayList<String>)
 
-
+                            (activity as MainActivity?)?.replaceFragment(FavoriteFragment.newInstance())
                         }
 
                     } catch (e: JSONException) {
@@ -177,49 +178,12 @@ class FashionistaFragment : Fragment() {
             val favoriteListUp_Request = FavoriteListUp_Request(proId!!, responseListener)
             val queue = Volley.newRequestQueue(a)
             queue.add(favoriteListUp_Request)
-            (activity as MainActivity?)?.replaceFragment(FavoriteFragment.newInstance())
+
         }
 
     }
 
-    fun favorite_check() {
 
-        var cuserId: String
-        var favoriteuserId: String
-        var favorite_true: String
-        var favoriteuserIdArr = mutableListOf<String>()
-
-        val responseListener: Response.Listener<String?> =
-            Response.Listener<String?> { response ->
-                try {
-
-                    var jsonObject = JSONObject(response)
-                    var response = jsonObject.toString()
-
-                    val arr: JSONArray = jsonObject.getJSONArray("response")
-
-                    for (i in 0 until arr.length()) {
-                        val Object = arr.getJSONObject(i)
-
-                        cuserId = Object.getString("userId")
-                        favoriteuserId = Object.getString("prouserId")
-                        favorite_true = Object.getString("favorite_true")
-
-                        favoriteuserIdArr.add(favoriteuserId)
-                        Log.d("기분?", favoriteuserId)
-
-                        AutoPro.setFavoriteuserId(a!!, favoriteuserIdArr as java.util.ArrayList<String>)
-
-                    }
-
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            }
-        val favoritecheck_Request = FavoriteCheck_Request(userId!!, responseListener)
-        val queue = Volley.newRequestQueue(a)
-        queue.add(favoritecheck_Request)
-    }
 
 
 

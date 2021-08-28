@@ -208,6 +208,7 @@ class CodyFragment : Fragment() {
 
         val adapter = CodyListAdapter(codyList)
         recycler_cody.adapter = adapter
+        adapter.notifyDataSetChanged()
 
         //recylerview 이거 fashionista.xml에 있는 변수
     }

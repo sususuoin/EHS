@@ -85,6 +85,7 @@ class FashionistaProfile_Activity : AppCompatActivity() {
         rv_feed.setHasFixedSize(true)
         var adapter = FashionistaProfileAdapter(FashionistaFeedList as ArrayList<FashionistaUserProfiles>)
         rv_feed.adapter = adapter
+        adapter.notifyDataSetChanged()
 
 
         for (i in 0 until FashionistaFeedArr.size) {

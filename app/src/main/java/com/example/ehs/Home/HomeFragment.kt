@@ -186,6 +186,7 @@ class HomeFragment : Fragment() {
 
         val cAdapter = CalendarlistAdapter(a!!, calendarList)
         crecyclerview.adapter = cAdapter
+        cAdapter.notifyDataSetChanged()
 
         // RecyclerView Adapter에서는 레이아웃 매니저 (LayoutManager) 를 설정
         // recyclerView에 setHasFixedSize 옵션에 true 값을 준다.

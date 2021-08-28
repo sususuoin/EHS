@@ -20,6 +20,7 @@ import com.example.ehs.Closet.*
 import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Fashionista.FashionistaFragment
 import com.example.ehs.Fashionista.FashionistaUser_Request
+import com.example.ehs.Fashionista.FavoriteCheck_Request
 import com.example.ehs.Feed.FeedFragment
 import com.example.ehs.Home.AutoHome
 import com.example.ehs.Home.HomeFragment
@@ -115,6 +116,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         FashionistaUser()
+        favorite_check()
         ClosetImg()
         CodyImg()
     }
@@ -135,6 +137,7 @@ class MainActivity : AppCompatActivity() {
 
                     //여기에다 실행하면 처음에 안뜸
                     FashionistaUser()
+                    favorite_check()
                     fashionistaFragment = FashionistaFragment.newInstance()
                     replaceFragment(fashionistaFragment)
                 }
@@ -478,6 +481,44 @@ class MainActivity : AppCompatActivity() {
         queue.add(codyServer_Request)
     }
 
+    fun favorite_check() {
+
+        var cuserId: String
+        var favoriteuserId: String
+        var favorite_true: String
+        var favoriteuserIdArr = mutableListOf<String>()
+
+        val responseListener: Response.Listener<String?> =
+            Response.Listener<String?> { response ->
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    var response = jsonObject.toString()
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    for (i in 0 until arr.length()) {
+                        val Object = arr.getJSONObject(i)
+
+                        cuserId = Object.getString("userId")
+                        favoriteuserId = Object.getString("prouserId")
+                        favorite_true = Object.getString("favorite_true")
+
+                        favoriteuserIdArr.add(favoriteuserId)
+                        Log.d("기분?", favoriteuserId)
+
+                        AutoPro.setFavoriteuserId(this, favoriteuserIdArr as java.util.ArrayList<String>)
+
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        val favoritecheck_Request = FavoriteCheck_Request(userId!!, responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(favoritecheck_Request)
+    }
 
 
 

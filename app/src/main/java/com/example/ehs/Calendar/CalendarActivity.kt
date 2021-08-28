@@ -53,6 +53,7 @@ class CalendarActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
         val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(applicationContext, 7)
         calendarRecyclerView!!.layoutManager = layoutManager
         calendarRecyclerView!!.adapter = calendarAdapter
+        calendarAdapter.notifyDataSetChanged()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

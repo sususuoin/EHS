@@ -95,7 +95,7 @@ class WeatherActivity : AppCompatActivity() {
 
         val adapter = WeatherAdapter(weatherList)
         rv_weather.adapter= adapter
-
+        adapter.notifyDataSetChanged()
 
 
 
@@ -254,7 +254,7 @@ class WeatherActivity : AppCompatActivity() {
 
         val adapter = WeatherAdapter(weatherList)
         rv_weather.adapter= adapter
-//        adapter.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
 
     } // weathers에 이미지를 추가해줌
 

@@ -104,6 +104,7 @@ class CommunityFragment : Fragment() {
 
         val adapter = CommunityListAdapter(communityList)
         rv_community.adapter = adapter
+        adapter.notifyDataSetChanged()
         //recylerview 이거 fashionista.xml에 있는 변수
     }
 

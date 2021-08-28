@@ -100,6 +100,7 @@ class FeedFragment : Fragment() {
 
         val adapter = FeedsListAdapter(feedsList)
         rv_userfeed.adapter = adapter
+        adapter.notifyDataSetChanged()
         //recylerview 이거 fashionista.xml에 있는 변수
     }
 
