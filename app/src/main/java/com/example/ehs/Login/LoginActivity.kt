@@ -18,11 +18,7 @@ import org.json.JSONObject
 class LoginActivity : AppCompatActivity() {
     val TAG: String = "로그인화면"
 
-
     private var backKeyPressedTime: Long = 0
-
-    // 첫 번째 뒤로 가기 버튼을 누를 때 표시
-    private var toast: Toast? = null
 
     override fun onBackPressed() {
         //super.onBackPressed();
@@ -70,8 +66,6 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
-
     }
 
     fun Login() {
@@ -140,13 +134,9 @@ class LoginActivity : AppCompatActivity() {
             val queue = Volley.newRequestQueue(this)
             queue.add(loginRequest)
 
-
-
-
         }
 
     }
-
 
 
 }

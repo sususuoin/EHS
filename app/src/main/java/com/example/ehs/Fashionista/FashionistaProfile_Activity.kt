@@ -11,14 +11,18 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.ehs.Closet.AutoCloset
-import com.example.ehs.Closet.Clothes
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_fashionista_profile.*
 import kotlinx.android.synthetic.main.activity_profile_plus_.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -32,6 +36,7 @@ class FashionistaProfile_Activity : AppCompatActivity() {
     val REQUEST_OPEN_GALLERY = 2
     lateinit var bitmap : Bitmap
     lateinit var userId : String
+    lateinit var fashionistaId : String
 
     val FashionistaFeedList = mutableListOf<FashionistaUserProfiles>()
     var FashionistaFeedArr = ArrayList<String>()
@@ -45,7 +50,7 @@ class FashionistaProfile_Activity : AppCompatActivity() {
         Log.d("텔미", FashionistaFeedArr.toString())
 
         val intent = intent
-        var fashionistaId = intent.getStringExtra("fashionistaId")
+        fashionistaId = intent.getStringExtra("fashionistaId").toString()
         val arr = intent.getByteArrayExtra("fashionistaProfile")
         val fashionistaProfile = BitmapFactory.decodeByteArray(arr, 0, arr!!.size)
         iv_profile.setImageBitmap(fashionistaProfile)
@@ -105,9 +110,8 @@ class FashionistaProfile_Activity : AppCompatActivity() {
             uThread.start() // 작업 Thread 실행
 
             try {
-
                 uThread.join()
-
+                count()
                 var fashionistaFeed = FashionistaUserProfiles(a_bitmap)
                 FashionistaFeedList.add(fashionistaFeed)
 
@@ -115,6 +119,7 @@ class FashionistaProfile_Activity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+
 
     }
 
@@ -167,6 +172,41 @@ class FashionistaProfile_Activity : AppCompatActivity() {
         val plusImgArr = stream.toByteArray()
         intent.putExtra("plusImgArr", plusImgArr)
         startActivity(intent)
+
+    }
+
+    fun count() {
+        var userId = fashionistaId
+        var FollowerCount: String
+        var PostCount: String
+
+        val responseListener: Response.Listener<String?> =
+            Response.Listener<String?> { response ->
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    for (i in 0 until arr.length()) {
+                        val countObject = arr.getJSONObject(i)
+                        FollowerCount = countObject.getString("FollowerCount")
+                        PostCount = countObject.getString("PostCount")
+
+                        Log.d("으음없는건가,..1212?", FollowerCount)
+                        Log.d("으음없는건가,..1212?", PostCount)
+
+                        tv_follower.text = FollowerCount
+                        tv_post.text = PostCount
+
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+        val fashionistaProfileCount_Request = FashionistaProfileCount_Request(userId!!, responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(fashionistaProfileCount_Request)
 
     }
 

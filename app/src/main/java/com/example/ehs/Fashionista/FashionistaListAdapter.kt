@@ -82,8 +82,6 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
                             var jsonObject = JSONObject(response)
                             val arr: JSONArray = jsonObject.getJSONArray("response")
 
-                            Log.d("좋긴한데 ", arr.toString())
-
                             if(arr.length() == 0) {
                                 FashionistaFeedArr.clear()
                             }
