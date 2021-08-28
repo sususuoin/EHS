@@ -1,5 +1,6 @@
 package com.example.ehs.Fashionista
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Login.AutoLogin
+import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_clothes_save.*
 import kotlinx.android.synthetic.main.fashionista.view.*
@@ -21,7 +23,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
-import java.util.ArrayList
+import java.util.*
 
 
 class FashionistaListAdapter(private val itemList: List<Fashionista>)
@@ -61,7 +63,9 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
                 dialog.setMessage("업로드 중입니다.")
                 dialog.show()
 
-                Toast.makeText(holder.itemView.context, "asdf ${itemList[position].name}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(holder.itemView.context,
+                    "asdf ${itemList[position].name}",
+                    Toast.LENGTH_SHORT).show()
                 var fashionistaId = itemList[position].name
                 var fashionistaProfile = itemList[position].profile
 
@@ -99,9 +103,11 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
                             e.printStackTrace()
                         }
 
-                        AutoPro.setplusImgName(holder.itemView.context, FashionistaFeedArr as ArrayList<String>)
+                        AutoPro.setplusImgName(holder.itemView.context,
+                            FashionistaFeedArr as ArrayList<String>)
                         Log.d("전문가 아이디", fashionistaId)
-                        val intent = Intent(holder.itemView.context, FashionistaProfile_Activity::class.java)
+                        val intent = Intent(holder.itemView.context,
+                            FashionistaProfile_Activity::class.java)
                         intent.putExtra("fashionistaId", fashionistaId)
                         intent.putExtra("fashionistaProfile", byteArray)
 
@@ -109,7 +115,8 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
                         ContextCompat.startActivity(holder.itemView.context, intent, null)
 
                     }
-                val fashionistaProfileServer_Request = FashionistaProfileServer_Request(userId!!, responseListener)
+                val fashionistaProfileServer_Request = FashionistaProfileServer_Request(userId!!,
+                    responseListener)
                 val queue = Volley.newRequestQueue(holder.itemView.context)
                 queue.add(fashionistaProfileServer_Request)
             } // item 클릭하면 FashionistaProfile_Activity로 이동
@@ -131,6 +138,7 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
 
                             if(success) {
                                 Toast.makeText(itemView.context, "즐겨찾기 성공", Toast.LENGTH_SHORT).show()
+                                (itemView.context as MainActivity).favorite_check()
                             } else {
                                 Toast.makeText(itemView.context, "즐겨찾기 실패", Toast.LENGTH_SHORT).show()
                                 return
@@ -150,7 +158,7 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
             }
 
             itemView.btn_Star_fill.setOnClickListener {
-                Log.d("클릭","즐겨찾기 취소버튼클릭")
+                Log.d("클릭", "즐겨찾기 취소버튼클릭")
                 //채워져있는 스타를 클릭시 비워져있는 스타로 변경 (즐겨찾기 취소)
                 itemView.findViewById<Button>(R.id.btn_Star_empty).visibility = View.VISIBLE;
                 itemView.findViewById<Button>(R.id.btn_Star_fill).visibility = View.GONE;
@@ -164,6 +172,7 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
 
                             if(success) {
                                 Toast.makeText(itemView.context, "즐겨찾기 삭제", Toast.LENGTH_SHORT).show()
+                                (itemView.context as MainActivity).favorite_check()
                             } else {
                                 Toast.makeText(itemView.context, "즐겨찾기 삭제실패", Toast.LENGTH_SHORT).show()
                                 return
@@ -176,7 +185,9 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
 
                 var userId = AutoLogin.getUserId(itemView.context)
                 var prouserId = itemList[position].name
-                val favoriteupdate_Request = FavoriteUpdate_Request(userId, prouserId, responseListener)
+                val favoriteupdate_Request = FavoriteUpdate_Request(userId,
+                    prouserId,
+                    responseListener)
                 val queue = Volley.newRequestQueue(itemView.context)
                 queue.add(favoriteupdate_Request)
 
@@ -185,7 +196,7 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
 
     }
 
-    class ViewHolder (v: View) : RecyclerView.ViewHolder(v) {
+    class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         var view : View = v
 
         fun bind(item: Fashionista) {

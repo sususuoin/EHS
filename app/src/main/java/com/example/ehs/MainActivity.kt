@@ -91,6 +91,7 @@ class MainActivity : AppCompatActivity() {
 
         AndroidThreeTen.init(this)
 
+        userId = AutoLogin.getUserId(this)
 
         // 바텀 네비게이션
         bottom_nav.setOnNavigationItemSelectedListener(onBottomNavItemSeletedListener)
@@ -402,8 +403,6 @@ class MainActivity : AppCompatActivity() {
 
     fun ClosetImg() {
 
-        userId = AutoLogin.getUserId(this)
-
         var cuserId: String
         var cclothesName: String
         var clothesArr = mutableListOf<String>()
@@ -442,8 +441,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun CodyImg() {
-
-        userId = AutoLogin.getUserId(this)
 
         var cuserId: String
         var codyImgName: String
@@ -496,6 +493,8 @@ class MainActivity : AppCompatActivity() {
                     var response = jsonObject.toString()
 
                     val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    Log.d("기분크기", arr.length().toString())
 
                     for (i in 0 until arr.length()) {
                         val Object = arr.getJSONObject(i)

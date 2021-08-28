@@ -1,11 +1,10 @@
 package com.example.ehs.Fashionista
 
+import android.R.attr.bitmap
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,10 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.example.ehs.Fashionista.FashionistaFragment.Companion.dialog
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
@@ -26,7 +25,8 @@ import kotlinx.android.synthetic.main.fragment_favorite.view.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.ArrayList
+import java.util.*
+
 
 class FavoriteFragment : Fragment() {
 
@@ -52,23 +52,26 @@ class FavoriteFragment : Fragment() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "FeedFragment - onCreate() called")
 
+        dialog.dismiss()
         userId = AutoLogin.getUserId(a!!)
 
         favoriteuserIdArr = AutoPro.getFavoriteuserId2(a!!)
         favoriteuserHashTagArr = AutoPro.getFavoriteuserHashTag(a!!)
         favoriteuserProImgArr = AutoPro.getFavoriteuserImg(a!!)
 
-
+        Log.d("기분...", favoriteuserIdArr.toString())
         if(favoriteuserIdArr.size!=0) {
             var favoriteuserProfile : Bitmap?
+
             for(i in 0 until favoriteuserIdArr.size) {
                 favoriteuserProfile = AutoLogin.StringToBitmap(favoriteuserProImgArr[i])
-                var favorite = Favorite(favoriteuserIdArr[i], '#'+favoriteuserHashTagArr[i], favoriteuserProfile)
+                val resizedBmp = Bitmap.createScaledBitmap(favoriteuserProfile!!, 100, 100, true)
+                var favorite = Favorite(favoriteuserIdArr[i], '#' + favoriteuserHashTagArr[i], resizedBmp)
+
                 favoriteList.add(favorite)
                 favoriteuserProfile == null
             }
         }
-
 
     }
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
@@ -84,7 +87,7 @@ class FavoriteFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         Log.d(TAG, "FavoriteFragment - onCreateView() called")
         val view = inflater.inflate(R.layout.fragment_favorite, container, false)
@@ -105,26 +108,6 @@ class FavoriteFragment : Fragment() {
             recommend()
         }
 
-
-//        val resources: Resources = this.resources
-//        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.basicprofile)
-
-//        var one = Favorite("lu__eun","#스트릿", bitmap)
-//        var two = Favorite("Ha_nle","#데일리", bitmap)
-//        var three = Favorite("tndlstksxk","#아메카지", bitmap)
-//
-//        favoriteList.add(one)
-//        FfavoriteList.add(two)
-//        favoriteList.add(three)
-
-//        if(favoriteuserIdArr.size!=0) {
-//            for(i in 0 until favoriteuserIdArr.size) {
-//                var favoriteuserProfile = AutoLogin.StringToBitmap(favoriteuserProImgArr[i])
-//                var favorite = Favorite(favoriteuserIdArr[i], '#'+favoriteuserHashTagArr[i], favoriteuserProfile)
-//                favoriteList.add(favorite)
-//                favoriteuserProfile == null
-//            }
-//        }
 
         return view
     }

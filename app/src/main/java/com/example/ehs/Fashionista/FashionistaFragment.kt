@@ -1,6 +1,7 @@
 package com.example.ehs.Fashionista
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -37,8 +38,12 @@ class FashionistaFragment : Fragment() {
 
     lateinit var userId :String
 
+    var favoriteuserIdArr = mutableListOf<String>()
+    var favoriteListArr2 : ArrayList<String>? = null
+
     companion object {
         const val TAG : String = "패셔니스타 프래그먼트"
+        lateinit var dialog : ProgressDialog
         fun newInstance() : FashionistaFragment { // newInstance()라는 함수를 호출하면 HomeFragment를 반환함
 
             return FashionistaFragment()
@@ -71,6 +76,7 @@ class FashionistaFragment : Fragment() {
 
         (activity as MainActivity).favorite_check()
 
+
     }
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
     override fun onAttach(context: Context) {
@@ -97,16 +103,23 @@ class FashionistaFragment : Fragment() {
         
         view.tv_favorite.setOnClickListener {
             Log.d("FashionistaFragment", "즐겨찾기로 이동")
-            if(favoriteListArr.size ==0) {
-//                Log.d("FashionistaFraㅂㅈgment", "즐겨ㄷㅂㅈ찾기로 이동")
-                (activity as MainActivity?)!!.replaceFragment(FavoriteFragment.newInstance())
-            }
-            else {
+            if(favoriteListArr.size !=0) {
+                dialog = ProgressDialog(a)
+                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                dialog.setMessage("업로드 중입니다.")
+                dialog.setCanceledOnTouchOutside(false)
+                dialog.show()
+
                 favoriteListUp()
+                Log.d("기분1111111111","!11111111111")
+            } else {
+                (activity as MainActivity?)?.replaceFragment(FavoriteFragment.newInstance())
             }
 
+
+
         }
-        (activity as MainActivity).favorite_check()
+        favoriteListArr = AutoPro.getFavoriteuserId(a!!)
         return view
     }
 
@@ -139,22 +152,22 @@ class FashionistaFragment : Fragment() {
         var favoriteuserHashTag: String
         var favoriteuserProfileImg : String
 
-        var favoriteuserIdArr = mutableListOf<String>()
+
         var favoriteuserHashTagArr = mutableListOf<String>()
         var favoriteuserProImgArr = mutableListOf<String>()
 
-        for (i in 0 until favoriteListArr.size) {
+        favoriteListArr2 = AutoPro.getFavoriteuserId(a!!)
+
+        for (i in 0 until favoriteListArr2!!.size) {
             val responseListener: Response.Listener<String?> =
                 Response.Listener<String?> { response ->
                     try {
-
                         var jsonObject = JSONObject(response)
 
                         val arr: JSONArray = jsonObject.getJSONArray("response")
 
                         for (i in 0 until arr.length()) {
                             val fuserObject = arr.getJSONObject(i)
-
                             favoriteuserId = fuserObject.getString("userId")
                             favoriteuserHashTag = fuserObject.getString("HashTag")
                             favoriteuserProfileImg = fuserObject.getString("userProfileImg")
@@ -167,20 +180,23 @@ class FashionistaFragment : Fragment() {
                             AutoPro.setFavoriteuserHashTag(a!!, favoriteuserHashTagArr as java.util.ArrayList<String>)
                             AutoPro.setFavoriteuserImg(a!!, favoriteuserProImgArr as java.util.ArrayList<String>)
 
-                            (activity as MainActivity?)?.replaceFragment(FavoriteFragment.newInstance())
                         }
-
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }
+                    Log.d("기분1111111111",favoriteuserIdArr.toString())
+                    Log.d("기분2222222222",favoriteListArr2.toString())
+                    if (favoriteuserIdArr.size == favoriteListArr2?.size) {
+                        (activity as MainActivity?)?.replaceFragment(FavoriteFragment.newInstance())
+                    }
                 }
-            var proId = favoriteListArr[i]
+
+            var proId = favoriteListArr2!![i]
             val favoriteListUp_Request = FavoriteListUp_Request(proId!!, responseListener)
             val queue = Volley.newRequestQueue(a)
             queue.add(favoriteListUp_Request)
 
         }
-
     }
 
 
