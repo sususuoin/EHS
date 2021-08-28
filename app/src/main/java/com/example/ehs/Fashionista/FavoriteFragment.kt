@@ -94,8 +94,9 @@ class FavoriteFragment : Fragment() {
             recommend()
         }
 
-        val resources: Resources = this.resources
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.basicprofile)
+
+//        val resources: Resources = this.resources
+//        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.basicprofile)
 
 //        var one = Favorite("lu__eun","#스트릿", bitmap)
 //        var two = Favorite("Ha_nle","#데일리", bitmap)
