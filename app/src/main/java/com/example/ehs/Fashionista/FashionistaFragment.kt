@@ -92,11 +92,11 @@ class FashionistaFragment : Fragment() {
 
         view.tv_fashionista.setOnClickListener {
             Log.d("FashionistaFragment", "나로 이동")
-            (activity as MainActivity?)!!.replaceFragment(this)
+            (activity as MainActivity?)!!.replaceFragment(newInstance())
         }
         
         view.tv_favorite.setOnClickListener {
-            Log.d("FashionistaFragment", "피드로 이동")
+            Log.d("FashionistaFragment", "즐겨찾기로 이동")
             if(favoriteListArr.size ==0) {
                 (activity as MainActivity?)!!.replaceFragment(FavoriteFragment.newInstance())
             }
@@ -122,7 +122,6 @@ class FashionistaFragment : Fragment() {
         super.onResume()
         Log.d("FashionistaFragment", "RESUME")
         refreshFragment(this, getFragmentManager())
-        adapter.notifyDataSetChanged()
     }
 
     // Fragment 새로고침
@@ -166,7 +165,6 @@ class FashionistaFragment : Fragment() {
                             AutoPro.setFavoriteuserId2(a!!, favoriteuserIdArr as java.util.ArrayList<String>)
                             AutoPro.setFavoriteuserHashTag(a!!, favoriteuserHashTagArr as java.util.ArrayList<String>)
                             AutoPro.setFavoriteuserImg(a!!, favoriteuserProImgArr as java.util.ArrayList<String>)
-                            adapter.notifyDataSetChanged()
                             (activity as MainActivity?)?.replaceFragment(FavoriteFragment.newInstance())
 
                         }

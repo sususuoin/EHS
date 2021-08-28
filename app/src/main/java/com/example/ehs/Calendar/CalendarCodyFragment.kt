@@ -150,7 +150,7 @@ class CalendarCodyFragment : Fragment() {
         rv_cody.layoutManager = gridLayoutManager
         rv_cody.adapter = adapter
 
-        adapter.notifyDataSetChanged()
+//        adapter.notifyDataSetChanged()
         //recylerview 이거 fashionista.xml에 있는 변수
     }
 

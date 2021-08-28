@@ -240,7 +240,7 @@ class ClosetFragment : Fragment() {
 
         val adapter = ClothesListAdapter(clothesList)
         recyclerView.adapter = adapter
-        adapter.notifyDataSetChanged()
+//        adapter.notifyDataSetChanged()
         //recylerview 이거 fashionista.xml에 있는 변수
     }
 

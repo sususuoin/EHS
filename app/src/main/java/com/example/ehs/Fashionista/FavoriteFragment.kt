@@ -79,13 +79,13 @@ class FavoriteFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_favorite, container, false)
 
         view.tv_fashionista2.setOnClickListener {
-            Log.d("FashionistaFragment", "피드로 이동")
+            Log.d("FashionistaFragment", "패셔니스타로 이동")
             (activity as MainActivity?)!!.replaceFragment(FashionistaFragment.newInstance())
         }
 
         view.tv_favorite.setOnClickListener {
-            Log.d("FashionistaFragment", "두두둥2")
-            adapter.notifyDataSetChanged()
+            Log.d("FashionistaFragment", "즐겨찾기로 두두둥2")
+            (activity as MainActivity?)!!.replaceFragment(newInstance())
         }
 
 
@@ -99,11 +99,11 @@ class FavoriteFragment : Fragment() {
 
 //        var one = Favorite("lu__eun","#스트릿", bitmap)
 //        var two = Favorite("Ha_nle","#데일리", bitmap)
-        var three = Favorite("tndlstksxk","#아메카지", bitmap)
+//        var three = Favorite("tndlstksxk","#아메카지", bitmap)
 //
 //        favoriteList.add(one)
-//        favoriteList.add(two)
-        favoriteList.add(three)
+//        FfavoriteList.add(two)
+//        favoriteList.add(three)
 
         if(favoriteuserIdArr.size!=0) {
             for(i in 0 until favoriteuserIdArr.size) {
