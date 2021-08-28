@@ -14,8 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.*
@@ -37,9 +35,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
-import java.lang.System.exit
 import java.util.*
-import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -53,7 +49,6 @@ class MainActivity : AppCompatActivity() {
 
     private val REQUEST_ACCESS_FINE_LOCATION = 1000
 
-
     // 메인액티비티 클래스가 가지고 있는 멤버들
     private lateinit var homeFragment: HomeFragment
     private lateinit var fashionistaFragment: FashionistaFragment
@@ -63,19 +58,9 @@ class MainActivity : AppCompatActivity() {
 
 
     var userId: String? = ""
-    var userPw: String? = ""
-    var userName: String? = ""
-    var userEmail: String? = ""
-    var userBirth: String? = ""
-    var userGender: String? = ""
-    var userLevel: String? = ""
     val bundle = Bundle()
 
     private var backKeyPressedTime: Long = 0
-
-    // 첫 번째 뒤로 가기 버튼을 누를 때 표시
-    private var toast: Toast? = null
-
 
     override fun onBackPressed() {
         //super.onBackPressed();
@@ -130,8 +115,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         FashionistaUser()
-        ClosetImg()
-        CodyImg()
 
     }
 
@@ -157,6 +140,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_closet -> {
                     Log.d(TAG, "MainActivity - 옷장 버튼 클릭!")
 
+                    ClosetImg()
+                    CodyImg()
                     closetFragment = ClosetFragment.newInstance()
                     replaceFragment(closetFragment)
                     closetFragment.arguments = bundle
@@ -289,7 +274,9 @@ class MainActivity : AppCompatActivity() {
                     val mGeoCoder = Geocoder(applicationContext, Locale.KOREAN)
                     var mResultList: List<Address>? = null
                     try {
-                        mResultList = mGeoCoder.getFromLocation(location?.latitude!!, location?.longitude!!, 1)
+                        mResultList = mGeoCoder.getFromLocation(location?.latitude!!,
+                            location?.longitude!!,
+                            1)
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
@@ -489,6 +476,7 @@ class MainActivity : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this)
         queue.add(codyServer_Request)
     }
+
 
 
 

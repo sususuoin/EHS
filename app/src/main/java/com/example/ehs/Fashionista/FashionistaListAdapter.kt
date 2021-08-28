@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import com.example.ehs.Closet.ClothesSave_Request
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_clothes_save.*
@@ -26,21 +25,20 @@ import java.util.ArrayList
 
 
 class FashionistaListAdapter(private val itemList: List<Fashionista>)
-    : RecyclerView.Adapter<FashionistaViewHolder>()  {
+    : RecyclerView.Adapter<FashionistaListAdapter.ViewHolder>()  {
 
     override fun getItemCount(): Int {
         return itemList.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FashionistaViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflatedView = LayoutInflater.from(parent.context)
             .inflate(R.layout.fashionista, parent, false)
-        return FashionistaViewHolder(inflatedView)
+        return ViewHolder(inflatedView)
     }
 
-    override fun onBindViewHolder(holder: FashionistaViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itemList[position]
-        holder.bind(itemList[position])
 
         val layoutParams = holder.itemView.layoutParams
         layoutParams.height = 200
@@ -54,7 +52,7 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
                 holder.itemView.findViewById<Button>(R.id.btn_Star_fill).visibility = View.VISIBLE;
             }
         }
-
+        
         holder.apply {
             bind(item)
             itemView.setOnClickListener {
@@ -186,5 +184,17 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
         }
 
     }
+
+    class ViewHolder (v: View) : RecyclerView.ViewHolder(v) {
+        var view : View = v
+
+        fun bind(item: Fashionista) {
+            view.mName.text = item.name
+            view.mHashtag.text = item.hashtag
+            view.mProfile.setImageBitmap(item.profile)
+        }
+    }
+
+
 
 }
