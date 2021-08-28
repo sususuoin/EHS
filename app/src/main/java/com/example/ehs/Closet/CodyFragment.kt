@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.example.ehs.Closet.CodySaveActivity.Companion.codysaveActivityDialog
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -97,6 +98,9 @@ class CodyFragment : Fragment() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "CodyFragment - onCreate() called")
         AndroidThreeTen.init(a)
+
+        codysaveActivityDialog?.dismiss()
+
         var a_bitmap : Bitmap? = null
         codyArr2 = AutoCody.getCodyName(a!!)
         Log.d("111111", codyArr2.toString())

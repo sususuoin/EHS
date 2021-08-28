@@ -1,12 +1,12 @@
 package com.example.ehs.Closet
 
-import android.content.Intent
+import android.app.Activity
+import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -29,7 +29,12 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
     var codyStyle : String = ""
     var userId : String= ""
 
+    var activity : Activity? = null
 
+    companion object {
+        const val TAG : String = "코디세이브 액티비티"
+        var codysaveActivityDialog : ProgressDialog? = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +72,12 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                 Toast.makeText(this@CodySaveActivity, "스타일을 꼭 설정해주세요", Toast.LENGTH_LONG).show()
             }
             else {
+                codysaveActivityDialog = ProgressDialog(this)
+                codysaveActivityDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                codysaveActivityDialog?.setMessage("업로드 중입니다.")
+                codysaveActivityDialog?.setCanceledOnTouchOutside(false)
+                codysaveActivityDialog?.show()
+
                 uploadCody(image)
             }
 
@@ -85,6 +96,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
     }
 
     fun uploadCody(bitmap: Bitmap) {
+
         val codyUploadRequest: CodyUpload_Request = object : CodyUpload_Request(
             Method.POST, "http://13.125.7.2/codyupload.php",
             Response.Listener<NetworkResponse> { response ->
@@ -97,9 +109,6 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
 
                     Toast.makeText(this, codyImgName, Toast.LENGTH_SHORT).show()
                     uploadDB(userId, codyImgName)
-
-
-//                    finish()
 
 
                 } catch (e: JSONException) {
@@ -133,11 +142,14 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                     var success = jsonObject.getBoolean("success")
 
                     if(success) {
-                        Toast.makeText(this@CodySaveActivity, jsonObject.toString(), Toast.LENGTH_LONG).show()
-//                        finish()
+                        Toast.makeText(this@CodySaveActivity,
+                            jsonObject.toString(),
+                            Toast.LENGTH_LONG).show()
 
-                        val intent = Intent(this@CodySaveActivity, MainActivity::class.java)
-                        startActivity(intent)
+                        //여기서 서버에서 이미지 다시 받아오는 함수를 불러와 화면이 나가지는 순간 실시간으로 코디 추가할 수 있게 해야함
+//                        (activity as MainActivity).CodyImg()
+
+                        finish()
 
                     } else {
                         Toast.makeText(this@CodySaveActivity, "실패 두둥탁", Toast.LENGTH_LONG).show()
