@@ -64,6 +64,9 @@ class FashionistaFragment : Fragment() {
 
         userId = AutoLogin.getUserId(a!!)
 
+        //dialog가 lateinit이기떄문에 null이면ㅇ ㅏㄴ되서 oncreate에서 한번 선언해준 뒤 사용
+        dialog = ProgressDialog(a)
+
         var fuserProfile : Bitmap?
         for (i in 0 until fuserIdArr2.size) {
 
@@ -104,7 +107,7 @@ class FashionistaFragment : Fragment() {
         view.tv_favorite.setOnClickListener {
             Log.d("FashionistaFragment", "즐겨찾기로 이동")
             if(favoriteListArr.size !=0) {
-                dialog = ProgressDialog(a)
+
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
                 dialog.setMessage("업로드 중입니다.")
                 dialog.setCanceledOnTouchOutside(false)
