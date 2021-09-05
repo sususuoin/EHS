@@ -3,7 +3,6 @@ package com.example.ehs.Closet
 import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +18,7 @@ import com.example.ehs.BottomSheet.BottomSheet_category
 import com.example.ehs.BottomSheet.BottomSheet_color
 import com.example.ehs.BottomSheet.BottomSheet_season
 import com.example.ehs.Login.AutoLogin
+import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_clothes_save.*
 import kotlinx.android.synthetic.main.bottomsheet_category.*
@@ -35,10 +35,19 @@ import java.util.*
 
 
 class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomSheetButtonClickListener, BottomSheet_color.BottomSheetButtonClickListener, BottomSheet_season.BottomSheetButtonClickListener {
-    val TAG: String = "옷저장하는 화면"
+
+
+    companion object {
+        val TAG: String = "옷저장하는 화면"
+        var clothesSaveActivity_Dialog : ProgressDialog? = null
+    }
 
     lateinit var clothesName : String
     lateinit var clothesImg : Bitmap
+
+    var tvcategory : String = ""
+    var tvcolor : String = ""
+    var tvseason : String = ""
 
     val serverUrl = "http://13.125.7.2/upload3.php"
     var originURL :String = "http://13.125.7.2/img/clothes/origin/"
@@ -68,20 +77,11 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
         val originImgName = getIntent().getStringExtra("originImgName")
         Log.d(TAG, originImgName!!)
         realURL = originURL+originImgName
-//
-//        clothesImg = setImg(realURL)
-//
-//        iv_clothes.setImageBitmap(clothesImg)
 
 
         var task = back()
         task.execute(realURL);
 
-
-//        val intent = intent
-//        val arr = getIntent().getByteArrayExtra("clothesImg")
-//        clothesImg = BitmapFactory.decodeByteArray(arr, 0, arr!!.size)
-//        iv_clothes.setImageBitmap(clothesImg)
 
         /**
          * 액션바 대신 툴바를 사용하도록 설정
@@ -120,11 +120,24 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
         //완료하기 버튼클릭
         btn_complete.setOnClickListener {
-
-
             Log.d(TAG, "서버에 저장을 시작합니다")
-            uploadBitmap(clothesImg)
 
+            if(tvcolor == "" || tvcolor == null) {
+                Toast.makeText(this, "색상을 선택해주세요", Toast.LENGTH_LONG).show()
+            }else if(tvcategory == "" || tvcategory == null) {
+                Toast.makeText(this, "카테고리를 선택해주세요", Toast.LENGTH_LONG).show()
+            }else if(tvseason == "" || tvseason == null ) {
+                Toast.makeText(this, "계절을 선택해주세요", Toast.LENGTH_LONG).show()
+            } else {
+
+                clothesSaveActivity_Dialog = ProgressDialog(this)
+                clothesSaveActivity_Dialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                clothesSaveActivity_Dialog?.setMessage("업로드 중입니다.")
+                clothesSaveActivity_Dialog?.setCanceledOnTouchOutside(false)
+                clothesSaveActivity_Dialog?.show()
+
+                uploadBitmap(clothesImg)
+            }
 
         }
 
@@ -171,11 +184,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
                         Log.d("은정이와 수인이는 호롤로로 ", clothesName)
 
-
                         uploadDB(userId)
-
-
-
 
                     } catch (e: JSONException) {
                         e.printStackTrace()
@@ -214,6 +223,12 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
                         ).show()
 
                         Log.d(TAG, "서버에 저장을 완료했다다")
+
+
+                        //다른 액티비티함수 사용할때
+                        (MainActivity.mContext as MainActivity).ClosetImg()
+//                        ClosetFragment.clothesArr = AutoCloset.getClothesName(this@ClothesSaveActivity)
+
                         finish()
 
                     } else {
@@ -235,7 +250,13 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
         Log.e("옷컬러검색", clothesColor)
         val clothesPath = "http://13.125.7.2/img/clothes/"
-        val clothesSave_Request = ClothesSave_Request(userId, clothesPath, clothesName, clothesColor, clothesCategory, clothesSeason, responseListener)
+        val clothesSave_Request = ClothesSave_Request(userId,
+            clothesPath,
+            clothesName,
+            clothesColor,
+            clothesCategory,
+            clothesSeason,
+            responseListener)
         val queue = Volley.newRequestQueue(this@ClothesSaveActivity)
         queue.add(clothesSave_Request)
     }
@@ -280,9 +301,11 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
     // 바텀시트에서 선택한거 적용
     override fun onCategoryButtonClicked(text: String) {
         tv_category.text = text
+        tvcategory = text
     }
     override fun onColorButtonClicked(text: String) {
         tv_color.text = text
+        tvcolor = text
         btn_colorview.visibility = View.VISIBLE
         if(text == "흰색"){
             btn_colorview.setBackgroundColor(this.resources.getColor(R.color.white))
@@ -348,6 +371,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
     }
     override fun onSeasonButtonClicked(text: String) {
         tv_season.text = text
+        tvseason = text
     }
 
 

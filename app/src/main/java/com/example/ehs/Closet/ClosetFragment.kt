@@ -78,20 +78,17 @@ class ClosetFragment : Fragment() {
     lateinit var uploadImgName : String
     lateinit var originImgName : String
 
-    lateinit var mProgressDialog: ProgressDialog
-    lateinit var clothesImg : Bitmap
-
     val clothesList = mutableListOf<Clothes>()
 
-//    var bundle : Bundle? = arguments
-//    var clothesArr = ArrayList<String>()
-
-    var clothesArr2 = ArrayList<String>()
     lateinit var userId : String
+
+    val adapter = ClothesListAdapter(clothesList)
 
     companion object {
         var a: Activity? = null
-        const val TAG : String = "로그"
+        const val TAG : String = "클로젯 프레그먼트"
+        var clothesArr = ArrayList<String>()
+
         fun newInstance() : ClosetFragment { // newInstance()라는 함수를 호출하면 ClosetFragment를 반환함
             return ClosetFragment()
         }
@@ -102,73 +99,16 @@ class ClosetFragment : Fragment() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "ClosetFragment - onCreate() called")
         AndroidThreeTen.init(a)
-        var a_bitmap : Bitmap? = null
 
         userId = AutoLogin.getUserId(a!!)
-
-        clothesArr2 = AutoCloset.getClothesName(a!!)
-        Log.d("111111", clothesArr2.toString())
-
 
         //clothes테이블에서 나의 데이터가져오기
         //현재는 날씨
         clothesResponse()
 
-        for (i in 0 until clothesArr2.size) {
-            val uThread: Thread = object : Thread() {
-                override fun run() {
-                    try {
-
-                        Log.d("Closet프래그먼터리스트123", clothesArr2[i])
-
-                        //서버에 올려둔 이미지 URL
-                        val url = URL("http://13.125.7.2/img/clothes/" + clothesArr2[i])
-
-                        //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
-                        /* URLConnection 생성자가 protected로 선언되어 있으므로
-                         개발자가 직접 HttpURLConnection 객체 생성 불가 */
-                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-
-                        /* openConnection()메서드가 리턴하는 urlConnection 객체는
-                        HttpURLConnection의 인스턴스가 될 수 있으므로 캐스팅해서 사용한다*/
-
-                        conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
-                        conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
-                        val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
-                        a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
-
-
-                    } catch (e: MalformedURLException) {
-                        e.printStackTrace()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-
-            uThread.start() // 작업 Thread 실행
-
-
-            try {
-
-                //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
-                //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
-                //join() 메서드는 InterruptedException을 발생시킨다.
-                uThread.join()
-
-                //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
-                //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
-
-                var clothes = Clothes(a_bitmap)
-                clothesList.add(clothes)
-
-
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
-            }
-        }
-
     }
+
+
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -176,11 +116,6 @@ class ClosetFragment : Fragment() {
             a = context
         }
         Log.d(TAG, "ClosetFragment - onAttach() called")
-
-
-//
-//        clothesArr = arguments?.getStringArrayList("clothesArr") as ArrayList<String>
-//        Log.d("Closet프래그먼터리스트", clothesArr.toString())
 
 
 
@@ -232,18 +167,79 @@ class ClosetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         val gridLayoutManager = GridLayoutManager(a, 3)
         recyclerView.layoutManager = gridLayoutManager
 
-
-        val adapter = ClothesListAdapter(clothesList)
         recyclerView.adapter = adapter
         adapter.notifyDataSetChanged()
         //recylerview 이거 fashionista.xml에 있는 변수
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "새로고침 실행")
+        clothesList.clear()
+
+        clothesArr = AutoCloset.getClothesName(a!!)
+        Log.d("ㅁㅁㅁㅁㅁ새로고침222", clothesArr.toString())
+
+        var a_bitmap : Bitmap? = null
+        for (i in 0 until clothesArr.size) {
+            val uThread: Thread = object : Thread() {
+                override fun run() {
+                    try {
+
+                        Log.d("Closet프래그먼터리스트123", clothesArr[i])
+
+                        //서버에 올려둔 이미지 URL
+                        val url = URL("http://13.125.7.2/img/clothes/" + clothesArr[i])
+
+                        //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
+                        /* URLConnection 생성자가 protected로 선언되어 있으므로
+                         개발자가 직접 HttpURLConnection 객체 생성 불가 */
+                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                        /* openConnection()메서드가 리턴하는 urlConnection 객체는
+                        HttpURLConnection의 인스턴스가 될 수 있으므로 캐스팅해서 사용한다*/
+
+                        conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
+                        conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                        val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
+                        a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
+
+
+                    } catch (e: MalformedURLException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+
+            uThread.start() // 작업 Thread 실행
+
+
+            try {
+
+                //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
+                //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
+                //join() 메서드는 InterruptedException을 발생시킨다.
+                uThread.join()
+
+                //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+                //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
+
+                var clothes = Clothes(a_bitmap)
+                clothesList.add(clothes)
+
+
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+        }
+
+        adapter.notifyDataSetChanged()
+    }
 
 
     fun onAddButtonClicked() {

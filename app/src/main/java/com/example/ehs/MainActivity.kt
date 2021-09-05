@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.*
+import com.example.ehs.Closet.ClothesSaveActivity.Companion.clothesSaveActivity_Dialog
 import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Fashionista.FashionistaFragment
 import com.example.ehs.Fashionista.FashionistaUser_Request
@@ -41,8 +42,10 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-
     val TAG: String = "메인페이지"
+    companion object {
+        var mContext: Context? = null
+    }
 
     lateinit var getLatitude : String
     lateinit var getLongitude : String
@@ -90,6 +93,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         AndroidThreeTen.init(this)
+        mContext = this
 
         userId = AutoLogin.getUserId(this)
 
@@ -426,6 +430,8 @@ class MainActivity : AppCompatActivity() {
                         clothesArr.add(cclothesName)
 
                         AutoCloset.setClothesName(this, clothesArr as ArrayList<String>)
+                        Log.d("ㅁㅁㅁㅁㅁ메인함수", clothesArr.toString())
+                        clothesSaveActivity_Dialog?.dismiss()
 
                     }
 
@@ -464,6 +470,7 @@ class MainActivity : AppCompatActivity() {
                         codyArr.add(codyImgName)
 
                         AutoCody.setCodyName(this, codyArr as ArrayList<String>)
+
 
                     }
 
@@ -506,7 +513,8 @@ class MainActivity : AppCompatActivity() {
                         favoriteuserIdArr.add(favoriteuserId)
                         Log.d("기분?", favoriteuserId)
 
-                        AutoPro.setFavoriteuserId(this, favoriteuserIdArr as java.util.ArrayList<String>)
+                        AutoPro.setFavoriteuserId(this,
+                            favoriteuserIdArr as java.util.ArrayList<String>)
 
                     }
 

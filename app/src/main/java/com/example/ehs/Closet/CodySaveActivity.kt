@@ -40,7 +40,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cody_save)
         userId = AutoLogin.getUserId(this@CodySaveActivity)
-
+        activity=this
         /**
          * 액션바 대신 툴바를 사용하도록 설정
          */
