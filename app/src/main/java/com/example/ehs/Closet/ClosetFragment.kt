@@ -107,74 +107,6 @@ class ClosetFragment : Fragment() {
         clothesResponse()
 
     }
-
-
-    // 프레그먼트를 안고 있는 액티비티에 붙었을 때
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is Activity) {
-            a = context
-        }
-        Log.d(TAG, "ClosetFragment - onAttach() called")
-
-
-
-    }
-    // 뷰가 생성되었을 때 화면과 연결
-    // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Log.d(TAG, "ClosetFragment - onCreateView() called")
-        val view: View = inflater!!.inflate(R.layout.fragment_closet, container, false)
-
-        view.tv_mycody.setOnClickListener { view ->
-            Log.d("ClosetFragment", "내 코디로 이동")
-            (activity as MainActivity?)!!.replaceFragment(CodyFragment.newInstance())
-        }
-
-        view.btn_add.setOnClickListener { view ->
-            Log.d("클릭!!", "플러스 버튼 클릭!!")
-            onAddButtonClicked()
-        }
-        view.btn_gallery.setOnClickListener { view ->
-            Log.d("클릭!!", "갤러리 버튼 클릭!!")
-            openGallery()
-            onAddButtonClicked()
-        }
-        view.tv_gallery.setOnClickListener { view ->
-            Log.d("클릭!!", "갤러리 텍스트 클릭!!")
-            openGallery()
-            onAddButtonClicked()
-        }
-        view.btn_camera.setOnClickListener { view ->
-            Log.d("클릭!!", "카메라 버튼 클릭!!")
-            takeCapture() // 기본 카메라 앱을 실행하여 사진 촬영
-            onAddButtonClicked()
-        }
-        view.tv_camera.setOnClickListener { view ->
-            Log.d("클릭!!", "카메라 텍스트 클릭!!")
-            takeCapture() // 기본 카메라 앱을 실행하여 사진 촬영
-            onAddButtonClicked()
-        }
-
-        return view
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val gridLayoutManager = GridLayoutManager(a, 3)
-        recyclerView.layoutManager = gridLayoutManager
-
-        recyclerView.adapter = adapter
-        adapter.notifyDataSetChanged()
-        //recylerview 이거 fashionista.xml에 있는 변수
-    }
-
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "새로고침 실행")
@@ -241,6 +173,71 @@ class ClosetFragment : Fragment() {
         adapter.notifyDataSetChanged()
     }
 
+
+
+    // 프레그먼트를 안고 있는 액티비티에 붙었을 때
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is Activity) {
+            a = context
+        }
+        Log.d(TAG, "ClosetFragment - onAttach() called")
+
+    }
+    // 뷰가 생성되었을 때 화면과 연결
+    // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        Log.d(TAG, "ClosetFragment - onCreateView() called")
+        val view: View = inflater!!.inflate(R.layout.fragment_closet, container, false)
+
+        view.tv_mycody.setOnClickListener { view ->
+            Log.d("ClosetFragment", "내 코디로 이동")
+            (activity as MainActivity?)!!.replaceFragment(CodyFragment.newInstance())
+        }
+
+        view.btn_add.setOnClickListener { view ->
+            Log.d("클릭!!", "플러스 버튼 클릭!!")
+            onAddButtonClicked()
+        }
+        view.btn_gallery.setOnClickListener { view ->
+            Log.d("클릭!!", "갤러리 버튼 클릭!!")
+            openGallery()
+            onAddButtonClicked()
+        }
+        view.tv_gallery.setOnClickListener { view ->
+            Log.d("클릭!!", "갤러리 텍스트 클릭!!")
+            openGallery()
+            onAddButtonClicked()
+        }
+        view.btn_camera.setOnClickListener { view ->
+            Log.d("클릭!!", "카메라 버튼 클릭!!")
+            takeCapture() // 기본 카메라 앱을 실행하여 사진 촬영
+            onAddButtonClicked()
+        }
+        view.tv_camera.setOnClickListener { view ->
+            Log.d("클릭!!", "카메라 텍스트 클릭!!")
+            takeCapture() // 기본 카메라 앱을 실행하여 사진 촬영
+            onAddButtonClicked()
+        }
+
+        return view
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val gridLayoutManager = GridLayoutManager(a, 3)
+        recyclerView.layoutManager = gridLayoutManager
+
+        recyclerView.adapter = adapter
+        adapter.notifyDataSetChanged()
+        //recylerview 이거 fashionista.xml에 있는 변수
+    }
 
     fun onAddButtonClicked() {
         setVisibility(clicked)

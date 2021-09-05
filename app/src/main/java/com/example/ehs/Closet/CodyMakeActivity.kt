@@ -2,6 +2,7 @@ package com.example.ehs.Closet
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ehs.Fashionista.FavoriteFragment
+import com.example.ehs.MainActivity
 import com.example.ehs.databinding.ActivityCodyMakeBinding
 import kotlinx.android.synthetic.main.activity_cody_make.*
 import java.io.ByteArrayOutputStream
@@ -42,12 +44,17 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
 
     lateinit var saveBitmap : Bitmap
 
+    companion object {
+        var codyContext: Context? = null
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCodyMakeBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        codyContext = this
 
         val gridLayoutManager = GridLayoutManager(this, 3)
         binding.rvCodymake.layoutManager = gridLayoutManager
@@ -87,8 +94,7 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
             var byteArray: ByteArray = stream.toByteArray()
             intent.putExtra("saveBitmap", byteArray)
             startActivity(intent)
-            finish()
-
+//            finish()
 
         }
 

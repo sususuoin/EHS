@@ -179,7 +179,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
                     try {
 
                         val obj = JSONObject(String(response!!.data))
-                        Toast.makeText(this, obj.toString(), Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this, obj.toString(), Toast.LENGTH_SHORT).show()
                         clothesName = obj.getString("file_name")
 
                         Log.d("은정이와 수인이는 호롤로로 ", clothesName)
@@ -218,17 +218,11 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
                     var success = jsonObject.getBoolean("success")
 
                     if(success) {
-                        Toast.makeText(
-                            this@ClothesSaveActivity, jsonObject.toString(), Toast.LENGTH_LONG
-                        ).show()
-
+//                        Toast.makeText(this@ClothesSaveActivity, jsonObject.toString(), Toast.LENGTH_LONG).show()
                         Log.d(TAG, "서버에 저장을 완료했다다")
-
-
                         //다른 액티비티함수 사용할때
                         (MainActivity.mContext as MainActivity).ClosetImg()
 //                        ClosetFragment.clothesArr = AutoCloset.getClothesName(this@ClothesSaveActivity)
-
                         finish()
 
                     } else {

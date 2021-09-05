@@ -1,6 +1,5 @@
 package com.example.ehs.Closet
 
-import android.app.Activity
 import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -29,18 +28,15 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
     var codyStyle : String = ""
     var userId : String= ""
 
-    var activity : Activity? = null
-
     companion object {
         const val TAG : String = "코디세이브 액티비티"
-        var codysaveActivityDialog : ProgressDialog? = null
+        var codysaveActivity_Dialog : ProgressDialog? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cody_save)
         userId = AutoLogin.getUserId(this@CodySaveActivity)
-        activity=this
         /**
          * 액션바 대신 툴바를 사용하도록 설정
          */
@@ -72,11 +68,11 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                 Toast.makeText(this@CodySaveActivity, "스타일을 꼭 설정해주세요", Toast.LENGTH_LONG).show()
             }
             else {
-                codysaveActivityDialog = ProgressDialog(this)
-                codysaveActivityDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                codysaveActivityDialog?.setMessage("업로드 중입니다.")
-                codysaveActivityDialog?.setCanceledOnTouchOutside(false)
-                codysaveActivityDialog?.show()
+                codysaveActivity_Dialog = ProgressDialog(this)
+                codysaveActivity_Dialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                codysaveActivity_Dialog?.setMessage("업로드 중입니다.")
+                codysaveActivity_Dialog?.setCanceledOnTouchOutside(false)
+                codysaveActivity_Dialog?.show()
 
                 uploadCody(image)
             }
@@ -142,13 +138,11 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                     var success = jsonObject.getBoolean("success")
 
                     if(success) {
-                        Toast.makeText(this@CodySaveActivity,
-                            jsonObject.toString(),
-                            Toast.LENGTH_LONG).show()
+//                        Toast.makeText(this@CodySaveActivity, jsonObject.toString(), Toast.LENGTH_LONG).show()
 
-                        //여기서 서버에서 이미지 다시 받아오는 함수를 불러와 화면이 나가지는 순간 실시간으로 코디 추가할 수 있게 해야함
-//                        (activity as MainActivity).CodyImg()
 
+                        (MainActivity.mContext as MainActivity).CodyImg()
+                        (CodyMakeActivity.codyContext as CodyMakeActivity).finish()
                         finish()
 
                     } else {

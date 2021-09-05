@@ -18,6 +18,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.*
 import com.example.ehs.Closet.ClothesSaveActivity.Companion.clothesSaveActivity_Dialog
+import com.example.ehs.Closet.CodySaveActivity.Companion.codysaveActivity_Dialog
 import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Fashionista.FashionistaFragment
 import com.example.ehs.Fashionista.FashionistaUser_Request
@@ -470,6 +471,7 @@ class MainActivity : AppCompatActivity() {
                         codyArr.add(codyImgName)
 
                         AutoCody.setCodyName(this, codyArr as ArrayList<String>)
+                        codysaveActivity_Dialog?.dismiss()
 
 
                     }

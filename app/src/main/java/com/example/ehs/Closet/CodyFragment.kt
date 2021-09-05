@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import com.example.ehs.Closet.CodySaveActivity.Companion.codysaveActivityDialog
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -76,14 +75,10 @@ class CodyFragment : Fragment() {
     lateinit var uploadImgName : String
     lateinit var originImgName : String
 
-
     val codyList = mutableListOf<Cody>()
-    var codyArr2 = ArrayList<String>()
+    var codyArr = ArrayList<String>()
 
-    //lateinit var codyadapter: CodyListAdapter
-
-
-
+    val adapter = CodyListAdapter(codyList)
 
     companion object {
         var a: Activity? = null
@@ -99,35 +94,31 @@ class CodyFragment : Fragment() {
         Log.d(TAG, "CodyFragment - onCreate() called")
         AndroidThreeTen.init(a)
 
-        codysaveActivityDialog?.dismiss()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "새로고침 실행")
+        codyList.clear()
+
+        codyArr = AutoCody.getCodyName(a!!)
+        Log.d("ㅁㅁㅁㅁㅁ새로고침222", codyArr.toString())
 
         var a_bitmap : Bitmap? = null
-        codyArr2 = AutoCody.getCodyName(a!!)
-        Log.d("111111", codyArr2.toString())
-
-        for (i in 0 until codyArr2.size) {
+        for (i in 0 until codyArr.size) {
             val uThread: Thread = object : Thread() {
                 override fun run() {
                     try {
+                        Log.d("Closet프래그먼터리스트123", codyArr[i])
 
-                        Log.d("Closet프래그먼터리스트123", codyArr2[i])
+                        val url = URL("http://13.125.7.2/img/cody/" + codyArr[i])
 
-                        //서버에 올려둔 이미지 URL
-                        val url = URL("http://13.125.7.2/img/cody/" + codyArr2[i])
-
-                        //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
-                        /* URLConnection 생성자가 protected로 선언되어 있으므로
-                         개발자가 직접 HttpURLConnection 객체 생성 불가 */
                         val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
 
-                        /* openConnection()메서드가 리턴하는 urlConnection 객체는
-                        HttpURLConnection의 인스턴스가 될 수 있으므로 캐스팅해서 사용한다*/
-
-                        conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
-                        conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
-                        val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
-                        a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
-
+                        conn.setDoInput(true)
+                        conn.connect()
+                        val iss: InputStream = conn.getInputStream()
+                        a_bitmap = BitmapFactory.decodeStream(iss)
 
                     } catch (e: MalformedURLException) {
                         e.printStackTrace()
@@ -136,19 +127,11 @@ class CodyFragment : Fragment() {
                     }
                 }
             }
-
             uThread.start() // 작업 Thread 실행
-
 
             try {
 
-                //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
-                //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
-                //join() 메서드는 InterruptedException을 발생시킨다.
                 uThread.join()
-
-                //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
-                //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
 
                 var cody = Cody(a_bitmap)
                 codyList.add(cody)
@@ -159,8 +142,11 @@ class CodyFragment : Fragment() {
             }
         }
 
-
+        adapter.notifyDataSetChanged()
     }
+
+
+
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -210,7 +196,6 @@ class CodyFragment : Fragment() {
         val gridLayoutManager = GridLayoutManager(a, 2)
         recycler_cody.layoutManager = gridLayoutManager
 
-        val adapter = CodyListAdapter(codyList)
         recycler_cody.adapter = adapter
         adapter.notifyDataSetChanged()
 
