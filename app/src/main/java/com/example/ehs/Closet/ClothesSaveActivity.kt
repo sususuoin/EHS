@@ -1,6 +1,7 @@
 package com.example.ehs.Closet
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
@@ -19,6 +20,7 @@ import com.example.ehs.BottomSheet.BottomSheet_color
 import com.example.ehs.BottomSheet.BottomSheet_season
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
+import com.example.ehs.MainActivity.Companion.closetInt
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_clothes_save.*
 import kotlinx.android.synthetic.main.bottomsheet_category.*
@@ -39,8 +41,11 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
     companion object {
         val TAG: String = "옷저장하는 화면"
+
+        var clothesSaveContext: Context? = null
         var clothesSaveActivity_Dialog : ProgressDialog? = null
     }
+
 
     lateinit var clothesName : String
     lateinit var clothesImg : Bitmap
@@ -56,25 +61,16 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
     lateinit var mProgressDialog: ProgressDialog
     lateinit var userId : String
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        if (mProgressDialog != null && mProgressDialog!!.isShowing) {
-            mProgressDialog!!.dismiss()
-        }
-
-
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_clothes_save)
+        clothesSaveContext=this
 
         //사용자 아이디받아오기
         userId = AutoLogin.getUserId(this@ClothesSaveActivity)
 
         val intent = intent
-        val originImgName = getIntent().getStringExtra("originImgName")
+        val originImgName = intent.getStringExtra("originImgName")
         Log.d(TAG, originImgName!!)
         realURL = originURL+originImgName
 
@@ -131,10 +127,10 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
             } else {
 
                 clothesSaveActivity_Dialog = ProgressDialog(this)
-                clothesSaveActivity_Dialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                clothesSaveActivity_Dialog?.setMessage("업로드 중입니다.")
-                clothesSaveActivity_Dialog?.setCanceledOnTouchOutside(false)
-                clothesSaveActivity_Dialog?.show()
+                clothesSaveActivity_Dialog!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                clothesSaveActivity_Dialog!!.setMessage("업로드 중입니다.")
+                clothesSaveActivity_Dialog!!.setCanceledOnTouchOutside(false)
+                clothesSaveActivity_Dialog!!.show()
 
                 uploadBitmap(clothesImg)
             }
@@ -223,7 +219,14 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
                         //다른 액티비티함수 사용할때
                         (MainActivity.mContext as MainActivity).ClosetImg()
 //                        ClosetFragment.clothesArr = AutoCloset.getClothesName(this@ClothesSaveActivity)
-                        finish()
+
+//                        Log.d("ㅁㅁㅁㅁㅁ메인함수인트1", closetInt.toString())
+//                        if(closetInt == 1) {
+//                            Log.d("ㅁㅁㅁㅁㅁ메인함수인트2", closetInt.toString())
+//                            clothesSaveActivity_Dialog!!.dismiss()
+//                            finish()
+//                        }
+
 
                     } else {
                         Toast.makeText(this@ClothesSaveActivity, "실패 두둥탁", Toast.LENGTH_LONG).show()

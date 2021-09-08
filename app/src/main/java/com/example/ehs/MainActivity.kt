@@ -49,6 +49,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         var mContext: Context? = null
         var color_Dialog : ProgressDialog? = null
+
+        var closetInt : Int? = null
     }
 
     lateinit var getLatitude : String
@@ -424,6 +426,8 @@ class MainActivity : AppCompatActivity() {
 
     fun ClosetImg() {
 
+        closetInt = 0
+
         var cuserId: String
         var cclothesName: String
         var clothesArr = mutableListOf<String>()
@@ -448,10 +452,15 @@ class MainActivity : AppCompatActivity() {
 
                         AutoCloset.setClothesName(this, clothesArr as ArrayList<String>)
                         Log.d("ㅁㅁㅁㅁㅁ메인함수", clothesArr.toString())
-                        clothesSaveActivity_Dialog?.dismiss()
-
+                        Log.d("ㅁㅁㅁㅁㅁ메인함수인트1----", closetInt.toString())
                     }
+                    closetInt = 1
+                    Log.d("ㅁㅁㅁㅁㅁ메인함수인트", closetInt.toString())
+                    clothesSaveActivity_Dialog?.dismiss()
 
+                    if(ClothesSaveActivity.clothesSaveContext!=null) {
+                        (ClothesSaveActivity.clothesSaveContext as ClothesSaveActivity).finish()
+                    }
 
 
                 } catch (e: JSONException) {
@@ -487,11 +496,9 @@ class MainActivity : AppCompatActivity() {
                         codyArr.add(codyImgName)
 
                         AutoCody.setCodyName(this, codyArr as ArrayList<String>)
-                        codysaveActivity_Dialog?.dismiss()
-
 
                     }
-
+                    codysaveActivity_Dialog?.dismiss()
 
 
                 } catch (e: JSONException) {
