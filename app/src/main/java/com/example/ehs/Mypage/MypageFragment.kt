@@ -29,6 +29,8 @@ import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Home.AutoHome
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.Login.LoginActivity
+import com.example.ehs.MainActivity
+import com.example.ehs.MainActivity.Companion.color_Dialog
 import com.example.ehs.R
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
@@ -69,7 +71,6 @@ class MypageFragment : Fragment() {
     var userProfile : Bitmap? =null
 
 
-
     companion object {
         const val TAG: String = "마이페이지 프레그먼트"
         fun newInstance(): MypageFragment { // newInstance()라는 함수를 호출하면 HomeFragment를 반환함
@@ -82,11 +83,7 @@ class MypageFragment : Fragment() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "MypageFragment - onCreate() called")
 
-
-    }
-
-    override fun onResume() {
-        super.onResume()
+        color_Dialog?.dismiss()
 
         userColorArr = AutoCloset.getClothesColor(a!!)
         userColorCntArr = AutoCloset.getColorCnt(a!!)
@@ -105,7 +102,14 @@ class MypageFragment : Fragment() {
         userProfile = StringToBitmap(userProfileImg)
 
 
-        getColor()
+        (activity as MainActivity).getColor()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+
     }
 
 
@@ -328,44 +332,4 @@ class MypageFragment : Fragment() {
     }
 
 
-    fun getColor() {
-        var cColor : String
-        var cCnt : String
-        var cColorArr = mutableListOf<String>()
-        var cCntArr = mutableListOf<String>()
-
-        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
-            override fun onResponse(response: String?) {
-                try {
-
-                    var jsonObject = JSONObject(response)
-
-                    val arr: JSONArray = jsonObject.getJSONArray("response")
-
-                    for (i in 0 until arr.length()) {
-                        val proObject = arr.getJSONObject(i)
-
-                        cColor = proObject.getString("clothesColor")
-                        cCnt = proObject.getString("cnt")
-
-                        cColorArr.add(cColor)
-                        cCntArr.add(cCnt)
-
-                        Log.d("유저색", cColor)
-                        Log.d("유저색갯수", cCnt)
-                        AutoCloset.setClothesColor(a!!, cColorArr as ArrayList<String>)
-                        AutoCloset.setColorCnt(a!!, cCntArr as ArrayList<String>)
-                    }
-
-
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-        val clothescolorResponse = ClothesColor_Response(userId, responseListener)
-        val queue = Volley.newRequestQueue(a)
-        queue.add(clothescolorResponse)
-
-    }
 }

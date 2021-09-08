@@ -1,6 +1,7 @@
 package com.example.ehs
 
 import android.Manifest
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.*
@@ -27,6 +28,7 @@ import com.example.ehs.Feed.FeedFragment
 import com.example.ehs.Home.AutoHome
 import com.example.ehs.Home.HomeFragment
 import com.example.ehs.Login.AutoLogin
+import com.example.ehs.Mypage.ClothesColor_Response
 import com.example.ehs.Mypage.MypageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.gun0912.tedpermission.PermissionListener
@@ -46,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     val TAG: String = "메인페이지"
     companion object {
         var mContext: Context? = null
+        var color_Dialog : ProgressDialog? = null
     }
 
     lateinit var getLatitude : String
@@ -66,6 +69,8 @@ class MainActivity : AppCompatActivity() {
     val bundle = Bundle()
 
     private var backKeyPressedTime: Long = 0
+
+
 
     override fun onBackPressed() {
         //super.onBackPressed();
@@ -164,9 +169,20 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_mypage -> {
                     Log.d(TAG, "MainActivity - 마이페이지 버튼 클릭!")
+
+                    color_Dialog = ProgressDialog(this)
+                    color_Dialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                    color_Dialog?.setMessage("업로드 중입니다.")
+                    color_Dialog?.setCanceledOnTouchOutside(false)
+                    color_Dialog?.show()
+
+                    getColor()
+
+
+
+
                     mypageFragment = MypageFragment.newInstance()
                     replaceFragment(mypageFragment)
-                    Log.d(TAG, "아이야 제발로 나와줘라" + userId)
 
                 }
             } // when문 끝
@@ -527,6 +543,47 @@ class MainActivity : AppCompatActivity() {
         val favoritecheck_Request = FavoriteCheck_Request(userId!!, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(favoritecheck_Request)
+    }
+
+    fun getColor() {
+        var cColor : String
+        var cCnt : String
+        var cColorArr = mutableListOf<String>()
+        var cCntArr = mutableListOf<String>()
+
+        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+            override fun onResponse(response: String?) {
+                try {
+
+                    var jsonObject = JSONObject(response)
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    for (i in 0 until arr.length()) {
+                        val proObject = arr.getJSONObject(i)
+
+                        cColor = proObject.getString("clothesColor")
+                        cCnt = proObject.getString("cnt")
+
+                        cColorArr.add(cColor)
+                        cCntArr.add(cCnt)
+
+                        Log.d("유저색", cColor)
+                        Log.d("유저색갯수", cCnt)
+                        AutoCloset.setClothesColor(this@MainActivity, cColorArr as ArrayList<String>)
+                        AutoCloset.setColorCnt(this@MainActivity, cCntArr as ArrayList<String>)
+                    }
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        val clothescolorResponse = ClothesColor_Response(userId!!, responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(clothescolorResponse)
+
     }
 
 

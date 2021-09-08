@@ -1,19 +1,28 @@
 package com.example.ehs.Mypage
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.FragmentTransaction
-import com.example.ehs.BottomSheet.BottomSheet_fashion
 import com.example.ehs.BottomSheet.BottomSheet_gender
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_usermodify.*
 
 class UserModifyActivity : AppCompatActivity(), BottomSheet_gender.BottomSheetButtonClickListener{
+
+    var userModifyActivity_Dialog : ProgressDialog? = null
+
+    var userName : String = ""
+    var userPw : String = ""
+    var userBirth : String = ""
+    var userGender : String = ""
+    var userEmail : String = ""
+    var userProfileImg : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,12 +43,12 @@ class UserModifyActivity : AppCompatActivity(), BottomSheet_gender.BottomSheetBu
             imm.hideSoftInputFromWindow(et_userName.windowToken, 0)
         }
 
-        var userName = AutoLogin.getUserName(this)
-        var userPw = AutoLogin.getUserPw(this)
-        var userBirth = AutoLogin.getUserBirth(this)
-        var userGender = AutoLogin.getUserGender(this)
-        var userEmail = AutoLogin.getUserEmail(this)
-        var userProfileImg = AutoLogin.getUserProfileImg(this)
+        userName = AutoLogin.getUserName(this)
+        userPw = AutoLogin.getUserPw(this)
+        userBirth = AutoLogin.getUserBirth(this)
+        userGender = AutoLogin.getUserGender(this)
+        userEmail = AutoLogin.getUserEmail(this)
+        userProfileImg = AutoLogin.getUserProfileImg(this)
         var userProfile = AutoLogin.StringToBitmap(userProfileImg)
 
         et_userName.setText(userName)
@@ -58,25 +67,42 @@ class UserModifyActivity : AppCompatActivity(), BottomSheet_gender.BottomSheetBu
 
         //수정완료
         btn_modify.setOnClickListener {
-            userName = et_userName.text.toString()
-            userPw = et_userPassword.text.toString()
-            userBirth =  et_userBirth.text.toString()
-            userEmail = et_email.text.toString()
-            userGender =  tv_userGender.text.toString()
 
-            // AutoLogin set
-            AutoLogin.setUserName(this@UserModifyActivity, userName)
-            AutoLogin.setUserPw(this@UserModifyActivity, userPw)
-            AutoLogin.setUserBirth(this@UserModifyActivity, userBirth)
-            AutoLogin.setUserEmail(this@UserModifyActivity, userEmail)
-            AutoLogin.setUserGender(this@UserModifyActivity, userGender)
+            if (et_userName == null || et_userPassword == null) {
+                //빈칸이 잇을 때
+                Toast.makeText(this, "빈칸을 채워주세요", Toast.LENGTH_SHORT).show()
+            }
+            else {
 
-            finish()
+                userModifyActivity_Dialog = ProgressDialog(this)
+                userModifyActivity_Dialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                userModifyActivity_Dialog?.setMessage("업로드 중입니다.")
+                userModifyActivity_Dialog?.setCanceledOnTouchOutside(false)
+                userModifyActivity_Dialog?.show()
 
-
+                setData()
+                finish()
+            }
 
         }
 
+    }
+
+    fun setData() {
+        userName = et_userName.text.toString()
+        userPw = et_userPassword.text.toString()
+        userBirth =  et_userBirth.text.toString()
+        userEmail = et_email.text.toString()
+        userGender =  tv_userGender.text.toString()
+
+        // AutoLogin set
+        AutoLogin.setUserName(this@UserModifyActivity, userName)
+        AutoLogin.setUserPw(this@UserModifyActivity, userPw)
+        AutoLogin.setUserBirth(this@UserModifyActivity, userBirth)
+        AutoLogin.setUserEmail(this@UserModifyActivity, userEmail)
+        AutoLogin.setUserGender(this@UserModifyActivity, userGender)
+
+        userModifyActivity_Dialog?.dismiss()
     }
 
     /**
