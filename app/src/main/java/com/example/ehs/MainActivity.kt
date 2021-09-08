@@ -18,8 +18,6 @@ import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.*
-import com.example.ehs.Closet.ClothesSaveActivity.Companion.clothesSaveActivity_Dialog
-import com.example.ehs.Closet.CodySaveActivity.Companion.codysaveActivity_Dialog
 import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Fashionista.FashionistaFragment
 import com.example.ehs.Fashionista.FashionistaUser_Request
@@ -49,8 +47,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         var mContext: Context? = null
         var color_Dialog : ProgressDialog? = null
-
-        var closetInt : Int? = null
     }
 
     lateinit var getLatitude : String
@@ -426,8 +422,6 @@ class MainActivity : AppCompatActivity() {
 
     fun ClosetImg() {
 
-        closetInt = 0
-
         var cuserId: String
         var cclothesName: String
         var clothesArr = mutableListOf<String>()
@@ -452,12 +446,8 @@ class MainActivity : AppCompatActivity() {
 
                         AutoCloset.setClothesName(this, clothesArr as ArrayList<String>)
                         Log.d("ㅁㅁㅁㅁㅁ메인함수", clothesArr.toString())
-                        Log.d("ㅁㅁㅁㅁㅁ메인함수인트1----", closetInt.toString())
-                    }
-                    closetInt = 1
-                    Log.d("ㅁㅁㅁㅁㅁ메인함수인트", closetInt.toString())
-                    clothesSaveActivity_Dialog?.dismiss()
 
+                    }
                     if(ClothesSaveActivity.clothesSaveContext!=null) {
                         (ClothesSaveActivity.clothesSaveContext as ClothesSaveActivity).finish()
                     }
@@ -496,10 +486,12 @@ class MainActivity : AppCompatActivity() {
                         codyArr.add(codyImgName)
 
                         AutoCody.setCodyName(this, codyArr as ArrayList<String>)
-
                     }
-                    codysaveActivity_Dialog?.dismiss()
-
+                    Log.d("1zzzzz1111111111", "asdfadf")
+                    if(CodySaveActivity.codySaveContext!=null) {
+                        Log.d("1zzzzz", "asdfadf")
+                        (CodySaveActivity.codySaveContext as CodySaveActivity).finish()
+                    }
 
                 } catch (e: JSONException) {
                     e.printStackTrace()

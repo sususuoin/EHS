@@ -20,7 +20,6 @@ import com.example.ehs.BottomSheet.BottomSheet_color
 import com.example.ehs.BottomSheet.BottomSheet_season
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
-import com.example.ehs.MainActivity.Companion.closetInt
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_clothes_save.*
 import kotlinx.android.synthetic.main.bottomsheet_category.*
@@ -218,14 +217,6 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
                         Log.d(TAG, "서버에 저장을 완료했다다")
                         //다른 액티비티함수 사용할때
                         (MainActivity.mContext as MainActivity).ClosetImg()
-//                        ClosetFragment.clothesArr = AutoCloset.getClothesName(this@ClothesSaveActivity)
-
-//                        Log.d("ㅁㅁㅁㅁㅁ메인함수인트1", closetInt.toString())
-//                        if(closetInt == 1) {
-//                            Log.d("ㅁㅁㅁㅁㅁ메인함수인트2", closetInt.toString())
-//                            clothesSaveActivity_Dialog!!.dismiss()
-//                            finish()
-//                        }
 
 
                     } else {
