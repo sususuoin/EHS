@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.example.ehs.Closet.ClothesSaveActivity.Companion.clothesSaveActivity_Dialog
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
@@ -112,6 +113,7 @@ class ClosetFragment : Fragment() {
         Log.d(TAG, "새로고침 실행")
         clothesList.clear()
 
+        clothesSaveActivity_Dialog?.dismiss()
         clothesArr = AutoCloset.getClothesName(a!!)
         Log.d("ㅁㅁㅁㅁㅁ새로고침222", clothesArr.toString())
 

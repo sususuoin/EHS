@@ -1,6 +1,7 @@
 package com.example.ehs.Closet
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -30,12 +31,15 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
 
     companion object {
         const val TAG : String = "코디세이브 액티비티"
+
+        var codySaveContext: Context? = null
         var codysaveActivity_Dialog : ProgressDialog? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cody_save)
+        codySaveContext=this
         userId = AutoLogin.getUserId(this@CodySaveActivity)
         /**
          * 액션바 대신 툴바를 사용하도록 설정
@@ -69,10 +73,10 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
             }
             else {
                 codysaveActivity_Dialog = ProgressDialog(this)
-                codysaveActivity_Dialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                codysaveActivity_Dialog?.setMessage("업로드 중입니다.")
-                codysaveActivity_Dialog?.setCanceledOnTouchOutside(false)
-                codysaveActivity_Dialog?.show()
+                codysaveActivity_Dialog!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                codysaveActivity_Dialog!!.setMessage("업로드 중입니다.")
+                codysaveActivity_Dialog!!.setCanceledOnTouchOutside(false)
+                codysaveActivity_Dialog!!.show()
 
                 uploadCody(image)
             }
@@ -140,10 +144,9 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                     if(success) {
 //                        Toast.makeText(this@CodySaveActivity, jsonObject.toString(), Toast.LENGTH_LONG).show()
 
-
-                        (MainActivity.mContext as MainActivity).CodyImg()
                         (CodyMakeActivity.codyContext as CodyMakeActivity).finish()
-                        finish()
+                        (MainActivity.mContext as MainActivity).CodyImg()
+
 
                     } else {
                         Toast.makeText(this@CodySaveActivity, "실패 두둥탁", Toast.LENGTH_LONG).show()

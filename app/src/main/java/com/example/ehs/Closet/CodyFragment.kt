@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.example.ehs.Closet.CodySaveActivity.Companion.codysaveActivity_Dialog
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -100,6 +101,7 @@ class CodyFragment : Fragment() {
         super.onResume()
         Log.d(TAG, "새로고침 실행")
         codyList.clear()
+        codysaveActivity_Dialog?.dismiss()
 
         codyArr = AutoCody.getCodyName(a!!)
         Log.d("ㅁㅁㅁㅁㅁ새로고침222", codyArr.toString())
