@@ -21,8 +21,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.android.volley.Response
-import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.AutoCloset
 import com.example.ehs.Closet.AutoCody
 import com.example.ehs.Fashionista.AutoPro
@@ -30,7 +28,6 @@ import com.example.ehs.Home.AutoHome
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.Login.LoginActivity
 import com.example.ehs.MainActivity
-import com.example.ehs.MainActivity.Companion.color_Dialog
 import com.example.ehs.R
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
@@ -82,8 +79,6 @@ class MypageFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "MypageFragment - onCreate() called")
-
-        color_Dialog?.dismiss()
 
         userColorArr = AutoCloset.getClothesColor(a!!)
         userColorCntArr = AutoCloset.getColorCnt(a!!)

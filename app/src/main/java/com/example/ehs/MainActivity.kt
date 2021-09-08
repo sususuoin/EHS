@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
     val TAG: String = "메인페이지"
     companion object {
         var mContext: Context? = null
-        var color_Dialog : ProgressDialog? = null
     }
 
     lateinit var getLatitude : String
@@ -128,6 +127,7 @@ class MainActivity : AppCompatActivity() {
         favorite_check()
         ClosetImg()
         CodyImg()
+        getColor()
     }
 
 
@@ -168,17 +168,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_mypage -> {
                     Log.d(TAG, "MainActivity - 마이페이지 버튼 클릭!")
 
-                    color_Dialog = ProgressDialog(this)
-                    color_Dialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                    color_Dialog?.setMessage("업로드 중입니다.")
-                    color_Dialog?.setCanceledOnTouchOutside(false)
-                    color_Dialog?.show()
-
                     getColor()
-
-
-
-
                     mypageFragment = MypageFragment.newInstance()
                     replaceFragment(mypageFragment)
 
@@ -487,9 +477,7 @@ class MainActivity : AppCompatActivity() {
 
                         AutoCody.setCodyName(this, codyArr as ArrayList<String>)
                     }
-                    Log.d("1zzzzz1111111111", "asdfadf")
                     if(CodySaveActivity.codySaveContext!=null) {
-                        Log.d("1zzzzz", "asdfadf")
                         (CodySaveActivity.codySaveContext as CodySaveActivity).finish()
                     }
 
