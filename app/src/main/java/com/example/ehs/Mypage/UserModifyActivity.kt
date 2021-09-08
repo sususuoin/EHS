@@ -1,7 +1,9 @@
 package com.example.ehs.Mypage
 
+import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentTransaction
@@ -25,8 +27,12 @@ class UserModifyActivity : AppCompatActivity(), BottomSheet_gender.BottomSheetBu
         ab.setDisplayShowTitleEnabled(false)
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
-        
-        
+
+        //키보드입력시 다른 곳 클릭시 키보드 내려감
+        layout_usermodify.setOnClickListener{
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(et_userName.windowToken, 0)
+        }
 
         var userName = AutoLogin.getUserName(this)
         var userPw = AutoLogin.getUserPw(this)
@@ -49,6 +55,8 @@ class UserModifyActivity : AppCompatActivity(), BottomSheet_gender.BottomSheetBu
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
 
+
+        //수정완료
         btn_modify.setOnClickListener {
             userName = et_userName.text.toString()
             userPw = et_userPassword.text.toString()

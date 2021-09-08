@@ -82,6 +82,12 @@ class MypageFragment : Fragment() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "MypageFragment - onCreate() called")
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         userColorArr = AutoCloset.getClothesColor(a!!)
         userColorCntArr = AutoCloset.getColorCnt(a!!)
         Log.d("처음배열1", userColorArr.toString())
@@ -100,8 +106,6 @@ class MypageFragment : Fragment() {
 
 
         getColor()
-
-
     }
 
 
