@@ -19,7 +19,7 @@ import org.threeten.bp.YearMonth
 import org.threeten.bp.format.DateTimeFormatter
 
 
-class CalendarActivity : AppCompatActivity(), View.OnTouchListener {
+class CalendarActivity : AppCompatActivity(){
     private var monthYearText: TextView? = null
     private var calendarRecyclerView: RecyclerView? = null
     private var selectedDate: LocalDate? = null
@@ -120,9 +120,6 @@ class CalendarActivity : AppCompatActivity(), View.OnTouchListener {
         setMonthView()
     }
 
-    override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
-        TODO("Not yet implemented")
-    }
 
 
 //    @RequiresApi(Build.VERSION_CODES.O)
