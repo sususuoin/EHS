@@ -17,7 +17,7 @@ import kotlin.collections.ArrayList
 
 class CalendarlistAdapter(
     val context: Context,
-    val calendarList: ArrayList<Calendarlist>)
+    private val calendarList: ArrayList<Calendarlist>)
 
     : RecyclerView.Adapter<CalendarlistAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -46,11 +46,11 @@ class CalendarlistAdapter(
             /* dogPhoto의 setImageResource에 들어갈 이미지의 id를 파일명(String)으로 찾고,
             이미지가 없는 경우 안드로이드 기본 아이콘을 표시한다.*/
 
-            var today : LocalDate = LocalDate.now()
+            var today : LocalDate = LocalDate.now() // 현재 날짜 받아오기
             val formatter = DateTimeFormatter.ofPattern("dd")
-            val nowday = today.format(formatter).toString()
+            val nowday = today.format(formatter).toString() // 현재날짜에서의 일만 표시
 
-            if(calendar.day == nowday) {
+            if(calendar.day == nowday) { // 현재 날짜라면 해당 날짜 텍스트 컬러 보라색으로 표시
                 day!!.setTextColor(ContextCompat.getColor(context!! ,R.color.ourcolor))
                 yoil!!.setTextColor(ContextCompat.getColor(context!! ,R.color.ourcolor))
             }
@@ -59,9 +59,9 @@ class CalendarlistAdapter(
 
             if (calendar.photo != "") {
                 val resourceId = context.resources.getIdentifier(calendar.photo, "drawable", context.packageName)
-                cody?.setImageResource(resourceId)
+                cody?.setImageResource(resourceId) // 포토 경로명이 있다면 캘린더에 해당 이미지 표시
             } else {
-                cody?.setImageResource(R.drawable.ic_add)
+                cody?.setImageResource(R.drawable.ic_add) // 포토 경로명이 없으면 플러스 버튼 표시
             }
 
 
