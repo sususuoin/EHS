@@ -19,8 +19,11 @@ import com.example.ehs.Closet.*
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.android.synthetic.main.fragment_calendarclothes.view.*
 import kotlinx.android.synthetic.main.fragment_calendarcody.*
 import kotlinx.android.synthetic.main.fragment_calendarcody.view.*
+import kotlinx.android.synthetic.main.fragment_calendarcody.view.btn_cancel
+import kotlinx.android.synthetic.main.fragment_calendarcody.view.tv_clothes
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -138,6 +141,9 @@ class CalendarCodyFragment : Fragment() {
         view.tv_clothes.setOnClickListener { view ->
             Log.d("CalendarCodyFragment", "내 옷장으로 선택 이동")
             (activity as CalendarChoiceActivity?)!!.replaceFragment(CalendarClothesFragment.newInstance())
+        }
+        view.btn_cancel.setOnClickListener {
+            activity?.finish() // 달력에서 옷 만드는 액티비티 끝내기
         }
         return view
     }
