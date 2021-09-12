@@ -20,8 +20,8 @@ import kotlinx.android.synthetic.main.fragment_community_item.view.*
 class CalendarClothesListAdapter(private val items: MutableList<Clothes>)
     : RecyclerView.Adapter<CalendarClothesListAdapter.ViewHolder>() {
 
-    var clothesclicked = false;
-
+    var clothesclicked = false
+    var clickList = ArrayList<String>()
 
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
@@ -73,24 +73,46 @@ class CalendarClothesListAdapter(private val items: MutableList<Clothes>)
 
 
         val listener = View.OnClickListener{ it ->
-            Log.d("aa11", clothesclicked.toString())
 //            holder.itemView.setBackgroundResource(R.drawable.cody_background)
 
             //--------------------------------------------------------------
 
-                if (!clothesclicked) {
-                    //clothesclicked false일떄 실행
-                    Log.d("aa22", clothesclicked.toString())
-                    Toast.makeText(it?.context, "Clicked" + item, Toast.LENGTH_SHORT).show()
-                    holder.itemView.setBackgroundResource(R.drawable.cody_background)
-                    clothesclicked = true;
-                } else {
-                    Log.d("aa33", clothesclicked.toString())
-                    Toast.makeText(it?.context, "Cancel" + item, Toast.LENGTH_SHORT).show()
-                    holder.itemView.setBackgroundResource(R.drawable.button_background)
-                    holder.itemView.setBackgroundColor(Color.parseColor("#E7E7E7"))
-                    clothesclicked = false;
+            if(clickList.size == 0) {
+                holder.itemView.setBackgroundResource(R.drawable.cody_background)
+                clickList.add(item.toString())
+
+            } else{
+                for(i in 0 until clickList.size) {
+                    if (item.toString() == clickList[i]) {
+                        holder.itemView.setBackgroundResource(R.drawable.button_background)
+                        holder.itemView.setBackgroundColor(Color.parseColor("#E7E7E7"))
+                        clickList.remove(item.toString())
+                    } else {
+                        holder.itemView.setBackgroundResource(R.drawable.cody_background)
+                        clickList.add(item.toString())
+
+                    }
                 }
+            }
+            Log.d("zzzzzqqzaaa", clickList.toString())
+
+
+//            if (!clothesclicked) {
+//                //clothesclicked false일떄 실행
+//                Log.d("aa22", clothesclicked.toString())
+//                holder.itemView.setBackgroundResource(R.drawable.cody_background)
+//                clickList.add(item.toString())
+//                Log.d("aa22", clickList.toString())
+//                clothesclicked=true
+//            } else {
+//                Log.d("aa33", clothesclicked.toString())
+//                Toast.makeText(it?.context, "Cancel" + item, Toast.LENGTH_SHORT).show()
+//                holder.itemView.setBackgroundResource(R.drawable.button_background)
+//                holder.itemView.setBackgroundColor(Color.parseColor("#E7E7E7"))
+//                clickList.remove(item.toString())
+//                Log.d("aa33", clickList.toString())
+//                clothesclicked=false
+//            }
             //==========================================================================
 
         }
