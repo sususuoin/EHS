@@ -48,13 +48,15 @@ android {
 
 
 dependencies {
-
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.5.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation files('/Users/HANLE/AWSserver/YouTubeAndroidPlayerApi-1.2.2/libs/YouTubeAndroidPlayerApi.jar')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -95,8 +97,6 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
     implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
 
-
-
     //당겨서 새로고침
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
@@ -108,5 +108,7 @@ dependencies {
 
     // 버튼 애니메이션
     implementation 'com.airbnb.android:lottie:3.4.4'
+
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
 }
