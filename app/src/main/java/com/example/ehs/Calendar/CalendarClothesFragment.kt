@@ -142,6 +142,10 @@ class CalendarClothesFragment : Fragment() {
             Log.d("ClosetFragment", "내 코디에서 선택으로 이동")
             (activity as CalendarChoiceActivity?)!!.replaceFragment(CalendarCodyFragment.newInstance())
         }
+
+        view.btn_cancel.setOnClickListener {
+            activity?.finish() // 달력에서 옷 만드는 액티비티 끝내기
+        }
         return view
     }
 

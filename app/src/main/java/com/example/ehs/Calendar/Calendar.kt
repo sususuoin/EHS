@@ -1,3 +1,5 @@
 package com.example.ehs.Calendar
 
-class Calendar(val day:String, val photo: String)
+import android.graphics.Bitmap
+
+class Calendar(val day:String, val photo: Bitmap?)
