@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ehs.Fashionista.FavoriteFragment
 import com.example.ehs.MainActivity
+import com.example.ehs.R
 import com.example.ehs.databinding.ActivityCodyMakeBinding
 import kotlinx.android.synthetic.main.activity_cody_make.*
 import java.io.ByteArrayOutputStream
@@ -80,6 +81,7 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
         ab.setDisplayShowTitleEnabled(false)
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
+
 
         btn_codymade.setOnClickListener{
             ll_codymake.setDrawingCacheEnabled(true)
