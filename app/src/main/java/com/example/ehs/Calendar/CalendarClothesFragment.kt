@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -11,8 +12,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.*
@@ -141,6 +144,7 @@ class CalendarClothesFragment : Fragment() {
         view.tv_cody.setOnClickListener { view ->
             Log.d("ClosetFragment", "내 코디에서 선택으로 이동")
             (activity as CalendarChoiceActivity?)!!.replaceFragment(CalendarCodyFragment.newInstance())
+
         }
 
         view.btn_cancel.setOnClickListener {
@@ -150,17 +154,32 @@ class CalendarClothesFragment : Fragment() {
     }
 
 
+    // recyclerview item 간격
+    class ItemDecorator(private val divHeight : Int) : RecyclerView.ItemDecoration() {
+
+        @Override
+        override fun getItemOffsets(outRect: Rect, view: View, parent : RecyclerView, state : RecyclerView.State) {
+            super.getItemOffsets(outRect, view, parent, state)
+            outRect.top = divHeight
+            outRect.bottom = divHeight
+            outRect.left = divHeight
+            outRect.right = divHeight
+        }
+    }
+
+
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val gridLayoutManager = GridLayoutManager(activity, 3)
         rv_clothes.layoutManager = gridLayoutManager
         rv_clothes.adapter = adapter
-
+        rv_clothes.addItemDecoration(ItemDecorator(10))
         adapter.notifyDataSetChanged()
         //recylerview 이거 fashionista.xml에 있는 변수
     }
-
 
     private fun getPath(uri: Uri?): String {
         val projection = arrayOf(MediaStore.Images.Media.DATA)

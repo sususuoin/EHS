@@ -55,26 +55,37 @@
 
             <TextView
                 android:id="@+id/tv_C_userID"
-                android:layout_width="315dp"
+                android:layout_width="314dp"
                 android:layout_height="20dp"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="EHS"
                 android:layout_marginLeft="3dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="EHS"
+                android:textColor="@android:color/black"
                 android:textSize="12sp" />
 
-            <ImageButton
-                android:id="@+id/btn_C_heart"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+            <Button
+                android:id="@+id/btn_C_nolike"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
                 android:layout_marginTop="0.5dp"
                 android:background="@drawable/ic_noheart"
                 android:backgroundTint="#F60505" />
 
-            <ImageButton
+            <Button
+                android:id = "@+id/btn_C_like"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_like"
+            android:backgroundTint="#F60505"
+            android:gravity="right"
+            android:visibility="gone"/>
+
+
+            <Button
                 android:id="@+id/btn_C_talk"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/ic_talk"

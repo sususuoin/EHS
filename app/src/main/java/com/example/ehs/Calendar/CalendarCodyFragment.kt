@@ -19,6 +19,7 @@ import com.example.ehs.Closet.*
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.android.synthetic.main.fragment_calendarclothes.*
 import kotlinx.android.synthetic.main.fragment_calendarclothes.view.*
 import kotlinx.android.synthetic.main.fragment_calendarcody.*
 import kotlinx.android.synthetic.main.fragment_calendarcody.view.*
@@ -152,9 +153,11 @@ class CalendarCodyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val gridLayoutManager = GridLayoutManager(a, 2)
+        val gridLayoutManager = GridLayoutManager(a, 3)
         rv_cody.layoutManager = gridLayoutManager
         rv_cody.adapter = adapter
+        rv_cody.addItemDecoration(CalendarClothesFragment.ItemDecorator(10))
+
 
         adapter.notifyDataSetChanged()
         //recylerview 이거 fashionista.xml에 있는 변수

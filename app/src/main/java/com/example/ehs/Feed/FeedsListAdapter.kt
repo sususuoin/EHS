@@ -36,17 +36,12 @@ class FeedsListAdapter(private val items: List<Feeds>)
             view.findViewById<Button>(R.id.btn_like).setVisibility(View.GONE);
             view.findViewById<Button>(R.id.btn_nolike).setVisibility(View.VISIBLE);
             Toast.makeText(it?.context, "좋아요를 취소하셨습니다.", Toast.LENGTH_SHORT).show()
-
         } // 좋아요
 
         private fun nolike(it: View?) {
-
             view.findViewById<Button>(R.id.btn_like).setVisibility(View.VISIBLE);
             view.findViewById<Button>(R.id.btn_nolike).setVisibility(View.GONE);
             Toast.makeText(it?.context, "좋아요를 누르셨습니다.", Toast.LENGTH_SHORT).show()
-
-
-
         } //좋아요 취소
 
     }

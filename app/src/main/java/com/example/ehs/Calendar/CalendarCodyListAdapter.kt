@@ -1,5 +1,7 @@
 package com.example.ehs.Closet
 
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,8 @@ import com.example.ehs.R
 import kotlinx.android.synthetic.main.recycler_cody.view.*
 
 class CalendarCodyListAdapter(private val items: List<Cody>) : RecyclerView.Adapter<CalendarCodyListAdapter.ViewHolder>() {
+
+    var codyclicked = false;
 
     override fun getItemCount(): Int {
         return items.size
@@ -26,12 +30,33 @@ class CalendarCodyListAdapter(private val items: List<Cody>) : RecyclerView.Adap
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         val listener = View.OnClickListener { it ->
-            Toast.makeText(it.context, "Clicked" + item, Toast.LENGTH_SHORT).show()
+
+            //--------------------------------------------------------------
+
+            if (!codyclicked) {
+                //clothesclicked false일떄 실행
+                Log.d("aa22", codyclicked.toString())
+                Toast.makeText(it?.context, "Clicked" + item, Toast.LENGTH_SHORT).show()
+                holder.itemView.setBackgroundResource(R.drawable.cody_background)
+                codyclicked = true;
+            } else {
+                Log.d("aa33", codyclicked.toString())
+                Toast.makeText(it?.context, "Cancel" + item, Toast.LENGTH_SHORT).show()
+                holder.itemView.setBackgroundResource(R.drawable.button_background)
+                holder.itemView.setBackgroundColor(Color.parseColor("#E7E7E7"))
+                codyclicked = false;
+            }
+            //==========================================================================
+
+
+
+//            Toast.makeText(it.context, "Clicked" + item, Toast.LENGTH_SHORT).show()
         }
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 530
+        layoutParams.height = 350
+        layoutParams.width = 350
         holder.itemView.requestLayout()
 
 
