@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.example.ehs.Calendar.CalendarClothesFragment
 import com.example.ehs.Closet.CodySaveActivity.Companion.codysaveActivity_Dialog
 import com.example.ehs.MainActivity
 import com.example.ehs.R
@@ -195,10 +196,11 @@ class CodyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val gridLayoutManager = GridLayoutManager(a, 2)
+        val gridLayoutManager = GridLayoutManager(a, 3)
         recycler_cody.layoutManager = gridLayoutManager
 
         recycler_cody.adapter = adapter
+        recycler_cody.addItemDecoration(CalendarClothesFragment.ItemDecorator(10))
         adapter.notifyDataSetChanged()
 
         //recylerview 이거 fashionista.xml에 있는 변수

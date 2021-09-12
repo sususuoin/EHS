@@ -23,6 +23,7 @@ import com.example.ehs.Fashionista.FashionistaFragment
 import com.example.ehs.Fashionista.FashionistaUser_Request
 import com.example.ehs.Fashionista.FavoriteCheck_Request
 import com.example.ehs.Feed.FeedFragment
+import com.example.ehs.Feed.YoutubeFragment
 import com.example.ehs.Home.AutoHome
 import com.example.ehs.Home.HomeFragment
 import com.example.ehs.Login.AutoLogin
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fashionistaFragment: FashionistaFragment
     private lateinit var closetFragment: ClosetFragment
     private lateinit var feedFragment: FeedFragment
+    private lateinit var youtubeFragment: YoutubeFragment
     private lateinit var mypageFragment: MypageFragment
 
 
@@ -162,8 +164,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_feed -> {
                     Log.d(TAG, "MainActivity - 피드 버튼 클릭!")
-                    feedFragment = FeedFragment.newInstance()
-                    replaceFragment(feedFragment)
+
+                    youtubeFragment = YoutubeFragment.newInstance()
+                    replaceFragment(youtubeFragment)
+
+//                    feedFragment = FeedFragment.newInstance()
+//                    replaceFragment(feedFragment)
                 }
                 R.id.menu_mypage -> {
                     Log.d(TAG, "MainActivity - 마이페이지 버튼 클릭!")
