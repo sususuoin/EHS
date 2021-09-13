@@ -23,23 +23,36 @@ class FeedsListAdapter(private val items: List<Feed>)
             view.tv_userID.setText(item.userID)
             view.tv_styletag.setText(item.styletag)
             view.iv_feedphoto.setImageBitmap(item.feedImg)
-            view.btn_nolike.setOnClickListener { nolike(it) }
-            view.btn_like.setOnClickListener { like(it) }
+
+            view.btn_like_before.setOnClickListener { like(it) }
+            view.btn_like_after.setOnClickListener { unlike(it) }
+
+            view.btn_unlike_before.setOnClickListener { unlike(it) }
+            view.btn_unlike_after.setOnClickListener { like(it) }
+
             view.setOnClickListener(listener)
 
         }
 
         private fun like(it: View?) {
-            view.findViewById<Button>(R.id.btn_like).setVisibility(View.GONE);
-            view.findViewById<Button>(R.id.btn_nolike).setVisibility(View.VISIBLE);
-            Toast.makeText(it?.context, "좋아요를 취소하셨습니다.", Toast.LENGTH_SHORT).show()
-        } // 좋아요
+            view.findViewById<Button>(R.id.btn_like_before).visibility = View.GONE
+            view.findViewById<Button>(R.id.btn_like_after).visibility = View.VISIBLE
 
-        private fun nolike(it: View?) {
-            view.findViewById<Button>(R.id.btn_like).setVisibility(View.VISIBLE);
-            view.findViewById<Button>(R.id.btn_nolike).setVisibility(View.GONE);
+            view.findViewById<Button>(R.id.btn_unlike_before).visibility = View.VISIBLE
+            view.findViewById<Button>(R.id.btn_unlike_after).visibility = View.GONE
+
             Toast.makeText(it?.context, "좋아요를 누르셨습니다.", Toast.LENGTH_SHORT).show()
-        } //좋아요 취소
+        } //좋아요 클릭 & 싫어요 취소
+
+        private fun unlike(it: View?) {
+            view.findViewById<Button>(R.id.btn_like_before).visibility = View.VISIBLE
+            view.findViewById<Button>(R.id.btn_like_after).visibility = View.GONE
+
+            view.findViewById<Button>(R.id.btn_unlike_before).visibility = View.GONE
+            view.findViewById<Button>(R.id.btn_unlike_after).visibility = View.VISIBLE
+
+            Toast.makeText(it?.context, "좋아요를 취소하셨습니다.", Toast.LENGTH_SHORT).show()
+        } // 좋아요 취소 & 싫어요 클릭
 
     }
 
