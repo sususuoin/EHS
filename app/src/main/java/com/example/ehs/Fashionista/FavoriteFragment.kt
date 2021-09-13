@@ -143,7 +143,7 @@ class FavoriteFragment : Fragment() {
                     Log.d("~~2", arr.toString())
                     Log.d("~~22", arr.length().toString())
 
-                    if(arr.length().toString() == "0") {
+                    if(arr.length() == 0 || arr.length() == 1 || arr.length() ==2) {
                         Toast.makeText(a!!, "전문가부족현상으로 다음에 이용해주시기 바랍니다.", Toast.LENGTH_SHORT).show()
                         return@Listener
                     }
