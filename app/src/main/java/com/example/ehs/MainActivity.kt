@@ -113,15 +113,6 @@ class MainActivity : AppCompatActivity() {
         setLocation_Permission()
 
 
-
-        swipe_refresh.setOnRefreshListener {
-            //새로고침 작업 실행
-            Log.d("당겨서", "새로고침")
-
-            //업데이트끝 동그뱅이 없어지게함
-            swipe_refresh.isRefreshing = false
-        }
-
         FashionistaUser()
         favorite_check()
         ClosetImg()

@@ -29,6 +29,8 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
     var codyStyle : String = ""
     var userId : String= ""
 
+    var codyOpen : Boolean = false
+
     companion object {
         const val TAG : String = "코디세이브 액티비티"
 
@@ -64,6 +66,12 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         var image : Bitmap = BitmapFactory.decodeByteArray(arr, 0, arr!!.size)
 
         iv_cody.setImageBitmap(image)
+
+
+        swich_open.setOnClickListener {
+            codyOpen = swich_open.isChecked
+            Log.d("zzzzdafd", codyOpen.toString())
+        }
 
         // 완료하기 버튼 클릭 시
         btn_complete_cody.setOnClickListener{
@@ -159,11 +167,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         }
 
         val codyImgPath = "http://13.125.7.2/img/cody/"
-        val codySave_Request = CodySave_Request(userId,
-            codyImgPath,
-            codyImgName,
-            codyStyle,
-            responseListener)
+        val codySave_Request = CodySave_Request(userId, codyImgPath, codyImgName, codyStyle, codyOpen, responseListener)
         val queue = Volley.newRequestQueue(this@CodySaveActivity)
         queue.add(codySave_Request)
     }

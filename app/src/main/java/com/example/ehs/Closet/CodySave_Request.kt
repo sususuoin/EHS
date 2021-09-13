@@ -11,6 +11,7 @@ class CodySave_Request (
     codyImgPath : String,
     codyImgName : String,
     codyStyle :String,
+    codyOpen : Boolean,
     listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {
 
     private val map: MutableMap<String, String>
@@ -32,5 +33,6 @@ class CodySave_Request (
         map["codyImgPath"] = codyImgPath
         map["codyImgName"] = codyImgName
         map["codyStyle"] = codyStyle
+        map["codyOpen"] = codyOpen.toString()
     }
 }

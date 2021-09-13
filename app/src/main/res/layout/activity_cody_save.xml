@@ -77,13 +77,25 @@
                     android:id="@+id/tv_fashion"
                     android:layout_width="350dp"
                     android:layout_height="50dp"
-                    android:text="스타일 설정"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="15dp"
-                    android:textStyle="bold"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/button_background"/>
+                    android:background="@drawable/button_background"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="15dp"
+                    android:text="스타일 설정"
+                    android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/swich_open"
+                    android:text="공개여부"
+                    android:layout_width="350dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_background"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="15dp"/>
+
             </LinearLayout>
 
         </LinearLayout>
