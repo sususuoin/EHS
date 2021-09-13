@@ -1,19 +1,16 @@
 package com.example.ehs.Feed
 
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_feed_item.view.*
 
 
-class FeedsListAdapter(private val items: List<Feeds>)
+class FeedsListAdapter(private val items: List<Feed>)
     : RecyclerView.Adapter<FeedsListAdapter.ViewHolder>() {
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
@@ -21,7 +18,7 @@ class FeedsListAdapter(private val items: List<Feeds>)
         private var view: View = v
 
 
-        fun bind(listener: View.OnClickListener, item: Feeds) {
+        fun bind(listener: View.OnClickListener, item: Feed) {
 
             view.tv_userID.setText(item.userID)
             view.tv_styletag.setText(item.styletag)
