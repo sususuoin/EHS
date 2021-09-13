@@ -91,7 +91,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
 
     fun getFileDataFromDrawable(bitmap: Bitmap): ByteArray? {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
     }
 
@@ -124,7 +124,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                 val imagename = System.currentTimeMillis()
                 val uploadImgName = imagename.toString()
                 Log.d("하늘이는 민재이모친구라네", uploadImgName)
-                params["image"] = DataPart("$uploadImgName.JPEG", getFileDataFromDrawable(bitmap)!!)
+                params["image"] = DataPart("$uploadImgName.PNG", getFileDataFromDrawable(bitmap)!!)
                 return params
             }
         }

@@ -161,7 +161,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
     fun getFileDataFromDrawable(bitmap: Bitmap): ByteArray? {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
     }
 
@@ -192,9 +192,9 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
                 override fun getByteData(): Map<String, DataPart>? {
                     val params: MutableMap<String, DataPart> = HashMap()
                     val imagename = System.currentTimeMillis()
-//                    clothesName = "$imagename.JPEG"
+//                    clothesName = "$imagename.PNG"
 
-                    params["image"] = DataPart("$imagename.JPEG", getFileDataFromDrawable(bitmap)!!)
+                    params["image"] = DataPart("$imagename.PNG", getFileDataFromDrawable(bitmap)!!)
                     return params
                 }
             }
