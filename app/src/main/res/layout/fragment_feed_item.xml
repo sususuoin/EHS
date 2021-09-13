@@ -55,31 +55,47 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:layout_marginRight="50dp"
+                android:layout_marginRight="30dp"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="sans-serif"
                 android:text="#스타일"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btn_like"
-                android:layout_width="17dp"
-                android:layout_height="17dp"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_like"
-                android:backgroundTint="#F60505"
-                android:gravity="right"
-                android:visibility="gone"/>
 
             <Button
-                android:id="@+id/btn_nolike"
-                android:layout_width="17dp"
-                android:layout_height="17dp"
+                android:id="@+id/btn_like_before"
+                android:layout_width="18dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="5dp"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_nolike"
-                android:backgroundTint="#F60505"
-                android:gravity="right" />
+                android:background="@drawable/like_before"
+                android:gravity="center" />
+            <Button
+                android:id="@+id/btn_like_after"
+                android:layout_width="18dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:background="@drawable/like_after"
+                android:gravity="center"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_unlike_before"
+                android:layout_width="18dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:background="@drawable/unlike_before"
+                android:gravity="center" />
+            <Button
+                android:id="@+id/btn_unlike_after"
+                android:layout_width="18dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:background="@drawable/unlike_after"
+                android:gravity="center"
+                android:visibility="gone" />
+
 
         </LinearLayout>
 
