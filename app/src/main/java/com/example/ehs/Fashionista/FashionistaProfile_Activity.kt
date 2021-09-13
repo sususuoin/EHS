@@ -169,7 +169,7 @@ class FashionistaProfile_Activity : AppCompatActivity() {
 
         val intent = Intent(this, ProfilePlus_Activity::class.java)
         val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
         val plusImgArr = stream.toByteArray()
         intent.putExtra("plusImgArr", plusImgArr)
         startActivity(intent)

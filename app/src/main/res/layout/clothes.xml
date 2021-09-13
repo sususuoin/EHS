@@ -14,7 +14,7 @@
         android:id="@+id/clothes"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:background="@drawable/recyclerview_border"
+        android:background="@android:color/white"
         android:scaleType="fitXY" />
 
 </LinearLayout>

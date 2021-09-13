@@ -107,7 +107,7 @@ class ProfilePlus_Activity : AppCompatActivity() {
     private fun createImageFile(): File {
         val timestamp: String = java.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File? = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile("JPEG_${timestamp}_", ".jpg", storageDir)
+        return File.createTempFile("PNG_${timestamp}_", ".png", storageDir)
             .apply { currentPhotoPath = absolutePath }
     }
 
@@ -272,7 +272,7 @@ class ProfilePlus_Activity : AppCompatActivity() {
                     val params: MutableMap<String, DataPart> = HashMap()
                     val imagename = System.currentTimeMillis()
 
-                    params["image"] = DataPart("$imagename.JPEG", getFileDataFromDrawable(bitmap)!!)
+                    params["image"] = DataPart("$imagename.PNG", getFileDataFromDrawable(bitmap)!!)
                     return params
                 }
             }
@@ -316,7 +316,7 @@ class ProfilePlus_Activity : AppCompatActivity() {
 
     fun getFileDataFromDrawable(bitmap: Bitmap): ByteArray? {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
     }
 

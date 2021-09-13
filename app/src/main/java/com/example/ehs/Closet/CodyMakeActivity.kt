@@ -92,7 +92,7 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
 
             val intent = Intent(this, CodySaveActivity::class.java)
             var stream = ByteArrayOutputStream()
-            saveBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            saveBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
             var byteArray: ByteArray = stream.toByteArray()
             intent.putExtra("saveBitmap", byteArray)
             startActivity(intent)

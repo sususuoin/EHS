@@ -70,7 +70,7 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
                 var fashionistaProfile = itemList[position].profile
 
                 val stream = ByteArrayOutputStream()
-                fashionistaProfile!!.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                fashionistaProfile!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
                 val byteArray = stream.toByteArray()
 
 

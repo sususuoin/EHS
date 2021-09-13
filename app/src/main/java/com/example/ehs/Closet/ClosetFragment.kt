@@ -326,7 +326,7 @@ class ClosetFragment : Fragment() {
     private fun createImageFile(): File {
         val timestamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File? = getActivity()?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile("JPEG_${timestamp}_", ".jpg", storageDir)
+        return File.createTempFile("PNG_${timestamp}_", ".png", storageDir)
             .apply { currentPhotoPath = absolutePath }
     }
 
@@ -394,14 +394,14 @@ class ClosetFragment : Fragment() {
     private fun savePhoto(bitmap: Bitmap) {
         val folderPath = Environment.getExternalStorageDirectory().absolutePath + "/Pictures/Omonemo/" // 사진폴더로 저장하기 위한 경로 선언
         val timestamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val fileName = "${timestamp}.jpeg"
+        val fileName = "${timestamp}.png"
         val folder = File(folderPath)
         if(!folder.isDirectory) { // 현재 해당 경로에 폴더가 존재하지 않는다면
             folder.mkdir() // make diretory 줄임말로 해당 경로에 폴더를 자동으로 새로 만든다
         }
         // 실제적인 저장처리
         val out = FileOutputStream(folderPath + fileName)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
         out.close()
         Toast.makeText(a!!, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show()
 
@@ -438,7 +438,7 @@ class ClosetFragment : Fragment() {
 
     fun getFileDataFromDrawable(bitmap: Bitmap): ByteArray? {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
     }
 
@@ -476,7 +476,7 @@ class ClosetFragment : Fragment() {
                     val uploadImgName = imagename.toString()
                     Log.d("은정이는 민재이모", uploadImgName)
                     params["image"] = DataPart(
-                        "$uploadImgName.JPEG",
+                        "$uploadImgName.PNG",
                         getFileDataFromDrawable(bitmap)!!
                     )
                     return params

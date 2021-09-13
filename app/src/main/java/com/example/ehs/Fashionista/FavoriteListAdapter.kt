@@ -65,7 +65,7 @@ class FavoriteListAdapter(private val items: List<Favorite>)
                 var fashionistaProfile = items[position].profile
 
                 val stream = ByteArrayOutputStream()
-                fashionistaProfile!!.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                fashionistaProfile!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
                 val byteArray = stream.toByteArray()
 
                 var userId = fashionistaId
