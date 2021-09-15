@@ -153,7 +153,16 @@ class CalendarCodyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val gridLayoutManager = GridLayoutManager(a, 3)
+        val gridLayoutManager = GridLayoutManager(a, 6)
+        gridLayoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val gridPosition = position % 5
+                when (gridPosition) {
+                    0, 1, 2, 3, 4 -> return 3
+                }
+                return 0
+            }
+        })
         rv_cody.layoutManager = gridLayoutManager
         rv_cody.adapter = adapter
         rv_cody.addItemDecoration(CalendarClothesFragment.ItemDecorator(10))
