@@ -27,6 +27,8 @@ class FeedFragment : Fragment() {
     private var a: Activity? = null
 
     val feedsList = mutableListOf<Feed>()
+
+    var feedNumArr = ArrayList<String>()
     var feedIdArr = ArrayList<String>()
     var feedStyleArr = ArrayList<String>()
     var feedImgArr = ArrayList<String>()
@@ -45,14 +47,17 @@ class FeedFragment : Fragment() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "FeedFragment - onCreate() called")
 
+        (activity as MainActivity).FeedImg()
+        (activity as MainActivity).feed_like_check()
 
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(CodyFragment.TAG, "새로고침 실행")
+        Log.d(TAG, "새로고침 실행")
         feedsList.clear()
 
+        feedNumArr = AutoFeed.getFeedNum(a!!)
         feedIdArr = AutoFeed.getFeedId(a!!)
         feedStyleArr = AutoFeed.getFeedStyle(a!!)
         feedImgArr = AutoFeed.getFeedName(a!!)
@@ -87,7 +92,7 @@ class FeedFragment : Fragment() {
 
                 uThread.join()
 
-                var feed = Feed(feedIdArr[i], feedStyleArr[i], a_bitmap)
+                var feed = Feed(feedNumArr[i], feedIdArr[i], feedStyleArr[i], a_bitmap)
                 feedsList.add(feed)
 
 

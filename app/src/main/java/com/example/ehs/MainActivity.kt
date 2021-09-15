@@ -23,6 +23,7 @@ import com.example.ehs.Fashionista.FashionistaUser_Request
 import com.example.ehs.Fashionista.FavoriteCheck_Request
 import com.example.ehs.Feed.AutoFeed
 import com.example.ehs.Feed.FeedFragment
+import com.example.ehs.Feed.FeedLikeCheck_Request
 import com.example.ehs.Feed.FeedServer_Request
 import com.example.ehs.Home.AutoHome
 import com.example.ehs.Home.HomeFragment
@@ -118,6 +119,7 @@ class MainActivity : AppCompatActivity() {
 
         FashionistaUser()
         favorite_check()
+        feed_like_check()
         ClosetImg()
         CodyImg()
         FeedImg()
@@ -157,6 +159,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_feed -> {
                     Log.d(TAG, "MainActivity - 피드 버튼 클릭!")
                     FeedImg()
+                    feed_like_check()
                     feedFragment = FeedFragment.newInstance()
                     replaceFragment(feedFragment)
                 }
@@ -488,9 +491,12 @@ class MainActivity : AppCompatActivity() {
 
     fun FeedImg() {
 
-        var cuserId: String
-        var feedStyle: String
-        var feedImgName: String
+        var feed_userId: String
+        var feedNum: String
+        var feed_ImgName: String
+        var feed_style: String
+
+        var feedNumArr = mutableListOf<String>()
         var feedIdArr = mutableListOf<String>()
         var feedStyleArr = mutableListOf<String>()
         var feedImgArr = mutableListOf<String>()
@@ -505,19 +511,25 @@ class MainActivity : AppCompatActivity() {
                     val arr: JSONArray = jsonObject.getJSONArray("response")
 
                     for (i in 0 until arr.length()) {
-                        val codyObject = arr.getJSONObject(i)
+                        val feedObject = arr.getJSONObject(i)
 
-                        cuserId = codyObject.getString("userId")
-                        feedStyle = codyObject.getString("codyStyle")
-                        feedImgName = codyObject.getString("codyImgName")
 
-                        feedIdArr.add(cuserId)
-                        feedStyleArr.add(feedStyle)
-                        feedImgArr.add(feedImgName)
+                        feedNum = feedObject.getString("feedNum")
+                        feed_userId = feedObject.getString("feed_userId")
+                        feed_ImgName = feedObject.getString("feed_ImgName")
+                        feed_style = feedObject.getString("feed_style")
+
+                        feedNumArr.add(feedNum)
+                        feedIdArr.add(feed_userId)
+                        feedImgArr.add(feed_ImgName)
+                        feedStyleArr.add(feed_style)
+
                     }
+                    AutoFeed.setFeedNum(this, feedNumArr as ArrayList<String>)
                     AutoFeed.setFeedId(this, feedIdArr as ArrayList<String>)
-                    AutoFeed.setFeedStyle(this, feedStyleArr as ArrayList<String>)
                     AutoFeed.setFeedName(this, feedImgArr as ArrayList<String>)
+                    AutoFeed.setFeedStyle(this, feedStyleArr as ArrayList<String>)
+
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -556,8 +568,7 @@ class MainActivity : AppCompatActivity() {
                         favoriteuserIdArr.add(favoriteuserId)
                         Log.d("기분?", favoriteuserId)
 
-                        AutoPro.setFavoriteuserId(this,
-                            favoriteuserIdArr as java.util.ArrayList<String>)
+                        AutoPro.setFavoriteuserId(this, favoriteuserIdArr as java.util.ArrayList<String>)
 
                     }
 
@@ -568,6 +579,49 @@ class MainActivity : AppCompatActivity() {
         val favoritecheck_Request = FavoriteCheck_Request(userId!!, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(favoritecheck_Request)
+    }
+
+    fun feed_like_check() {
+
+        var feedNum: String
+        var feed_like_true: String
+
+        var feedNumArr = mutableListOf<String>()
+        var feedliketrueArr = mutableListOf<String>()
+
+        val responseListener: Response.Listener<String?> =
+            Response.Listener<String?> { response ->
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    var response = jsonObject.toString()
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    Log.d("기분크기", arr.length().toString())
+
+                    for (i in 0 until arr.length()) {
+                        val Object = arr.getJSONObject(i)
+
+                        feedNum = Object.getString("feedNum")
+                        feed_like_true = Object.getString("feed_like_true")
+
+                        feedNumArr.add(feedNum)
+                        feedliketrueArr.add(feed_like_true)
+
+                        AutoFeed.setFeedNumlike(this, feedNumArr as java.util.ArrayList<String>)
+                        AutoFeed.setFeedliketrue(this, feedliketrueArr as java.util.ArrayList<String>)
+
+
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        val feedLikeCheck_Request = FeedLikeCheck_Request(userId!!, responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(feedLikeCheck_Request)
     }
 
     fun getColor() {

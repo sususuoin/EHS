@@ -14,6 +14,7 @@ import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.BottomSheet.BottomSheet_fashion
+import com.example.ehs.Feed.FeedCodySave_Request
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
@@ -152,6 +153,11 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                     if(success) {
 //                        Toast.makeText(this@CodySaveActivity, jsonObject.toString(), Toast.LENGTH_LONG).show()
 
+                        Log.d("sdfㅁㅁㅁㅁㅁ",codyOpen.toString())
+                        if(codyOpen) {
+                            Log.d("sdfㅁㅁㅁㅁㅁ11111",codyOpen.toString())
+                            uploadDB_feed(userId, codyImgName)
+                        }
                         (CodyMakeActivity.codyContext as CodyMakeActivity).finish()
                         (MainActivity.mContext as MainActivity).CodyImg()
 
@@ -170,6 +176,39 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         val codySave_Request = CodySave_Request(userId, codyImgPath, codyImgName, codyStyle, codyOpen, responseListener)
         val queue = Volley.newRequestQueue(this@CodySaveActivity)
         queue.add(codySave_Request)
+    }
+
+
+    fun uploadDB_feed(userId: String, codyImgName: String) {
+        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+            override fun onResponse(response: String?) {
+                try {
+                    val jsonObject = JSONObject(response)
+                    var success = jsonObject.getBoolean("success")
+
+                    if(success) {
+                        Log.d(TAG, "피드테이블에 코디저장")
+
+                    } else {
+                        Log.d(TAG, "피드테이블에 코디저장 실패")
+                        return
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+
+        var feed_userId = userId
+        var feed_ImgName = codyImgName
+        var feed_style = codyStyle
+
+        Log.d("sdfㅁㅁㅁㅁㅁ3333", feed_userId)
+        Log.d("sdfㅁㅁㅁㅁㅁ3333", feed_ImgName)
+        Log.d("sdfㅁㅁㅁㅁㅁ3333", feed_style)
+        val feedCodySave_Request = FeedCodySave_Request(feed_userId, feed_ImgName, feed_style, responseListener)
+        val queue = Volley.newRequestQueue(this@CodySaveActivity)
+        queue.add(feedCodySave_Request)
     }
 
 
