@@ -62,7 +62,7 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
         binding.rvCodymake.adapter = adapter
         adapter.notifyDataSetChanged()
 
-        adapter.setItemClickListener(object : CodyMakeListAdapter.OnItemClickListener {
+        adapter.setItemClickListener(object : CodyMakeListAdapter.OnItemClickListener { // 리사이클러뷰 아이템 클릭 시
             override fun onClick(v: View, position: Int) {
                 // 옷 클릭 시 화면에 선택한 옷 추가
                 var newclothes: Bitmap? = codyMakeList[position].clothes
