@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
@@ -13,15 +14,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.*
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
+import com.example.ehs.databinding.ActivityCodyMakeBinding
+import com.example.ehs.databinding.FragmentCalendarclothesBinding
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.android.synthetic.main.bottomsheet_color.*
+import kotlinx.android.synthetic.main.clothes.*
 import kotlinx.android.synthetic.main.fragment_calendarclothes.*
 import kotlinx.android.synthetic.main.fragment_calendarclothes.view.*
 import org.json.JSONArray
@@ -31,14 +39,17 @@ import java.io.*
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
-import kotlin.collections.ArrayList
 
 
 class CalendarClothesFragment : Fragment() {
-
     val calendarclothesList = mutableListOf<Clothes>()
     val adapter = CalendarClothesListAdapter(calendarclothesList)
     var clothesArr2 = ArrayList<String>()
+
+    var clickList = ArrayList<String>() // 선택된 옷 이름 배열
+    var clickListimg = ArrayList<Bitmap>() // 선택된 옷 이미지 배열
+
+
     lateinit var userId: String
 
     companion object {
@@ -155,10 +166,15 @@ class CalendarClothesFragment : Fragment() {
 
 
     // recyclerview item 간격
-    class ItemDecorator(private val divHeight : Int) : RecyclerView.ItemDecoration() {
+    class ItemDecorator(private val divHeight: Int) : RecyclerView.ItemDecoration() {
 
         @Override
-        override fun getItemOffsets(outRect: Rect, view: View, parent : RecyclerView, state : RecyclerView.State) {
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State,
+        ) {
             super.getItemOffsets(outRect, view, parent, state)
             outRect.top = divHeight
             outRect.bottom = divHeight
@@ -173,11 +189,78 @@ class CalendarClothesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val gridLayoutManager = GridLayoutManager(activity, 3)
+        btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,R.color.lightgray)) // 버튼 색깔을 연회색으로 지정
+        btn_choiceitem.text = "총 " + clickList.size + "개 아이템 선택"
+        btn_choiceitem.isEnabled = false
+
+
+        val gridLayoutManager = GridLayoutManager(activity, 6)
+        gridLayoutManager.setSpanSizeLookup(object : SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val gridPosition = position % 5
+                when (gridPosition) {
+                    0, 1, 2, 3, 4 -> return 2
+                }
+                return 0
+            }
+        })
         rv_clothes.layoutManager = gridLayoutManager
         rv_clothes.adapter = adapter
         rv_clothes.addItemDecoration(ItemDecorator(10))
         adapter.notifyDataSetChanged()
+
+        // 선택버튼 디폴트 값
+        btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,R.color.lightgray)) // 버튼 색깔을 연회색으로 지정
+        btn_choiceitem.setTextColor(ContextCompat.getColor(a!!,R.color.darkgray)) // 버튼 텍스트 진회색
+        btn_choiceitem.isEnabled = false // 버튼 비활성화
+        btn_choiceitem.text = "총 " + clickList.size + "개 아이템 선택"
+
+        /**
+         * 리사이클러뷰 아이템 클릭 시 이벤트 발생
+         */
+        adapter.setItemClickListener(object : CalendarClothesListAdapter.OnItemClickListener { // 리사이클러뷰 아이템 클릭 시
+            override fun onClick(v: View, position: Int, holder: CalendarClothesListAdapter.ViewHolder) {
+                val item = calendarclothesList[position]
+                if (clickList.size == 0) { // 배열 사이즈가 0이라면
+                    clickList.add(item.toString()) // 배열에 추가
+                    clickListimg.add(item.clothes!!) // 이미지 배열에 추가
+                    holder.itemView.setBackgroundResource(R.drawable.cody_background) // 해제
+
+                    if(clickList.size != 0){
+                        btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,R.color.ourcolor)) // 버튼 색깔 보라색으로 지정
+                        btn_choiceitem.setTextColor(ContextCompat.getColor(a!!,R.color.white)) // 버튼 텍스트 하얀색
+                        btn_choiceitem.text = "총 " + clickList.size + "개 아이템 선택"
+                        btn_choiceitem.isEnabled = true // 버튼 활성화
+                    }
+
+                } else {
+                    btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,R.color.ourcolor)) // 버튼 색깔 보라색으로 지정
+                    btn_choiceitem.setTextColor(ContextCompat.getColor(a!!,R.color.white)) // 버튼 텍스트 하얀색
+                    btn_choiceitem.isEnabled = true // 버튼 활성화
+
+                    if (clickList.contains(item.toString())) { // 선택한 배열 안에 클릭 아이템을 포함하고 있다면
+                        holder.itemView.setBackgroundResource(R.drawable.button_background) // 테두리 해제
+                        holder.itemView.setBackgroundColor(Color.parseColor("#E7E7E7")) // 테두리 하얗게
+                        clickList.remove(item.toString()) // 배열에서 삭제
+                        clickListimg.remove(item.clothes) // 이미지 배열에서 삭제
+                        btn_choiceitem.text = "총 " + clickList.size + "개 아이템 선택"
+                        if(clickList.size == 0){
+                            btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,R.color.lightgray)) // 버튼 색깔을 연회색으로 지정
+                            btn_choiceitem.setTextColor(ContextCompat.getColor(a!!,R.color.darkgray)) // 버튼 텍스트 진회색
+                            btn_choiceitem.isEnabled = false // 버튼 비활성화
+                        }
+                    } else {
+                        holder.itemView.setBackgroundResource(R.drawable.cody_background) // 보라 테두리 생성
+                        clickList.add(item.toString()) // 배열에 추가
+                        clickListimg.add(item.clothes!!) // 이미지 배열에 추가
+                        btn_choiceitem.text = "총 " + clickList.size + "개 아이템 선택"
+                    }
+                }
+
+
+
+            }
+        })
         //recylerview 이거 fashionista.xml에 있는 변수
     }
 
