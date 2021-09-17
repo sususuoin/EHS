@@ -55,7 +55,7 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:layout_marginRight="30dp"
+
                 android:layout_marginLeft="10dp"
                 android:fontFamily="sans-serif"
                 android:text="#스타일"
@@ -66,35 +66,50 @@
             <Button
                 android:id="@+id/btn_like_before"
                 android:layout_width="18dp"
-                android:layout_height="16dp"
-                android:layout_marginRight="5dp"
+                android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:background="@drawable/like_before"
                 android:gravity="center" />
             <Button
                 android:id="@+id/btn_like_after"
                 android:layout_width="18dp"
-                android:layout_height="16dp"
+                android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:background="@drawable/like_after"
                 android:gravity="center"
                 android:visibility="gone" />
 
+            <TextView
+                android:id="@+id/tv_feedlikecount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:text="0" />
+
             <Button
                 android:id="@+id/btn_unlike_before"
                 android:layout_width="18dp"
-                android:layout_height="16dp"
+                android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:background="@drawable/unlike_before"
                 android:gravity="center" />
             <Button
                 android:id="@+id/btn_unlike_after"
                 android:layout_width="18dp"
-                android:layout_height="16dp"
+                android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:background="@drawable/unlike_after"
                 android:gravity="center"
                 android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_feedunlikecount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:text="0" />
 
 
         </LinearLayout>

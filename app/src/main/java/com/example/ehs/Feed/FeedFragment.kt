@@ -32,6 +32,8 @@ class FeedFragment : Fragment() {
     var feedIdArr = ArrayList<String>()
     var feedStyleArr = ArrayList<String>()
     var feedImgArr = ArrayList<String>()
+    var feedlikeCntArr = ArrayList<String>()
+    var feednolikeCntArr = ArrayList<String>()
 
     val adapter = FeedsListAdapter(feedsList)
 
@@ -61,6 +63,9 @@ class FeedFragment : Fragment() {
         feedIdArr = AutoFeed.getFeedId(a!!)
         feedStyleArr = AutoFeed.getFeedStyle(a!!)
         feedImgArr = AutoFeed.getFeedName(a!!)
+        feedlikeCntArr = AutoFeed.getFeedLikeCnt(a!!)
+        Log.d("1112222zz", feedlikeCntArr.toString())
+        feednolikeCntArr = AutoFeed.getFeednoLikeCnt(a!!)
         Log.d("ㅁㅁㅁㅁㅁ새로고침222", feedImgArr.toString())
 
         var a_bitmap : Bitmap? = null
@@ -92,7 +97,7 @@ class FeedFragment : Fragment() {
 
                 uThread.join()
 
-                var feed = Feed(feedNumArr[i], feedIdArr[i], feedStyleArr[i], a_bitmap)
+                var feed = Feed(feedNumArr[i], feedIdArr[i], feedStyleArr[i], a_bitmap, feedlikeCntArr[i], feednolikeCntArr[i])
                 feedsList.add(feed)
 
 
@@ -129,26 +134,6 @@ class FeedFragment : Fragment() {
             (activity as MainActivity?)!!.replaceFragment(CommunityFragment.newInstance())
         }
 
-
-
-//
-//
-//        val resources: Resources = this.resources
-//        val bitmap1 = BitmapFactory.decodeResource(resources, R.drawable.cody1)
-//        val bitmap2 = BitmapFactory.decodeResource(resources, R.drawable.cody2)
-//        val bitmap3 = BitmapFactory.decodeResource(resources, R.drawable.cody3)
-//        val bitmap4 = BitmapFactory.decodeResource(resources, R.drawable.cody4)
-//
-//
-//
-//        var feed1 = Feed("skychoi","#데일리", bitmap1)
-//        var feed2 = Feed("jj","#스트릿", bitmap2)
-//        var feed3 = Feed("eunjeong","#캐주얼", bitmap3)
-//        var feed4 = Feed("tndlstkxk","#데일리", bitmap4)
-//        feedsList.add(feed1)
-//        feedsList.add(feed2)
-//        feedsList.add(feed3)
-//        feedsList.add(feed4)
 
         return view
     }

@@ -1,6 +1,7 @@
 package com.example.ehs.Feed
 
 import android.app.ProgressDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,13 +44,14 @@ class FeedsListAdapter(private val itemList: List<Feed>)
 
         var feednumlikeArr = AutoFeed.getFeedNumlike(holder.itemView.context)
         var feedlikeArr = AutoFeed.getFeedliketrue(holder.itemView.context)
+        var feednolikeArr = AutoFeed.getFeedlikefalse(holder.itemView.context)
 
         for (i in 0 until feednumlikeArr.size) {
             if (itemList[position].feedNum == feednumlikeArr[i]) {
                 if(feedlikeArr[i] == "like") {
                     holder.itemView.findViewById<Button>(R.id.btn_like_before).visibility = View.GONE
                     holder.itemView.findViewById<Button>(R.id.btn_like_after).visibility = View.VISIBLE
-                } else if(feedlikeArr[i] == "unlike"){
+                } else if(feednolikeArr[i] == "unlike"){
                     holder.itemView.findViewById<Button>(R.id.btn_unlike_before).visibility = View.GONE
                     holder.itemView.findViewById<Button>(R.id.btn_unlike_after).visibility = View.VISIBLE
                 }
@@ -58,6 +60,8 @@ class FeedsListAdapter(private val itemList: List<Feed>)
 
         var feedNum = itemList[position].feedNum
         var feed_like_true : String = ""
+        var feed_like_false : String = ""
+
 
         holder.apply {
             bind(item)
@@ -79,6 +83,11 @@ class FeedsListAdapter(private val itemList: List<Feed>)
                 } else {
                     itemView.findViewById<Button>(R.id.btn_like_before).visibility = View.GONE
                     itemView.findViewById<Button>(R.id.btn_like_after).visibility = View.VISIBLE
+
+                    Log.d("하이킥보는중", itemView.tv_feedlikecount.text.toString() )
+                    var cntplus = (itemView.tv_feedlikecount.text.toString().toInt())+1
+                    Log.d("하이킥보는중22222", cntplus.toString())
+                    itemView.tv_feedlikecount.setText(cntplus.toString())
                     Toast.makeText(it?.context, "좋아요를 누르셨습니다.", Toast.LENGTH_SHORT).show()
 
                     val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
@@ -101,7 +110,8 @@ class FeedsListAdapter(private val itemList: List<Feed>)
                     }
 
                     feed_like_true = "like"
-                    val feedLikeSave_Request = FeedLikeSave_Request(feedNum, userId, feed_like_true, responseListener)
+                    feed_like_false = ""
+                    val feedLikeSave_Request = FeedLikeSave_Request(feedNum, userId, feed_like_true, feed_like_false, responseListener)
                     val queue = Volley.newRequestQueue(itemView.context)
                     queue.add(feedLikeSave_Request)
                 }
@@ -113,6 +123,11 @@ class FeedsListAdapter(private val itemList: List<Feed>)
                 } else {
                     itemView.findViewById<Button>(R.id.btn_unlike_before).visibility = View.GONE
                     itemView.findViewById<Button>(R.id.btn_unlike_after).visibility = View.VISIBLE
+
+                    Log.d("하이킥보는중", itemView.tv_feedunlikecount.text.toString() )
+                    var cntplus = (itemView.tv_feedunlikecount.text.toString().toInt())+1
+                    Log.d("하이킥보는중22222", cntplus.toString())
+                    itemView.tv_feedunlikecount.setText(cntplus.toString())
                     Toast.makeText(it?.context, "싫어요를 누르셨습니다.", Toast.LENGTH_SHORT).show()
 
                     val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
@@ -134,8 +149,9 @@ class FeedsListAdapter(private val itemList: List<Feed>)
                         }
                     }
 
-                    feed_like_true = "unlike"
-                    val feedLikeSave_Request = FeedLikeSave_Request(feedNum, userId, feed_like_true, responseListener)
+                    feed_like_true = ""
+                    feed_like_false = "unlike"
+                    val feedLikeSave_Request = FeedLikeSave_Request(feedNum, userId, feed_like_true, feed_like_false, responseListener)
                     val queue = Volley.newRequestQueue(itemView.context)
                     queue.add(feedLikeSave_Request)
                 }
@@ -161,6 +177,10 @@ class FeedsListAdapter(private val itemList: List<Feed>)
             view.tv_userID.setText(item.userID)
             view.tv_styletag.setText(item.styletag)
             view.iv_feedphoto.setImageBitmap(item.feedImg)
+
+            view.tv_feedlikecount.setText(item.feedLikeCount)
+            view.tv_feedunlikecount.setText(item.feedUnlikeCount)
+
 
         }
 

@@ -151,6 +151,77 @@ object AutoFeed {
     }
 
 
+    fun setFeedLikeCnt(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_feedLikeCnt", a.toString())
+        } else {
+            editor.putString("MY_feedLikeCnt", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getFeedLikeCnt(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_feedLikeCnt", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
+
+    fun setFeednoLikeCnt(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_feednoLikeCnt", a.toString())
+        } else {
+            editor.putString("MY_feednoLikeCnt", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getFeednoLikeCnt(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_feednoLikeCnt", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
+
+
     fun setFeedNumlike(context: Context, input: ArrayList<String>) {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
         val editor = prefs.edit()
@@ -206,6 +277,42 @@ object AutoFeed {
     fun getFeedliketrue(context: Context): ArrayList<String> {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
         val arr = prefs.getString("MY_Feedliketrue", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
+
+
+    fun setFeedlikefalse(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_Feedlikefalse", a.toString())
+        } else {
+            editor.putString("MY_Feedlikefalse", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getFeedlikefalse(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_Feedlikefalse", "")
         val urls = ArrayList<String>()
         if (arr != null) {
             try {
