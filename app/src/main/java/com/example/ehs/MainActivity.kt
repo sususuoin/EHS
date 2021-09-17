@@ -361,7 +361,6 @@ class MainActivity : AppCompatActivity() {
         var fuserLevel: String
         var fuserProfileImg : String
 
-
         var fuserIdArr = mutableListOf<String>()
         var fuserLevelArr = mutableListOf<String>()
         var fuserProImgArr = mutableListOf<String>()
@@ -392,8 +391,6 @@ class MainActivity : AppCompatActivity() {
                         AutoPro.setProuserProImg(this@MainActivity,
                             fuserProImgArr as ArrayList<String>)
 
-//                        var fashin = Fashionista(fuserId, fuserLevel, fuserProfile)
-//                        FashionistaList.add(fashin)
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -403,8 +400,6 @@ class MainActivity : AppCompatActivity() {
         val fashionistaUserRequest = FashionistaUser_Request(responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(fashionistaUserRequest)
-
-
     }
 
 
@@ -495,11 +490,15 @@ class MainActivity : AppCompatActivity() {
         var feedNum: String
         var feed_ImgName: String
         var feed_style: String
+        var feed_likecnt : String
+        var feed_nolikecnt : String
 
         var feedNumArr = mutableListOf<String>()
         var feedIdArr = mutableListOf<String>()
         var feedStyleArr = mutableListOf<String>()
         var feedImgArr = mutableListOf<String>()
+        var feedlikecntArr = mutableListOf<String>()
+        var feednolikecntArr = mutableListOf<String>()
 
         val responseListener: Response.Listener<String?> =
             Response.Listener<String?> { response ->
@@ -518,17 +517,24 @@ class MainActivity : AppCompatActivity() {
                         feed_userId = feedObject.getString("feed_userId")
                         feed_ImgName = feedObject.getString("feed_ImgName")
                         feed_style = feedObject.getString("feed_style")
+                        feed_likecnt = feedObject.getString("feed_likecnt")
+                        feed_nolikecnt = feedObject.getString("feed_nolikecnt")
 
                         feedNumArr.add(feedNum)
                         feedIdArr.add(feed_userId)
                         feedImgArr.add(feed_ImgName)
                         feedStyleArr.add(feed_style)
+                        feedlikecntArr.add(feed_likecnt)
+                        feednolikecntArr.add(feed_nolikecnt)
 
                     }
                     AutoFeed.setFeedNum(this, feedNumArr as ArrayList<String>)
                     AutoFeed.setFeedId(this, feedIdArr as ArrayList<String>)
                     AutoFeed.setFeedName(this, feedImgArr as ArrayList<String>)
                     AutoFeed.setFeedStyle(this, feedStyleArr as ArrayList<String>)
+                    AutoFeed.setFeedLikeCnt(this, feedlikecntArr as ArrayList<String>)
+                    AutoFeed.setFeednoLikeCnt(this, feednolikecntArr as ArrayList<String>)
+                    Log.d("1112222", feedlikecntArr.toString())
 
 
                 } catch (e: JSONException) {
@@ -585,9 +591,11 @@ class MainActivity : AppCompatActivity() {
 
         var feedNum: String
         var feed_like_true: String
+        var feed_like_false: String
 
         var feedNumArr = mutableListOf<String>()
         var feedliketrueArr = mutableListOf<String>()
+        var feedlikefalseArr = mutableListOf<String>()
 
         val responseListener: Response.Listener<String?> =
             Response.Listener<String?> { response ->
@@ -605,12 +613,15 @@ class MainActivity : AppCompatActivity() {
 
                         feedNum = Object.getString("feedNum")
                         feed_like_true = Object.getString("feed_like_true")
+                        feed_like_false = Object.getString("feed_like_false")
 
                         feedNumArr.add(feedNum)
                         feedliketrueArr.add(feed_like_true)
+                        feedlikefalseArr.add(feed_like_false)
 
                         AutoFeed.setFeedNumlike(this, feedNumArr as java.util.ArrayList<String>)
                         AutoFeed.setFeedliketrue(this, feedliketrueArr as java.util.ArrayList<String>)
+                        AutoFeed.setFeedlikefalse(this, feedlikefalseArr as java.util.ArrayList<String>)
 
 
                     }

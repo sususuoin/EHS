@@ -10,6 +10,7 @@ class FeedLikeSave_Request(
     feedNum: String,
     userId: String,
     feed_like_true: String,
+    feed_like_false: String,
     listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {
 
     private val map: MutableMap<String, String>
@@ -30,5 +31,7 @@ class FeedLikeSave_Request(
         map["feedNum"] = feedNum
         map["userId"] = userId
         map["feed_like_true"] = feed_like_true
+        map["feed_like_false"] = feed_like_false
+
     }
 }
