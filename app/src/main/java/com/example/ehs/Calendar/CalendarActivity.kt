@@ -1,10 +1,10 @@
 package com.example.ehs.Calendar
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -20,17 +20,27 @@ import org.threeten.bp.format.DateTimeFormatter
 
 
 class CalendarActivity : AppCompatActivity(){
+
+    companion object {
+        public var context_calendar: Context? = null
+
+    }
+
     private var monthYearText: TextView? = null
     private var calendarRecyclerView: RecyclerView? = null
     private var selectedDate: LocalDate? = null
     var calendar = arrayListOf<Calendar>()
     val calendarAdapter = CalendarAdapter(calendar)
+    public var todaymonth : String? = null
+
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar)
+        context_calendar = this
 
         initWidgets()
         selectedDate = LocalDate.now()
@@ -42,7 +52,8 @@ class CalendarActivity : AppCompatActivity(){
         calendarAdapter.setItemClickListener(object : CalendarAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 if (calendar[position].day != "") {
-                    var selectday = "Selected Date" + " " + monthYearFromDate(selectedDate) + " " + calendar[position].day + "일"
+                    var selectday =
+                        "Selected Date" + " " + monthYearFromDate(selectedDate) + " " + calendar[position].day + "일"
                     Toast.makeText(this@CalendarActivity, selectday, Toast.LENGTH_SHORT).show()
 
 
@@ -66,6 +77,8 @@ class CalendarActivity : AppCompatActivity(){
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setMonthView() {
         monthYearText!!.text = monthYearFromDate(selectedDate)
+        todaymonth = selectedDate?.monthValue.toString() // 현재월 가져오기
+        Log.d("gg", todaymonth!!)
         val daysInMonth = daysInMonthArray(selectedDate)
         Log.d("", daysInMonth.toString())
         for (i in daysInMonth) {
