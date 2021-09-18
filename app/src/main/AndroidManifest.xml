@@ -27,6 +27,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity android:name=".Calendar.CalendarChoiceActivity"/>
+        <activity android:name=".Calendar.CalendarMakeCodyActivity"/>
         <activity android:name=".Closet.CodyMakeActivity" />
         <activity android:name=".Feed.CommunityEditActivity" />
         <activity android:name=".Feed.CommunityDetailActivity" />
