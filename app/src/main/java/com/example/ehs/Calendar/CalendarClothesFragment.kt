@@ -2,6 +2,7 @@ package com.example.ehs.Calendar
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -13,8 +14,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,11 +24,7 @@ import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.*
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
-import com.example.ehs.databinding.ActivityCodyMakeBinding
-import com.example.ehs.databinding.FragmentCalendarclothesBinding
 import com.jakewharton.threetenabp.AndroidThreeTen
-import kotlinx.android.synthetic.main.bottomsheet_color.*
-import kotlinx.android.synthetic.main.clothes.*
 import kotlinx.android.synthetic.main.fragment_calendarclothes.*
 import kotlinx.android.synthetic.main.fragment_calendarclothes.view.*
 import org.json.JSONArray
@@ -155,7 +150,6 @@ class CalendarClothesFragment : Fragment() {
         view.tv_cody.setOnClickListener { view ->
             Log.d("ClosetFragment", "내 코디에서 선택으로 이동")
             (activity as CalendarChoiceActivity?)!!.replaceFragment(CalendarCodyFragment.newInstance())
-
         }
 
         view.btn_cancel.setOnClickListener {
@@ -189,7 +183,7 @@ class CalendarClothesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,R.color.lightgray)) // 버튼 색깔을 연회색으로 지정
+        btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!, R.color.lightgray)) // 버튼 색깔을 연회색으로 지정
         btn_choiceitem.text = "총 " + clickList.size + "개 아이템 선택"
         btn_choiceitem.isEnabled = false
 
@@ -210,32 +204,41 @@ class CalendarClothesFragment : Fragment() {
         adapter.notifyDataSetChanged()
 
         // 선택버튼 디폴트 값
-        btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,R.color.lightgray)) // 버튼 색깔을 연회색으로 지정
-        btn_choiceitem.setTextColor(ContextCompat.getColor(a!!,R.color.darkgray)) // 버튼 텍스트 진회색
+        btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!, R.color.lightgray)) // 버튼 색깔을 연회색으로 지정
+        btn_choiceitem.setTextColor(ContextCompat.getColor(a!!, R.color.darkgray)) // 버튼 텍스트 진회색
         btn_choiceitem.isEnabled = false // 버튼 비활성화
         btn_choiceitem.text = "총 " + clickList.size + "개 아이템 선택"
 
         /**
          * 리사이클러뷰 아이템 클릭 시 이벤트 발생
          */
-        adapter.setItemClickListener(object : CalendarClothesListAdapter.OnItemClickListener { // 리사이클러뷰 아이템 클릭 시
-            override fun onClick(v: View, position: Int, holder: CalendarClothesListAdapter.ViewHolder) {
+        adapter.setItemClickListener(object :
+            CalendarClothesListAdapter.OnItemClickListener { // 리사이클러뷰 아이템 클릭 시
+            override fun onClick(
+                v: View,
+                position: Int,
+                holder: CalendarClothesListAdapter.ViewHolder,
+            ) {
                 val item = calendarclothesList[position]
                 if (clickList.size == 0) { // 배열 사이즈가 0이라면
                     clickList.add(item.toString()) // 배열에 추가
                     clickListimg.add(item.clothes!!) // 이미지 배열에 추가
                     holder.itemView.setBackgroundResource(R.drawable.cody_background) // 해제
 
-                    if(clickList.size != 0){
-                        btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,R.color.ourcolor)) // 버튼 색깔 보라색으로 지정
-                        btn_choiceitem.setTextColor(ContextCompat.getColor(a!!,R.color.white)) // 버튼 텍스트 하얀색
+                    if (clickList.size != 0) {
+                        btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,
+                            R.color.ourcolor)) // 버튼 색깔 보라색으로 지정
+                        btn_choiceitem.setTextColor(ContextCompat.getColor(a!!,
+                            R.color.white)) // 버튼 텍스트 하얀색
                         btn_choiceitem.text = "총 " + clickList.size + "개 아이템 선택"
                         btn_choiceitem.isEnabled = true // 버튼 활성화
                     }
 
                 } else {
-                    btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,R.color.ourcolor)) // 버튼 색깔 보라색으로 지정
-                    btn_choiceitem.setTextColor(ContextCompat.getColor(a!!,R.color.white)) // 버튼 텍스트 하얀색
+                    btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,
+                        R.color.ourcolor)) // 버튼 색깔 보라색으로 지정
+                    btn_choiceitem.setTextColor(ContextCompat.getColor(a!!,
+                        R.color.white)) // 버튼 텍스트 하얀색
                     btn_choiceitem.isEnabled = true // 버튼 활성화
 
                     if (clickList.contains(item.toString())) { // 선택한 배열 안에 클릭 아이템을 포함하고 있다면
@@ -244,9 +247,11 @@ class CalendarClothesFragment : Fragment() {
                         clickList.remove(item.toString()) // 배열에서 삭제
                         clickListimg.remove(item.clothes) // 이미지 배열에서 삭제
                         btn_choiceitem.text = "총 " + clickList.size + "개 아이템 선택"
-                        if(clickList.size == 0){
-                            btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,R.color.lightgray)) // 버튼 색깔을 연회색으로 지정
-                            btn_choiceitem.setTextColor(ContextCompat.getColor(a!!,R.color.darkgray)) // 버튼 텍스트 진회색
+                        if (clickList.size == 0) {
+                            btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,
+                                R.color.lightgray)) // 버튼 색깔을 연회색으로 지정
+                            btn_choiceitem.setTextColor(ContextCompat.getColor(a!!,
+                                R.color.darkgray)) // 버튼 텍스트 진회색
                             btn_choiceitem.isEnabled = false // 버튼 비활성화
                         }
                     } else {
@@ -258,10 +263,16 @@ class CalendarClothesFragment : Fragment() {
                 }
 
 
-
             }
         })
-        //recylerview 이거 fashionista.xml에 있는 변수
+
+        btn_choiceitem.setOnClickListener { // 옷 선택 버튼 클릭 시 액티비티로 이동
+
+            val intent = Intent(a, CalendarMakeCodyActivity::class.java)
+            startActivity(intent)
+
+        }
+
     }
 
     private fun getPath(uri: Uri?): String {

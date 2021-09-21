@@ -178,8 +178,8 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
             iv!!.layoutParams = layoutParams
             ll_codymake!!.addView(iv, layoutParams)
 
-            iv!!.setOnTouchListener(this)
-            mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
+            iv!!.setOnTouchListener(this) // 이미지 터치 리스너
+            mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener()) // 이미지 크기 조정 리스너 등록
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -205,6 +205,8 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
         val X = event.rawX.toInt()
         val Y = event.rawY.toInt()
         val pointerCount = event.pointerCount
+        iv = view as ImageView // 이미지 크기 조정을 위해 이미지 클릭 시 클릭한 이미지로 iv를 바꿔줌
+
         mScaleGestureDetector!!.onTouchEvent(event)
         when (event.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_DOWN -> {
@@ -243,7 +245,7 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
         return true
     }
 
-    private inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+    private inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() { // 이미지 크기 조정을 위한 클래스
         override fun onScale(scaleGestureDetector: ScaleGestureDetector): Boolean {
             // ScaleGestureDetector에서 factor를 받아 변수로 선언한 factor에 넣고
             mScaleFactor *= scaleGestureDetector.scaleFactor
