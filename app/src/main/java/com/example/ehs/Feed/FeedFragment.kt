@@ -66,7 +66,7 @@ class FeedFragment : Fragment() {
         feedlikeCntArr = AutoFeed.getFeedLikeCnt(a!!)
         Log.d("1112222zz", feedlikeCntArr.toString())
         feednolikeCntArr = AutoFeed.getFeednoLikeCnt(a!!)
-        Log.d("ㅁㅁㅁㅁㅁ새로고침222", feedImgArr.toString())
+        Log.d("1112222zz11", feednolikeCntArr.toString())
 
         var a_bitmap : Bitmap? = null
         for (i in 0 until feedImgArr.size) {

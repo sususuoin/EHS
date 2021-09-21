@@ -606,8 +606,14 @@ class MainActivity : AppCompatActivity() {
 
                     val arr: JSONArray = jsonObject.getJSONArray("response")
 
-                    Log.d("기분크기", arr.length().toString())
+                    Log.d("기분크기ㅋㅋ", arr.length().toString())
+                    Log.d("zzzz호호호ㅋㅋ", arr.toString())
 
+                    if(arr.length() == 0 ) {
+                        feedNumArr.clear()
+                        feedliketrueArr.clear()
+                        feedlikefalseArr.clear()
+                    }
                     for (i in 0 until arr.length()) {
                         val Object = arr.getJSONObject(i)
 
@@ -619,17 +625,16 @@ class MainActivity : AppCompatActivity() {
                         feedliketrueArr.add(feed_like_true)
                         feedlikefalseArr.add(feed_like_false)
 
-                        AutoFeed.setFeedNumlike(this, feedNumArr as java.util.ArrayList<String>)
-                        AutoFeed.setFeedliketrue(this, feedliketrueArr as java.util.ArrayList<String>)
-                        AutoFeed.setFeedlikefalse(this, feedlikefalseArr as java.util.ArrayList<String>)
-
-
                     }
+                    AutoFeed.setFeedNumlike(this, feedNumArr as java.util.ArrayList<String>)
+                    AutoFeed.setFeedliketrue(this, feedliketrueArr as java.util.ArrayList<String>)
+                    AutoFeed.setFeedlikefalse(this, feedlikefalseArr as java.util.ArrayList<String>)
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
             }
+        Log.d("zzzz호호호", userId!!)
         val feedLikeCheck_Request = FeedLikeCheck_Request(userId!!, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(feedLikeCheck_Request)

@@ -46,6 +46,7 @@ class FeedsListAdapter(private val itemList: List<Feed>)
         var feedlikeArr = AutoFeed.getFeedliketrue(holder.itemView.context)
         var feednolikeArr = AutoFeed.getFeedlikefalse(holder.itemView.context)
 
+        Log.d("zzzz호호호 정말", feednumlikeArr.toString())
         for (i in 0 until feednumlikeArr.size) {
             if (itemList[position].feedNum == feednumlikeArr[i]) {
                 if(feedlikeArr[i] == "like") {

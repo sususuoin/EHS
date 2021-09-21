@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.ehs.Closet.AutoCloset
 import com.example.ehs.Closet.AutoCody
 import com.example.ehs.Fashionista.AutoPro
+import com.example.ehs.Feed.AutoFeed
 import com.example.ehs.Home.AutoHome
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.Login.LoginActivity
@@ -161,6 +162,7 @@ class MypageFragment : Fragment() {
                             AutoPro.clearPro(a!!)
                             AutoCody.clearCody(a!!)
                             AutoCloset.clearCloset(a!!)
+                            AutoFeed.clearFeed(a!!)
 
                             //액티비티는 finish() 프래그먼트는 밑에처럼
                             activity?.supportFragmentManager?.beginTransaction()?.remove(this@MypageFragment)?.commit()
