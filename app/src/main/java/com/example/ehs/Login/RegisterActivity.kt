@@ -52,7 +52,7 @@ class RegisterActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
 
 
 
-        bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.profile_castle)
+        bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.profile_basic)
 
         var userProfileImg = BitmapToString(bitmap!!)
         Log.d(TAG + "asdfasdF", userProfileImg!!)

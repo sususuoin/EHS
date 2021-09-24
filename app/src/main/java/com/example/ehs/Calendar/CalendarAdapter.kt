@@ -1,13 +1,11 @@
 package com.example.ehs.Calendar
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.calendar_cell.view.*
 import org.threeten.bp.LocalDate
@@ -77,7 +75,7 @@ class CalendarAdapter(private val calendar: ArrayList<Calendar>) :
 
             if (item.day != "") {
                 if (item.photo != null) {
-                    view.iv_calendarcody.setImageResource(R.drawable.basicprofile) // 포토가 비어있지 않다면
+                    view.iv_calendarcody.setImageResource(R.drawable.profile_basic) // 포토가 비어있지 않다면
                 } else {
                     view.iv_calendarcody.setImageResource(R.drawable.ic_add) // 포토가 비어있다면
                 }
