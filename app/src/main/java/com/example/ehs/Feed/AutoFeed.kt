@@ -329,6 +329,148 @@ object AutoFeed {
 
     }
 
+    fun setFeedRank_feedNum(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_FeedRank_feedNum", a.toString())
+        } else {
+            editor.putString("MY_FeedRank_feedNum", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getFeedRank_feedNum(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_FeedRank_feedNum", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
+
+    fun setFeedRank_feed_userId(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_FeedRank_feed_userId", a.toString())
+        } else {
+            editor.putString("MY_FeedRank_feed_userId", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getFeedRank_feed_userId(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_FeedRank_feed_userId", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
+
+    fun setFeedRank_like_cnt(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_FeedRank_like_cnt", a.toString())
+        } else {
+            editor.putString("MY_FeedRank_like_cnt", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getFeedRank_like_cnt(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_FeedRank_like_cnt", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
+
+    fun setFeedRank_feed_ImgName(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_FeedRank_feed_ImgName", a.toString())
+        } else {
+            editor.putString("MY_FeedRank_feed_ImgName", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getFeedRank_feed_ImgName(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_FeedRank_feed_ImgName", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
+
+
+
     fun clearFeed(context: Context) {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
         val editor : SharedPreferences.Editor = prefs.edit()

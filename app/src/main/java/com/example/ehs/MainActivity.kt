@@ -21,10 +21,7 @@ import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Fashionista.FashionistaFragment
 import com.example.ehs.Fashionista.FashionistaUser_Request
 import com.example.ehs.Fashionista.FavoriteCheck_Request
-import com.example.ehs.Feed.AutoFeed
-import com.example.ehs.Feed.FeedFragment
-import com.example.ehs.Feed.FeedLikeCheck_Request
-import com.example.ehs.Feed.FeedServer_Request
+import com.example.ehs.Feed.*
 import com.example.ehs.Home.AutoHome
 import com.example.ehs.Home.HomeFragment
 import com.example.ehs.Login.AutoLogin
@@ -41,6 +38,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -123,9 +121,9 @@ class MainActivity : AppCompatActivity() {
         ClosetImg()
         CodyImg()
         FeedImg()
+        feed_ranking()
         getColor()
     }
-
 
     // 바텀 네비게이션 아이템 클릭 리스너 설정
     private val onBottomNavItemSeletedListener =
@@ -467,12 +465,11 @@ class MainActivity : AppCompatActivity() {
                         codyImgName = codyObject.getString("codyImgName")
 
                         codyArr.add(codyImgName)
-
-                        AutoCody.setCodyName(this, codyArr as ArrayList<String>)
                     }
                     if(CodySaveActivity.codySaveContext!=null) {
                         (CodySaveActivity.codySaveContext as CodySaveActivity).finish()
                     }
+                    AutoCody.setCodyName(this, codyArr as ArrayList<String>)
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -639,6 +636,68 @@ class MainActivity : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this)
         queue.add(feedLikeCheck_Request)
     }
+
+    fun feed_ranking() {
+
+        var feedNum: String
+        var feed_userId: String
+        var like_cnt: String
+        var feed_ImgName: String
+
+        var feedNumArr = ArrayList<String>()
+        var feed_userIdArr = ArrayList<String>()
+        var like_cntArr = ArrayList<String>()
+        var feed_ImgNameArr = ArrayList<String>()
+
+        val responseListener: Response.Listener<String?> =
+            Response.Listener<String?> { response ->
+                try {
+
+                    var jsonObject = JSONObject(response)
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    if(arr.length() == 0 ) {
+                        feedNumArr.clear()
+                        feed_userIdArr.clear()
+                        like_cntArr.clear()
+                        feed_ImgNameArr.clear()
+                    }
+                    for (i in 0 until arr.length()) {
+                        val Object = arr.getJSONObject(i)
+
+                        feedNum = Object.getString("feedNum")
+                        feed_userId = Object.getString("feed_userId")
+                        like_cnt = Object.getString("like_cnt")
+                        feed_ImgName = Object.getString("feed_ImgName")
+
+                        feedNumArr.add(feedNum)
+                        feed_userIdArr.add(feed_userId)
+                        like_cntArr.add(like_cnt)
+                        feed_ImgNameArr.add(feed_ImgName)
+
+                    }
+                    AutoFeed.setFeedRank_feedNum(this, feedNumArr)
+                    AutoFeed.setFeedRank_feed_userId(this, feed_userIdArr)
+                    AutoFeed.setFeedRank_like_cnt(this, like_cntArr)
+                    AutoFeed.setFeedRank_feed_ImgName(this, feed_ImgNameArr)
+
+                    Log.d("크크크", feedNumArr.toString())
+                    Log.d("크크크", feed_userIdArr.toString())
+                    Log.d("크크크", like_cntArr.toString())
+                    Log.d("크크크", feed_ImgNameArr.toString())
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        val feedRanking_Request = FeedRanking_Request(responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(feedRanking_Request)
+    }
+
+
+
 
     fun getColor() {
         var cColor : String

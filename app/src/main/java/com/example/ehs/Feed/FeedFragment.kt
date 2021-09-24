@@ -35,6 +35,11 @@ class FeedFragment : Fragment() {
     var feedlikeCntArr = ArrayList<String>()
     var feednolikeCntArr = ArrayList<String>()
 
+    var feedrank_feedNumArr = ArrayList<String>()
+    var feedrank_feeduserId = ArrayList<String>()
+    var feedrank_likecnt = ArrayList<String>()
+    var feedrank_ImgName = ArrayList<String>()
+
     val adapter = FeedsListAdapter(feedsList)
 
     companion object {
@@ -51,6 +56,12 @@ class FeedFragment : Fragment() {
 
         (activity as MainActivity).FeedImg()
         (activity as MainActivity).feed_like_check()
+
+        feedrank_feedNumArr = AutoFeed.getFeedRank_feedNum(a!!)
+        feedrank_feeduserId = AutoFeed.getFeedRank_feed_userId(a!!)
+        feedrank_likecnt = AutoFeed.getFeedRank_like_cnt(a!!)
+        feedrank_ImgName = AutoFeed.getFeedRank_feed_ImgName(a!!)
+
 
     }
 
@@ -134,6 +145,56 @@ class FeedFragment : Fragment() {
             (activity as MainActivity?)!!.replaceFragment(CommunityFragment.newInstance())
         }
 
+        var a_bitmap : Bitmap? = null
+        for (i in 0 until feedrank_feedNumArr.size) {
+            val uThread: Thread = object : Thread() {
+                override fun run() {
+                    try {
+                        Log.d("피드랭킹이미지", feedrank_ImgName[i])
+
+                    val url = URL("http://13.125.7.2/img/cody/" + feedrank_ImgName[i])
+
+                    val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                    conn.setDoInput(true)
+                    conn.connect()
+                    val iss: InputStream = conn.getInputStream()
+                    a_bitmap = BitmapFactory.decodeStream(iss)
+
+                } catch (e: MalformedURLException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+            uThread.start() // 작업 Thread 실행
+            try {
+                uThread.join()
+
+                when(i) {
+                    0 -> {
+                        view.top1Img.setImageBitmap(a_bitmap)
+                        view.top1Id.setText(feedrank_feeduserId[i])
+                        view.top1cnt.setText(feedrank_likecnt[i])
+                    }
+                    1 -> {
+                        view.top2Img.setImageBitmap(a_bitmap)
+                        view.top2Id.setText(feedrank_feeduserId[i])
+                        view.top2cnt.setText(feedrank_likecnt[i])
+                    }
+                    2 -> {
+                        view.top3Img.setImageBitmap(a_bitmap)
+                        view.top3Id.setText(feedrank_feeduserId[i])
+                        view.top3cnt.setText(feedrank_likecnt[i])
+                    }
+                }
+
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+
+        }
 
         return view
     }
