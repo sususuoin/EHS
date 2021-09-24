@@ -359,9 +359,9 @@ class MainActivity : AppCompatActivity() {
         var fuserLevel: String
         var fuserProfileImg : String
 
-        var fuserIdArr = mutableListOf<String>()
-        var fuserLevelArr = mutableListOf<String>()
-        var fuserProImgArr = mutableListOf<String>()
+        var fuserIdArr = ArrayList<String>()
+        var fuserLevelArr = ArrayList<String>()
+        var fuserProImgArr = ArrayList<String>()
 
         val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
             override fun onResponse(response: String?) {
@@ -382,14 +382,11 @@ class MainActivity : AppCompatActivity() {
                         fuserIdArr.add(fuserId)
                         fuserLevelArr.add(fuserLevel)
                         fuserProImgArr.add(fuserProfileImg)
-
-                        AutoPro.setProuserId(this@MainActivity, fuserIdArr as ArrayList<String>)
-                        AutoPro.setProuserLevel(this@MainActivity,
-                            fuserLevelArr as ArrayList<String>)
-                        AutoPro.setProuserProImg(this@MainActivity,
-                            fuserProImgArr as ArrayList<String>)
-
                     }
+                    AutoPro.setProuserId(this@MainActivity, fuserIdArr)
+                    AutoPro.setProuserLevel(this@MainActivity, fuserLevelArr)
+                    AutoPro.setProuserProImg(this@MainActivity, fuserProImgArr)
+
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -489,13 +486,15 @@ class MainActivity : AppCompatActivity() {
         var feed_style: String
         var feed_likecnt : String
         var feed_nolikecnt : String
+        var feed_userprofileImg : String
 
-        var feedNumArr = mutableListOf<String>()
-        var feedIdArr = mutableListOf<String>()
-        var feedStyleArr = mutableListOf<String>()
-        var feedImgArr = mutableListOf<String>()
-        var feedlikecntArr = mutableListOf<String>()
-        var feednolikecntArr = mutableListOf<String>()
+        var feedNumArr = ArrayList<String>()
+        var feedIdArr = ArrayList<String>()
+        var feedStyleArr = ArrayList<String>()
+        var feedImgArr = ArrayList<String>()
+        var feedlikecntArr = ArrayList<String>()
+        var feednolikecntArr = ArrayList<String>()
+        var feed_userprofileImgArr = ArrayList<String>()
 
         val responseListener: Response.Listener<String?> =
             Response.Listener<String?> { response ->
@@ -516,6 +515,7 @@ class MainActivity : AppCompatActivity() {
                         feed_style = feedObject.getString("feed_style")
                         feed_likecnt = feedObject.getString("feed_likecnt")
                         feed_nolikecnt = feedObject.getString("feed_nolikecnt")
+                        feed_userprofileImg = feedObject.getString("feed_userprofileImg")
 
                         feedNumArr.add(feedNum)
                         feedIdArr.add(feed_userId)
@@ -523,14 +523,16 @@ class MainActivity : AppCompatActivity() {
                         feedStyleArr.add(feed_style)
                         feedlikecntArr.add(feed_likecnt)
                         feednolikecntArr.add(feed_nolikecnt)
+                        feed_userprofileImgArr.add(feed_userprofileImg)
 
                     }
-                    AutoFeed.setFeedNum(this, feedNumArr as ArrayList<String>)
-                    AutoFeed.setFeedId(this, feedIdArr as ArrayList<String>)
-                    AutoFeed.setFeedName(this, feedImgArr as ArrayList<String>)
-                    AutoFeed.setFeedStyle(this, feedStyleArr as ArrayList<String>)
-                    AutoFeed.setFeedLikeCnt(this, feedlikecntArr as ArrayList<String>)
-                    AutoFeed.setFeednoLikeCnt(this, feednolikecntArr as ArrayList<String>)
+                    AutoFeed.setFeedNum(this, feedNumArr)
+                    AutoFeed.setFeedId(this, feedIdArr)
+                    AutoFeed.setFeedName(this, feedImgArr)
+                    AutoFeed.setFeedStyle(this, feedStyleArr)
+                    AutoFeed.setFeedLikeCnt(this, feedlikecntArr)
+                    AutoFeed.setFeednoLikeCnt(this, feednolikecntArr)
+                    AutoFeed.setFeeduserprofileImg(this, feed_userprofileImgArr)
                     Log.d("1112222", feedlikecntArr.toString())
 
 
