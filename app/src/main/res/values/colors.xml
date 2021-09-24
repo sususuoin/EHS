@@ -37,4 +37,7 @@
     <color name="ourcolor">#521b93</color>
     <color name="light">@color/lightGrey</color>
 
+    <color name="purple_bg">#dcd2ec</color>
+
+
 </resources>

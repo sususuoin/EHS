@@ -604,10 +604,6 @@ class MainActivity : AppCompatActivity() {
                     var response = jsonObject.toString()
 
                     val arr: JSONArray = jsonObject.getJSONArray("response")
-
-                    Log.d("기분크기ㅋㅋ", arr.length().toString())
-                    Log.d("zzzz호호호ㅋㅋ", arr.toString())
-
                     if(arr.length() == 0 ) {
                         feedNumArr.clear()
                         feedliketrueArr.clear()
