@@ -77,9 +77,7 @@ class FeedFragment : Fragment() {
         feedStyleArr = AutoFeed.getFeedStyle(a!!)
         feedImgArr = AutoFeed.getFeedName(a!!)
         feedlikeCntArr = AutoFeed.getFeedLikeCnt(a!!)
-        Log.d("1112222zz", feedlikeCntArr.toString())
         feednolikeCntArr = AutoFeed.getFeednoLikeCnt(a!!)
-        Log.d("1112222zz11", feednolikeCntArr.toString())
         feeduserprofileImgArr = AutoFeed.getFeeduserprofileImg(a!!)
 
         var a_bitmap : Bitmap? = null
@@ -176,23 +174,38 @@ class FeedFragment : Fragment() {
             try {
                 uThread.join()
 
-                when(i) {
-                    0 -> {
-                        view.top1Img.setImageBitmap(a_bitmap)
-                        view.top1Id.setText(feedrank_feeduserId[i])
-                        view.top1cnt.setText(feedrank_likecnt[i])
-                    }
-                    1 -> {
-                        view.top2Img.setImageBitmap(a_bitmap)
-                        view.top2Id.setText(feedrank_feeduserId[i])
-                        view.top2cnt.setText(feedrank_likecnt[i])
-                    }
-                    2 -> {
-                        view.top3Img.setImageBitmap(a_bitmap)
-                        view.top3Id.setText(feedrank_feeduserId[i])
-                        view.top3cnt.setText(feedrank_likecnt[i])
+                feedIdArr = AutoFeed.getFeedId(a!!)
+                feeduserprofileImgArr = AutoFeed.getFeeduserprofileImg(a!!)
+
+                var int_idx = feedIdArr.indexOf(feedrank_feeduserId[i])
+                Log.d("zzzz키득", int_idx.toString())
+
+                var ranking_profile = AutoLogin.StringToBitmap(feeduserprofileImgArr[int_idx])
+
+
+                if(feedIdArr.contains(feedrank_feeduserId[i])) {
+                    when(i) {
+                        0 -> {
+                            view.top1Img.setImageBitmap(a_bitmap)
+                            view.top1Id.setText(feedrank_feeduserId[i])
+                            view.top1cnt.setText(feedrank_likecnt[i])
+                            view.iv_userphoto1.setImageBitmap(ranking_profile)
+                        }
+                        1 -> {
+                            view.top2Img.setImageBitmap(a_bitmap)
+                            view.top2Id.setText(feedrank_feeduserId[i])
+                            view.top2cnt.setText(feedrank_likecnt[i])
+                            view.iv_userphoto2.setImageBitmap(ranking_profile)
+                        }
+                        2 -> {
+                            view.top3Img.setImageBitmap(a_bitmap)
+                            view.top3Id.setText(feedrank_feeduserId[i])
+                            view.top3cnt.setText(feedrank_likecnt[i])
+                            view.iv_userphoto3.setImageBitmap(ranking_profile)
+                        }
                     }
                 }
+
 
             } catch (e: InterruptedException) {
                 e.printStackTrace()
