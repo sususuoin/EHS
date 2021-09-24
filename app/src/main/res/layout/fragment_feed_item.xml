@@ -26,12 +26,14 @@
             android:orientation="horizontal"
             android:layout_marginTop="5dp">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_userphoto"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                app:srcCompat="@drawable/ic_mypage" />
+                android:layout_marginVertical="10dp"
+                android:src="@drawable/profile_basic" />
 
             <TextView
                 android:id="@+id/tv_userID"

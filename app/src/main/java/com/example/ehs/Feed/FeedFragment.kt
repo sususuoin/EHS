@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ehs.Closet.CodyFragment
+import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_feed.*
@@ -34,6 +35,7 @@ class FeedFragment : Fragment() {
     var feedImgArr = ArrayList<String>()
     var feedlikeCntArr = ArrayList<String>()
     var feednolikeCntArr = ArrayList<String>()
+    var feeduserprofileImgArr = ArrayList<String>()
 
     var feedrank_feedNumArr = ArrayList<String>()
     var feedrank_feeduserId = ArrayList<String>()
@@ -78,6 +80,7 @@ class FeedFragment : Fragment() {
         Log.d("1112222zz", feedlikeCntArr.toString())
         feednolikeCntArr = AutoFeed.getFeednoLikeCnt(a!!)
         Log.d("1112222zz11", feednolikeCntArr.toString())
+        feeduserprofileImgArr = AutoFeed.getFeeduserprofileImg(a!!)
 
         var a_bitmap : Bitmap? = null
         for (i in 0 until feedImgArr.size) {
@@ -108,7 +111,8 @@ class FeedFragment : Fragment() {
 
                 uThread.join()
 
-                var feed = Feed(feedNumArr[i], feedIdArr[i], feedStyleArr[i], a_bitmap, feedlikeCntArr[i], feednolikeCntArr[i])
+                var fuserProfile = AutoLogin.StringToBitmap(feeduserprofileImgArr[i])
+                var feed = Feed(feedNumArr[i], fuserProfile!!, feedIdArr[i], feedStyleArr[i], a_bitmap, feedlikeCntArr[i], feednolikeCntArr[i])
                 feedsList.add(feed)
 
 
