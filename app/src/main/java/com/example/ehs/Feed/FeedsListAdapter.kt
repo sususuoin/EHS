@@ -60,6 +60,7 @@ class FeedsListAdapter(private val itemList: List<Feed>)
         }
 
         var feedNum = itemList[position].feedNum
+        var feed_userId = itemList[position].userID
         var feed_like_true : String = ""
         var feed_like_false : String = ""
 
@@ -112,7 +113,7 @@ class FeedsListAdapter(private val itemList: List<Feed>)
 
                     feed_like_true = "like"
                     feed_like_false = ""
-                    val feedLikeSave_Request = FeedLikeSave_Request(feedNum, userId, feed_like_true, feed_like_false, responseListener)
+                    val feedLikeSave_Request = FeedLikeSave_Request(feedNum, feed_userId, userId, feed_like_true, feed_like_false, responseListener)
                     val queue = Volley.newRequestQueue(itemView.context)
                     queue.add(feedLikeSave_Request)
                 }
@@ -152,7 +153,7 @@ class FeedsListAdapter(private val itemList: List<Feed>)
 
                     feed_like_true = ""
                     feed_like_false = "unlike"
-                    val feedLikeSave_Request = FeedLikeSave_Request(feedNum, userId, feed_like_true, feed_like_false, responseListener)
+                    val feedLikeSave_Request = FeedLikeSave_Request(feedNum, feed_userId, userId, feed_like_true, feed_like_false, responseListener)
                     val queue = Volley.newRequestQueue(itemView.context)
                     queue.add(feedLikeSave_Request)
                 }

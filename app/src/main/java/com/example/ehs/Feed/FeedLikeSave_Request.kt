@@ -8,6 +8,7 @@ import com.android.volley.toolbox.StringRequest
 
 class FeedLikeSave_Request(
     feedNum: String,
+    feed_userId : String,
     userId: String,
     feed_like_true: String,
     feed_like_false: String,
@@ -29,6 +30,7 @@ class FeedLikeSave_Request(
     init {
         map = HashMap()
         map["feedNum"] = feedNum
+        map["feed_userId"] = feed_userId
         map["userId"] = userId
         map["feed_like_true"] = feed_like_true
         map["feed_like_false"] = feed_like_false
