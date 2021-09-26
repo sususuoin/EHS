@@ -1,4 +1,6 @@
 package com.example.ehs.Fashionista
 
-class FashionistaCody(val fashionistacody: Int){
+import android.graphics.Bitmap
+
+class FashionistaCody(val fashionistacody: Bitmap){
 }

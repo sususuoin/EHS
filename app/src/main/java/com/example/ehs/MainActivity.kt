@@ -17,10 +17,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.*
-import com.example.ehs.Fashionista.AutoPro
-import com.example.ehs.Fashionista.FashionistaFragment
-import com.example.ehs.Fashionista.FashionistaUser_Request
-import com.example.ehs.Fashionista.FavoriteCheck_Request
+import com.example.ehs.Fashionista.*
 import com.example.ehs.Feed.*
 import com.example.ehs.Home.AutoHome
 import com.example.ehs.Home.HomeFragment
@@ -116,13 +113,14 @@ class MainActivity : AppCompatActivity() {
 
 
         FashionistaUser()
-        favorite_check()
-        feed_like_check()
+        FashionistaCody()
+        Favorite_check()
+        Feed_like_check()
         ClosetImg()
         CodyImg()
         FeedImg()
-        feed_ranking()
-        getColor()
+        Feed_ranking()
+        GetColor()
     }
 
     // 바텀 네비게이션 아이템 클릭 리스너 설정
@@ -140,7 +138,8 @@ class MainActivity : AppCompatActivity() {
 
                     //여기에다 실행하면 처음에 안뜸
                     FashionistaUser()
-                    favorite_check()
+                    FashionistaCody()
+                    Favorite_check()
                     fashionistaFragment = FashionistaFragment.newInstance()
                     replaceFragment(fashionistaFragment)
                 }
@@ -157,14 +156,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_feed -> {
                     Log.d(TAG, "MainActivity - 피드 버튼 클릭!")
                     FeedImg()
-                    feed_like_check()
+                    Feed_like_check()
                     feedFragment = FeedFragment.newInstance()
                     replaceFragment(feedFragment)
                 }
                 R.id.menu_mypage -> {
                     Log.d(TAG, "MainActivity - 마이페이지 버튼 클릭!")
 
-                    getColor()
+                    GetColor()
                     mypageFragment = MypageFragment.newInstance()
                     replaceFragment(mypageFragment)
 
@@ -397,6 +396,50 @@ class MainActivity : AppCompatActivity() {
         queue.add(fashionistaUserRequest)
     }
 
+    fun FashionistaCody() {
+        var fuserId: String
+        var fcodyImgName: String
+        var fcodyStyle: String
+
+        var fuserIdArr = ArrayList<String>()
+        var fcodyImgNameArr = ArrayList<String>()
+        var fcodyStyleArr = ArrayList<String>()
+
+        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+            override fun onResponse(response: String?) {
+                try {
+
+                    var jsonObject = JSONObject(response)
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    for (i in 0 until arr.length()) {
+                        val fuserObject = arr.getJSONObject(i)
+
+                        fuserId = fuserObject.getString("userId")
+                        fcodyImgName = fuserObject.getString("codyImgName")
+                        fcodyStyle = fuserObject.getString("codyStyle")
+
+                        fuserIdArr.add(fuserId)
+                        fcodyImgNameArr.add(fcodyImgName)
+                        fcodyStyleArr.add(fcodyStyle)
+
+                    }
+
+                    AutoPro.setFuserId(this@MainActivity, fuserIdArr)
+                    AutoPro.setFcodyImgName(this@MainActivity, fcodyImgNameArr)
+                    AutoPro.setFcodyStyle(this@MainActivity, fcodyStyleArr)
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        val fashionistaCody_Request = FashionistaCody_Request(userId!!, responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(fashionistaCody_Request)
+    }
+
 
     fun ClosetImg() {
 
@@ -545,7 +588,7 @@ class MainActivity : AppCompatActivity() {
         queue.add(feedServer_Request)
     }
 
-    fun favorite_check() {
+    fun Favorite_check() {
 
         var cuserId: String
         var favoriteuserId: String
@@ -586,7 +629,7 @@ class MainActivity : AppCompatActivity() {
         queue.add(favoritecheck_Request)
     }
 
-    fun feed_like_check() {
+    fun Feed_like_check() {
 
         var feedNum: String
         var feed_like_true: String
@@ -635,7 +678,7 @@ class MainActivity : AppCompatActivity() {
         queue.add(feedLikeCheck_Request)
     }
 
-    fun feed_ranking() {
+    fun Feed_ranking() {
 
         var feedNum: String
         var feed_userId: String
@@ -697,7 +740,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    fun getColor() {
+    fun GetColor() {
         var cColor : String
         var cCnt : String
         var cColorArr = mutableListOf<String>()

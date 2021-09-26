@@ -1,6 +1,5 @@
 package com.example.ehs.Fashionista
 
-import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
@@ -17,7 +16,6 @@ import com.android.volley.toolbox.Volley
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
-import kotlinx.android.synthetic.main.activity_clothes_save.*
 import kotlinx.android.synthetic.main.fashionista.view.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -76,8 +74,12 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
 
                 var userId = fashionistaId
                 var cuserId: String
+
                 var plusImgName: String
-                var FashionistaFeedArr = mutableListOf<String>()
+                var plusImgPath: String
+
+                var plusImgNameArr = ArrayList<String>()
+                var plusImgPathArr = ArrayList<String>()
 
                 val responseListener: Response.Listener<String?> =
                     Response.Listener<String?> { response ->
@@ -87,14 +89,18 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
                             val arr: JSONArray = jsonObject.getJSONArray("response")
 
                             if(arr.length() == 0) {
-                                FashionistaFeedArr.clear()
+                                plusImgNameArr.clear()
                             }
                             else {
                                 for (i in 0 until arr.length()) {
                                     val plusObject = arr.getJSONObject(i)
                                     cuserId = plusObject.getString("userId")
+                                    plusImgPath = plusObject.getString("plusImgPath")
                                     plusImgName = plusObject.getString("plusImgName")
-                                    FashionistaFeedArr.add(plusImgName)
+
+                                    plusImgPathArr.add(plusImgPath)
+                                    plusImgNameArr.add(plusImgName)
+
                                     Log.d("으음없는건가,..?", plusImgName)
                                 }
                             }
@@ -103,8 +109,9 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
                             e.printStackTrace()
                         }
 
-                        AutoPro.setplusImgName(holder.itemView.context,
-                            FashionistaFeedArr as ArrayList<String>)
+                        AutoPro.setplusImgPath(holder.itemView.context, plusImgPathArr)
+                        AutoPro.setplusImgName(holder.itemView.context, plusImgNameArr)
+
                         Log.d("전문가 아이디", fashionistaId)
                         val intent = Intent(holder.itemView.context,
                             FashionistaProfile_Activity::class.java)
@@ -138,7 +145,7 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
 
                             if(success) {
                                 Toast.makeText(itemView.context, "즐겨찾기 성공", Toast.LENGTH_SHORT).show()
-                                (itemView.context as MainActivity).favorite_check()
+                                (itemView.context as MainActivity).Favorite_check()
                             } else {
                                 Toast.makeText(itemView.context, "즐겨찾기 실패", Toast.LENGTH_SHORT).show()
                                 return
@@ -172,7 +179,7 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
 
                             if(success) {
                                 Toast.makeText(itemView.context, "즐겨찾기 삭제", Toast.LENGTH_SHORT).show()
-                                (itemView.context as MainActivity).favorite_check()
+                                (itemView.context as MainActivity).Favorite_check()
                             } else {
                                 Toast.makeText(itemView.context, "즐겨찾기 삭제실패", Toast.LENGTH_SHORT).show()
                                 return

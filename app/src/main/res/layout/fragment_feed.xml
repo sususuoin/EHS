@@ -160,7 +160,7 @@
                                 android:id="@+id/top2cnt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="10"
+                                android:text="0"
                                 android:textSize="14dp"
                                 android:layout_marginLeft="2dp"
                                 android:textColor="@color/white"/>
@@ -259,7 +259,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="2dp"
-                                android:text="10"
+                                android:text="0"
                                 android:textColor="@color/white"
                                 android:textSize="14dp" />
                         </LinearLayout>
@@ -356,7 +356,7 @@
                                 android:id="@+id/top3cnt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="10"
+                                android:text="0"
                                 android:textSize="14dp"
                                 android:textColor="@color/white"
                                 android:layout_marginLeft="2dp" />

@@ -82,6 +82,17 @@
             tools:srcCompat="@tools:sample/avatars" />
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:id="@+id/tv_fashionstyle"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_background"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="15dp"
+        android:text="스타일 설정"
+        android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

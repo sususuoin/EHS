@@ -340,6 +340,41 @@ object AutoPro {
 
     }
 
+    fun setplusImgPath(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_PlusImgPath", a.toString())
+        } else {
+            editor.putString("MY_PlusImgPath", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getplusImgPath(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_PlusImgPath", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
+
 
     fun setplusImgName(context: Context, input: ArrayList<String>) {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
@@ -360,6 +395,109 @@ object AutoPro {
     fun getplusImgName(context: Context): ArrayList<String> {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
         val arr = prefs.getString("MY_PlusImgName", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
+
+    fun setFuserId(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_FuserId", a.toString())
+        } else {
+            editor.putString("MY_FuserId", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getFuserId(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_FuserId", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
+    fun setFcodyImgName(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_FcodyImgName", a.toString())
+        } else {
+            editor.putString("MY_FcodyImgName", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getFcodyImgName(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_FcodyImgName", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
+    fun setFcodyStyle(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_FcodyStyle", a.toString())
+        } else {
+            editor.putString("MY_FcodyStyle", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getFcodyStyle(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_FcodyStyle", "")
         val urls = ArrayList<String>()
         if (arr != null) {
             try {

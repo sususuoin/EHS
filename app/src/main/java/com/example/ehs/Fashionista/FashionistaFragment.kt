@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,16 +16,21 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.example.ehs.Feed.Feed
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
-import kotlinx.android.synthetic.main.activity_weather.*
 import kotlinx.android.synthetic.main.fragment_fashionista.*
 import kotlinx.android.synthetic.main.fragment_fashionista.view.*
 import kotlinx.android.synthetic.main.fragment_favorite.view.tv_favorite
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 
 
 class FashionistaFragment : Fragment() {
@@ -44,6 +50,10 @@ class FashionistaFragment : Fragment() {
 
     var favoriteuserIdArr = mutableListOf<String>()
     var favoriteListArr2 : ArrayList<String>? = null
+
+    var fuserIdArr = ArrayList<String>()
+    var fcodyImgName = ArrayList<String>()
+    var fcodyStyle = ArrayList<String>()
 
     companion object {
         const val TAG : String = "패셔니스타 프래그먼트"
@@ -80,16 +90,53 @@ class FashionistaFragment : Fragment() {
             fuserProfile == null
         }
 
-        var fashin2 = FashionistaCody(R.drawable.first)
-        FashionistaCodyList.add(fashin2)
-        FashionistaCodyList.add(fashin2)
-        FashionistaCodyList.add(fashin2)
-        FashionistaCodyList.add(fashin2)
-        FashionistaCodyList.add(fashin2)
+        fuserIdArr = AutoPro.getFuserId(a!!)
+        fcodyImgName = AutoPro.getFcodyImgName(a!!)
+        fcodyStyle = AutoPro.getFcodyStyle(a!!)
+
+        var a_bitmap : Bitmap? = null
+        for (i in 0 until fuserIdArr.size) {
+            val uThread: Thread = object : Thread() {
+                override fun run() {
+                    try {
+                        Log.d("fasionista프래그먼터리스트", fcodyImgName[i])
+
+                        val url = URL("http://13.125.7.2/img/cody/" + fcodyImgName[i])
+
+                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                        conn.setDoInput(true)
+                        conn.connect()
+                        val iss: InputStream = conn.getInputStream()
+                        a_bitmap = BitmapFactory.decodeStream(iss)
+
+                    } catch (e: MalformedURLException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+            uThread.start() // 작업 Thread 실행
+
+            try {
+
+                uThread.join()
+
+                var fashionistaCody = FashionistaCody(a_bitmap!!)
+                FashionistaCodyList.add(fashionistaCody)
+
+
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+        }
+        adapter.notifyDataSetChanged()
 
 
 
-        (activity as MainActivity).favorite_check()
+
+        (activity as MainActivity).Favorite_check()
 
 
     }

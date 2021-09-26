@@ -14,6 +14,7 @@ import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.BottomSheet.BottomSheet_fashion
+import com.example.ehs.Fashionista.ProfilePlusSave_Request
 import com.example.ehs.Feed.FeedCodySave_Request
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
@@ -154,9 +155,17 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
 //                        Toast.makeText(this@CodySaveActivity, jsonObject.toString(), Toast.LENGTH_LONG).show()
 
                         Log.d("sdfㅁㅁㅁㅁㅁ",codyOpen.toString())
+                        var userLevel = AutoLogin.getUserLevel(this@CodySaveActivity)
+                        Log.d("sdfㅁㅁㅁㅁㅁ",userLevel)
                         if(codyOpen) {
-                            Log.d("sdfㅁㅁㅁㅁㅁ11111",codyOpen.toString())
-                            uploadDB_feed(userId, codyImgName)
+                            if(userLevel == "전문가"){
+                                Log.d("sdfㅁㅁㅁㅁㅁㅋ", "프로필에 저장")
+                                uploadDB_fashionistaprofile(userId, codyImgName)
+
+                            } else if(userLevel == "일반인"){
+                                Log.d("sdfㅁㅁㅁㅁㅁㅋㅋㅋ1", "피드에 저장")
+                                uploadDB_feed(userId, codyImgName)
+                            }
                         }
                         (CodyMakeActivity.codyContext as CodyMakeActivity).finish()
                         (MainActivity.mContext as MainActivity).CodyImg()
@@ -203,12 +212,40 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         var feed_ImgName = codyImgName
         var feed_style = codyStyle
 
-        Log.d("sdfㅁㅁㅁㅁㅁ3333", feed_userId)
-        Log.d("sdfㅁㅁㅁㅁㅁ3333", feed_ImgName)
-        Log.d("sdfㅁㅁㅁㅁㅁ3333", feed_style)
         val feedCodySave_Request = FeedCodySave_Request(feed_userId, feed_ImgName, feed_style, responseListener)
         val queue = Volley.newRequestQueue(this@CodySaveActivity)
         queue.add(feedCodySave_Request)
+    }
+
+
+    fun uploadDB_fashionistaprofile(userId: String, codyImgName: String) {
+        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+            override fun onResponse(response: String?) {
+                try {
+                    val jsonObject = JSONObject(response)
+                    var success = jsonObject.getBoolean("success")
+
+                    if(success) {
+                        Log.d(TAG, "fashionistaprofile 테이블에 코디저장")
+
+                    } else {
+                        Log.d(TAG, "fashionistaprofile 테이블에 코디저장 실패")
+                        return
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+
+        val plusImgPath = "http://13.125.7.2/img/cody/"
+        var plusImgName = codyImgName
+        var plusContent = ""
+        var plusImgStyle = codyStyle
+
+        val profilePlusSave_Request = ProfilePlusSave_Request(userId, plusImgPath, plusImgName, plusImgStyle, plusContent, responseListener)
+        val queue = Volley.newRequestQueue(this@CodySaveActivity)
+        queue.add(profilePlusSave_Request)
     }
 
 
