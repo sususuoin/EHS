@@ -13,7 +13,12 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" /> <!-- 카메라 기능 사용 -->
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 유튜브 연결 -->
+    <queries>
+        <intent>
+            <action android:name="com.google.android.youtube.api.service.START" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="false"
@@ -26,12 +31,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Calendar.CalendarChoiceActivity"/>
-        <activity android:name=".Calendar.CalendarMakeCodyActivity"/>
+        <activity android:name=".Calendar.CalendarSaveCodyActivity"/>
+        <activity android:name=".Calendar.CalendarChoiceActivity" />
+        <activity android:name=".Calendar.CalendarMakeCodyActivity" />
         <activity android:name=".Closet.CodyMakeActivity" />
         <activity android:name=".Feed.CommunityEditActivity" />
         <activity android:name=".Feed.CommunityDetailActivity" />
-        <activity android:name=".Feed.YoutubeActivity"></activity>
+        <activity android:name=".Feed.YoutubeActivity" />
         <activity android:name=".Closet.CodySaveActivity" />
         <activity android:name=".Fashionista.ProRecommendActivity" />
         <activity android:name=".Fashionista.ProfilePlus_Activity" />
@@ -49,11 +55,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
-
             </intent-filter>
-
-
         </activity>
 
         <provider
@@ -65,16 +67,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-
-
     </application>
-
-<!--유튜브 연결-->
-    <queries>
-        <intent>
-            <action android:name="com.google.android.youtube.api.service.START" />
-        </intent>
-    </queries>
 
 </manifest>

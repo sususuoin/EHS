@@ -38,4 +38,6 @@ class CalendarChoiceActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.fragments_frame, fragment!!)
         fragmentTransaction.commit()
     }
+
+
 }
