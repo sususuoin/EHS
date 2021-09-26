@@ -12,11 +12,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
+import kotlinx.android.synthetic.main.activity_weather.*
 import kotlinx.android.synthetic.main.fragment_fashionista.*
 import kotlinx.android.synthetic.main.fragment_fashionista.view.*
 import kotlinx.android.synthetic.main.fragment_favorite.view.tv_favorite
@@ -34,7 +36,9 @@ class FashionistaFragment : Fragment() {
     var favoriteListArr = ArrayList<String>()
 
     val FashionistaList = mutableListOf<Fashionista>()
+    val FashionistaCodyList = mutableListOf<FashionistaCody>()
     val adapter = FashionistaListAdapter(FashionistaList)
+    val adapter2 = FashionistaCodyListAdapter(FashionistaCodyList)
 
     lateinit var userId :String
 
@@ -75,6 +79,14 @@ class FashionistaFragment : Fragment() {
             FashionistaList.add(fashin)
             fuserProfile == null
         }
+
+        var fashin2 = FashionistaCody(R.drawable.first)
+        FashionistaCodyList.add(fashin2)
+        FashionistaCodyList.add(fashin2)
+        FashionistaCodyList.add(fashin2)
+        FashionistaCodyList.add(fashin2)
+        FashionistaCodyList.add(fashin2)
+
 
 
         (activity as MainActivity).favorite_check()
@@ -129,6 +141,13 @@ class FashionistaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val Linear = LinearLayoutManager(a, LinearLayoutManager.HORIZONTAL, false)
+        rc_fashionistacody.layoutManager = Linear
+        rc_fashionistacody.setHasFixedSize(true)
+
+        rc_fashionistacody.adapter = adapter2
+        adapter2.notifyDataSetChanged()
 
         mRecyclerView.adapter = adapter
         adapter.notifyDataSetChanged()

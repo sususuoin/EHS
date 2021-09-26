@@ -61,7 +61,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
 
-    implementation files('C:/Users/user/AndroidStudioProjects/EHS/app/libs/YouTubeAndroidPlayerApi.jar')
     //==============================
 
     testImplementation 'junit:junit:4.13.2'
