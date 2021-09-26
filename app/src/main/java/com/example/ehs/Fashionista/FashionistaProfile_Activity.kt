@@ -11,7 +11,6 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.Response
@@ -19,7 +18,6 @@ import com.android.volley.toolbox.Volley
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_fashionista_profile.*
-import kotlinx.android.synthetic.main.activity_profile_plus_.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -39,15 +37,19 @@ class FashionistaProfile_Activity : AppCompatActivity() {
     lateinit var fashionistaId : String
 
     val FashionistaFeedList = mutableListOf<FashionistaUserProfiles>()
-    var FashionistaFeedArr = ArrayList<String>()
+
+    var FashionistaImgPathArr = ArrayList<String>()
+    var FashionistaImgNameArr = ArrayList<String>()
     var a_bitmap : Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fashionista_profile)
         userId = AutoLogin.getUserId(this)
-        FashionistaFeedArr = AutoPro.getplusImgName(this)
-        Log.d("텔미", FashionistaFeedArr.toString())
+
+        FashionistaImgPathArr = AutoPro.getplusImgPath(this)
+        FashionistaImgNameArr = AutoPro.getplusImgName(this)
+        Log.d("텔미", FashionistaImgNameArr.toString())
 
         val intent = intent
         fashionistaId = intent.getStringExtra("fashionistaId").toString()
@@ -88,11 +90,12 @@ class FashionistaProfile_Activity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
 
 
-        for (i in 0 until FashionistaFeedArr.size) {
+        for (i in 0 until FashionistaImgNameArr.size) {
             val uThread: Thread = object : Thread() {
                 override fun run() {
                     try {
-                        val url = URL("http://13.125.7.2/img/fashionista_profile/" + FashionistaFeedArr[i])
+                        Log.d("zzzzasd", FashionistaImgPathArr[i])
+                        val url = URL(FashionistaImgPathArr[i] + FashionistaImgNameArr[i])
 
                         val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
 
