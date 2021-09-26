@@ -32,7 +32,7 @@ class FashionistaProfileAdapter (val items : List<FashionistaUserProfiles>) :Rec
         }
 
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 380
+        layoutParams.height = 350
         holder.itemView.requestLayout()
 
         holder.apply {
