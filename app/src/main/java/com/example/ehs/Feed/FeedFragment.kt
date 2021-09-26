@@ -9,9 +9,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.ehs.Closet.CodyFragment
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
@@ -57,7 +57,7 @@ class FeedFragment : Fragment() {
         Log.d(TAG, "FeedFragment - onCreate() called")
 
         (activity as MainActivity).FeedImg()
-        (activity as MainActivity).feed_like_check()
+        (activity as MainActivity).Feed_like_check()
 
         feedrank_feedNumArr = AutoFeed.getFeedRank_feedNum(a!!)
         feedrank_feeduserId = AutoFeed.getFeedRank_feed_userId(a!!)
@@ -148,7 +148,8 @@ class FeedFragment : Fragment() {
         }
 
         var a_bitmap : Bitmap? = null
-        if(feedrank_feedNumArr.size==3){
+        Log.d("피드랭킹이미지", feedrank_ImgName.size.toString())
+        if(feedrank_feedNumArr.size==1 || feedrank_feedNumArr.size==2 || feedrank_feedNumArr.size==3){
             for (i in 0 until feedrank_feedNumArr.size) {
                 val uThread: Thread = object : Thread() {
                     override fun run() {
@@ -215,7 +216,7 @@ class FeedFragment : Fragment() {
             }
 
         } else {
-            Log.d("하... 신은정 = 화이자", "ㅋㅋ")
+            Toast.makeText(a!!, "이상이상", Toast.LENGTH_LONG).show()
         }
 
 

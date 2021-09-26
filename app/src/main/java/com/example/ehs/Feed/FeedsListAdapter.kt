@@ -1,6 +1,5 @@
 package com.example.ehs.Feed
 
-import android.app.ProgressDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
@@ -100,7 +98,7 @@ class FeedsListAdapter(private val itemList: List<Feed>)
 
                                 if(success) {
 //                                    Toast.makeText(itemView.context, "좋아요 성공", Toast.LENGTH_SHORT).show()
-                                    (itemView.context as MainActivity).feed_like_check()
+                                    (itemView.context as MainActivity).Feed_like_check()
                                 } else {
 //                                    Toast.makeText(itemView.context, "좋아요 실패", Toast.LENGTH_SHORT).show()
                                     return
@@ -140,7 +138,7 @@ class FeedsListAdapter(private val itemList: List<Feed>)
 
                                 if(success) {
 //                                    Toast.makeText(itemView.context, "싫어요 성공", Toast.LENGTH_SHORT).show()
-                                    (itemView.context as MainActivity).feed_like_check()
+                                    (itemView.context as MainActivity).Feed_like_check()
                                 } else {
 //                                    Toast.makeText(itemView.context, "싫어요 실패", Toast.LENGTH_SHORT).show()
                                     return

@@ -44,7 +44,7 @@ class FashionistaCodyListAdapter(private val itemList: List<FashionistaCody>)
         var view : View = v
 
         fun bind(item: FashionistaCody) {
-            view.iv_fashionistacody.setImageResource(item.fashionistacody)
+            view.iv_fashionistacody.setImageBitmap(item.fashionistacody)
         }
     }
 
