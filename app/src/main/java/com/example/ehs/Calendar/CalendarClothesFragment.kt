@@ -10,6 +10,7 @@ import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,9 @@ import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import com.example.ehs.Closet.*
+import com.example.ehs.Closet.AutoCloset
+import com.example.ehs.Closet.Clothes
+import com.example.ehs.Closet.Clothes_Response
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -30,7 +33,9 @@ import kotlinx.android.synthetic.main.fragment_calendarclothes.view.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.*
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
@@ -42,7 +47,8 @@ class CalendarClothesFragment : Fragment() {
     var clothesArr2 = ArrayList<String>()
 
     var clickList = ArrayList<String>() // 선택된 옷 이름 배열
-    var clickListimg = ArrayList<Bitmap>() // 선택된 옷 이미지 배열
+    var clickimgList = ArrayList<Bitmap>() // 선택된 옷 이미지 배열
+
 
 
     lateinit var userId: String
@@ -53,6 +59,8 @@ class CalendarClothesFragment : Fragment() {
         fun newInstance(): CalendarClothesFragment { // newInstance()라는 함수를 호출하면 ClosetFragment를 반환함
             return CalendarClothesFragment()
         }
+
+
     }
 
     // 프레그먼트가 메모리에 올라갔을때
@@ -188,6 +196,7 @@ class CalendarClothesFragment : Fragment() {
         btn_choiceitem.isEnabled = false
 
 
+
         val gridLayoutManager = GridLayoutManager(activity, 6)
         gridLayoutManager.setSpanSizeLookup(object : SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -222,7 +231,8 @@ class CalendarClothesFragment : Fragment() {
                 val item = calendarclothesList[position]
                 if (clickList.size == 0) { // 배열 사이즈가 0이라면
                     clickList.add(item.toString()) // 배열에 추가
-                    clickListimg.add(item.clothes!!) // 이미지 배열에 추가
+                    clickimgList.add(item.clothes!!) // 이미지 배열에 추가
+                    //BitmapToByteArray(item.clothes!!)?.let { clickListimg.add(it) } // 이미지 배열에 추가
                     holder.itemView.setBackgroundResource(R.drawable.cody_background) // 해제
 
                     if (clickList.size != 0) {
@@ -245,7 +255,8 @@ class CalendarClothesFragment : Fragment() {
                         holder.itemView.setBackgroundResource(R.drawable.button_background) // 테두리 해제
                         holder.itemView.setBackgroundColor(Color.parseColor("#E7E7E7")) // 테두리 하얗게
                         clickList.remove(item.toString()) // 배열에서 삭제
-                        clickListimg.remove(item.clothes) // 이미지 배열에서 삭제
+                        clickimgList.remove(item.clothes!!) // 이미지 배열에 추가
+                        // BitmapToByteArray(item.clothes!!)?.let { clickListimg.remove(it) } // 이미지 배열에 추가
                         btn_choiceitem.text = "총 " + clickList.size + "개 아이템 선택"
                         if (clickList.size == 0) {
                             btn_choiceitem.setBackgroundColor(ContextCompat.getColor(a!!,
@@ -257,7 +268,8 @@ class CalendarClothesFragment : Fragment() {
                     } else {
                         holder.itemView.setBackgroundResource(R.drawable.cody_background) // 보라 테두리 생성
                         clickList.add(item.toString()) // 배열에 추가
-                        clickListimg.add(item.clothes!!) // 이미지 배열에 추가
+                        clickimgList.add(item.clothes!!) // 이미지 배열에 추가
+                        //BitmapToByteArray(item.clothes!!)?.let { clickListimg.add(it) } // 이미지 배열에 추가
                         btn_choiceitem.text = "총 " + clickList.size + "개 아이템 선택"
                     }
                 }
@@ -267,12 +279,25 @@ class CalendarClothesFragment : Fragment() {
         })
 
         btn_choiceitem.setOnClickListener { // 옷 선택 버튼 클릭 시 액티비티로 이동
+            var StringList = ArrayList<String>()
+            for(i in 0 until clickimgList.size){
+                StringList.add(BitmapToString(clickimgList[i])!!)
+            }
+            AutoCalendar.setCalendarchoiceImg(a!!, StringList)
+            Log.d("로그", StringList.size.toString())
 
-            val intent = Intent(a, CalendarMakeCodyActivity::class.java)
+            val intent = Intent(activity, CalendarMakeCodyActivity::class.java)
             startActivity(intent)
 
         }
 
+    }
+
+    fun BitmapToString(bitmap: Bitmap): String? {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 70, baos)
+        val bytes = baos.toByteArray()
+        return Base64.encodeToString(bytes, Base64.DEFAULT)
     }
 
     private fun getPath(uri: Uri?): String {
@@ -299,6 +324,8 @@ class CalendarClothesFragment : Fragment() {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
     }
+
+
 
     fun clothesResponse() {
 
