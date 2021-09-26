@@ -241,9 +241,9 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         val plusImgPath = "http://13.125.7.2/img/cody/"
         var plusImgName = codyImgName
         var plusContent = ""
-        var feed_style = codyStyle
+        var plusImgStyle = codyStyle
 
-        val profilePlusSave_Request = ProfilePlusSave_Request(userId, plusImgPath, plusImgName, plusContent, responseListener)
+        val profilePlusSave_Request = ProfilePlusSave_Request(userId, plusImgPath, plusImgName, plusImgStyle, plusContent, responseListener)
         val queue = Volley.newRequestQueue(this@CodySaveActivity)
         queue.add(profilePlusSave_Request)
     }

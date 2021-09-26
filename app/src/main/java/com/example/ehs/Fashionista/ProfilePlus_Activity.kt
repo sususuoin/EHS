@@ -29,7 +29,6 @@ import com.example.ehs.R
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.activity_clothes_save.*
-import kotlinx.android.synthetic.main.activity_cody_save.*
 import kotlinx.android.synthetic.main.activity_profile_plus_.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -72,7 +71,6 @@ class ProfilePlus_Activity : AppCompatActivity() {
         var plusImgArr = profile_intent.getByteArrayExtra("plusImgArr")
         var plusImg2 = BitmapFactory.decodeByteArray(plusImgArr, 0, plusImgArr!!.size)
         iv_profileplus.setImageBitmap(plusImg2)
-
 
         btn_profile_ok.setOnClickListener {
             plusContent = et_PlusContent.text.toString()
@@ -308,7 +306,8 @@ class ProfilePlus_Activity : AppCompatActivity() {
 
         }
         val plusImgPath = "http://13.125.7.2/img/fashionista_profile/"
-        val profilePlusSave_Request = ProfilePlusSave_Request(userId, plusImgPath, plusImgName, plusContent, responseListener)
+        val plusImgStyle = "캐주얼"
+        val profilePlusSave_Request = ProfilePlusSave_Request(userId, plusImgPath, plusImgName, plusImgStyle, plusContent, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(profilePlusSave_Request)
     }
