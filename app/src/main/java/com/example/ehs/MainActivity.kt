@@ -157,6 +157,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "MainActivity - 피드 버튼 클릭!")
                     FeedImg()
                     Feed_like_check()
+                    Feed_ranking()
                     feedFragment = FeedFragment.newInstance()
                     replaceFragment(feedFragment)
                 }
@@ -466,7 +467,6 @@ class MainActivity : AppCompatActivity() {
                         clothesArr.add(cclothesName)
 
                         AutoCloset.setClothesName(this, clothesArr as ArrayList<String>)
-                        Log.d("ㅁㅁㅁㅁㅁ메인함수", clothesArr.toString())
 
                     }
                     if(ClothesSaveActivity.clothesSaveContext!=null) {

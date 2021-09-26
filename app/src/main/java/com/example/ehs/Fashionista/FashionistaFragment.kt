@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -95,6 +96,9 @@ class FashionistaFragment : Fragment() {
         fcodyStyle = AutoPro.getFcodyStyle(a!!)
 
         var a_bitmap : Bitmap? = null
+
+        Log.d("fasionista프래그먼터리스트", fuserIdArr.size.toString())
+
         for (i in 0 until fuserIdArr.size) {
             val uThread: Thread = object : Thread() {
                 override fun run() {
@@ -132,6 +136,8 @@ class FashionistaFragment : Fragment() {
             }
         }
         adapter.notifyDataSetChanged()
+
+
 
 
 
@@ -177,10 +183,14 @@ class FashionistaFragment : Fragment() {
             } else {
                 (activity as MainActivity?)?.replaceFragment(FavoriteFragment.newInstance())
             }
-
-
-
         }
+
+        if(fuserIdArr.size == 0) {
+            view.tv_ready.visibility = View.VISIBLE
+        } else {
+            view.tv_ready.visibility = View.GONE
+        }
+
         favoriteListArr = AutoPro.getFavoriteuserId(a!!)
         return view
     }

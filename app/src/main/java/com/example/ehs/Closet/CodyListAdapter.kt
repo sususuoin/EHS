@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
-import kotlinx.android.synthetic.main.recycler_cody.view.*
+import kotlinx.android.synthetic.main.cody.view.*
 
 class CodyListAdapter(private val items: List<Cody>) : RecyclerView.Adapter<CodyListAdapter.ViewHolder>() {
 
@@ -16,7 +16,7 @@ class CodyListAdapter(private val items: List<Cody>) : RecyclerView.Adapter<Cody
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflatedView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recycler_cody, parent, false)
+            .inflate(R.layout.cody, parent, false)
 
         return ViewHolder(inflatedView)
     }

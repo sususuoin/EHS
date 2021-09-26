@@ -1,14 +1,11 @@
 package com.example.ehs.Closet
 
-import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
-import kotlinx.android.synthetic.main.recycler_cody.view.*
+import kotlinx.android.synthetic.main.cody.view.*
 
 class CalendarCodyListAdapter(private val items: List<Cody>) : RecyclerView.Adapter<CalendarCodyListAdapter.ViewHolder>() {
 
@@ -20,7 +17,7 @@ class CalendarCodyListAdapter(private val items: List<Cody>) : RecyclerView.Adap
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflatedView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recycler_cody, parent, false)
+            .inflate(R.layout.cody, parent, false)
 
         return ViewHolder(inflatedView)
     }

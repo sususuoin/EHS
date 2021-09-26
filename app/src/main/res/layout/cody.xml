@@ -12,6 +12,6 @@
         android:id="@+id/cody"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:background="@drawable/recyclerview_border"
-        android:scaleType="fitXY" />
+        android:background="@color/white"
+        android:scaleType="centerInside" />
 </LinearLayout>

@@ -216,7 +216,8 @@ class FeedFragment : Fragment() {
             }
 
         } else {
-            Toast.makeText(a!!, "이상이상", Toast.LENGTH_LONG).show()
+
+//            Toast.makeText(a!!, "이상이상", Toast.LENGTH_LONG).show()
         }
 
 

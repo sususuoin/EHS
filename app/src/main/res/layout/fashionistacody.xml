@@ -15,7 +15,7 @@
         android:id="@+id/iv_fashionistacody"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:background="@android:color/white"
-        android:scaleType="centerCrop" />
+        android:background="@drawable/fab_text_bg"
+        android:scaleType="centerInside" />
 
 </LinearLayout>
