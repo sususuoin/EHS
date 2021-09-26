@@ -38,9 +38,6 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import kotlinx.android.synthetic.main.fragment_mypage.view.*
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 
 
 class MypageFragment : Fragment() {
@@ -98,7 +95,7 @@ class MypageFragment : Fragment() {
         userProfile = StringToBitmap(userProfileImg)
 
 
-        (activity as MainActivity).getColor()
+        (activity as MainActivity).GetColor()
 
     }
 

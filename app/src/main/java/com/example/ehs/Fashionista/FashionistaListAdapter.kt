@@ -16,7 +16,6 @@ import com.android.volley.toolbox.Volley
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
-import kotlinx.android.synthetic.main.activity_clothes_save.*
 import kotlinx.android.synthetic.main.fashionista.view.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -146,7 +145,7 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
 
                             if(success) {
                                 Toast.makeText(itemView.context, "즐겨찾기 성공", Toast.LENGTH_SHORT).show()
-                                (itemView.context as MainActivity).favorite_check()
+                                (itemView.context as MainActivity).Favorite_check()
                             } else {
                                 Toast.makeText(itemView.context, "즐겨찾기 실패", Toast.LENGTH_SHORT).show()
                                 return
@@ -180,7 +179,7 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
 
                             if(success) {
                                 Toast.makeText(itemView.context, "즐겨찾기 삭제", Toast.LENGTH_SHORT).show()
-                                (itemView.context as MainActivity).favorite_check()
+                                (itemView.context as MainActivity).Favorite_check()
                             } else {
                                 Toast.makeText(itemView.context, "즐겨찾기 삭제실패", Toast.LENGTH_SHORT).show()
                                 return

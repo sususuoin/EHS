@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.ehs.Closet.CodyFragment
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
@@ -57,7 +56,7 @@ class FeedFragment : Fragment() {
         Log.d(TAG, "FeedFragment - onCreate() called")
 
         (activity as MainActivity).FeedImg()
-        (activity as MainActivity).feed_like_check()
+        (activity as MainActivity).Feed_like_check()
 
         feedrank_feedNumArr = AutoFeed.getFeedRank_feedNum(a!!)
         feedrank_feeduserId = AutoFeed.getFeedRank_feed_userId(a!!)
