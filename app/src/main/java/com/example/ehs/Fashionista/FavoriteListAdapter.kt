@@ -71,7 +71,10 @@ class FavoriteListAdapter(private val items: List<Favorite>)
                 var userId = fashionistaId
                 var cuserId: String
                 var plusImgName: String
-                var FashionistaFeedArr = mutableListOf<String>()
+                var plusImgPath: String
+
+                var plusImgNameArr = ArrayList<String>()
+                var plusImgPathArr = ArrayList<String>()
 
                 val responseListener: Response.Listener<String?> =
                     Response.Listener<String?> { response ->
@@ -81,14 +84,18 @@ class FavoriteListAdapter(private val items: List<Favorite>)
                             val arr: JSONArray = jsonObject.getJSONArray("response")
 
                             if(arr.length() == 0) {
-                                FashionistaFeedArr.clear()
+                                plusImgNameArr.clear()
                             }
                             else {
                                 for (i in 0 until arr.length()) {
                                     val plusObject = arr.getJSONObject(i)
                                     cuserId = plusObject.getString("userId")
+                                    plusImgPath = plusObject.getString("plusImgPath")
                                     plusImgName = plusObject.getString("plusImgName")
-                                    FashionistaFeedArr.add(plusImgName)
+
+                                    plusImgPathArr.add(plusImgPath)
+                                    plusImgNameArr.add(plusImgName)
+
                                     Log.d("으음없는건가,..?", plusImgName)
                                 }
                             }
@@ -97,7 +104,8 @@ class FavoriteListAdapter(private val items: List<Favorite>)
                             e.printStackTrace()
                         }
 
-                        AutoPro.setplusImgName(holder.itemView.context, FashionistaFeedArr as ArrayList<String>)
+                        AutoPro.setplusImgPath(holder.itemView.context, plusImgPathArr)
+                        AutoPro.setplusImgName(holder.itemView.context, plusImgNameArr)
 
                         Log.d("전문가 아이디", items[position].proId)
                         val intent = Intent(holder.itemView.context, FashionistaProfile_Activity::class.java)
