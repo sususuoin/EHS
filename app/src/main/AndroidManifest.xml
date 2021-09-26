@@ -31,6 +31,7 @@
         <activity android:name=".Closet.CodyMakeActivity" />
         <activity android:name=".Feed.CommunityEditActivity" />
         <activity android:name=".Feed.CommunityDetailActivity" />
+        <activity android:name=".Feed.YoutubeActivity"></activity>
         <activity android:name=".Closet.CodySaveActivity" />
         <activity android:name=".Fashionista.ProRecommendActivity" />
         <activity android:name=".Fashionista.ProfilePlus_Activity" />
@@ -48,7 +49,11 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
+
             </intent-filter>
+
+
         </activity>
 
         <provider
@@ -60,6 +65,16 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+
+
     </application>
+
+<!--유튜브 연결-->
+    <queries>
+        <intent>
+            <action android:name="com.google.android.youtube.api.service.START" />
+        </intent>
+    </queries>
 
 </manifest>
