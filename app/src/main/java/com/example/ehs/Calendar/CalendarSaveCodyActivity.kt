@@ -37,6 +37,8 @@ class CalendarSaveCodyActivity : AppCompatActivity() {
             (CalendarMakeCodyActivity.calendarMakeContext as CalendarMakeCodyActivity).finish()
             (CalendarChoiceActivity.calendarChoiceContext as CalendarChoiceActivity).finish()
             finish()
+
+//            Calendarsavecody()
         }
     }
 
@@ -53,6 +55,11 @@ class CalendarSaveCodyActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    fun Calendarsavecody() {
+
+    }
+
 
 
 }

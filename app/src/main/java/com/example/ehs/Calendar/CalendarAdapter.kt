@@ -70,16 +70,21 @@ class CalendarAdapter(private val calendar: ArrayList<Calendar>) :
 
             if (item.day == nowday && selectmonth.toString() == nowmonth ) { // 현재 일이고 뿌려지는 월과 오늘 월이 같다면
                 view.cellDayText.setTextColor(Color.parseColor("#521b93")) // 날짜 보라색으로 표시
+                view.iv_calendarcody.setImageResource(R.drawable.profile_castle)
+            }
+            //지정한 날짜에 이미지 넣기
+            if(item.day == "22" && selectmonth.toString() == "9") {
+                view.iv_calendarcody.setImageResource(R.drawable.profile_castle)
             }
 
 
-            if (item.day != "") {
-                if (item.photo != null) {
-                    view.iv_calendarcody.setImageResource(R.drawable.profile_basic) // 포토가 비어있지 않다면
-                } else {
-                    view.iv_calendarcody.setImageResource(R.drawable.ic_add) // 포토가 비어있다면
-                }
-            }
+//            if (item.day != "") {
+//                if (item.photo != null) {
+//                    view.iv_calendarcody.setImageResource(R.drawable.profile_basic) // 포토가 비어있지 않다면
+//                } else {
+//                    view.iv_calendarcody.setImageResource(R.drawable.ic_add) // 포토가 비어있다면
+//                }
+//            }
 
             /* 나머지 TextView와 String 데이터를 연결한다. */
             // day?.text = item.day
