@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,7 @@ class CommunityFragment : Fragment() {
     private var a: Activity? = null
     val communityList = mutableListOf<Community>()
     lateinit var btncommunityEdit: ImageButton
+    lateinit var youtubeCC : ImageView
 
 
 
@@ -63,9 +65,18 @@ class CommunityFragment : Fragment() {
         btncommunityEdit = view!!.findViewById(R.id.btn_communityEdit)
         btncommunityEdit.setOnClickListener{
             activity?.let{
+                val intent = Intent(context, CommunityEditActivity::class.java)
+                startActivity(intent) }
+        }
+
+        youtubeCC = view!!.findViewById(R.id.youtubecc)
+        youtubeCC.setOnClickListener{
+            activity?.let{
                 val intent = Intent(context, YoutubeActivity::class.java)
                 startActivity(intent) }
         }
+
+
 
 //------------------------------------------------------------------다시
 //        view.btn_C_heart.setOnClickListener {
