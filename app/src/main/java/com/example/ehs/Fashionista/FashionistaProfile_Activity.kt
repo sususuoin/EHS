@@ -86,7 +86,7 @@ class FashionistaProfile_Activity : AppCompatActivity() {
 
         val gridLayoutManager = GridLayoutManager(applicationContext, 3)
         rv_feed.layoutManager = gridLayoutManager
-        rv_feed.setHasFixedSize(true)
+//        rv_feed.setHasFixedSize(true)
         var adapter = FashionistaProfileAdapter(FashionistaFeedList as ArrayList<FashionistaUserProfiles>)
         rv_feed.adapter = adapter
         adapter.notifyDataSetChanged()
