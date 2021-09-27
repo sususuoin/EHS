@@ -1,5 +1,6 @@
 package com.example.ehs.Calendar
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -22,7 +23,12 @@ import org.threeten.bp.format.DateTimeFormatter
 class CalendarActivity : AppCompatActivity(){
 
     companion object {
-        public var context_calendar: Context? = null
+        var context_calendar: Context? = null
+
+        var calendarNameArr = ArrayList<String>()
+        var calendarYearArr = ArrayList<String>()
+        var calendarMonthArr = ArrayList<String>()
+        var calendarDayArr = ArrayList<String>()
 
     }
 
@@ -31,8 +37,7 @@ class CalendarActivity : AppCompatActivity(){
     private var selectedDate: LocalDate? = null
     var calendar = arrayListOf<Calendar>()
     val calendarAdapter = CalendarAdapter(calendar)
-    public var todaymonth : String? = null
-
+    var todaymonth : String? = null
 
 
 
@@ -40,6 +45,7 @@ class CalendarActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar)
+        Log.d("캘린더 액티비티", "온크리에이트")
         context_calendar = this
 
         initWidgets()
@@ -49,6 +55,9 @@ class CalendarActivity : AppCompatActivity(){
         btn_back.setOnClickListener {
             onBackPressed()
         }
+        CalendarSaveCodyActivity.calendarsaveActivity_Dialog = ProgressDialog(this)
+
+        calendarAdapter.notifyDataSetChanged()
         calendarAdapter.setItemClickListener(object : CalendarAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 if (calendar[position].day != "") {
@@ -64,6 +73,19 @@ class CalendarActivity : AppCompatActivity(){
 
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("캘린더 액티비티", "새로고침")
+        CalendarSaveCodyActivity.calendarsaveActivity_Dialog?.dismiss()
+        Log.d("a호리a22", "a호리a")
+        calendarNameArr = AutoCalendar.getCalendarName(this)
+        calendarYearArr = AutoCalendar.getCalendarYear(this)
+        calendarMonthArr = AutoCalendar.getCalendarMonth(this)
+        calendarDayArr = AutoCalendar.getCalendarDay(this)
+
+        calendarAdapter.notifyDataSetChanged()
 
 
     }

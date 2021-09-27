@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ehs.AI.Main_AIActivity
+import com.example.ehs.Calendar.AutoCalendar
 import com.example.ehs.Calendar.CalendarActivity
 import com.example.ehs.Closet.ClosetFragment
 import com.example.ehs.MainActivity
@@ -67,12 +68,18 @@ class HomeFragment : Fragment() {
     var getLatitude : String = ""
     var getLongitude : String = ""
 
+    var cAdapter : CalendarlistAdapter? = null
+
 
     companion object {
         const val TAG : String = "홈 프레그먼트"
         fun newInstance() : HomeFragment { // newInstance()라는 함수를 호출하면 HomeFragment를 반환함
             return HomeFragment()
         }
+        var calendarNameArr = ArrayList<String>()
+        var calendarYearArr = ArrayList<String>()
+        var calendarMonthArr = ArrayList<String>()
+        var calendarDayArr = ArrayList<String>()
     }
 
     // 프래그먼트가 메모리에 올라갔을때
@@ -83,6 +90,12 @@ class HomeFragment : Fragment() {
 
         getLongitude = AutoHome.getLongitude(a!!)
         getLatitude = AutoHome.getLatitude(a!!)
+
+        calendarNameArr = AutoCalendar.getCalendarName(a!!)
+        calendarYearArr = AutoCalendar.getCalendarYear(a!!)
+        calendarMonthArr = AutoCalendar.getCalendarMonth(a!!)
+        calendarDayArr = AutoCalendar.getCalendarDay(a!!)
+
 
 //
 //        // MainActivity로부터 위도, 경도 받아오기
@@ -173,20 +186,16 @@ class HomeFragment : Fragment() {
             Calendarlist(sat!!, "토", ""),
             Calendarlist(" 캘린더로 이동", "", "ic_right")
         )
-
-
-
         /**
          * 캘린더 리사이클러 뷰
          */
-
+        cAdapter = CalendarlistAdapter(a!!, calendarList)
         crecyclerview = view.findViewById(R.id.rv_homecalendar)
         val gridLayoutManager = GridLayoutManager(a, 4)
         crecyclerview.layoutManager = gridLayoutManager
 
-        val cAdapter = CalendarlistAdapter(a!!, calendarList)
         crecyclerview.adapter = cAdapter
-        cAdapter.notifyDataSetChanged()
+        cAdapter!!.notifyDataSetChanged()
 
         // RecyclerView Adapter에서는 레이아웃 매니저 (LayoutManager) 를 설정
         // recyclerView에 setHasFixedSize 옵션에 true 값을 준다.
@@ -201,9 +210,16 @@ class HomeFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "HomeFragment - onResume() called")
+        calendarNameArr = AutoCalendar.getCalendarName(a!!)
+        calendarYearArr = AutoCalendar.getCalendarYear(a!!)
+        calendarMonthArr = AutoCalendar.getCalendarMonth(a!!)
+        calendarDayArr = AutoCalendar.getCalendarDay(a!!)
 
-
-
+        cAdapter!!.notifyDataSetChanged()
+    }
 
     fun getweather () {
         //Create Retrofit Builder

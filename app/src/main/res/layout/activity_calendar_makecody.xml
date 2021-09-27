@@ -34,9 +34,9 @@
         <RelativeLayout
             android:id="@+id/RL_makecody"
             android:background="@color/white"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="380dp" />
+            android:layout_width="380dp"
+            android:layout_height="380dp"
+            android:gravity="center"/>
     </LinearLayout>
 
     <LinearLayout

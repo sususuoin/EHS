@@ -1,17 +1,25 @@
 package com.example.ehs.Home
 
 import android.content.Context
-import android.util.Log
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
+import kotlinx.android.synthetic.main.calendar_cell.view.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -37,7 +45,7 @@ class CalendarlistAdapter(
 
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-        val cody = itemView?.findViewById<ImageButton>(R.id.btn_cody)
+        val cody = itemView?.findViewById<ImageView>(R.id.iv_homecalendarcody)
         val day = itemView?.findViewById<TextView>(R.id.tv_day)
         val yoil = itemView?.findViewById<TextView>(R.id.tv_yoil)
 
@@ -47,7 +55,10 @@ class CalendarlistAdapter(
             이미지가 없는 경우 안드로이드 기본 아이콘을 표시한다.*/
 
             var today : LocalDate = LocalDate.now() // 현재 날짜 받아오기
+            val formatter2 = DateTimeFormatter.ofPattern("MM")
             val formatter = DateTimeFormatter.ofPattern("dd")
+
+            val nowmonth = today.format(formatter2).toString() // 현재날짜에서의 일만 표시
             val nowday = today.format(formatter).toString() // 현재날짜에서의 일만 표시
 
             if(calendar.day == nowday) { // 현재 날짜라면 해당 날짜 텍스트 컬러 보라색으로 표시
@@ -55,14 +66,59 @@ class CalendarlistAdapter(
                 yoil!!.setTextColor(ContextCompat.getColor(context!! ,R.color.ourcolor))
             }
 
+            var nowmonth2 =nowmonth.replace("0", "")
+
+            var a_bitmap : Bitmap? = null
+            for (i in 0 until HomeFragment.calendarNameArr.size) {
+                val uThread: Thread = object : Thread() {
+                    override fun run() {
+                        try {
+//                            Log.d("달력", CalendarActivity.calendarNameArr[i])
+                            val url = URL("http://13.125.7.2/img/calendar/" + HomeFragment.calendarNameArr[i])
+
+                            val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                            conn.setDoInput(true)
+                            conn.connect()
+                            val iss: InputStream = conn.getInputStream()
+                            a_bitmap = BitmapFactory.decodeStream(iss)
+
+                        } catch (e: MalformedURLException) {
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+                uThread.start() // 작업 Thread 실행
+
+                try {
+
+                    uThread.join()
+
+                    //지정한 날짜에 이미지 넣기
+
+                    if(nowmonth2 == HomeFragment.calendarMonthArr[i] &&  calendar.day == HomeFragment.calendarDayArr[i]) {
+                        cody!!.setImageBitmap(a_bitmap)
+                    }
 
 
-            if (calendar.photo != "") {
-                val resourceId = context.resources.getIdentifier(calendar.photo, "drawable", context.packageName)
-                cody?.setImageResource(resourceId) // 포토 경로명이 있다면 캘린더에 해당 이미지 표시
-            } else {
-                cody?.setImageResource(R.drawable.ic_add) // 포토 경로명이 없으면 플러스 버튼 표시
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
             }
+
+//            if(selectmonth.toString() == CalendarActivity.calendarMonthArr[i] &&  calendar.day == CalendarActivity.calendarDayArr[i]) {
+//                view.iv_calendarcody.setImageBitmap(a_bitmap)
+//            }
+
+
+//            if (calendar.photo != "") {
+//                val resourceId = context.resources.getIdentifier(calendar.photo, "drawable", context.packageName)
+//                cody?.setImageResource(resourceId) // 포토 경로명이 있다면 캘린더에 해당 이미지 표시
+//            } else {
+//                cody?.setImageResource(R.drawable.ic_add) // 포토 경로명이 없으면 플러스 버튼 표시
+//            }
 
 
 

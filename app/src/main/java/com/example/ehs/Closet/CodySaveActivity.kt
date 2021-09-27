@@ -108,7 +108,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
     fun uploadCody(bitmap: Bitmap) {
 
         val codyUploadRequest: CodyUpload_Request = object : CodyUpload_Request(
-            Method.POST, "http://13.125.7.2/codyupload.php",
+            Method.POST, "http://13.125.7.2/CodyUpload_Request.php",
             Response.Listener<NetworkResponse> { response ->
                 try {
 
@@ -154,9 +154,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                     if(success) {
 //                        Toast.makeText(this@CodySaveActivity, jsonObject.toString(), Toast.LENGTH_LONG).show()
 
-                        Log.d("sdfㅁㅁㅁㅁㅁ",codyOpen.toString())
                         var userLevel = AutoLogin.getUserLevel(this@CodySaveActivity)
-                        Log.d("sdfㅁㅁㅁㅁㅁ",userLevel)
                         if(codyOpen) {
                             if(userLevel == "전문가"){
                                 Log.d("sdfㅁㅁㅁㅁㅁㅋ", "프로필에 저장")
