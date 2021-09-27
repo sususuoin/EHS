@@ -2,6 +2,7 @@ package com.example.ehs.Calendar
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.ehs.Closet.AutoCloset
 import org.json.JSONArray
 import org.json.JSONException
 
@@ -44,6 +45,12 @@ object AutoCalendar {
 
     }
 
+    fun clearCalendar(context: Context) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_CALENDAR, Context.MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = prefs.edit()
+        editor.clear()
+        editor.commit()
+    }
 
 
 }
