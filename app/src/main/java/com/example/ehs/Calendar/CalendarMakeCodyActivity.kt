@@ -1,6 +1,7 @@
 package com.example.ehs.Calendar
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -32,6 +33,10 @@ class CalendarMakeCodyActivity : AppCompatActivity() , View.OnTouchListener{
 
     lateinit var savecody : Bitmap
 
+    companion object {
+        var calendarMakeContext: Context? = null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar_makecody)
@@ -45,6 +50,7 @@ class CalendarMakeCodyActivity : AppCompatActivity() , View.OnTouchListener{
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
         var StringList = AutoCalendar.getCalendarchoiceImg(this)
+        calendarMakeContext = this
 
 
         Log.d("하하", StringList.size.toString())

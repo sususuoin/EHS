@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
+import com.example.ehs.Closet.CodyMakeActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_calendar_save_cody.*
 class CalendarSaveCodyActivity : AppCompatActivity() {
@@ -32,7 +33,11 @@ class CalendarSaveCodyActivity : AppCompatActivity() {
 
         tv_selectday.text = AutoCalendar.getSelectday(this)
 
-        Log.d("zzz곰팡이", AutoCalendar.getSelectday(this))
+        btn_savecody.setOnClickListener {
+            (CalendarMakeCodyActivity.calendarMakeContext as CalendarMakeCodyActivity).finish()
+            (CalendarChoiceActivity.calendarChoiceContext as CalendarChoiceActivity).finish()
+            finish()
+        }
     }
 
     /**
