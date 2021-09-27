@@ -106,7 +106,7 @@
                         android:id="@+id/btn_addclothes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="전체삭제" />
+                        android:text="옷 추가" />
 
                 </LinearLayout>
 

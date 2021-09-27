@@ -8,12 +8,182 @@
     android:orientation="vertical"
     tools:context=".Feed.YoutubeActivity">
 
-    <com.google.android.youtube.player.YouTubeThumbnailView
-        android:id="@+id/view_thumbnail"
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_youtube"
         android:layout_width="match_parent"
-        android:layout_height="423dp"
-        android:layout_marginTop="80dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        tools:ignore="MissingConstraints" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="오늘의 Youtube 코디 추천"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <ScrollView
+        android:background="@color/purple_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        >
+
+        <LinearLayout
+            android:layout_width="400dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
+
+            <!--one-->
+            <androidx.cardview.widget.CardView
+                android:layout_width="370dp"
+                android:layout_height="310dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true">
+
+
+                <TextView
+                    android:id="@+id/tv_youtubetitle1"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:text="163cm 55kg 🤔벌써 가을이야? 9월 한달 출근룩 데일리룩 | 9월 옷 코디 | 가을코디 | 가을옷 | 슬기 ..."
+                    android:textAlignment="center"/>
+
+                <com.google.android.youtube.player.YouTubeThumbnailView
+                    android:id="@+id/view_thumbnail1"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="55dp"
+                    android:layout_gravity="center_horizontal"/>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <TextView
+                android:id="@+id/tv_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/lightgray"
+                android:text="ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ" />
+
+            <!--two-->
+            <androidx.cardview.widget.CardView
+                android:layout_width="370dp"
+                android:layout_height="310dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true">
+
+                <TextView
+                    android:id="@+id/tv_youtubetitle2"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:text="    0000 하나면 가을,겨울 쉽게 옷 잘 입을 수 있다! 끝판왕 기본템과 스타일링TIP 알려줌✔︎"
+                    android:textAlignment="center"/>
+
+                <com.google.android.youtube.player.YouTubeThumbnailView
+                    android:id="@+id/view_thumbnail2"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="55dp"
+                    android:layout_gravity="center_horizontal"/>
+
+            </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/tv_line2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/lightgray"
+                android:text="ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ" />
+
+            <!--three-->
+            <androidx.cardview.widget.CardView
+                android:layout_width="370dp"
+                android:layout_height="310dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true">
+
+                <TextView
+                    android:id="@+id/tv_youtubetitle3"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:text="  명품백 저리가라👋🏻예쁜데 가성비갑❗️데일리로 들기 좋은  디자이너 가방 추천👜5만원대부터~30 ..."
+                    android:textAlignment="center"/>
+
+                <com.google.android.youtube.player.YouTubeThumbnailView
+                    android:id="@+id/view_thumbnail3"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="55dp"
+                    android:layout_gravity="center_horizontal"/>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_line3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/lightgray"
+                android:text="ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ" />
+
+            <!--four-->
+            <androidx.cardview.widget.CardView
+                android:layout_width="370dp"
+                android:layout_height="310dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true">
+
+                <TextView
+                    android:id="@+id/tv_youtubetitle4"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:text="사면 평생 쓴다! 남자들이 가을에 가장 먼저 사야하는 옷들 [패션우선순위4]"
+                    android:textAlignment="center"/>
+
+                <com.google.android.youtube.player.YouTubeThumbnailView
+                    android:id="@+id/view_thumbnail4"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="55dp"
+                    android:layout_gravity="center_horizontal"/>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
