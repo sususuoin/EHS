@@ -21,6 +21,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.example.ehs.Calendar.AutoCalendar
 import com.example.ehs.Closet.AutoCloset
 import com.example.ehs.Closet.AutoCody
 import com.example.ehs.Fashionista.AutoPro
@@ -160,6 +161,7 @@ class MypageFragment : Fragment() {
                             AutoCody.clearCody(a!!)
                             AutoCloset.clearCloset(a!!)
                             AutoFeed.clearFeed(a!!)
+                            AutoCalendar.clearCalendar(a!!)
 
                             //액티비티는 finish() 프래그먼트는 밑에처럼
                             activity?.supportFragmentManager?.beginTransaction()?.remove(this@MypageFragment)?.commit()
