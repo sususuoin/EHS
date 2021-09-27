@@ -110,7 +110,8 @@ class FeedFragment : Fragment() {
                 uThread.join()
 
                 var fuserProfile = AutoLogin.StringToBitmap(feeduserprofileImgArr[i])
-                var feed = Feed(feedNumArr[i], fuserProfile!!, feedIdArr[i], feedStyleArr[i], a_bitmap, feedlikeCntArr[i], feednolikeCntArr[i])
+                val resizedBmp = Bitmap.createScaledBitmap(fuserProfile!!, 100, 100, true)
+                var feed = Feed(feedNumArr[i], resizedBmp!!, feedIdArr[i], feedStyleArr[i], a_bitmap, feedlikeCntArr[i], feednolikeCntArr[i])
                 feedsList.add(feed)
 
 
