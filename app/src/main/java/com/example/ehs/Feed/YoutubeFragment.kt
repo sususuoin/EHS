@@ -29,7 +29,7 @@ class YoutubeFragment : YouTubePlayerFragment() {
     // 프레그먼트가 메모리에 올라갔을때
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(YoutubeFragment.TAG, "YoutubeFragment - onCreate() called")
+        Log.d(TAG, "YoutubeFragment - onCreate() called")
 
     }
 

@@ -167,6 +167,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                         }
                         (CodyMakeActivity.codyContext as CodyMakeActivity).finish()
                         (MainActivity.mContext as MainActivity).CodyImg()
+                        (MainActivity.mContext as MainActivity).FeedImg()
 
 
                     } else {
