@@ -2,7 +2,6 @@ package com.example.ehs.Calendar
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.ehs.Closet.AutoCloset
 import org.json.JSONArray
 import org.json.JSONException
 
@@ -43,6 +42,18 @@ object AutoCalendar {
         }
         return urls
 
+    }
+
+    fun setSelectday(context: Context, input: String?) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_CALENDAR, Context.MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = prefs.edit()
+        editor.putString("MY_setselectday", input)
+        editor.commit()
+    }
+
+    fun getSelectday(context: Context): String {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_CALENDAR, Context.MODE_PRIVATE)
+        return prefs.getString("MY_setselectday", "").toString()
     }
 
     fun clearCalendar(context: Context) {

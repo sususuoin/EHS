@@ -52,13 +52,12 @@ class CalendarActivity : AppCompatActivity(){
         calendarAdapter.setItemClickListener(object : CalendarAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 if (calendar[position].day != "") {
-                    var selectday =
-                        "Selected Date" + " " + monthYearFromDate(selectedDate) + " " + calendar[position].day + "일"
+                    var selectday = monthYearFromDate(selectedDate) + " " + calendar[position].day + "일"
                     Toast.makeText(this@CalendarActivity, selectday, Toast.LENGTH_SHORT).show()
 
+                    AutoCalendar.setSelectday(this@CalendarActivity, selectday)
 
                     val intent = Intent(this@CalendarActivity, CalendarChoiceActivity::class.java)
-                    intent.putExtra("selectday", selectday)
                     startActivity(intent)
 
                 }

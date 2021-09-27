@@ -24,12 +24,6 @@ class CalendarChoiceActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().add(R.id.fragments_frame, calendarclothesFragment)
             .commit() // add는 프레그먼트 추가해주는 것
 
-        val intent = intent
-        val selectday = intent.getStringExtra("selectday")
-
-        if (selectday != null) {
-            Log.d("여기는 달력 다음다음", selectday)
-        }
     }
 
     fun replaceFragment(fragment: Fragment?) {
