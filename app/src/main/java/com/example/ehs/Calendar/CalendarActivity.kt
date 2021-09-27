@@ -1,5 +1,6 @@
 package com.example.ehs.Calendar
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -12,7 +13,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ehs.Closet.CodySaveActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_calendar.*
 import org.threeten.bp.LocalDate
@@ -23,7 +23,7 @@ import org.threeten.bp.format.DateTimeFormatter
 class CalendarActivity : AppCompatActivity(){
 
     companion object {
-        public var context_calendar: Context? = null
+        var context_calendar: Context? = null
 
         var calendarNameArr = ArrayList<String>()
         var calendarYearArr = ArrayList<String>()
@@ -37,7 +37,8 @@ class CalendarActivity : AppCompatActivity(){
     private var selectedDate: LocalDate? = null
     var calendar = arrayListOf<Calendar>()
     val calendarAdapter = CalendarAdapter(calendar)
-    public var todaymonth : String? = null
+    var todaymonth : String? = null
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -54,8 +55,9 @@ class CalendarActivity : AppCompatActivity(){
         btn_back.setOnClickListener {
             onBackPressed()
         }
+        CalendarSaveCodyActivity.calendarsaveActivity_Dialog = ProgressDialog(this)
 
-
+        calendarAdapter.notifyDataSetChanged()
         calendarAdapter.setItemClickListener(object : CalendarAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 if (calendar[position].day != "") {
@@ -66,7 +68,6 @@ class CalendarActivity : AppCompatActivity(){
 
                     val intent = Intent(this@CalendarActivity, CalendarChoiceActivity::class.java)
                     startActivity(intent)
-                    finish()
 
                 }
 
@@ -77,6 +78,8 @@ class CalendarActivity : AppCompatActivity(){
     override fun onResume() {
         super.onResume()
         Log.d("캘린더 액티비티", "새로고침")
+        CalendarSaveCodyActivity.calendarsaveActivity_Dialog?.dismiss()
+        Log.d("a호리a22", "a호리a")
         calendarNameArr = AutoCalendar.getCalendarName(this)
         calendarYearArr = AutoCalendar.getCalendarYear(this)
         calendarMonthArr = AutoCalendar.getCalendarMonth(this)
@@ -84,7 +87,6 @@ class CalendarActivity : AppCompatActivity(){
 
         calendarAdapter.notifyDataSetChanged()
 
-        CalendarSaveCodyActivity.calendarsaveActivity_Dialog?.dismiss()
 
     }
 

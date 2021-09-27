@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
     val TAG: String = "메인페이지"
     companion object {
         var mContext: Context? = null
-
     }
 
     lateinit var getLatitude : String
@@ -633,10 +632,11 @@ class MainActivity : AppCompatActivity() {
                     AutoCalendar.setCalendarMonth(this, calendarMonthArr)
                     AutoCalendar.setCalendarDay(this, calendarDayArr)
 
+                    Log.d("a호리a", "a호리a")
                     if(CalendarSaveCodyActivity.calendarSaveContext!=null) {
+                        Log.d("a호리a11", "a호리a")
                         (CalendarSaveCodyActivity.calendarSaveContext as CalendarSaveCodyActivity).finish()
                     }
-
 
                 } catch (e: JSONException) {
                     e.printStackTrace()

@@ -2,7 +2,6 @@ package com.example.ehs.Calendar
 
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +13,6 @@ import androidx.appcompat.widget.Toolbar
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import com.example.ehs.Closet.CodyMakeActivity
-import com.example.ehs.Closet.CodySave_Request
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
@@ -52,6 +49,7 @@ class CalendarSaveCodyActivity : AppCompatActivity() {
         ab.setDisplayShowTitleEnabled(false)
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
+        calendarSaveContext=this
 
         userId = AutoLogin.getUserId(this)
 
@@ -76,7 +74,8 @@ class CalendarSaveCodyActivity : AppCompatActivity() {
             calendarsaveActivity_Dialog!!.setMessage("업로드 중입니다.")
             calendarsaveActivity_Dialog!!.setCanceledOnTouchOutside(false)
             calendarsaveActivity_Dialog!!.show()
-
+            (CalendarMakeCodyActivity.calendarMakeContext as CalendarMakeCodyActivity).finish()
+            (CalendarChoiceActivity.calendarChoiceContext as CalendarChoiceActivity).finish()
             Calendarsavecody(image)
         }
     }
@@ -149,12 +148,13 @@ class CalendarSaveCodyActivity : AppCompatActivity() {
                     var success = jsonObject.getBoolean("success")
 
                     if(success) {
-                        (CalendarMakeCodyActivity.calendarMakeContext as CalendarMakeCodyActivity).finish()
-                        (CalendarChoiceActivity.calendarChoiceContext as CalendarChoiceActivity).finish()
+
                         (MainActivity.mContext as MainActivity).CalendarImg()
                         Log.d("zz달력이라네zz", CalendarActivity.calendarNameArr.size.toString())
-                        val intent = Intent(this@CalendarSaveCodyActivity, CalendarActivity::class.java)
-                        startActivity(intent)
+
+//                        val intent = Intent(this@CalendarSaveCodyActivity, CalendarActivity::class.java)
+//                        startActivity(intent)
+//                        finish()
 
                     } else {
                         Toast.makeText(this@CalendarSaveCodyActivity, "실패 두둥탁", Toast.LENGTH_LONG).show()
