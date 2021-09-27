@@ -1,15 +1,24 @@
 package com.example.ehs.Calendar
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ehs.Closet.Cody
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.calendar_cell.view.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 import java.util.*
 
 
@@ -67,27 +76,48 @@ class CalendarAdapter(private val calendar: ArrayList<Calendar>) :
             val nowmonth = today.monthValue.toString()
 
 
-
             if (item.day == nowday && selectmonth.toString() == nowmonth ) { // 현재 일이고 뿌려지는 월과 오늘 월이 같다면
                 view.cellDayText.setTextColor(Color.parseColor("#521b93")) // 날짜 보라색으로 표시
-                view.iv_calendarcody.setImageResource(R.drawable.profile_castle)
-            }
-            //지정한 날짜에 이미지 넣기
-            if(item.day == "22" && selectmonth.toString() == "9") {
-                view.iv_calendarcody.setImageResource(R.drawable.profile_castle)
             }
 
+            var a_bitmap : Bitmap? = null
+            for (i in 0 until CalendarActivity.calendarNameArr.size) {
+                val uThread: Thread = object : Thread() {
+                    override fun run() {
+                        try {
+//                            Log.d("달력", CalendarActivity.calendarNameArr[i])
+                            val url = URL("http://13.125.7.2/img/calendar/" + CalendarActivity.calendarNameArr[i])
 
-//            if (item.day != "") {
-//                if (item.photo != null) {
-//                    view.iv_calendarcody.setImageResource(R.drawable.profile_basic) // 포토가 비어있지 않다면
-//                } else {
-//                    view.iv_calendarcody.setImageResource(R.drawable.ic_add) // 포토가 비어있다면
-//                }
-//            }
+                            val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
 
-            /* 나머지 TextView와 String 데이터를 연결한다. */
-            // day?.text = item.day
+                            conn.setDoInput(true)
+                            conn.connect()
+                            val iss: InputStream = conn.getInputStream()
+                            a_bitmap = BitmapFactory.decodeStream(iss)
+
+                        } catch (e: MalformedURLException) {
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+                uThread.start() // 작업 Thread 실행
+
+                try {
+
+                    uThread.join()
+
+                    //지정한 날짜에 이미지 넣기
+                    if(selectmonth.toString() == CalendarActivity.calendarMonthArr[i] &&  item.day == CalendarActivity.calendarDayArr[i]) {
+                        view.iv_calendarcody.setImageBitmap(a_bitmap)
+                    }
+
+
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+            }
 
         }
 

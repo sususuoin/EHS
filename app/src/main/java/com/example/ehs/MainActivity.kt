@@ -16,6 +16,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.example.ehs.Calendar.AutoCalendar
+import com.example.ehs.Calendar.CalendarCodyServer_Request
+import com.example.ehs.Calendar.CalendarSaveCodyActivity
 import com.example.ehs.Closet.*
 import com.example.ehs.Fashionista.*
 import com.example.ehs.Feed.*
@@ -111,7 +114,7 @@ class MainActivity : AppCompatActivity() {
         setPermission()
         setLocation_Permission()
 
-
+        CalendarImg()
         FashionistaUser()
         FashionistaCody()
         Favorite_check()
@@ -132,6 +135,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "MainActivity - 홈버튼 클릭!")
                     homeFragment = HomeFragment.newInstance()
                     replaceFragment(homeFragment)
+                    CalendarImg()
                 }
                 R.id.menu_fashionista -> {
                     Log.d(TAG, "MainActivity - 패셔니스타 버튼 클릭!")
@@ -586,6 +590,61 @@ class MainActivity : AppCompatActivity() {
         val feedServer_Request = FeedServer_Request(userId!!, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(feedServer_Request)
+    }
+
+    fun CalendarImg() {
+
+        var cuserId: String
+        var calendarName: String
+        var calendarYear: String
+        var calendarMonth: String
+        var calendarDay: String
+
+        var calendarNameArr = ArrayList<String>()
+        var calendarYearArr = ArrayList<String>()
+        var calendarMonthArr = ArrayList<String>()
+        var calendarDayArr = ArrayList<String>()
+
+        val responseListener: Response.Listener<String?> =
+            Response.Listener<String?> { response ->
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    var response = jsonObject.toString()
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    for (i in 0 until arr.length()) {
+                        val codyObject = arr.getJSONObject(i)
+
+                        calendarName = codyObject.getString("calendarName")
+                        calendarYear = codyObject.getString("calendarYear")
+                        calendarMonth = codyObject.getString("calendarMonth")
+                        calendarDay = codyObject.getString("calendarDay")
+
+                        calendarNameArr.add(calendarName)
+                        calendarYearArr.add(calendarYear)
+                        calendarMonthArr.add(calendarMonth)
+                        calendarDayArr.add(calendarDay)
+
+                    }
+                    AutoCalendar.setCalendarName(this, calendarNameArr)
+                    AutoCalendar.setCalendarYear(this, calendarYearArr)
+                    AutoCalendar.setCalendarMonth(this, calendarMonthArr)
+                    AutoCalendar.setCalendarDay(this, calendarDayArr)
+
+                    if(CalendarSaveCodyActivity.calendarSaveContext!=null) {
+                        (CalendarSaveCodyActivity.calendarSaveContext as CalendarSaveCodyActivity).finish()
+                    }
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        val calendarCodyServer_Request = CalendarCodyServer_Request(userId!!, responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(calendarCodyServer_Request)
     }
 
     fun Favorite_check() {

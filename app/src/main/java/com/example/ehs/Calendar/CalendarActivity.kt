@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ehs.Closet.CodySaveActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_calendar.*
 import org.threeten.bp.LocalDate
@@ -24,6 +25,11 @@ class CalendarActivity : AppCompatActivity(){
     companion object {
         public var context_calendar: Context? = null
 
+        var calendarNameArr = ArrayList<String>()
+        var calendarYearArr = ArrayList<String>()
+        var calendarMonthArr = ArrayList<String>()
+        var calendarDayArr = ArrayList<String>()
+
     }
 
     private var monthYearText: TextView? = null
@@ -34,12 +40,11 @@ class CalendarActivity : AppCompatActivity(){
     public var todaymonth : String? = null
 
 
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar)
+        Log.d("캘린더 액티비티", "온크리에이트")
         context_calendar = this
 
         initWidgets()
@@ -49,6 +54,8 @@ class CalendarActivity : AppCompatActivity(){
         btn_back.setOnClickListener {
             onBackPressed()
         }
+
+
         calendarAdapter.setItemClickListener(object : CalendarAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 if (calendar[position].day != "") {
@@ -59,12 +66,25 @@ class CalendarActivity : AppCompatActivity(){
 
                     val intent = Intent(this@CalendarActivity, CalendarChoiceActivity::class.java)
                     startActivity(intent)
+                    finish()
 
                 }
 
             }
         })
+    }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d("캘린더 액티비티", "새로고침")
+        calendarNameArr = AutoCalendar.getCalendarName(this)
+        calendarYearArr = AutoCalendar.getCalendarYear(this)
+        calendarMonthArr = AutoCalendar.getCalendarMonth(this)
+        calendarDayArr = AutoCalendar.getCalendarDay(this)
+
+        calendarAdapter.notifyDataSetChanged()
+
+        CalendarSaveCodyActivity.calendarsaveActivity_Dialog?.dismiss()
 
     }
 
