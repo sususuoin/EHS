@@ -33,6 +33,8 @@ class FashionistaProfile_Activity : AppCompatActivity() {
 
     val REQUEST_OPEN_GALLERY = 2
     lateinit var bitmap : Bitmap
+    lateinit var resized : Bitmap
+
     lateinit var userId : String
     lateinit var fashionistaId : String
 
@@ -161,8 +163,7 @@ class FashionistaProfile_Activity : AppCompatActivity() {
 //                    uploadImgName = getName(currentImageUrl)
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, currentImageUrl)
-
-
+                        resized = Bitmap.createScaledBitmap(bitmap!!, 500, 500, true)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -172,7 +173,7 @@ class FashionistaProfile_Activity : AppCompatActivity() {
 
         val intent = Intent(this, ProfilePlus_Activity::class.java)
         val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        resized.compress(Bitmap.CompressFormat.PNG, 100, stream)
         val plusImgArr = stream.toByteArray()
         intent.putExtra("plusImgArr", plusImgArr)
         startActivity(intent)
