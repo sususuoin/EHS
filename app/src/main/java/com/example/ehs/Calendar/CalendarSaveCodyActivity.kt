@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import com.example.ehs.R
@@ -29,6 +30,9 @@ class CalendarSaveCodyActivity : AppCompatActivity() {
 
         iv_savecody.setImageBitmap(image)
 
+        tv_selectday.text = AutoCalendar.getSelectday(this)
+
+        Log.d("zzz곰팡이", AutoCalendar.getSelectday(this))
     }
 
     /**
