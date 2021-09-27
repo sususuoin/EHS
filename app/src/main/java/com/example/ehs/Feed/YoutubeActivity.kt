@@ -106,6 +106,7 @@ class YoutubeActivity : YouTubeBaseActivity() {
 
                     p1?.setVideo(videoID)
 
+
                     Log.d("listener", "되나욤")
 
 
