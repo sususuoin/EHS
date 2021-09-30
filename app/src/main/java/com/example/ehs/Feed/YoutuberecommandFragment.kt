@@ -2,26 +2,33 @@ package com.example.ehs.Feed
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+
 import androidx.annotation.RequiresApi
-import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import com.example.ehs.MainActivity
 import com.example.ehs.R
-import com.google.android.youtube.player.*
-import kotlinx.android.synthetic.main.activity_youtube.*
-import kotlinx.android.synthetic.main.fragment_youtube.view.*
+import com.google.android.youtube.player.YouTubeInitializationResult
+import com.google.android.youtube.player.YouTubeThumbnailLoader
+import com.google.android.youtube.player.YouTubeThumbnailView
 
-
-class YoutubeActivity : YouTubeBaseActivity() {
+class YoutuberecommandFragment : Fragment() {
+    private var a: Activity? = null
     private lateinit var youtubethumbnail1: YouTubeThumbnailView
     private lateinit var youtubethumbnail2: YouTubeThumbnailView
     private lateinit var youtubethumbnail3: YouTubeThumbnailView
     private lateinit var youtubethumbnail4: YouTubeThumbnailView
-
+    private lateinit var feed : TextView
+    private lateinit var youtube : TextView
 
     lateinit var listener: YouTubeThumbnailView.OnInitializedListener
 
@@ -30,35 +37,58 @@ class YoutubeActivity : YouTubeBaseActivity() {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 
 
+
+    companion object {
+        const val TAG : String = "유튜브 추천 프레그먼트"
+        fun newInstance() : YoutuberecommandFragment { // newInstance()라는 함수를 호출하면 CommunityFragment를 반환함
+            return YoutuberecommandFragment()
+        }
+    }
+
+    // 프레그먼트가 메모리에 올라갔을때
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_youtube)
+        Log.d(TAG, "YoutuberecommandFragment - onCreate() called")
 
-//        /**
-//         * 액션바 대신 툴바를 사용하도록 설정
-//         */
-//        val toolbar = findViewById(R.id.toolbar_youtube) as Toolbar
-//        setSupportActionBar(toolbar)
-//        val ab = supportActionBar!!
-//        ab.setDisplayShowTitleEnabled(false)
-//
-//        //뒤로 가기 버튼 생성
-//        ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
+    }
+    // 프레그먼트를 안고 있는 액티비티에 붙었을 때
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d(TAG, "YoutuberecommandFragment - onAttach() called")
+    }
+    // 뷰가 생성되었을 때 화면과 연결
+    // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        Log.d(TAG, "YoutuberecommandFragment - onCreateView() called")
+        val view = inflater.inflate(R.layout.fragment_youtube_recommand, container, false)
+        youtubethumbnail1 = view.findViewById(R.id.view_thumbnail1)
+        youtubethumbnail2 = view.findViewById(R.id.view_thumbnail2)
+        youtubethumbnail3 = view.findViewById(R.id.view_thumbnail3)
+        youtubethumbnail4 = view.findViewById(R.id.view_thumbnail4)
+        feed = view.findViewById(R.id.tv_feed)
+        youtube = view.findViewById(R.id.tv_youtube)
 
+        feed.setOnClickListener {
+            Log.d("FeedFragment", "피드로 이동")
+            (activity as MainActivity?)!!.replaceFragment(FeedFragment.newInstance())
+        }
 
-        youtubethumbnail1 = findViewById(R.id.view_thumbnail1)
-        youtubethumbnail2 = findViewById(R.id.view_thumbnail2)
-        youtubethumbnail3 = findViewById(R.id.view_thumbnail3)
-        youtubethumbnail4 = findViewById(R.id.view_thumbnail4)
+        return view
+    }
 
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         youtubethumbnail1.setOnClickListener(View.OnClickListener {
 
             val webIntent = Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://www.youtube.com/watch?v=y5tnwXyaB4Y"))
             try {
-                this@YoutubeActivity.startActivity(webIntent)
+                this.startActivity(webIntent)
             } catch (ex: ActivityNotFoundException) {
             }
         })
@@ -68,7 +98,7 @@ class YoutubeActivity : YouTubeBaseActivity() {
             val webIntent = Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://www.youtube.com/watch?v=8HTyePTTLAo"))
             try {
-                this@YoutubeActivity.startActivity(webIntent)
+                this.startActivity(webIntent)
             } catch (ex: ActivityNotFoundException) {
             }
         })
@@ -78,7 +108,7 @@ class YoutubeActivity : YouTubeBaseActivity() {
             val webIntent = Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://www.youtube.com/watch?v=bGTt8EStqOk"))
             try {
-                this@YoutubeActivity.startActivity(webIntent)
+                this.startActivity(webIntent)
             } catch (ex: ActivityNotFoundException) {
             }
         })
@@ -88,14 +118,13 @@ class YoutubeActivity : YouTubeBaseActivity() {
             val webIntent = Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://www.youtube.com/watch?v=_EzVFxXpOf8"))
             try {
-                this@YoutubeActivity.startActivity(webIntent)
+                this.startActivity(webIntent)
             } catch (ex: ActivityNotFoundException) {
             }
         })
 
-
         fun getThumbnail(videoID:String,thumnail:YouTubeThumbnailView) {
-             listener = object : YouTubeThumbnailView.OnInitializedListener, YouTubeThumbnailLoader {
+            listener = object : YouTubeThumbnailView.OnInitializedListener, YouTubeThumbnailLoader {
 
                 override fun onInitializationSuccess(
 
@@ -184,17 +213,14 @@ class YoutubeActivity : YouTubeBaseActivity() {
         getThumbnail("bGTt8EStqOk",youtubethumbnail3)
         getThumbnail("_EzVFxXpOf8",youtubethumbnail4)
 
+
+//        val gridLayoutManager = LinearLayoutManager(a)
+//        rv_community.layoutManager = gridLayoutManager
+//
+//
+//        val adapter = CommunityListAdapter(communityList)
+//        rv_community.adapter = adapter
+//        adapter.notifyDataSetChanged()
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-

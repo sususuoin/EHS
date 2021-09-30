@@ -143,9 +143,9 @@ class FeedFragment : Fragment() {
         Log.d(TAG, "FeedFragment - onCreateView() called")
         val view = inflater.inflate(R.layout.fragment_feed, container, false)
 
-        view.tv_community.setOnClickListener {
+        view.tv_youtube.setOnClickListener {
             Log.d("FeedFragment", "커뮤니티로 이동")
-            (activity as MainActivity?)!!.replaceFragment(CommunityFragment.newInstance())
+            (activity as MainActivity?)!!.replaceFragment(YoutuberecommandFragment.newInstance())
         }
 
         var a_bitmap : Bitmap? = null

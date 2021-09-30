@@ -11,19 +11,11 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ehs.Fashionista.ProfilePlus_Activity
 import com.example.ehs.MainActivity
-import com.example.ehs.Mypage.UserModifyActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_community.*
 import kotlinx.android.synthetic.main.fragment_community.view.*
-import kotlinx.android.synthetic.main.fragment_community_item.*
-import kotlinx.android.synthetic.main.fragment_community_item.view.*
-import kotlinx.android.synthetic.main.fragment_feed.*
-import kotlinx.android.synthetic.main.fragment_feed.view.*
-import kotlinx.android.synthetic.main.fragment_feed.view.tv_community
 
 class CommunityFragment : Fragment() {
     private var a: Activity? = null
