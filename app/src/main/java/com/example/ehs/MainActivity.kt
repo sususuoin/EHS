@@ -812,8 +812,7 @@ class MainActivity : AppCompatActivity() {
 
                         Log.d("아아잇", feedliketotalcnt.toString())
                     } else {
-                        Toast.makeText(this@MainActivity, "실패", Toast.LENGTH_SHORT).show()
-                        return
+                        AutoFeed.setFeedLikeTotalcnt(this@MainActivity, "0")
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
