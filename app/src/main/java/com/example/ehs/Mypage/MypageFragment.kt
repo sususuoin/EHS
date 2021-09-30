@@ -17,7 +17,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -48,11 +50,22 @@ class MypageFragment : Fragment() {
     lateinit var tv_id: TextView
     lateinit var tv_name: TextView
     lateinit var tv_name2: TextView
+    lateinit var tv_name3: TextView
+    lateinit var tv_name3_2: TextView
     lateinit var tv_email: TextView
     lateinit var tv_level: TextView
+    lateinit var tv_level5: TextView
     lateinit var iv_profileimg: ImageView
     lateinit var modifybtn: ImageButton
     lateinit var pieChart: PieChart
+    lateinit var progressbar: ProgressBar
+    lateinit var tv_percent: TextView
+
+    lateinit var iv_beforeLV : ImageView
+    lateinit var tv_beforeLV: TextView
+
+    lateinit var iv_afterLV : ImageView
+    lateinit var tv_afterLV: TextView
 
     var userColorArr = ArrayList<String>()
     var userColorCntArr = ArrayList<String>()
@@ -63,7 +76,10 @@ class MypageFragment : Fragment() {
     lateinit var userEmail :String
     lateinit var userBirth :String
     lateinit var userGender :String
+    lateinit var userLevel2 :String
     lateinit var userLevel :String
+    var totallikecnt : Int = 0
+
     var userProfile : Bitmap? =null
 
 
@@ -90,14 +106,14 @@ class MypageFragment : Fragment() {
         userEmail = AutoLogin.getUserEmail(a!!)
         userBirth = AutoLogin.getUserBirth(a!!)
         userGender = AutoLogin.getUserGender(a!!)
+        userLevel2 = AutoLogin.getUserLevel2(a!!)
         userLevel = AutoLogin.getUserLevel(a!!)
+        totallikecnt = AutoFeed.getFeedLikeTotalcnt(a!!).toInt()
 
         var userProfileImg = AutoLogin.getUserProfileImg(a!!)
         userProfile = StringToBitmap(userProfileImg)
 
-
         (activity as MainActivity).GetColor()
-
     }
 
     override fun onResume() {
@@ -165,6 +181,7 @@ class MypageFragment : Fragment() {
 
                             //액티비티는 finish() 프래그먼트는 밑에처럼
                             activity?.supportFragmentManager?.beginTransaction()?.remove(this@MypageFragment)?.commit()
+                            (MainActivity.mContext as MainActivity).finish()
                             val myintent = Intent(a, LoginActivity::class.java)
                             startActivity(myintent)
                         }
@@ -182,15 +199,22 @@ class MypageFragment : Fragment() {
         tv_email = view.findViewById(R.id.tv_email)
         tv_level = view.findViewById(R.id.tv_level)
         iv_profileimg = view.findViewById(R.id.iv_profileimg)
+        tv_name3 = view.findViewById(R.id.tv_name3)
+        tv_name3_2 = view.findViewById(R.id.tv_name3_2)
+        progressbar = view.findViewById(R.id.progressbar)
+        tv_level5 = view.findViewById(R.id.tv_level5)
+        tv_percent = view.findViewById(R.id.tv_percent)
 
-
-//        userProfile = resize(userProfile!!)
-
+        iv_beforeLV = view.findViewById(R.id.iv_beforeLV)
+        tv_beforeLV = view.findViewById(R.id.tv_beforeLV)
+        iv_afterLV = view.findViewById(R.id.iv_afterLV)
+        tv_afterLV = view.findViewById(R.id.tv_afterLV)
 
         //fragment1의 TextView에 전달 받은 text 띄우기
         tv_id.text = userId
         tv_name.text = userName
         tv_name2.text = userName
+        tv_name3.text = userName
         tv_email.text = userEmail
         tv_level.text = userLevel
 
@@ -199,6 +223,61 @@ class MypageFragment : Fragment() {
 
         setupPieChart()
         loadPieChartData()
+
+
+        Thread {
+            for (i in 0..totallikecnt) {
+                try {
+                    Thread.sleep(20)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+                tv_name3.post(Runnable {
+                    progressbar.progress = i
+                    tv_percent.text = "$i%"
+                    if (i == 100) {
+                        tv_name3_2.isVisible=false
+                        tv_name3.text = "레벨업!! 축하드립니다"
+                    }
+                })
+            }
+        }.start()
+
+        if(userLevel2 == "LV1") {
+            iv_beforeLV.setImageResource(R.drawable.lv1)
+            iv_afterLV.setImageResource(R.drawable.lv2)
+
+        } else if(userLevel2 == "LV2") {
+            iv_beforeLV.setImageResource(R.drawable.lv2)
+            tv_beforeLV.text = "LV2"
+            iv_afterLV.setImageResource(R.drawable.lv3)
+            tv_afterLV.text = "LV3"
+
+        } else if(userLevel2 == "LV3") {
+            iv_beforeLV.setImageResource(R.drawable.lv3)
+            tv_beforeLV.text = "LV3"
+            iv_afterLV.setImageResource(R.drawable.lv4)
+            tv_afterLV.text = "LV4"
+
+        } else if(userLevel2 == "LV4") {
+            iv_beforeLV.setImageResource(R.drawable.lv4)
+            tv_beforeLV.text = "LV4"
+            iv_afterLV.setImageResource(R.drawable.lv5)
+            tv_afterLV.text = "LV5"
+
+        } else if(userLevel2 == "LV5"){
+
+            tv_level5.isVisible=true
+
+            tv_percent.isVisible=false
+            progressbar.isVisible=false
+            iv_beforeLV.isVisible=false
+            tv_beforeLV.isVisible=false
+            iv_afterLV.isVisible=false
+            tv_afterLV.isVisible=false
+        }
+
+
 
         return view
     }

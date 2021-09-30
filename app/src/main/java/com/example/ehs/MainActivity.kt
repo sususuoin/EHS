@@ -122,6 +122,7 @@ class MainActivity : AppCompatActivity() {
         CodyImg()
         FeedImg()
         Feed_ranking()
+        GetFeedLikeTotalcnt()
         GetColor()
     }
 
@@ -166,7 +167,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_mypage -> {
                     Log.d(TAG, "MainActivity - 마이페이지 버튼 클릭!")
-
+                    GetFeedLikeTotalcnt()
                     GetColor()
                     mypageFragment = MypageFragment.newInstance()
                     replaceFragment(mypageFragment)
@@ -796,14 +797,41 @@ class MainActivity : AppCompatActivity() {
         queue.add(feedRanking_Request)
     }
 
+    fun GetFeedLikeTotalcnt() {
 
+        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+            override fun onResponse(response: String?) {
+                try {
+                    var jsonObject = JSONObject(response)
+                    var success = jsonObject.getBoolean("success")
+
+                    if (success) {
+                        var feedliketotalcnt = jsonObject.getString("count")
+
+                        AutoFeed.setFeedLikeTotalcnt(this@MainActivity, feedliketotalcnt)
+
+                        Log.d("아아잇", feedliketotalcnt.toString())
+                    } else {
+                        Toast.makeText(this@MainActivity, "실패", Toast.LENGTH_SHORT).show()
+                        return
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        val feedLikeTotalcnt_Request = FeedLikeTotalcnt_Request(userId!!, responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(feedLikeTotalcnt_Request)
+
+    }
 
 
     fun GetColor() {
         var cColor : String
         var cCnt : String
-        var cColorArr = mutableListOf<String>()
-        var cCntArr = mutableListOf<String>()
+        var cColorArr = ArrayList<String>()
+        var cCntArr = ArrayList<String>()
 
         val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
             override fun onResponse(response: String?) {
@@ -824,8 +852,8 @@ class MainActivity : AppCompatActivity() {
 
                         Log.d("유저색", cColor)
                         Log.d("유저색갯수", cCnt)
-                        AutoCloset.setClothesColor(this@MainActivity, cColorArr as ArrayList<String>)
-                        AutoCloset.setColorCnt(this@MainActivity, cCntArr as ArrayList<String>)
+                        AutoCloset.setClothesColor(this@MainActivity, cColorArr)
+                        AutoCloset.setColorCnt(this@MainActivity, cCntArr)
                     }
 
 

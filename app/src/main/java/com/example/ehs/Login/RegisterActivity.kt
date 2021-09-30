@@ -93,10 +93,15 @@ class RegisterActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
             var userGender = tv_gender.text.toString()
             var userLevel = tv_level.text.toString()
 
-            var HashTag: String = if(userLevel=="전문가") {
-                tv_HashTag.text.toString()
-            }else{
-                "기본값"
+            var userLevel2 = ""
+            var HashTag = ""
+
+            if(userLevel=="전문가") {
+                HashTag = tv_HashTag.text.toString()
+                userLevel2 = "LV5"
+            } else {
+                HashTag = "기본값"
+                userLevel2 = "LV1"
             }
 
 
@@ -144,6 +149,7 @@ class RegisterActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                     userEmail,
                     userBirth,
                     userGender,
+                    userLevel2,
                     userLevel,
                     HashTag,
                     userProfileImg,

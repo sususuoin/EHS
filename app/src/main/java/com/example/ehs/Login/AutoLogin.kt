@@ -90,6 +90,18 @@ object AutoLogin {
         return prefs.getString("MY_GENDER", "").toString()
     }
 
+    fun setUserLevel2(context: Context, input: String) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = prefs.edit()
+        editor.putString("MY_LEVEL2", input)
+        editor.commit()
+    }
+
+    fun getUserLevel2(context: Context): String {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE)
+        return prefs.getString("MY_LEVEL2", "").toString()
+    }
+
     fun setUserLevel(context: Context, input: String) {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE)
         val editor : SharedPreferences.Editor = prefs.edit()
