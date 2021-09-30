@@ -100,6 +100,7 @@ class LoginActivity : AppCompatActivity() {
                             var userEmail = jsonObject.getString("userEmail")
                             var userBirth = jsonObject.getString("userBirth")
                             var userGender = jsonObject.getString("userGender")
+                            var userLevel2 = jsonObject.getString("userLevel2")
                             var userLevel = jsonObject.getString("userLevel")
                             var HashTag = jsonObject.getString("HashTag")
                             var userProfileImg = jsonObject.getString("userProfileImg")
@@ -115,6 +116,7 @@ class LoginActivity : AppCompatActivity() {
                             AutoLogin.setUserEmail(this@LoginActivity, userEmail)
                             AutoLogin.setUserBirth(this@LoginActivity, userBirth)
                             AutoLogin.setUserGender(this@LoginActivity, userGender)
+                            AutoLogin.setUserLevel2(this@LoginActivity, userLevel2)
                             AutoLogin.setUserLevel(this@LoginActivity, userLevel)
                             AutoLogin.setUserProfileImg(this@LoginActivity, userProfileImg)
 

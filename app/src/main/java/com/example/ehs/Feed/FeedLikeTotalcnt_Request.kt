@@ -1,13 +1,12 @@
-package com.example.ehs.Login
+package com.example.ehs.Feed
 
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 
 
-class Login_Request(
+class FeedLikeTotalcnt_Request(
     userId: String,
-    userPw: String,
     listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {
 
     private val map: MutableMap<String, String>
@@ -19,12 +18,11 @@ class Login_Request(
 
     companion object {
         //서버 URL 설정(php 파일 연동)
-        private const val URL = "http://13.125.7.2/Login_Request.php"
+        private const val URL = "http://13.125.7.2/FeedLikeTotalcnt_Request.php"
     }
 
     init {
         map = HashMap()
         map["userId"] = userId
-        map["userPw"] = userPw
     }
 }

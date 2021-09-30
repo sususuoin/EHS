@@ -3,6 +3,7 @@ package com.example.ehs.Feed
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.ehs.Fashionista.AutoPro
+import com.example.ehs.Login.AutoLogin
 import org.json.JSONArray
 import org.json.JSONException
 
@@ -505,6 +506,20 @@ object AutoFeed {
         return urls
 
     }
+
+
+    fun setFeedLikeTotalcnt(context: Context, input: String?) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = prefs.edit()
+        editor.putString("MY_feedliketotalcnt", input)
+        editor.commit()
+    }
+
+    fun getFeedLikeTotalcnt(context: Context): String {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_Feed, Context.MODE_PRIVATE)
+        return prefs.getString("MY_feedliketotalcnt", "").toString()
+    }
+
 
 
 

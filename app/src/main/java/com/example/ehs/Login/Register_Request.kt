@@ -13,6 +13,7 @@ class Register_Request(
         userEmail: String,
         userBirth: String,
         userGender: String,
+        userLevel2 : String,
         userLevel: String,
         HashTag: String,
         userProfileImg: String,
@@ -27,7 +28,7 @@ class Register_Request(
 
     companion object {
         //서버 URL 설정(php 파일 연동)
-        private const val URL = "http://13.125.7.2/register.php"
+        private const val URL = "http://13.125.7.2/Register_Request.php"
     }
 
     //private Map<String, String>parameters;
@@ -39,6 +40,7 @@ class Register_Request(
         map["userEmail"] = userEmail
         map["userBirth"] = userBirth
         map["userGender"] = userGender
+        map["userLevel2"] = userLevel2
         map["userLevel"] = userLevel
         map["HashTag"] = HashTag
         map["userProfileImg"] = userProfileImg
