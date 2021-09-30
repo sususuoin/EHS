@@ -218,6 +218,7 @@ class HomeFragment : Fragment() {
         calendarMonthArr = AutoCalendar.getCalendarMonth(a!!)
         calendarDayArr = AutoCalendar.getCalendarDay(a!!)
 
+        (activity as MainActivity).CalendarImg()
         cAdapter!!.notifyDataSetChanged()
     }
 
