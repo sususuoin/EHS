@@ -58,10 +58,10 @@ class CalendarAdapter(private val calendar: ArrayList<Calendar>) :
         }
     }
 
+
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         var selectmonth: String? = (CalendarActivity.context_calendar as CalendarActivity).todaymonth // 지금 화면에 보여지는 월, calendar액티비에서 가져온 변수
         private var view: View = v
-
         fun bind(listener: View.OnClickListener, item: Calendar) {
             view.cellDayText.text = item.day
             // val day = itemView?.findViewById<TextView>(R.id.cellDayText) // 캘린더 날짜
@@ -73,10 +73,13 @@ class CalendarAdapter(private val calendar: ArrayList<Calendar>) :
             var today: LocalDate = LocalDate.now() // 현재 날짜 받아오기
             val ddformatter = DateTimeFormatter.ofPattern("dd")
 
-            val nowday = today.format(ddformatter).toString() // 현재날짜에서의 일만 표시
+            var nowday = today.format(ddformatter).toString() // 현재날짜에서의 일만 표시
             val nowmonth = today.monthValue.toString()
 
+            if(nowday[0].toString() == "0") {
+                nowday =nowday.replace("0", "")
 
+            }
             if (item.day == nowday && selectmonth.toString() == nowmonth ) { // 현재 일이고 뿌려지는 월과 오늘 월이 같다면
                 view.cellDayText.setTextColor(Color.parseColor("#521b93")) // 날짜 보라색으로 표시
             }
