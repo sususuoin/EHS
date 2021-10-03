@@ -146,7 +146,7 @@ class FeedFragment : Fragment() {
 
         view.tv_youtube.setOnClickListener {
             Log.d("FeedFragment", "커뮤니티로 이동")
-            (activity as MainActivity?)!!.replaceFragment(YoutuberecommandFragment.newInstance())
+            (activity as MainActivity?)!!.replaceFragment(YoutubeFragment.newInstance())
         }
 
         var a_bitmap : Bitmap? = null

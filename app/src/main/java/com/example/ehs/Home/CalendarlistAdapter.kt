@@ -60,7 +60,7 @@ class CalendarlistAdapter(
             val formatter2 = DateTimeFormatter.ofPattern("MM")
             val formatter = DateTimeFormatter.ofPattern("dd")
 
-            var nowmonth = today.format(formatter2).toString() // 현재날짜에서의 일만 표시
+            var nowmonth = today.format(formatter2).toString() // 현재날짜에서의 월만 표시
             var nowday = today.format(formatter).toString() // 현재날짜에서의 일만 표시
 
             if(nowmonth[0].toString() == "0") {
