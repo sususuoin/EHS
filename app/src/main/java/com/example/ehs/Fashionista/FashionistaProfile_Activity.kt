@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,12 +14,14 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
+import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_fashionista_profile.*
+import kotlinx.android.synthetic.main.fashionista_profile_item.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -44,14 +48,12 @@ class FashionistaProfile_Activity : AppCompatActivity() {
     var FashionistaImgNameArr = ArrayList<String>()
     var a_bitmap : Bitmap? = null
 
+    var adapter = FashionistaProfileAdapter(FashionistaFeedList)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fashionista_profile)
         userId = AutoLogin.getUserId(this)
-
-        FashionistaImgPathArr = AutoPro.getplusImgPath(this)
-        FashionistaImgNameArr = AutoPro.getplusImgName(this)
-        Log.d("텔미", FashionistaImgNameArr.toString())
 
         val intent = intent
         fashionistaId = intent.getStringExtra("fashionistaId").toString()
@@ -87,11 +89,19 @@ class FashionistaProfile_Activity : AppCompatActivity() {
         val gridLayoutManager = GridLayoutManager(applicationContext, 3)
         rv_feed.layoutManager = gridLayoutManager
 //        rv_feed.setHasFixedSize(true)
-        var adapter = FashionistaProfileAdapter(FashionistaFeedList as ArrayList<FashionistaUserProfiles>)
+
         rv_feed.adapter = adapter
         adapter.notifyDataSetChanged()
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        FashionistaImgPathArr = AutoPro.getplusImgPath(this)
+        FashionistaImgNameArr = AutoPro.getplusImgName(this)
+
+        Log.d("텔미", FashionistaImgNameArr.toString())
         for (i in 0 until FashionistaImgNameArr.size) {
             val uThread: Thread = object : Thread() {
                 override fun run() {
@@ -125,7 +135,7 @@ class FashionistaProfile_Activity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
-
+        adapter.notifyDataSetChanged()
 
     }
 
@@ -162,7 +172,8 @@ class FashionistaProfile_Activity : AppCompatActivity() {
                     val currentImageUrl: Uri? = data?.data // data의 data형태로 들어옴
 //                    uploadImgName = getName(currentImageUrl)
                     try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, currentImageUrl)
+                        bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver,
+                            currentImageUrl)
                         resized = Bitmap.createScaledBitmap(bitmap!!, 500, 500, true)
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -212,7 +223,8 @@ class FashionistaProfile_Activity : AppCompatActivity() {
                 }
 
             }
-        val fashionistaProfileCount_Request = FashionistaProfileCount_Request(userId!!, responseListener)
+        val fashionistaProfileCount_Request = FashionistaProfileCount_Request(userId!!,
+            responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(fashionistaProfileCount_Request)
 
