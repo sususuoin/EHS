@@ -121,8 +121,7 @@ dependencies {
     //Youtube API
     implementation 'com.google.apis:google-api-services-youtube:v3-rev183-1.22.0'
 
-    //색추출 팔렛트
-    implementation 'com.android.support:palette-v7:28.0.0'
+
 
 
 }
