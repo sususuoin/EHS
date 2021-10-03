@@ -103,35 +103,25 @@ class HomeFragment : Fragment() {
         calendarNameArr = AutoCalendar.getCalendarName(a!!)
         calendarYearArr = AutoCalendar.getCalendarYear(a!!)
         calendarMonthArr = AutoCalendar.getCalendarMonth(a!!)
-        calendarDayArr = AutoCalendar.getCalendarDay(a!!)
+            calendarDayArr = AutoCalendar.getCalendarDay(a!!)
 
 
-//
-//        // MainActivity로부터 위도, 경도 받아오기
-//        arguments?.let {
-//            getLatitude = it.getDouble("Latitude")
-//            getLongitude = it.getDouble("Longitude")
-//        }
-//        Log.d("HomeFragment", "위도 : ${getLatitude}")
-//        Log.d("HomeFragment", "경도 : ${getLongitude}")
-
-
-    }
-    // 프래그먼트를 안고 있는 액티비티에 붙었을 때
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is Activity) {
-            a = context
         }
-        Log.d(TAG, "HomeFragment - onAttach() called")
+        // 프래그먼트를 안고 있는 액티비티에 붙었을 때
+        override fun onAttach(context: Context) {
+            super.onAttach(context)
+            if (context is Activity) {
+                a = context
+            }
+            Log.d(TAG, "HomeFragment - onAttach() called")
 
-    }
+        }
 
-    // 뷰가 생성되었을 때 화면과 연결
-    // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        // 뷰가 생성되었을 때 화면과 연결
+        // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         week(Strnow!!)
@@ -193,7 +183,7 @@ class HomeFragment : Fragment() {
             Calendarlist("", thu!!, "목"),
             Calendarlist("", fri!!, "금"),
             Calendarlist("", sat!!, "토"),
-            Calendarlist("","캘린더로 이동", "")
+            Calendarlist("","캘린더로", " 이동")
         )
         /**
          * 캘린더 리사이클러 뷰
