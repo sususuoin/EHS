@@ -3,6 +3,7 @@ package com.example.ehs.Home
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +47,7 @@ class CalendarlistAdapter(
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val cody = itemView?.findViewById<ImageView>(R.id.iv_homecalendarcody)
+        val month = itemView?.findViewById<TextView>(R.id.tv_month)
         val day = itemView?.findViewById<TextView>(R.id.tv_day)
         val yoil = itemView?.findViewById<TextView>(R.id.tv_yoil)
 
@@ -58,15 +60,25 @@ class CalendarlistAdapter(
             val formatter2 = DateTimeFormatter.ofPattern("MM")
             val formatter = DateTimeFormatter.ofPattern("dd")
 
-            val nowmonth = today.format(formatter2).toString() // 현재날짜에서의 일만 표시
-            val nowday = today.format(formatter).toString() // 현재날짜에서의 일만 표시
+            var nowmonth = today.format(formatter2).toString() // 현재날짜에서의 일만 표시
+            var nowday = today.format(formatter).toString() // 현재날짜에서의 일만 표시
+
+            if(nowmonth[0].toString() == "0") {
+                nowmonth =nowmonth.replace("0", "")
+            }
+            if(nowday[0].toString() == "0") {
+                nowday =nowday.replace("0", "")
+            }
+            if(calendar.day[0].toString() == "0") {
+                calendar.day =calendar.day.replace("0", "")
+            }
 
             if(calendar.day == nowday) { // 현재 날짜라면 해당 날짜 텍스트 컬러 보라색으로 표시
+                Log.d("zzghgh", calendar.day)
+                Log.d("zzghgh", nowday)
                 day!!.setTextColor(ContextCompat.getColor(context!! ,R.color.ourcolor))
                 yoil!!.setTextColor(ContextCompat.getColor(context!! ,R.color.ourcolor))
             }
-
-            var nowmonth2 =nowmonth.replace("0", "")
 
             var a_bitmap : Bitmap? = null
             for (i in 0 until HomeFragment.calendarNameArr.size) {
@@ -98,7 +110,7 @@ class CalendarlistAdapter(
 
                     //지정한 날짜에 이미지 넣기
 
-                    if(nowmonth2 == HomeFragment.calendarMonthArr[i] &&  calendar.day == HomeFragment.calendarDayArr[i]) {
+                    if(nowmonth == HomeFragment.calendarMonthArr[i] &&  calendar.day == HomeFragment.calendarDayArr[i]) {
                         cody!!.setImageBitmap(a_bitmap)
                     }
 
@@ -123,6 +135,7 @@ class CalendarlistAdapter(
 
 
             /* 나머지 TextView와 String 데이터를 연결한다. */
+            month?.text = calendar.month
             day?.text = calendar.day
             yoil?.text = calendar.yoil
         }
