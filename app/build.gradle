@@ -47,6 +47,7 @@ android {
         exclude 'META-INF/DEPENDENCIES'
     }
 
+
 }
 
 
@@ -117,8 +118,9 @@ dependencies {
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
 
-//------------------------------------------------
+    //Youtube API
     implementation 'com.google.apis:google-api-services-youtube:v3-rev183-1.22.0'
+
 
 
 }

@@ -61,6 +61,7 @@
         android:background="@color/purple_bg"
         tools:ignore="MissingConstraints" >
         <TextView
+            android:id="@+id/youtu"
             android:layout_marginVertical="15dp"
             android:padding="5dp"
             android:layout_width="wrap_content"
@@ -73,6 +74,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
+
 
 
     <ScrollView
@@ -92,34 +94,32 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="370dp"
                 android:layout_height="310dp"
-                android:orientation="vertical"
-                android:gravity="center"
                 android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="vertical"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="10dp"
                 app:cardUseCompatPadding="true">
 
 
                 <TextView
-                    android:id="@+id/tv_youtubetitle1"
+                    android:id="@+id/tv_youtubetitle0"
                     android:layout_width="300dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:textStyle="bold"
-                    android:text="163cm 55kg 🤔벌써 가을이야? 9월 한달 출근룩 데일리룩 | 9월 옷 코디 | 가을코디 | 가을옷 | 슬기 ..."
-                    android:textAlignment="center"/>
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textStyle="bold" />
 
                 <com.google.android.youtube.player.YouTubeThumbnailView
-                    android:id="@+id/view_thumbnail1"
+                    android:id="@+id/view_thumbnail0"
                     android:layout_width="300dp"
                     android:layout_height="200dp"
-                    android:layout_marginTop="55dp"
-                    android:layout_gravity="center_horizontal"/>
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="55dp" />
 
             </androidx.cardview.widget.CardView>
-
-
 
             <TextView
                 android:id="@+id/tv_line"
@@ -141,17 +141,17 @@
                 app:cardUseCompatPadding="true">
 
                 <TextView
-                    android:id="@+id/tv_youtubetitle2"
+                    android:id="@+id/tv_youtubetitle1"
                     android:layout_width="300dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:textStyle="bold"
-                    android:text="    0000 하나면 가을,겨울 쉽게 옷 잘 입을 수 있다! 끝판왕 기본템과 스타일링TIP 알려줌✔︎"
+                    android:text=""
                     android:textAlignment="center"/>
 
                 <com.google.android.youtube.player.YouTubeThumbnailView
-                    android:id="@+id/view_thumbnail2"
+                    android:id="@+id/view_thumbnail1"
                     android:layout_width="300dp"
                     android:layout_height="200dp"
                     android:layout_marginTop="55dp"
@@ -178,17 +178,17 @@
                 app:cardUseCompatPadding="true">
 
                 <TextView
-                    android:id="@+id/tv_youtubetitle3"
+                    android:id="@+id/tv_youtubetitle2"
                     android:layout_width="300dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:textStyle="bold"
-                    android:text="  명품백 저리가라👋🏻예쁜데 가성비갑❗️데일리로 들기 좋은  디자이너 가방 추천👜5만원대부터~30 ..."
+                    android:text=""
                     android:textAlignment="center"/>
 
                 <com.google.android.youtube.player.YouTubeThumbnailView
-                    android:id="@+id/view_thumbnail3"
+                    android:id="@+id/view_thumbnail2"
                     android:layout_width="300dp"
                     android:layout_height="200dp"
                     android:layout_marginTop="55dp"
@@ -215,13 +215,42 @@
                 app:cardUseCompatPadding="true">
 
                 <TextView
+                    android:id="@+id/tv_youtubetitle3"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:text=""
+                    android:textAlignment="center"/>
+
+                <com.google.android.youtube.player.YouTubeThumbnailView
+                    android:id="@+id/view_thumbnail3"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="55dp"
+                    android:layout_gravity="center_horizontal"/>
+            </androidx.cardview.widget.CardView>
+
+            <!--five-->
+            <androidx.cardview.widget.CardView
+                android:layout_width="370dp"
+                android:layout_height="310dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true">
+
+                <TextView
                     android:id="@+id/tv_youtubetitle4"
                     android:layout_width="300dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:textStyle="bold"
-                    android:text="사면 평생 쓴다! 남자들이 가을에 가장 먼저 사야하는 옷들 [패션우선순위4]"
+                    android:text=""
                     android:textAlignment="center"/>
 
                 <com.google.android.youtube.player.YouTubeThumbnailView

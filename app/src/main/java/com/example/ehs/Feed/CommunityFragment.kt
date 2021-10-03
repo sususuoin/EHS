@@ -64,7 +64,7 @@ class CommunityFragment : Fragment() {
         youtubeCC = view!!.findViewById(R.id.youtubecc)
         youtubeCC.setOnClickListener{
             activity?.let{
-                val intent = Intent(context, YoutubeActivity::class.java)
+                val intent = Intent(context, CommunityEditActivity::class.java)
                 startActivity(intent) }
         }
 
