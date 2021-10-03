@@ -99,9 +99,9 @@ class CalendarActivity : AppCompatActivity(){
     private fun setMonthView() {
         monthYearText!!.text = monthYearFromDate(selectedDate)
         todaymonth = selectedDate?.monthValue.toString() // 현재월 가져오기
-        Log.d("gg", todaymonth!!)
+        Log.d("gg1", todaymonth!!)
         val daysInMonth = daysInMonthArray(selectedDate)
-        Log.d("", daysInMonth.toString())
+        Log.d("gg2", daysInMonth.toString())
         for (i in daysInMonth) {
             calendar.apply {
                 add(Calendar(day = i, photo = null))

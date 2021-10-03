@@ -65,6 +65,15 @@ class HomeFragment : Fragment() {
     var fri: String? = null
     var sat: String? = null
 
+    // 달 받아오기
+    var sun2: String? = null
+    var mon2: String? = null
+    var tue2: String? = null
+    var wed2: String? = null
+    var thu2: String? = null
+    var fri2: String? = null
+    var sat2: String? = null
+
     var getLatitude : String = ""
     var getLongitude : String = ""
 
@@ -176,15 +185,15 @@ class HomeFragment : Fragment() {
         /**
          * 캘린더 리사이클러뷰 객체
          */
-        var calendarList = arrayListOf<Calendarlist>(
-            Calendarlist(sun!!, "일", ""),
-            Calendarlist(mon!!, "월", ""),
-            Calendarlist(tue!!, "화", ""),
-            Calendarlist(wed!!, "수", ""),
-            Calendarlist(thu!!, "목", ""),
-            Calendarlist(fri!!, "금", ""),
-            Calendarlist(sat!!, "토", ""),
-            Calendarlist(" 캘린더로 이동", "", "ic_right")
+        var calendarList = arrayListOf(
+            Calendarlist("", sun!!, "일"),
+            Calendarlist("", mon!!, "월"),
+            Calendarlist("", tue!!, "화"),
+            Calendarlist("", wed!!, "수"),
+            Calendarlist("", thu!!, "목"),
+            Calendarlist("", fri!!, "금"),
+            Calendarlist("", sat!!, "토"),
+            Calendarlist("","캘린더로 이동", "")
         )
         /**
          * 캘린더 리사이클러 뷰
@@ -302,6 +311,7 @@ class HomeFragment : Fragment() {
 
         // 해당 주차의 첫째 날짜
         val startDt = sf.format(cal.time)
+        Log.d("zzz호호잇", startDt)
 
         // 둘째 날짜
         cal.add(Calendar.DAY_OF_MONTH, 1)
@@ -323,26 +333,34 @@ class HomeFragment : Fragment() {
         // 해당 주차의 마지막 날짜
         val endDt = sf.format(cal.time)
 
-        var token = startDt.split('-');
-        sun = token[2]
+        var token = startDt.split('-')
+        sun = token[2] //일
+        sun2 = token[1] //2자리수 월
+        Log.d("zzz호호잇333", sun2!!)
 
-        token = twoDt.split('-');
+        token = twoDt.split('-')
         mon = token[2]
+        mon2 = token[1]
 
-        token = threeDt.split('-');
+        token = threeDt.split('-')
         tue = token[2]
+        tue2 = token[1]
 
-        token = fourDt.split('-');
+        token = fourDt.split('-')
         wed = token[2]
+        wed2 = token[1]
 
-        token = fiveDt.split('-');
+        token = fiveDt.split('-')
         thu = token[2]
+        thu2 = token[1]
 
-        token = sixDt.split('-');
+        token = sixDt.split('-')
         fri = token[2]
+        fri2 = token[1]
 
-        token = endDt.split('-');
+        token = endDt.split('-')
         sat = token[2]
+        sat2 = token[1]
 
         Log.d(TAG, "특정 날짜 = [$eventDate] >> 시작 날짜 = [$startDt], 종료 날짜 = [$endDt], 두번째 = [$twoDt]")
         Log.d("일", "요일" + sun)
