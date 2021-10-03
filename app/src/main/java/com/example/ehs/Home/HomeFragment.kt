@@ -8,23 +8,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ehs.AI.Main_AIActivity
 import com.example.ehs.Calendar.AutoCalendar
 import com.example.ehs.Calendar.CalendarActivity
-import com.example.ehs.Closet.ClosetFragment
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.example.ehs.Weather.WeatherActivity
 import com.jakewharton.threetenabp.AndroidThreeTen
-import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.Call
@@ -43,18 +38,7 @@ class HomeFragment : Fragment() {
     val now: LocalDateTime = LocalDateTime.now()
     var Strnow = now?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
-    // lateinit var text: TextView
-    lateinit var aibtn : ImageView
-    lateinit var calendarbtn: ImageButton
-    lateinit var weathergo : ImageButton
-    lateinit var updatebtn : ImageButton
     lateinit var crecyclerview: androidx.recyclerview.widget.RecyclerView
-    lateinit var img_weather: ImageView
-    lateinit var tv_weathergo : TextView
-    lateinit var tv_cityH : TextView
-    lateinit var tv_MinMaxH : TextView
-    lateinit var tv_cTempH : TextView
-
 
     // 요일 받아오기
     var sun: String? = null
@@ -103,7 +87,7 @@ class HomeFragment : Fragment() {
         calendarNameArr = AutoCalendar.getCalendarName(a!!)
         calendarYearArr = AutoCalendar.getCalendarYear(a!!)
         calendarMonthArr = AutoCalendar.getCalendarMonth(a!!)
-            calendarDayArr = AutoCalendar.getCalendarDay(a!!)
+        calendarDayArr = AutoCalendar.getCalendarDay(a!!)
 
 
         }
@@ -128,38 +112,24 @@ class HomeFragment : Fragment() {
         Log.d(TAG, "HomeFragment - onCreateView() called")
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-
-
-        // 변수 선언
-        img_weather = view.findViewById(R.id.img_weatherH)
-        img_weather.setImageResource(R.drawable.ic_add)
-        calendarbtn = view.findViewById(R.id.btn_calendar)
-        weathergo = view.findViewById(R.id.btn_weathergo)
-        updatebtn = view.findViewById(R.id.btn_updateH)
-        aibtn = view.findViewById(R.id.btn_goAI)
-        tv_weathergo = view.findViewById(R.id.tv_weathergo)
-        tv_cityH = view.findViewById(R.id.tv_cityH)
-        tv_MinMaxH = view.findViewById(R.id.tv_MinMaxH)
-        tv_cTempH = view.findViewById(R.id.tv_cTempH)
-
-        calendarbtn.setOnClickListener{
+        view.btn_calendar.setOnClickListener{
             val intent = Intent(a, CalendarActivity::class.java)
             startActivity(intent)
         }
-        weathergo.setOnClickListener{
+        view.btn_weathergo.setOnClickListener{
             val intent = Intent(a, WeatherActivity::class.java)
             startActivity(intent)
         }
-        tv_weathergo.setOnClickListener{
+        view.tv_weathergo.setOnClickListener{
             val intent = Intent(a, WeatherActivity::class.java)
             startActivity(intent)
         }
-        aibtn.setOnClickListener {
+        view.btn_goAI.setOnClickListener {
             val intent = Intent(a, Main_AIActivity::class.java)
             startActivity(intent)
         }
 
-        updatebtn.setOnClickListener {
+        view.btn_updateH.setOnClickListener {
             Toast.makeText(a, "날씨 업데이트", Toast.LENGTH_SHORT).show()
             (activity as MainActivity).getLocation()
 
@@ -259,15 +229,15 @@ class HomeFragment : Fragment() {
                     val weatherIMG = weatherResponse!!.weather!!.get(0).icon.toString()
 
                     when (weatherIMG) { // 날씨에 맞는 아이콘 출력
-                        "01d" -> img_weather.setImageResource(R.drawable.ic_sun)
-                        "01n" -> img_weather.setImageResource(R.drawable.ic_sun_night)
-                        "02d" -> img_weather.setImageResource(R.drawable.ic_sun_c)
-                        "02n" -> img_weather.setImageResource(R.drawable.ic_suncloud_night)
-                        "03n", "03d", "04d", "04n" -> img_weather.setImageResource(R.drawable.ic_cloud_many)
-                        "09d", "09n", "10d", "10n" -> img_weather.setImageResource(R.drawable.ic_rain)
-                        "11d", "11n" -> img_weather.setImageResource(R.drawable.ic_thunder)
-                        "13d", "13n" -> img_weather.setImageResource(R.drawable.ic_snow)
-                        "50n", "50d" -> img_weather.setImageResource(R.drawable.ic_mist)
+                        "01d" -> img_weatherH.setImageResource(R.drawable.ic_sun)
+                        "01n" -> img_weatherH.setImageResource(R.drawable.ic_sun_night)
+                        "02d" -> img_weatherH.setImageResource(R.drawable.ic_sun_c)
+                        "02n" -> img_weatherH.setImageResource(R.drawable.ic_suncloud_night)
+                        "03n", "03d", "04d", "04n" -> img_weatherH.setImageResource(R.drawable.ic_cloud_many)
+                        "09d", "09n", "10d", "10n" -> img_weatherH.setImageResource(R.drawable.ic_rain)
+                        "11d", "11n" -> img_weatherH.setImageResource(R.drawable.ic_thunder)
+                        "13d", "13n" -> img_weatherH.setImageResource(R.drawable.ic_snow)
+                        "50n", "50d" -> img_weatherH.setImageResource(R.drawable.ic_mist)
                     }
 
                     tv_cityH.text =AutoHome.getLocation(a!!)
