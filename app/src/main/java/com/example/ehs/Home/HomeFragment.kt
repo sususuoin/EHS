@@ -3,13 +3,18 @@ package com.example.ehs.Home
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.graphics.blue
+import androidx.core.graphics.green
+import androidx.core.graphics.red
 import androidx.fragment.app.Fragment
+import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ehs.AI.Main_AIActivity
 import com.example.ehs.Calendar.AutoCalendar
@@ -63,7 +68,6 @@ class HomeFragment : Fragment() {
 
     var cAdapter : CalendarlistAdapter? = null
 
-
     companion object {
         const val TAG : String = "홈 프레그먼트"
         fun newInstance() : HomeFragment { // newInstance()라는 함수를 호출하면 HomeFragment를 반환함
@@ -90,22 +94,41 @@ class HomeFragment : Fragment() {
         calendarDayArr = AutoCalendar.getCalendarDay(a!!)
 
 
-        }
-        // 프래그먼트를 안고 있는 액티비티에 붙었을 때
-        override fun onAttach(context: Context) {
-            super.onAttach(context)
-            if (context is Activity) {
-                a = context
-            }
-            Log.d(TAG, "HomeFragment - onAttach() called")
+//        //대표색상구하기
+//        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.cody2)
+//        val pb: Palette.Builder = Palette.from(bitmap)
+//        val palette = pb.generate()
+//        Palette.from(bitmap).generate {
+//            val dominantSwatch = palette.dominantSwatch
+//            val dominantRgb = dominantSwatch!!.rgb
+//            var red = dominantRgb.red.toString(16)
+//            var green = dominantRgb.green.toString(16)
+//            var blue = dominantRgb.blue.toString(16)
+//            Log.d("컬러코드", "#$red$green$blue")
+//
+//            val dominantRgb2 = dominantSwatch!!.titleTextColor
+//            val dominantRgb3 = dominantSwatch!!.bodyTextColor
+//
+//
+//            // palette가 만들어졌을 때 하고싶은 것...
+//        }
 
-        }
 
-        // 뷰가 생성되었을 때 화면과 연결
-        // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
-        override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
+    }
+    // 프래그먼트를 안고 있는 액티비티에 붙었을 때
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is Activity) {
+            a = context
+        }
+        Log.d(TAG, "HomeFragment - onAttach() called")
+    }
+
+    // 뷰가 생성되었을 때 화면과 연결
+    // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         week(Strnow!!)
@@ -153,7 +176,7 @@ class HomeFragment : Fragment() {
             Calendarlist("", thu!!, "목"),
             Calendarlist("", fri!!, "금"),
             Calendarlist("", sat!!, "토"),
-            Calendarlist("","캘린더로", " 이동")
+            Calendarlist("", "캘린더로", " 이동")
         )
         /**
          * 캘린더 리사이클러 뷰
@@ -209,14 +232,14 @@ class HomeFragment : Fragment() {
 
             override fun onResponse(
                 call: Call<WeatherActivity.WeatherResponse>,
-                response: Response<WeatherActivity.WeatherResponse>
+                response: Response<WeatherActivity.WeatherResponse>,
             ) {
                 if (response.code() == 200) {
                     val weatherResponse = response.body()
                     Log.d("HomeFragment", "result: " + weatherResponse.toString())
                     val cTemp = weatherResponse!!.main!!.temp - 273.15  //켈빈을 섭씨로 변환
-                    val minTemp = weatherResponse!!.main!!.temp_min - 273.15
-                    val maxTemp = weatherResponse!!.main!!.temp_max - 273.15
+                    val minTemp = weatherResponse.main!!.temp_min - 273.15
+                    val maxTemp = weatherResponse.main!!.temp_max - 273.15
 
 //                    var cutting = WeatherActivity.city?.split(' ') // 공백을 기준으로 리스트 생성해서 필요한 주소값만 출력하기
 //                    Log.d("잘리냐", "어케생겨먹었니" + WeatherActivity.city)
@@ -240,8 +263,9 @@ class HomeFragment : Fragment() {
                         "50n", "50d" -> img_weatherH.setImageResource(R.drawable.ic_mist)
                     }
 
-                    tv_cityH.text =AutoHome.getLocation(a!!)
-                    tv_MinMaxH.text = intMinTemp.toString() + "\u00B0" + "/ " + intMaxTemp.toString() + "\u00B0"
+                    tv_cityH.text = AutoHome.getLocation(a!!)
+                    tv_MinMaxH.text =
+                        intMinTemp.toString() + "\u00B0" + "/ " + intMaxTemp.toString() + "\u00B0"
                     tv_cTempH.text = intcTemp.toString() + "\u00B0"
                 }
             }

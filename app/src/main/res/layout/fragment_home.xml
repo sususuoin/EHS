@@ -194,20 +194,6 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_asdf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="색상변경되는거 확인하기"
-                android:textSize="30dp" />
-
-            <ImageView
-                android:id="@+id/iv_asdf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/cody1">
-
-            </ImageView>
 
         </LinearLayout>
 
