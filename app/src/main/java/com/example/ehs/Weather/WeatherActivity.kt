@@ -13,11 +13,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ehs.R
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.synthetic.main.activity_weather.*
+import kotlinx.android.synthetic.main.fragment_closet.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -62,6 +64,10 @@ class WeatherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
+            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+        }
         /**
          * 액션바 대신 툴바를 사용하도록 설정
          */

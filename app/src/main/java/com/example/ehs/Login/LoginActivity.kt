@@ -3,17 +3,21 @@ package com.example.ehs.Login
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.AI.AIActivity
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.fragment_closet.*
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -49,7 +53,10 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
+            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+        }
 
         tv_register.setOnClickListener {
             Log.d(TAG, "회원가입 클릭")

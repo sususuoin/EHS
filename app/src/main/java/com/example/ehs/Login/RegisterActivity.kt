@@ -4,6 +4,7 @@ package com.example.ehs.Login
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
@@ -11,6 +12,8 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
@@ -19,6 +22,7 @@ import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_ai.*
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.activity_register.btn_register
+import kotlinx.android.synthetic.main.fragment_closet.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
@@ -33,7 +37,10 @@ class RegisterActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
+            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+        }
         /**
          * 액션바 대신 툴바를 사용하도록 설정
          */

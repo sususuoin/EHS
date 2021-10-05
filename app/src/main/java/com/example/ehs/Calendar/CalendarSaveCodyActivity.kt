@@ -4,12 +4,15 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
@@ -17,6 +20,7 @@ import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_calendar_save_cody.*
+import kotlinx.android.synthetic.main.fragment_closet.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
@@ -40,6 +44,12 @@ class CalendarSaveCodyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar_save_cody)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
+            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+        }
+
         /**
          * 액션바 대신 툴바를 사용하도록 설정
          */

@@ -2,23 +2,30 @@ package com.example.ehs.Feed
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.example.ehs.Fashionista.ProfilePlus_Activity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_community_detail.*
 import kotlinx.android.synthetic.main.activity_community_edit.*
 import kotlinx.android.synthetic.main.activity_profile_plus_.*
+import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.fragment_community.*
 
 class CommunityEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_community_edit)
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
+            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+        }
         btn_editOk.setOnClickListener {
             val returnIntent = Intent()
             setResult(Activity.RESULT_OK, returnIntent)
