@@ -7,12 +7,10 @@ import android.location.*
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowInsetsController
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -35,6 +33,10 @@ import com.gun0912.tedpermission.TedPermission
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_closet.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -48,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     val TAG: String = "메인페이지"
     companion object {
         var mContext: Context? = null
+        var loading : Loading? = null
     }
 
     lateinit var getLatitude : String
@@ -68,8 +71,6 @@ class MainActivity : AppCompatActivity() {
     val bundle = Bundle()
 
     private var backKeyPressedTime: Long = 0
-
-
 
     override fun onBackPressed() {
         //super.onBackPressed();
@@ -96,11 +97,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
-            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
-        }
-
 
         AndroidThreeTen.init(this)
         mContext = this
@@ -169,8 +165,20 @@ class MainActivity : AppCompatActivity() {
                     FeedImg()
                     Feed_like_check()
                     Feed_ranking()
-                    feedFragment = FeedFragment.newInstance()
-                    replaceFragment(feedFragment)
+                    loading = Loading(this)
+
+//                    feedFragment = FeedFragment.newInstance()
+//                    replaceFragment(feedFragment)
+                    GlobalScope.launch(Dispatchers.Main) {
+                        launch(Dispatchers.Main) {
+                            loading!!.asdf()
+                        }
+                        delay(4000L)
+
+                        feedFragment = FeedFragment.newInstance()
+                        replaceFragment(feedFragment)
+                    }
+
                 }
                 R.id.menu_mypage -> {
                     Log.d(TAG, "MainActivity - 마이페이지 버튼 클릭!")
@@ -195,7 +203,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * 테드 퍼미션 설정
      */
-    private fun setPermission() {
+    private fun setPermission() {0
         val permission = object : PermissionListener {
 
             override fun onPermissionGranted() { // 설정해놓은 위험 권한들이 허용되었을 경우 이곳을 수행함.
