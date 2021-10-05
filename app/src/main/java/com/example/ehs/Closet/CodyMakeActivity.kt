@@ -6,18 +6,22 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ehs.Fashionista.FavoriteFragment
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.example.ehs.databinding.ActivityCodyMakeBinding
 import kotlinx.android.synthetic.main.activity_cody_make.*
+import kotlinx.android.synthetic.main.fragment_closet.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -52,6 +56,11 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
+            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+        }
+
         binding = ActivityCodyMakeBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)

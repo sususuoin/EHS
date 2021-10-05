@@ -37,7 +37,6 @@
         <activity android:name=".Closet.CodyMakeActivity" />
         <activity android:name=".Feed.CommunityEditActivity" />
         <activity android:name=".Feed.CommunityDetailActivity" />
-        <activity android:name=".Feed.YoutubeActivity" />
         <activity android:name=".Closet.CodySaveActivity" />
         <activity android:name=".Fashionista.ProRecommendActivity" />
         <activity android:name=".Fashionista.ProfilePlus_Activity" />

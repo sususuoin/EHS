@@ -11,10 +11,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_calendar.*
+import kotlinx.android.synthetic.main.fragment_closet.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.YearMonth
 import org.threeten.bp.format.DateTimeFormatter
@@ -46,6 +49,11 @@ class CalendarActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar)
         Log.d("캘린더 액티비티", "온크리에이트")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
+            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+        }
+
         context_calendar = this
 
         initWidgets()

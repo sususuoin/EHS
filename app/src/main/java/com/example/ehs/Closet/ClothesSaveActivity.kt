@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -12,6 +13,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
@@ -64,6 +67,10 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_clothes_save)
         clothesSaveContext=this
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
+            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+        }
 
         //사용자 아이디받아오기
         userId = AutoLogin.getUserId(this@ClothesSaveActivity)

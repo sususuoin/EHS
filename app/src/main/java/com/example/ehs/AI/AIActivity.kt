@@ -6,6 +6,7 @@ import android.content.ClipData
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -13,6 +14,8 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import com.example.ehs.Login.RegisterActivity
 import com.example.ehs.R
@@ -20,6 +23,7 @@ import com.example.ehs.ml.ModelUnquant
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.activity_ai.*
+import kotlinx.android.synthetic.main.fragment_closet.*
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
@@ -42,7 +46,10 @@ class AIActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ai)
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
+            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+        }
         /**
          * 액션바 대신 툴바를 사용하도록 설정
          */
