@@ -7,6 +7,7 @@ import android.location.*
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowInsetsController
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -172,8 +173,6 @@ class MainActivity : AppCompatActivity() {
                     Feed_ranking()
                     loading = Loading(this)
 
-//                    feedFragment = FeedFragment.newInstance()
-//                    replaceFragment(feedFragment)
                     GlobalScope.launch(Dispatchers.Main) {
                         launch(Dispatchers.Main) {
                             loading!!.asdf()
