@@ -99,10 +99,14 @@ class Main_AIActivity : AppCompatActivity() {
             val best = (outputFeature.floatArray[0].div(255.0) * 100).roundToInt() // best값 백분율로
             val worst = (outputFeature.floatArray[1].div(255.0)*100).roundToInt() // worst값 백분율로
 
+            Log.d("점수", best.toString())
+            Log.d("점수2", worst.toString())
+            var worst2 = 100-worst
+            Log.d("점수23", worst.toString())
             if(best>worst){
                 tv_result.text = "당신의 점수는~~?   $best"
             }else{
-                tv_result.text = "당신의 점수는~~?   $worst"
+                tv_result.text = "당신의 점수는~~?   $worst2"
             } // 박수쳐~~~~~~ 호로로로로로로로롤
             //오예 짞짝짞짜까ㅉ까짞 신은정 짱짱맨~~
 
