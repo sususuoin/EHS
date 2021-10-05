@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
-import com.example.ehs.MainActivity.Companion.loading
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.android.synthetic.main.fragment_feed.view.*
@@ -123,7 +122,7 @@ class FeedFragment : Fragment() {
         }
 
         adapter.notifyDataSetChanged()
-        loading?.finish()
+        MainActivity.loading?.finish()
     }
 
 
