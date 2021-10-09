@@ -148,7 +148,7 @@ class HomeFragment : Fragment() {
             val intent = Intent(a, WeatherActivity::class.java)
             startActivity(intent)
         }
-        view.btn_goAI.setOnClickListener {
+        view.iv_recoai.setOnClickListener {
             val intent = Intent(a, Main_AIActivity::class.java)
             startActivity(intent)
         }
