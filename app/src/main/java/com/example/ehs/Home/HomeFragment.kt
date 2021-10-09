@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ehs.AI.Main_AIActivity
 import com.example.ehs.Calendar.AutoCalendar
 import com.example.ehs.Calendar.CalendarActivity
+import com.example.ehs.Fashionista.ProRecommendActivity
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.example.ehs.Weather.WeatherActivity
@@ -149,6 +150,18 @@ class HomeFragment : Fragment() {
         }
         view.btn_goAI.setOnClickListener {
             val intent = Intent(a, Main_AIActivity::class.java)
+            startActivity(intent)
+        }
+        view.iv_recotag.setOnClickListener {
+            val intent = Intent(a, ProRecommendActivity::class.java)
+            startActivity(intent)
+        }
+        view.iv_recocolor.setOnClickListener {
+            val intent = Intent(a, ProRecommendActivity::class.java)
+            startActivity(intent)
+        }
+        view.iv_recopro.setOnClickListener {
+            val intent = Intent(a, ProRecommendActivity::class.java)
             startActivity(intent)
         }
 
