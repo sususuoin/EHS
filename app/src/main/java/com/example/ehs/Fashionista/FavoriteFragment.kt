@@ -41,16 +41,18 @@ class FavoriteFragment : Fragment() {
 
     companion object {
         const val TAG : String = "커뮤니티 프레그먼트"
-
+        var favoriteContext: Context? = null
         fun newInstance() : FavoriteFragment { // newInstance()라는 함수를 호출하면 CommunityFragment를 반환함
             return FavoriteFragment()
         }
     }
 
+
     // 프레그먼트가 메모리에 올라갔을때
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "FeedFragment - onCreate() called")
+        favoriteContext=a!!
 
         dialog.dismiss()
         userId = AutoLogin.getUserId(a!!)
