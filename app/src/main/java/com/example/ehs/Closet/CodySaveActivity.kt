@@ -22,10 +22,14 @@ import com.example.ehs.Feed.FeedCodySave_Request
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
+import com.example.ehs.ml.ColorModel
 import kotlinx.android.synthetic.main.activity_cody_save.*
 import kotlinx.android.synthetic.main.fragment_closet.*
 import org.json.JSONException
 import org.json.JSONObject
+import org.tensorflow.lite.DataType
+import org.tensorflow.lite.support.image.TensorImage
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -43,6 +47,8 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         var codySaveContext: Context? = null
         var codysaveActivity_Dialog : ProgressDialog? = null
     }
+
+    lateinit var codycolorRecommend : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +93,8 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         // 완료하기 버튼 클릭 시
         btn_complete_cody.setOnClickListener{
 
+            codycolor(image)
+
             if(codyStyle == "" || codyStyle == null ) {
                 Toast.makeText(this@CodySaveActivity, "스타일을 꼭 설정해주세요", Toast.LENGTH_LONG).show()
             }
@@ -103,6 +111,51 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         }
 
 
+
+    }
+
+    fun codycolor(bitmap : Bitmap) {
+
+        val resized1 : Bitmap = Bitmap.createScaledBitmap(bitmap!!, 224, 224, true)
+        val model = ColorModel.newInstance(this)
+
+        // Creates inputs for reference.
+        val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+
+        val tbuffer1 = TensorImage.fromBitmap(resized1)
+        val byteBuffer1 = tbuffer1.buffer
+
+        inputFeature0.loadBuffer(byteBuffer1)
+
+        // Runs model inference and gets result.
+        val outputs = model.process(inputFeature0)
+        val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+
+        var asdf = ArrayList<Double>()
+        var colorLabelArr = ArrayList<String>()
+        colorLabelArr.add("경쾌한")
+        colorLabelArr.add("고상한")
+        colorLabelArr.add("귀여운")
+        colorLabelArr.add("내추럴한")
+        colorLabelArr.add("다이나믹한")
+        colorLabelArr.add("맑은")
+        colorLabelArr.add("모던한")
+        colorLabelArr.add("온화한")
+        colorLabelArr.add("우아한")
+        colorLabelArr.add("은은한")
+        colorLabelArr.add("점잖은")
+        colorLabelArr.add("화려한")
+
+        for(i in 0 until outputFeature0.floatArray.size) {
+            asdf.add(outputFeature0.floatArray[i].div(255.0)*100)
+        }
+        var max = asdf.indexOf(asdf.max())
+        codycolorRecommend = colorLabelArr[max]
+        Log.d("컬러추천", colorLabelArr[max])
+        Log.d("컬러추천", asdf.max().toString())
+
+        // Releases model resources if no longer used.
+        model.close()
 
     }
 
@@ -251,7 +304,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         var plusContent = ""
         var plusImgStyle = codyStyle
 
-        val profilePlusSave_Request = ProfilePlusSave_Request(userId, plusImgPath, plusImgName, plusImgStyle, plusContent, responseListener)
+        val profilePlusSave_Request = ProfilePlusSave_Request(userId, plusImgPath, plusImgName, plusImgStyle, plusContent, codycolorRecommend, responseListener)
         val queue = Volley.newRequestQueue(this@CodySaveActivity)
         queue.add(profilePlusSave_Request)
     }

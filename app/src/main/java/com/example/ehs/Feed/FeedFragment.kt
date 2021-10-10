@@ -56,8 +56,9 @@ class FeedFragment : Fragment() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "FeedFragment - onCreate() called")
 
-        (activity as MainActivity).FeedImg()
-        (activity as MainActivity).Feed_like_check()
+//        (activity as MainActivity).FeedImg()
+//        (activity as MainActivity).Feed_like_check()
+//        (activity as MainActivity).Feed_ranking()
 
         feedrank_feedNumArr = AutoFeed.getFeedRank_feedNum(a!!)
         feedrank_feeduserId = AutoFeed.getFeedRank_feed_userId(a!!)
