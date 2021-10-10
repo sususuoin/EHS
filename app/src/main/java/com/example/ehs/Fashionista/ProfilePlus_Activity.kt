@@ -24,6 +24,7 @@ import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.ClothesUpload_Request
+import com.example.ehs.Home.ColorRecommendActivity
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import com.gun0912.tedpermission.PermissionListener
@@ -73,6 +74,9 @@ class ProfilePlus_Activity : AppCompatActivity() {
         iv_profileplus.setImageBitmap(plusImg2)
 
         btn_profile_ok.setOnClickListener {
+
+            (ColorRecommendActivity.codyrecommendContext as ColorRecommendActivity).codycolor(plusImg2)
+
             plusContent = et_PlusContent.text.toString()
             dialog = ProgressDialog(this)
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
@@ -307,7 +311,7 @@ class ProfilePlus_Activity : AppCompatActivity() {
         }
         val plusImgPath = "http://13.125.7.2/img/fashionista_profile/"
         val plusImgStyle = "캐주얼"
-        val profilePlusSave_Request = ProfilePlusSave_Request(userId, plusImgPath, plusImgName, plusImgStyle, plusContent, responseListener)
+        val profilePlusSave_Request = ProfilePlusSave_Request(userId, plusImgPath, plusImgName, plusImgStyle, plusContent, ColorRecommendActivity.codycolorRecommend, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(profilePlusSave_Request)
     }

@@ -1,5 +1,6 @@
 package com.example.ehs.Home
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
+import com.example.ehs.Loading
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import com.example.ehs.ml.ColorModel
@@ -16,11 +18,16 @@ import kotlinx.android.synthetic.main.activity_pro_recommend.tv_userid
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import kotlin.properties.Delegates
 
 class ColorRecommendActivity : AppCompatActivity() {
 
     lateinit var userId : String
 
+    companion object {
+        var codyrecommendContext: Context? = null
+        lateinit var codycolorRecommend : String
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +35,7 @@ class ColorRecommendActivity : AppCompatActivity() {
         userId = AutoLogin.getUserId(this@ColorRecommendActivity)
         tv_userid.text = userId
 
+        codyrecommendContext=this
         /**
          * 액션바 대신 툴바를 사용하도록 설정
          */
@@ -38,7 +46,14 @@ class ColorRecommendActivity : AppCompatActivity() {
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.colortest)
+        var bitmap = BitmapFactory.decodeResource(resources, R.drawable.colortest)
+        codycolor(bitmap)
+
+    }
+
+
+    fun codycolor(bitmap : Bitmap) {
+
         val resized1 : Bitmap = Bitmap.createScaledBitmap(bitmap!!, 224, 224, true)
         val model = ColorModel.newInstance(this)
 
@@ -56,21 +71,35 @@ class ColorRecommendActivity : AppCompatActivity() {
 
         val best1 = outputFeature0.floatArray[1].div(255.0)*100 // best값 백분율로
 
-        Log.d("best11122", best1.toString())
+        Log.d("컬러추천", best1.toString())
 
         var asdf = ArrayList<Double>()
-        for(i in 0 until outputFeature0.floatArray.size) {
+        var colorLabelArr = ArrayList<String>()
+        colorLabelArr.add("경쾌한")
+        colorLabelArr.add("고상한")
+        colorLabelArr.add("귀여운")
+        colorLabelArr.add("내추럴한")
+        colorLabelArr.add("다이나믹한")
+        colorLabelArr.add("맑은")
+        colorLabelArr.add("모던한")
+        colorLabelArr.add("온화한")
+        colorLabelArr.add("우아한")
+        colorLabelArr.add("은은한")
+        colorLabelArr.add("점잖은")
+        colorLabelArr.add("화려한")
+
+         for(i in 0 until outputFeature0.floatArray.size) {
             asdf.add(outputFeature0.floatArray[i].div(255.0)*100)
         }
+        var max = asdf.indexOf(asdf.max())
+        codycolorRecommend= colorLabelArr[max]
+        Log.d("컬러추천", colorLabelArr[max])
 
-        Log.d("best11122222222222", asdf.toString())
 
         iv_colorcody1.setImageBitmap(bitmap)
 
-
         // Releases model resources if no longer used.
         model.close()
-
 
     }
 
