@@ -9,6 +9,19 @@ import org.json.JSONException
 object AutoHome {
     private val MY_HOME : String = "Home"
 
+    fun setColorcody(context: Context, input: String) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_HOME, Context.MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = prefs.edit()
+        editor.putString("MY_colorcody", input)
+        editor.commit()
+    }
+
+    fun getColorcody(context: Context): String {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_HOME, Context.MODE_PRIVATE)
+        return prefs.getString("MY_colorcody", "").toString()
+    }
+
+
     fun setColoruserId(context: Context, input: ArrayList<String>) {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_HOME, Context.MODE_PRIVATE)
         val editor = prefs.edit()

@@ -165,16 +165,16 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
         view.iv_recotag.setOnClickListener {
-            recommend()
-//            (FavoriteFragment.favoriteContext as FavoriteFragment).recommend()
+
         }
         view.iv_recocolor.setOnClickListener {
             colorRecommend()
 
         }
         view.iv_recopro.setOnClickListener {
-            val intent = Intent(a, ProRecommendActivity::class.java)
-            startActivity(intent)
+            recommend()
+//            val intent = Intent(a, ProRecommendActivity::class.java)
+//            startActivity(intent)
         }
 
         view.btn_updateH.setOnClickListener {
@@ -438,6 +438,7 @@ class HomeFragment : Fragment() {
     }
 
     fun colorRecommend() {
+        var color: String
         var coloruserId: String
         var colorplusImgPath: String
         var colorplusImgName: String
@@ -464,6 +465,7 @@ class HomeFragment : Fragment() {
                         for (i in 0 until arr.length()) {
                             val proObject = arr.getJSONObject(i)
 
+                            color = proObject.getString("plusImgColor")
                             coloruserId = proObject.getString("userId")
                             colorplusImgPath = proObject.getString("plusImgPath")
                             colorplusImgName = proObject.getString("plusImgName")
@@ -475,7 +477,9 @@ class HomeFragment : Fragment() {
                             colorplusImgNameArr.add(colorplusImgName)
                             colorplusImgStyleArr.add(colorplusImgStyle)
 
+                            AutoHome.setColorcody(a!!, color)
                         }
+
                         AutoHome.setColoruserId(a!!, coloruserIdArr)
                         AutoHome.setColorplusImgPath(a!!, colorplusImgPathArr)
                         AutoHome.setColorplusImgName(a!!, colorplusImgNameArr)

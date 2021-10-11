@@ -31,8 +31,7 @@ class ColorRecommendListAdapter(private val items: List<ColorRecommend>) : Recyc
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 505
-        layoutParams.width = 505
+        layoutParams.height = 200 * items.size
         holder.itemView.requestLayout()
 
 
