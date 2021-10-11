@@ -35,7 +35,6 @@ class ProRecommendActivity : AppCompatActivity() {
         var proImgArr = AutoPro.getProProfileImg(this)
         var proStyle = AutoPro.getStyle(this)
 
-
         tv_proStyle.text = proStyle
         proId1.text = proIdArr[0]
         proId2.text = proIdArr[1]
@@ -44,8 +43,6 @@ class ProRecommendActivity : AppCompatActivity() {
         iv_proImg1.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[0]))
         iv_proImg2.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[1]))
         iv_proImg3.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[2]))
-
-
 
     }
 

@@ -16,17 +16,24 @@ import androidx.core.graphics.red
 import androidx.fragment.app.Fragment
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
+import com.android.volley.toolbox.Volley
 import com.example.ehs.AI.Main_AIActivity
 import com.example.ehs.Calendar.AutoCalendar
 import com.example.ehs.Calendar.CalendarActivity
+import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Fashionista.FavoriteFragment
 import com.example.ehs.Fashionista.ProRecommendActivity
+import com.example.ehs.Fashionista.ProRecommend_Request
+import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.example.ehs.Weather.WeatherActivity
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.Call
@@ -69,6 +76,7 @@ class HomeFragment : Fragment() {
     var getLongitude : String = ""
 
     var cAdapter : CalendarlistAdapter? = null
+    lateinit var userId: String
 
     companion object {
         const val TAG : String = "홈 프레그먼트"
@@ -79,6 +87,7 @@ class HomeFragment : Fragment() {
         var calendarYearArr = ArrayList<String>()
         var calendarMonthArr = ArrayList<String>()
         var calendarDayArr = ArrayList<String>()
+        var homeContext: Context? = null
     }
 
     // 프래그먼트가 메모리에 올라갔을때
@@ -86,6 +95,8 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "HomeFragment - onCreate() called")
         AndroidThreeTen.init(a)
+        homeContext=a!!
+        userId = AutoLogin.getUserId(a!!)
 
         getLongitude = AutoHome.getLongitude(a!!)
         getLatitude = AutoHome.getLatitude(a!!)
@@ -154,11 +165,12 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
         view.iv_recotag.setOnClickListener {
-            (FavoriteFragment.favoriteContext as FavoriteFragment).recommend()
+            recommend()
+//            (FavoriteFragment.favoriteContext as FavoriteFragment).recommend()
         }
         view.iv_recocolor.setOnClickListener {
-            val intent = Intent(a, ColorRecommendActivity::class.java)
-            startActivity(intent)
+            colorRecommend()
+
         }
         view.iv_recopro.setOnClickListener {
             val intent = Intent(a, ProRecommendActivity::class.java)
@@ -365,5 +377,123 @@ class HomeFragment : Fragment() {
     }
 
 
+    fun recommend() {
+        var proStyle : String
+        var prouserId : String
+        var proprofileImg : String
+        var proIdArr = ArrayList<String>()
+        var proImgArr = ArrayList<String>()
+        val responseListener: com.android.volley.Response.Listener<String?> =
+            com.android.volley.Response.Listener<String?> { response ->
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    var response = jsonObject.toString()
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    Log.d("~~1", response)
+                    Log.d("~~2", arr.toString())
+                    Log.d("~~22", arr.length().toString())
+
+                    if(arr.length() == 0 || arr.length() == 1 || arr.length() ==2) {
+                        Toast.makeText(a!!, "전문가부족현상으로 다음에 이용해주시기 바랍니다.", Toast.LENGTH_SHORT).show()
+                        return@Listener
+                    }
+
+                    else {
+                        for (i in 0 until arr.length()) {
+                            val proObject = arr.getJSONObject(i)
+                            Log.d("~~3", arr[i].toString())
+
+                            proStyle = proObject.getString("codyStyle")
+                            prouserId = proObject.getString("userId")
+                            proprofileImg = proObject.getString("userProfileImg")
+
+
+                            proIdArr.add(prouserId)
+                            proImgArr.add(proprofileImg)
+
+
+                            AutoPro.setStyle(a!!, proStyle)
+                            AutoPro.setProProfileId(a!!, proIdArr)
+                            AutoPro.setProProfileImg(a!!, proImgArr)
+                        }
+                        // 추천 액티비티로 이동
+                        val intent = Intent(a!!, ProRecommendActivity::class.java)
+                        startActivity(intent)
+                    }
+
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    Toast.makeText(a!!, "코디를 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
+                }
+            }
+        val proRecommendRequest = ProRecommend_Request(userId!!, responseListener)
+        val queue = Volley.newRequestQueue(a)
+        queue.add(proRecommendRequest)
+
+    }
+
+    fun colorRecommend() {
+        var coloruserId: String
+        var colorplusImgPath: String
+        var colorplusImgName: String
+        var colorplusImgStyle: String
+
+        var coloruserIdArr = ArrayList<String>()
+        var colorplusImgPathArr = ArrayList<String>()
+        var colorplusImgNameArr = ArrayList<String>()
+        var colorplusImgStyleArr = ArrayList<String>()
+
+        val responseListener: com.android.volley.Response.Listener<String?> =
+            com.android.volley.Response.Listener<String?> { response ->
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    var response = jsonObject.toString()
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    if (arr.length() == 0) {
+                        Toast.makeText(a!!, "전문가부족현상으로 다음에 이용해주시기 바랍니다.", Toast.LENGTH_SHORT).show()
+                        return@Listener
+                    } else {
+                        for (i in 0 until arr.length()) {
+                            val proObject = arr.getJSONObject(i)
+
+                            coloruserId = proObject.getString("userId")
+                            colorplusImgPath = proObject.getString("plusImgPath")
+                            colorplusImgName = proObject.getString("plusImgName")
+                            colorplusImgStyle = proObject.getString("plusImgStyle")
+
+
+                            coloruserIdArr.add(coloruserId)
+                            colorplusImgPathArr.add(colorplusImgPath)
+                            colorplusImgNameArr.add(colorplusImgName)
+                            colorplusImgStyleArr.add(colorplusImgStyle)
+
+                        }
+                        AutoHome.setColoruserId(a!!, coloruserIdArr)
+                        AutoHome.setColorplusImgPath(a!!, colorplusImgPathArr)
+                        AutoHome.setColorplusImgName(a!!, colorplusImgNameArr)
+                        AutoHome.setColorplusImgStyle(a!!, colorplusImgStyleArr)
+
+                        val intent = Intent(a!!, ColorRecommendActivity::class.java)
+                        startActivity(intent)
+                    }
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    Toast.makeText(a!!, "코디를 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
+                }
+            }
+        val colorRecommend_Request = ColorRecommend_Request(userId!!, responseListener)
+        val queue = Volley.newRequestQueue(a!!)
+        queue.add(colorRecommend_Request)
+    }
 
 }

@@ -197,7 +197,7 @@ class CodyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val gridLayoutManager = GridLayoutManager(CalendarCodyFragment.a, 6)
+        val gridLayoutManager = GridLayoutManager(a, 6)
         gridLayoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 val gridPosition = position % 5

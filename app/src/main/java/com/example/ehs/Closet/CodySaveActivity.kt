@@ -243,7 +243,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
         }
 
         val codyImgPath = "http://13.125.7.2/img/cody/"
-        val codySave_Request = CodySave_Request(userId, codyImgPath, codyImgName, codyStyle, codyOpen, responseListener)
+        val codySave_Request = CodySave_Request(userId, codyImgPath, codyImgName, codyStyle, codycolorRecommend, codyOpen, responseListener)
         val queue = Volley.newRequestQueue(this@CodySaveActivity)
         queue.add(codySave_Request)
     }

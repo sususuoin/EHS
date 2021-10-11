@@ -6,13 +6,15 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 
 
-class CodySave_Request (
+class CodySave_Request(
     userId: String,
-    codyImgPath : String,
-    codyImgName : String,
-    codyStyle :String,
-    codyOpen : Boolean,
-    listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {
+    codyImgPath: String,
+    codyImgName: String,
+    codyStyle: String,
+    codycolorRecommend: String,
+    codyOpen: Boolean,
+    listener: Response.Listener<String?>?
+) : StringRequest(Method.POST, URL, listener, null) {
 
     private val map: MutableMap<String, String>
 
@@ -33,6 +35,7 @@ class CodySave_Request (
         map["codyImgPath"] = codyImgPath
         map["codyImgName"] = codyImgName
         map["codyStyle"] = codyStyle
+        map["codycolorRecommend"] = codycolorRecommend
         map["codyOpen"] = codyOpen.toString()
     }
 }

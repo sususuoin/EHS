@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Fashionista.FashionistaFragment.Companion.dialog
+import com.example.ehs.Home.HomeFragment
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
@@ -41,7 +42,6 @@ class FavoriteFragment : Fragment() {
 
     companion object {
         const val TAG : String = "커뮤니티 프레그먼트"
-        var favoriteContext: Context? = null
         fun newInstance() : FavoriteFragment { // newInstance()라는 함수를 호출하면 CommunityFragment를 반환함
             return FavoriteFragment()
         }
@@ -52,7 +52,6 @@ class FavoriteFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "FeedFragment - onCreate() called")
-        favoriteContext=a!!
 
         dialog.dismiss()
         userId = AutoLogin.getUserId(a!!)
@@ -107,7 +106,7 @@ class FavoriteFragment : Fragment() {
 
         // 추천배너 클릭 시
         view.btn_recommend.setOnClickListener {
-            recommend()
+            (HomeFragment.homeContext as HomeFragment).recommend()
         }
 
 
@@ -126,64 +125,6 @@ class FavoriteFragment : Fragment() {
         adapter.notifyDataSetChanged()
     }
 
-    fun recommend() {
-        var proStyle : String
-        var prouserId : String
-        var proprofileImg : String
-        var proIdArr = mutableListOf<String>()
-        var proImgArr = mutableListOf<String>()
-        val responseListener: Response.Listener<String?> =
-            Response.Listener<String?> { response ->
-                try {
 
-                    var jsonObject = JSONObject(response)
-                    var response = jsonObject.toString()
-
-                    val arr: JSONArray = jsonObject.getJSONArray("response")
-
-                    Log.d("~~1", response)
-                    Log.d("~~2", arr.toString())
-                    Log.d("~~22", arr.length().toString())
-
-                    if(arr.length() == 0 || arr.length() == 1 || arr.length() ==2) {
-                        Toast.makeText(a!!, "전문가부족현상으로 다음에 이용해주시기 바랍니다.", Toast.LENGTH_SHORT).show()
-                        return@Listener
-                    }
-
-                    else {
-                        for (i in 0 until arr.length()) {
-                            val proObject = arr.getJSONObject(i)
-                            Log.d("~~3", arr[i].toString())
-
-                            proStyle = proObject.getString("codyStyle")
-                            prouserId = proObject.getString("userId")
-                            proprofileImg = proObject.getString("userProfileImg")
-
-
-                            proIdArr.add(prouserId)
-                            proImgArr.add(proprofileImg)
-
-
-                            AutoPro.setStyle(a!!, proStyle)
-                            AutoPro.setProProfileId(a!!, proIdArr as ArrayList<String>)
-                            AutoPro.setProProfileImg(a!!, proImgArr as ArrayList<String>)
-                        }
-                        // 추천 액티비티로 이동
-                        val intent = Intent(a!!, ProRecommendActivity::class.java)
-                        startActivity(intent)
-                    }
-
-
-
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                    Toast.makeText(a!!, "코디를 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
-                }
-            }
-        val proRecommendRequest = ProRecommend_Request(userId!!, responseListener)
-        val queue = Volley.newRequestQueue(a)
-        queue.add(proRecommendRequest)
-
-    }
 
 }
