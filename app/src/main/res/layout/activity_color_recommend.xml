@@ -24,14 +24,14 @@
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -65,7 +65,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
@@ -73,9 +73,8 @@
                 <TextView
                     android:id="@+id/tv_colorDetail"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:gravity="center"
                     android:text="원색 계열로 경쾌한 느낌을 주는 컬러입니다."
                     android:textColor="@color/black"
                     android:textSize="20sp"
@@ -83,22 +82,17 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="10dp"
                 android:id="@+id/recycler_colorcody"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/lightgray"
+                android:layout_height="wrap_content"
                 android:paddingHorizontal="6dp"
                 android:paddingTop="6dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.601"
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/color_recommend" />
 
-
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

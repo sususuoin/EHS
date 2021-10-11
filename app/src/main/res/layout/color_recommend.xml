@@ -23,7 +23,7 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_margin="10dp"
             android:background="@drawable/cody2"
             android:scaleType="centerInside" />
 

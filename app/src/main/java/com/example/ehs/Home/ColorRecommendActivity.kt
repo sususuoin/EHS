@@ -1,7 +1,5 @@
 package com.example.ehs.Home
 
-import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
@@ -9,27 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.GridLayoutManager
-import com.android.volley.toolbox.Volley
-import com.example.ehs.Calendar.CalendarCodyFragment
-import com.example.ehs.Closet.Cody
-import com.example.ehs.Closet.CodyListAdapter
-import com.example.ehs.Fashionista.AutoPro
-import com.example.ehs.Fashionista.ProRecommendActivity
-import com.example.ehs.Fashionista.ProRecommend_Request
 import com.example.ehs.Loading
 import com.example.ehs.Login.AutoLogin
-import com.example.ehs.MainActivity
+import com.example.ehs.MainActivity.Companion.codycolorRecommend
 import com.example.ehs.R
 import com.example.ehs.ml.ColorModel
 import kotlinx.android.synthetic.main.activity_color_recommend.*
 import kotlinx.android.synthetic.main.activity_pro_recommend.*
 import kotlinx.android.synthetic.main.activity_pro_recommend.tv_userid
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
@@ -38,25 +24,19 @@ import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
-import kotlin.properties.Delegates
 
 class ColorRecommendActivity : AppCompatActivity() {
 
     lateinit var userId : String
 
-    companion object {
-        var codyrecommendContext: Context? = null
-        lateinit var codycolorRecommend : String
-    }
-
     var bitmap: Bitmap? = null
     var loading : Loading? = null
 
+    lateinit var colorcody : String
     var coloruserIdArr = ArrayList<String>()
     var colorplusImgPathArr = ArrayList<String>()
     var colorplusImgNameArr = ArrayList<String>()
     var colorplusImgStyleArr = ArrayList<String>()
-    var colorbitmap = ArrayList<Bitmap>()
 
     val colorcodyList = mutableListOf<ColorRecommend>()
     val adapter = ColorRecommendListAdapter(colorcodyList)
@@ -66,8 +46,6 @@ class ColorRecommendActivity : AppCompatActivity() {
         setContentView(R.layout.activity_color_recommend)
         userId = AutoLogin.getUserId(this@ColorRecommendActivity)
         tv_userid.text = userId
-
-        codyrecommendContext=this
         /**
          * 액션바 대신 툴바를 사용하도록 설정
          */
@@ -78,18 +56,29 @@ class ColorRecommendActivity : AppCompatActivity() {
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
-        val gridLayoutManager = GridLayoutManager(this, 1)
-        recycler_colorcody.layoutManager = gridLayoutManager
-        recycler_colorcody.adapter = adapter
-        adapter.notifyDataSetChanged()
+        colorcody = AutoHome.getColorcody(this)
+        when(colorcody) {
+            "경쾌한" -> tv_colorDetail.text = "채도가 높고 명도가 살짝 높은 선명한 색으로 경쾌한 느낌을 주는 컬러입니다."
+            "화려한" -> tv_colorDetail.text = "채도가 높은 원색 계열로 화려한 느낌을 주는 컬러입니다."
+            "다이나믹한" -> tv_colorDetail.text = "채도가 높고 명도가 살짝 낮은 딥한 원색 계열로 다이나믹한 느낌을 주는 컬러입니다."
+            "모던한" -> tv_colorDetail.text = "컬러감이 두드러지지 않는 무채색 계열로 모던한 느낌을 주는 컬러입니다."
+            "점잖은" -> tv_colorDetail.text = "채도가 높고 명도가 낮은 색으로 점잖은 느낌을 주는 컬러입니다."
+            "고상한" -> tv_colorDetail.text = "채도가 중간이고 명도가 살짝 높은 그레이 톤이 가미된 색으로 고상한 느낌을 주는 컬러입니다."
+            "우아한" -> tv_colorDetail.text = "채도와 명도가 중간인 그레이 톤이 가미된 색으로 우아한 느낌을 주는 컬러입니다."
+            "은은한" -> tv_colorDetail.text = "채도와 명도가 중간인 그래이 톤이 가미된 색으로 우아한 느낌을 주는 컬러입니다."
+            "내츄럴한" -> tv_colorDetail.text = "채도가 높고 명도가 중간인 베이지 톤이 가미된 색으로 내츄럴한 느낌을 주는 컬러입니다."
+            "귀여운" -> tv_colorDetail.text = "채도가 높고 명도가 중간인 파스텔 계열의 색으로 귀여운 느낌을 주는 컬러입니다."
+            "맑은" -> tv_colorDetail.text = "채도와 명도가 중간인 파스텔 계열로 맑은 느낌을 주는 컬러입니다."
+            "온화한" -> tv_colorDetail.text = "채도와 명도가 중간인 파스텔 계열에 회색 톤이 가미된 색으로 온화한 느낌을 주는 컬러입니다."
+        }
 
         bitmap = BitmapFactory.decodeResource(resources, R.drawable.colortest)
 
         var task = colorAsyncTask()
-        task.execute("bitmap")
+        task.execute()
 
-//        codycolor(bitmap)
-
+        recycler_colorcody.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
 
     open inner class colorAsyncTask : AsyncTask<String?, Int?, Bitmap>() {
@@ -144,71 +133,20 @@ class ColorRecommendActivity : AppCompatActivity() {
                 }
 //                codycolor(bitmap!!)
 
-
             } catch (e: IOException) {
                 e.printStackTrace()
             }
             return bitmap!!
-
         }
 
         override fun onPostExecute(img: Bitmap) {
-
+            adapter.notifyDataSetChanged()
             Log.d("zzz", colorcodyList.size.toString())
             loading!!.finish()
         }
 
 
     }
-
-    fun codycolor(bitmap : Bitmap) {
-
-        val resized1 : Bitmap = Bitmap.createScaledBitmap(bitmap!!, 224, 224, true)
-        val model = ColorModel.newInstance(this)
-
-        // Creates inputs for reference.
-        val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
-
-        val tbuffer1 = TensorImage.fromBitmap(resized1)
-        val byteBuffer1 = tbuffer1.buffer
-
-        inputFeature0.loadBuffer(byteBuffer1)
-
-        // Runs model inference and gets result.
-        val outputs = model.process(inputFeature0)
-        val outputFeature0 = outputs.outputFeature0AsTensorBuffer
-
-        val best1 = outputFeature0.floatArray[1].div(255.0)*100 // best값 백분율로
-
-        Log.d("컬러추천", best1.toString())
-
-        var asdf = ArrayList<Double>()
-        var colorLabelArr = ArrayList<String>()
-        colorLabelArr.add("경쾌한")
-        colorLabelArr.add("고상한")
-        colorLabelArr.add("귀여운")
-        colorLabelArr.add("내추럴한")
-        colorLabelArr.add("다이나믹한")
-        colorLabelArr.add("맑은")
-        colorLabelArr.add("모던한")
-        colorLabelArr.add("온화한")
-        colorLabelArr.add("우아한")
-        colorLabelArr.add("은은한")
-        colorLabelArr.add("점잖은")
-        colorLabelArr.add("화려한")
-
-         for(i in 0 until outputFeature0.floatArray.size) {
-            asdf.add(outputFeature0.floatArray[i].div(255.0)*100)
-        }
-        var max = asdf.indexOf(asdf.max())
-        codycolorRecommend= colorLabelArr[max]
-        Log.d("컬러추천", colorLabelArr[max])
-
-        // Releases model resources if no longer used.
-        model.close()
-
-    }
-
 
     /**
      * 툴바 뒤로가기 버튼 기능 구현

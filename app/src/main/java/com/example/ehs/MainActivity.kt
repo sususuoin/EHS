@@ -3,6 +3,7 @@ package com.example.ehs
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.location.*
 import android.os.Build
 import android.os.Bundle
@@ -29,6 +30,7 @@ import com.example.ehs.Home.HomeFragment
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.Mypage.ClothesColor_Response
 import com.example.ehs.Mypage.MypageFragment
+import com.example.ehs.ml.ColorModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -42,6 +44,9 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import org.tensorflow.lite.DataType
+import org.tensorflow.lite.support.image.TensorImage
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -53,6 +58,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         var mContext: Context? = null
         var loading : Loading? = null
+        lateinit var codycolorRecommend : String
     }
 
     lateinit var getLatitude : String
@@ -886,6 +892,50 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun Codycolor(bitmap : Bitmap) {
+
+        val resized1 : Bitmap = Bitmap.createScaledBitmap(bitmap!!, 224, 224, true)
+        val model = ColorModel.newInstance(this)
+
+        // Creates inputs for reference.
+        val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+
+        val tbuffer1 = TensorImage.fromBitmap(resized1)
+        val byteBuffer1 = tbuffer1.buffer
+
+        inputFeature0.loadBuffer(byteBuffer1)
+
+        // Runs model inference and gets result.
+        val outputs = model.process(inputFeature0)
+        val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+
+        var asdf = ArrayList<Double>()
+        var colorLabelArr = ArrayList<String>()
+        colorLabelArr.add("경쾌한")
+        colorLabelArr.add("고상한")
+        colorLabelArr.add("귀여운")
+        colorLabelArr.add("내추럴한")
+        colorLabelArr.add("다이나믹한")
+        colorLabelArr.add("맑은")
+        colorLabelArr.add("모던한")
+        colorLabelArr.add("온화한")
+        colorLabelArr.add("우아한")
+        colorLabelArr.add("은은한")
+        colorLabelArr.add("점잖은")
+        colorLabelArr.add("화려한")
+
+        for(i in 0 until outputFeature0.floatArray.size) {
+            asdf.add(outputFeature0.floatArray[i].div(255.0)*100)
+        }
+        var max = asdf.indexOf(asdf.max())
+        codycolorRecommend = colorLabelArr[max]
+        Log.d("컬러추천", colorLabelArr[max])
+        Log.d("컬러추천", asdf.max().toString())
+
+        // Releases model resources if no longer used.
+        model.close()
+
+    }
 
 
 }
