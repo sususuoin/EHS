@@ -43,9 +43,7 @@ class FashionistaFragment : Fragment() {
     var favoriteListArr = ArrayList<String>()
 
     val FashionistaList = mutableListOf<Fashionista>()
-    val FashionistaCodyList = mutableListOf<FashionistaCody>()
     val adapter = FashionistaListAdapter(FashionistaList)
-    val adapter2 = FashionistaCodyListAdapter(FashionistaCodyList)
 
     lateinit var userId :String
 
@@ -53,8 +51,6 @@ class FashionistaFragment : Fragment() {
     var favoriteListArr2 : ArrayList<String>? = null
 
     var fuserIdArr = ArrayList<String>()
-    var fcodyImgName = ArrayList<String>()
-    var fcodyStyle = ArrayList<String>()
 
     companion object {
         const val TAG : String = "패셔니스타 프래그먼트"
@@ -90,57 +86,6 @@ class FashionistaFragment : Fragment() {
             FashionistaList.add(fashin)
             fuserProfile == null
         }
-
-        fuserIdArr = AutoPro.getFuserId(a!!)
-        fcodyImgName = AutoPro.getFcodyImgName(a!!)
-        fcodyStyle = AutoPro.getFcodyStyle(a!!)
-
-        var a_bitmap : Bitmap? = null
-
-        Log.d("fasionista프래그먼터리스트", fuserIdArr.size.toString())
-
-        for (i in 0 until fuserIdArr.size) {
-            val uThread: Thread = object : Thread() {
-                override fun run() {
-                    try {
-                        Log.d("fasionista프래그먼터리스트", fcodyImgName[i])
-
-                        val url = URL("http://13.125.7.2/img/cody/" + fcodyImgName[i])
-
-                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-
-                        conn.setDoInput(true)
-                        conn.connect()
-                        val iss: InputStream = conn.getInputStream()
-                        a_bitmap = BitmapFactory.decodeStream(iss)
-
-                    } catch (e: MalformedURLException) {
-                        e.printStackTrace()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-            uThread.start() // 작업 Thread 실행
-
-            try {
-
-                uThread.join()
-
-                var fashionistaCody = FashionistaCody(a_bitmap!!)
-                FashionistaCodyList.add(fashionistaCody)
-
-
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
-            }
-        }
-        adapter.notifyDataSetChanged()
-
-
-
-
-
 
         (activity as MainActivity).Favorite_check()
 
@@ -198,13 +143,6 @@ class FashionistaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val Linear = LinearLayoutManager(a, LinearLayoutManager.HORIZONTAL, false)
-        rc_fashionistacody.layoutManager = Linear
-        rc_fashionistacody.setHasFixedSize(true)
-
-        rc_fashionistacody.adapter = adapter2
-        adapter2.notifyDataSetChanged()
 
         mRecyclerView.adapter = adapter
         adapter.notifyDataSetChanged()

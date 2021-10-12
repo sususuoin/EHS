@@ -148,9 +148,11 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.menu_home -> {
                     Log.d(TAG, "MainActivity - 홈버튼 클릭!")
+
+                    FashionistaCody()
+                    CalendarImg()
                     homeFragment = HomeFragment.newInstance()
                     replaceFragment(homeFragment)
-                    CalendarImg()
                 }
                 R.id.menu_fashionista -> {
                     Log.d(TAG, "MainActivity - 패셔니스타 버튼 클릭!")
@@ -455,6 +457,8 @@ class MainActivity : AppCompatActivity() {
                         fcodyStyleArr.add(fcodyStyle)
 
                     }
+
+                    Log.d("zzz1", fuserIdArr.size.toString())
 
                     AutoPro.setFuserId(this@MainActivity, fuserIdArr)
                     AutoPro.setFcodyImgName(this@MainActivity, fcodyImgNameArr)

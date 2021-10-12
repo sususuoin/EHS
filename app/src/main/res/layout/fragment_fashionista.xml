@@ -64,18 +64,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:background="@color/ourcolor"
-                android:text="맞춤코디추천"
-                android:textSize="25dp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-
-            <TextView
                 android:id="@+id/tv_ready"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -85,28 +73,6 @@
                 android:textAlignment="center"
                 android:text="준비중ㅎㅎ"
                 android:visibility="gone"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rc_fashionistacody"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginHorizontal="10dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:background="@color/ourcolor"
-                android:text="패셔니스타"
-                android:textSize="25dp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

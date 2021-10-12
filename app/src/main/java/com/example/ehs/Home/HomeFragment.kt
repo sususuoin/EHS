@@ -165,7 +165,8 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
         view.iv_recotag.setOnClickListener {
-
+            val intent = Intent(a, StyleRecommendActivity::class.java)
+            startActivity(intent)
         }
         view.iv_recocolor.setOnClickListener {
             colorRecommend()
@@ -277,15 +278,15 @@ class HomeFragment : Fragment() {
                     val weatherIMG = weatherResponse!!.weather!!.get(0).icon.toString()
 
                     when (weatherIMG) { // 날씨에 맞는 아이콘 출력
-                        "01d" -> img_weatherH.setImageResource(R.drawable.ic_sun)
-                        "01n" -> img_weatherH.setImageResource(R.drawable.ic_sun_night)
-                        "02d" -> img_weatherH.setImageResource(R.drawable.ic_sun_c)
-                        "02n" -> img_weatherH.setImageResource(R.drawable.ic_suncloud_night)
-                        "03n", "03d", "04d", "04n" -> img_weatherH.setImageResource(R.drawable.ic_cloud_many)
-                        "09d", "09n", "10d", "10n" -> img_weatherH.setImageResource(R.drawable.ic_rain)
-                        "11d", "11n" -> img_weatherH.setImageResource(R.drawable.ic_thunder)
-                        "13d", "13n" -> img_weatherH.setImageResource(R.drawable.ic_snow)
-                        "50n", "50d" -> img_weatherH.setImageResource(R.drawable.ic_mist)
+                        "01d" -> view!!.img_weatherH.setImageResource(R.drawable.ic_sun)
+                        "01n" -> view!!.img_weatherH.setImageResource(R.drawable.ic_sun_night)
+                        "02d" -> view!!.img_weatherH.setImageResource(R.drawable.ic_sun_c)
+                        "02n" -> view!!.img_weatherH.setImageResource(R.drawable.ic_suncloud_night)
+                        "03n", "03d", "04d", "04n" -> view!!.img_weatherH.setImageResource(R.drawable.ic_cloud_many)
+                        "09d", "09n", "10d", "10n" -> view!!.img_weatherH.setImageResource(R.drawable.ic_rain)
+                        "11d", "11n" -> view!!.img_weatherH.setImageResource(R.drawable.ic_thunder)
+                        "13d", "13n" -> view!!.img_weatherH.setImageResource(R.drawable.ic_snow)
+                        "50n", "50d" -> view!!.img_weatherH.setImageResource(R.drawable.ic_mist)
                     }
 
                     tv_cityH.text = AutoHome.getLocation(a!!)
