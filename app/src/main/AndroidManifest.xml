@@ -49,7 +49,10 @@
         <activity android:name=".Closet.ClothesSaveActivity" />
         <activity android:name=".Home.ColorRecommendActivity"/>
         <activity android:name=".Home.StyleRecommendActivity"/>
+
         <activity android:name=".MainActivity" />
+        <activity android:name=".MainLoadingActivity" />
+
         <activity android:name=".Login.RegisterActivity" />
         <activity android:name=".Login.LoginActivity">
             <intent-filter>

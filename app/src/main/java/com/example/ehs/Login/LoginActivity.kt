@@ -15,6 +15,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.AI.AIActivity
 import com.example.ehs.MainActivity
+import com.example.ehs.MainLoadingActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_closet.*
@@ -55,8 +56,15 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
+            this.window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
             this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
         }
+        Log.d(TAG, "로그인액티비티 출발")
+        val intent = Intent(this, MainLoadingActivity::class.java)
+        startActivity(intent)
 
         tv_register.setOnClickListener {
             Log.d(TAG, "회원가입 클릭")
@@ -72,8 +80,9 @@ class LoginActivity : AppCompatActivity() {
         }
 
 
-        if (AutoLogin.getUserId(this)==""|| AutoLogin.getUserId(this)==null || AutoLogin.getUserPw(this).isBlank()) {
-            //아이디입력창이 비어있다면
+        if (AutoLogin.getUserId(this)==""|| AutoLogin.getUserId(this)==null || AutoLogin.getUserPw(
+                this).isBlank()) {
+            //저장되어진 아이디가 없다면
             Login()
         } else {
             // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
