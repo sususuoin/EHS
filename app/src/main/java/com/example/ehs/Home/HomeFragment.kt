@@ -410,8 +410,14 @@ class HomeFragment : Fragment() {
         var proStyle : String
         var prouserId : String
         var proprofileImg : String
+        var proplusImgPath : String
+        var proplusImgName : String
+
         var proIdArr = ArrayList<String>()
         var proImgArr = ArrayList<String>()
+        var proplusImgPathArr = ArrayList<String>()
+        var proplusImgNameArr = ArrayList<String>()
+
         val responseListener: com.android.volley.Response.Listener<String?> =
             com.android.volley.Response.Listener<String?> { response ->
                 try {
@@ -435,19 +441,26 @@ class HomeFragment : Fragment() {
                             val proObject = arr.getJSONObject(i)
                             Log.d("~~3", arr[i].toString())
 
-                            proStyle = proObject.getString("codyStyle")
                             prouserId = proObject.getString("userId")
                             proprofileImg = proObject.getString("userProfileImg")
-
+                            proplusImgPath = proObject.getString("plusImgPath")
+                            proplusImgName =  proObject.getString("plusImgName")
+                            proStyle = proObject.getString("plusImgStyle")
 
                             proIdArr.add(prouserId)
                             proImgArr.add(proprofileImg)
-
+                            proplusImgPathArr.add(proplusImgPath)
+                            proplusImgNameArr.add(proplusImgName)
 
                             AutoPro.setStyle(a!!, proStyle)
-                            AutoPro.setProProfileId(a!!, proIdArr)
-                            AutoPro.setProProfileImg(a!!, proImgArr)
                         }
+
+                        AutoPro.setProProfileId(a!!, proIdArr)
+                        AutoPro.setProProfileImg(a!!, proImgArr)
+                        AutoPro.setProplusImgPath(a!!, proplusImgPathArr)
+                        AutoPro.setProplusImgName(a!!, proplusImgNameArr)
+
+
                         // 추천 액티비티로 이동
                         val intent = Intent(a!!, ProRecommendActivity::class.java)
                         startActivity(intent)
