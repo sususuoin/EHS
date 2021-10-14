@@ -28,6 +28,7 @@ import com.example.ehs.Feed.*
 import com.example.ehs.Home.AutoHome
 import com.example.ehs.Home.HomeFragment
 import com.example.ehs.Login.AutoLogin
+import com.example.ehs.Login.LoginActivity
 import com.example.ehs.Mypage.ClothesColor_Response
 import com.example.ehs.Mypage.MypageFragment
 import com.example.ehs.ml.ColorModel
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     val TAG: String = "메인페이지"
     companion object {
         var mContext: Context? = null
-        var loading : Loading? = null
+//        var loading : Loading? = null
         lateinit var codycolorRecommend : String
     }
 
@@ -179,17 +180,20 @@ class MainActivity : AppCompatActivity() {
                     FeedImg()
                     Feed_like_check()
                     Feed_ranking()
-                    loading = Loading(this)
+//                    loading = Loading(this)
 
-                    GlobalScope.launch(Dispatchers.Main) {
-                        launch(Dispatchers.Main) {
-                            loading!!.asdf()
-                        }
-                        delay(4000L)
+                    feedFragment = FeedFragment.newInstance()
+                    replaceFragment(feedFragment)
 
-                        feedFragment = FeedFragment.newInstance()
-                        replaceFragment(feedFragment)
-                    }
+//                    GlobalScope.launch(Dispatchers.Main) {
+//                        launch(Dispatchers.Main) {
+//                            loading!!.asdf()
+//                        }
+//                        delay(4000L)
+//
+//                        feedFragment = FeedFragment.newInstance()
+//                        replaceFragment(feedFragment)
+//                    }
 
                 }
                 R.id.menu_mypage -> {

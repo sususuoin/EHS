@@ -123,7 +123,7 @@ class FeedFragment : Fragment() {
         }
 
         adapter.notifyDataSetChanged()
-        MainActivity.loading?.finish()
+//        MainActivity.loading?.finish()
     }
 
 
