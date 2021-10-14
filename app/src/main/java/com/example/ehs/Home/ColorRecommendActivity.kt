@@ -30,7 +30,6 @@ class ColorRecommendActivity : AppCompatActivity() {
     lateinit var userId : String
 
     var bitmap: Bitmap? = null
-    var loading : Loading? = null
 
     lateinit var colorcody : String
     var coloruserIdArr = ArrayList<String>()
@@ -56,6 +55,8 @@ class ColorRecommendActivity : AppCompatActivity() {
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
+        HomeFragment.homeloading?.finish()
+
         colorcody = AutoHome.getColorcody(this)
         when(colorcody) {
             "경쾌한" -> tv_colorDetail.text = "채도가 높고 명도가 살짝 높은 선명한 색으로 경쾌한 느낌을 주는 컬러입니다."
@@ -74,79 +75,53 @@ class ColorRecommendActivity : AppCompatActivity() {
 
         bitmap = BitmapFactory.decodeResource(resources, R.drawable.colortest)
 
-        var task = colorAsyncTask()
-        task.execute()
+        coloruserIdArr = AutoHome.getColoruserId(this@ColorRecommendActivity)
+        colorplusImgPathArr = AutoHome.getColorplusImgPath(this@ColorRecommendActivity)
+        colorplusImgNameArr = AutoHome.getColorplusImgName(this@ColorRecommendActivity)
+        colorplusImgStyleArr = AutoHome.getColorplusImgStyle(this@ColorRecommendActivity)
+
+        Log.d("zzz", colorplusImgNameArr.size.toString())
+        var a_bitmap : Bitmap? = null
+        for (i in 0 until colorplusImgNameArr.size) {
+            val uThread: Thread = object : Thread() {
+                override fun run() {
+                    try {
+                        Log.d("컬러추천액티비티", colorplusImgNameArr[i])
+
+                        val url = URL(colorplusImgPathArr[i] + colorplusImgNameArr[i])
+
+                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                        conn.setDoInput(true)
+                        conn.connect()
+                        val iss: InputStream = conn.getInputStream()
+                        a_bitmap = BitmapFactory.decodeStream(iss)
+
+                    } catch (e: MalformedURLException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+            uThread.start() // 작업 Thread 실행
+
+            try {
+
+                uThread.join()
+
+                var colorcody = ColorRecommend(a_bitmap)
+                colorcodyList.add(colorcody)
+
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+        }
 
         recycler_colorcody.adapter = adapter
         adapter.notifyDataSetChanged()
     }
 
-    open inner class colorAsyncTask : AsyncTask<String?, Int?, Bitmap>() {
-        override fun onPreExecute() {
-            loading = Loading(this@ColorRecommendActivity)
-            loading!!.asdf()
-        }
-
-        override fun doInBackground(vararg urls: String?): Bitmap {
-            try {
-                coloruserIdArr = AutoHome.getColoruserId(this@ColorRecommendActivity)
-                colorplusImgPathArr = AutoHome.getColorplusImgPath(this@ColorRecommendActivity)
-                colorplusImgNameArr = AutoHome.getColorplusImgName(this@ColorRecommendActivity)
-                colorplusImgStyleArr = AutoHome.getColorplusImgStyle(this@ColorRecommendActivity)
-
-                Log.d("zzz", colorplusImgNameArr.size.toString())
-                var a_bitmap : Bitmap? = null
-                for (i in 0 until colorplusImgNameArr.size) {
-                    val uThread: Thread = object : Thread() {
-                        override fun run() {
-                            try {
-                                Log.d("컬러추천액티비티", colorplusImgNameArr[i])
-
-                                val url = URL(colorplusImgPathArr[i] + colorplusImgNameArr[i])
-
-                                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-
-                                conn.setDoInput(true)
-                                conn.connect()
-                                val iss: InputStream = conn.getInputStream()
-                                a_bitmap = BitmapFactory.decodeStream(iss)
-
-                            } catch (e: MalformedURLException) {
-                                e.printStackTrace()
-                            } catch (e: IOException) {
-                                e.printStackTrace()
-                            }
-                        }
-                    }
-                    uThread.start() // 작업 Thread 실행
-
-                    try {
-
-                        uThread.join()
-
-                        var colorcody = ColorRecommend(a_bitmap)
-                        colorcodyList.add(colorcody)
-
-                    } catch (e: InterruptedException) {
-                        e.printStackTrace()
-                    }
-                }
-//                codycolor(bitmap!!)
-
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            return bitmap!!
-        }
-
-        override fun onPostExecute(img: Bitmap) {
-            adapter.notifyDataSetChanged()
-            Log.d("zzz", colorcodyList.size.toString())
-            loading!!.finish()
-        }
-
-
-    }
 
     /**
      * 툴바 뒤로가기 버튼 기능 구현

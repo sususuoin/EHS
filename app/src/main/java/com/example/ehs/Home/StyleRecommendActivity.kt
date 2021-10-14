@@ -31,7 +31,6 @@ class StyleRecommendActivity : AppCompatActivity() {
     val adapter = StyleRecommendListAdapter(stylecodyList)
 
     var bitmap: Bitmap? = null
-    var loading : Loading? = null
     var fuserIdArr = ArrayList<String>()
     var fcodyImgName = ArrayList<String>()
     var fcodyStyle = ArrayList<String>()
@@ -56,78 +55,54 @@ class StyleRecommendActivity : AppCompatActivity() {
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
+        HomeFragment.homeloading?.finish()
+
         bitmap = BitmapFactory.decodeResource(resources, R.drawable.colortest)
 
-        var task = styleAsyncTask()
-        task.execute()
+        fuserIdArr = AutoPro.getFuserId(this@StyleRecommendActivity)
+        fcodyImgName = AutoPro.getFcodyImgName(this@StyleRecommendActivity)
+        fcodyStyle = AutoPro.getFcodyStyle(this@StyleRecommendActivity)
 
-        recycler_stylecody.adapter = adapter
-        adapter.notifyDataSetChanged()
-    }
-
-    open inner class styleAsyncTask : AsyncTask<String?, Int?, Bitmap>() {
-        override fun onPreExecute() {
-            loading = Loading(this@StyleRecommendActivity)
-            loading!!.asdf()
-        }
-
-        override fun doInBackground(vararg urls: String?): Bitmap {
-            try {
-                fuserIdArr = AutoPro.getFuserId(this@StyleRecommendActivity)
-                fcodyImgName = AutoPro.getFcodyImgName(this@StyleRecommendActivity)
-                fcodyStyle = AutoPro.getFcodyStyle(this@StyleRecommendActivity)
-
-                Log.d("zzz", fcodyImgName.size.toString())
-                var a_bitmap : Bitmap? = null
-                for (i in 0 until fcodyImgName.size) {
-                    val uThread: Thread = object : Thread() {
-                        override fun run() {
-                            try {
-                                Log.d("컬러추천액티비티", fcodyImgName[i])
-
-                                val url = URL("http://13.125.7.2/img/cody/" + fcodyImgName[i])
-
-                                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-
-                                conn.setDoInput(true)
-                                conn.connect()
-                                val iss: InputStream = conn.getInputStream()
-                                a_bitmap = BitmapFactory.decodeStream(iss)
-
-                            } catch (e: MalformedURLException) {
-                                e.printStackTrace()
-                            } catch (e: IOException) {
-                                e.printStackTrace()
-                            }
-                        }
-                    }
-                    uThread.start() // 작업 Thread 실행
-
+        Log.d("zzz", fcodyImgName.size.toString())
+        var a_bitmap : Bitmap? = null
+        for (i in 0 until fcodyImgName.size) {
+            val uThread: Thread = object : Thread() {
+                override fun run() {
                     try {
+                        Log.d("컬러추천액티비티", fcodyImgName[i])
 
-                        uThread.join()
+                        val url = URL("http://13.125.7.2/img/cody/" + fcodyImgName[i])
 
-                        var fashionistaCody = StyleRecommend(a_bitmap!!)
-                        stylecodyList.add(fashionistaCody)
+                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
 
-                    } catch (e: InterruptedException) {
+                        conn.setDoInput(true)
+                        conn.connect()
+                        val iss: InputStream = conn.getInputStream()
+                        a_bitmap = BitmapFactory.decodeStream(iss)
+
+                    } catch (e: MalformedURLException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
                         e.printStackTrace()
                     }
                 }
-//                codycolor(bitmap!!)
+            }
+            uThread.start() // 작업 Thread 실행
 
-            } catch (e: IOException) {
+            try {
+
+                uThread.join()
+
+                var fashionistaCody = StyleRecommend(a_bitmap!!)
+                stylecodyList.add(fashionistaCody)
+
+            } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
-            return bitmap!!
         }
 
-        override fun onPostExecute(img: Bitmap) {
-            adapter.notifyDataSetChanged()
-            Log.d("zzz", stylecodyList.size.toString())
-            loading!!.finish()
-        }
-
+        recycler_stylecody.adapter = adapter
+        adapter.notifyDataSetChanged()
 
     }
 

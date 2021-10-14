@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ehs.Home.HomeFragment
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_pro_recommend.*
@@ -34,6 +35,7 @@ class ProRecommendActivity : AppCompatActivity() {
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
+        HomeFragment.homeloading?.finish()
 
         var proIdArr = AutoPro.getProProfileId(this)
         var proImgArr = AutoPro.getProProfileImg(this)
