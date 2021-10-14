@@ -130,12 +130,6 @@ class FashionistaFragment : Fragment() {
             }
         }
 
-        if(fuserIdArr.size == 0) {
-            view.tv_ready.visibility = View.VISIBLE
-        } else {
-            view.tv_ready.visibility = View.GONE
-        }
-
         favoriteListArr = AutoPro.getFavoriteuserId(a!!)
         return view
     }
