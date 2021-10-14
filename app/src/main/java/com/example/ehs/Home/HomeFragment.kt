@@ -24,6 +24,7 @@ import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Fashionista.FavoriteFragment
 import com.example.ehs.Fashionista.ProRecommendActivity
 import com.example.ehs.Fashionista.ProRecommend_Request
+import com.example.ehs.Loading
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
@@ -31,6 +32,10 @@ import com.example.ehs.Weather.WeatherActivity
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -78,6 +83,7 @@ class HomeFragment : Fragment() {
     var cAdapter : CalendarlistAdapter? = null
     lateinit var userId: String
 
+
     companion object {
         const val TAG : String = "홈 프레그먼트"
         fun newInstance() : HomeFragment { // newInstance()라는 함수를 호출하면 HomeFragment를 반환함
@@ -88,6 +94,7 @@ class HomeFragment : Fragment() {
         var calendarMonthArr = ArrayList<String>()
         var calendarDayArr = ArrayList<String>()
         var homeContext: Context? = null
+        var homeloading : Loading? = null
     }
 
     // 프래그먼트가 메모리에 올라갔을때
@@ -106,6 +113,7 @@ class HomeFragment : Fragment() {
         calendarMonthArr = AutoCalendar.getCalendarMonth(a!!)
         calendarDayArr = AutoCalendar.getCalendarDay(a!!)
 
+        homeloading = Loading(a!!)
 
 //        //대표색상구하기
 //        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.cody2)
@@ -165,17 +173,37 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
         view.iv_recotag.setOnClickListener {
-            val intent = Intent(a, StyleRecommendActivity::class.java)
-            startActivity(intent)
+            GlobalScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
+                    homeloading!!.asdf()
+                }
+                delay(4000L)
+
+                val intent = Intent(a, StyleRecommendActivity::class.java)
+                startActivity(intent)
+            }
+
         }
         view.iv_recocolor.setOnClickListener {
-            colorRecommend()
+            GlobalScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
+                    homeloading!!.asdf()
+                }
+                delay(4000L)
+
+                colorRecommend()
+            }
 
         }
         view.iv_recopro.setOnClickListener {
-            recommend()
-//            val intent = Intent(a, ProRecommendActivity::class.java)
-//            startActivity(intent)
+            GlobalScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
+                    homeloading!!.asdf()
+                }
+                delay(4000L)
+
+                recommend()
+            }
         }
 
         view.btn_updateH.setOnClickListener {
