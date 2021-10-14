@@ -2,6 +2,7 @@ package com.example.ehs
 
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +10,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.example.ehs.Login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_closet.*
 
 class MainLoadingActivity : Activity() {
@@ -43,7 +45,10 @@ class MainLoadingActivity : Activity() {
 
     fun startLoading() {
         val handler = Handler()
-        handler.postDelayed(Runnable { finish() }, 3000)
+        handler.postDelayed(Runnable {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish() }, 3000)
         Log.d("로딩화면", "끝")
     }
 

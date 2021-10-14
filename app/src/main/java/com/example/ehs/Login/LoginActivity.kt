@@ -63,8 +63,6 @@ class LoginActivity : AppCompatActivity() {
             this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
         }
         Log.d(TAG, "로그인액티비티 출발")
-        val intent = Intent(this, MainLoadingActivity::class.java)
-        startActivity(intent)
 
         tv_register.setOnClickListener {
             Log.d(TAG, "회원가입 클릭")

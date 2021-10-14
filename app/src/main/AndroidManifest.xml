@@ -50,11 +50,11 @@
         <activity android:name=".Home.ColorRecommendActivity"/>
         <activity android:name=".Home.StyleRecommendActivity"/>
 
-        <activity android:name=".MainActivity" />
-        <activity android:name=".MainLoadingActivity" />
-
+        <activity android:name=".Login.LoginActivity"/>
         <activity android:name=".Login.RegisterActivity" />
-        <activity android:name=".Login.LoginActivity">
+
+        <activity android:name=".MainActivity" />
+        <activity android:name=".MainLoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
