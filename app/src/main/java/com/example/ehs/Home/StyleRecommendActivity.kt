@@ -17,6 +17,7 @@ import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_style_recommend.*
 import kotlinx.android.synthetic.main.fragment_closet.*
+import kotlinx.android.synthetic.main.loading.*
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -56,7 +57,7 @@ class StyleRecommendActivity : AppCompatActivity() {
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
         HomeFragment.homeloading?.finish()
-
+        tv_loadingtitle.text = "스타일 추천"
         bitmap = BitmapFactory.decodeResource(resources, R.drawable.colortest)
 
         fuserIdArr = AutoPro.getFuserId(this@StyleRecommendActivity)

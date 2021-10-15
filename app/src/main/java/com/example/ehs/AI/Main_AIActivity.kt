@@ -16,12 +16,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.example.ehs.Loading
 import com.example.ehs.R
 import com.example.ehs.ml.ModelUnquant
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.activity_main_ai.*
 import kotlinx.android.synthetic.main.fragment_closet.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
@@ -35,7 +40,7 @@ class Main_AIActivity : AppCompatActivity() {
     val REQUEST_IMAGE_CAPTURE = 1 // 카메라 사진 촬영 요청코드, 한번 지정되면 값이 바뀌지 않음
     val REQUEST_OPEN_GALLERY = 2
 
-
+    var mainAIloading : Loading? = null
     var bitmap : Bitmap? = null
 
     lateinit var airesult :String
@@ -58,18 +63,29 @@ class Main_AIActivity : AppCompatActivity() {
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
+        mainAIloading = Loading(this)
+
 
         //권한설정
         setPermission()
 
         btn_album.setOnClickListener {
             openGallery()
+            btn_ai.isClickable =true
         }
 
         btn_ai.setOnClickListener {
-
             Log.d("평가하기", "버튼클릭")
-            AIpredict()
+
+            GlobalScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
+                    mainAIloading!!.asdf()
+                }
+                delay(2500)
+
+                AIpredict()
+            }
+
         }
 
     }
@@ -110,11 +126,8 @@ class Main_AIActivity : AppCompatActivity() {
             } // 박수쳐~~~~~~ 호로로로로로로로롤
             //오예 짞짝짞짜까ㅉ까짞 신은정 짱짱맨~~
 
-
-
-
             btn_ai.isClickable = false
-
+            mainAIloading!!.finish()
 
 
             model.close()
