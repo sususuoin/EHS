@@ -25,7 +25,7 @@ class Loading(context: Context) : Dialog(context) {
     }
 
     fun start() {
-        context.requestWindowFeature(Window.FEATURE_NO_TITLE)   //타이틀바 제거
+
         context.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 //        context.window!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#CC000000")))
 

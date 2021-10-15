@@ -115,6 +115,7 @@ class HomeFragment : Fragment() {
 
         homeloading = Loading(a!!)
 
+
 //        //대표색상구하기
 //        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.cody2)
 //        val pb: Palette.Builder = Palette.from(bitmap)
@@ -177,7 +178,7 @@ class HomeFragment : Fragment() {
                 launch(Dispatchers.Main) {
                     homeloading!!.asdf()
                 }
-                delay(4000L)
+                delay(2500L)
 
                 val intent = Intent(a, StyleRecommendActivity::class.java)
                 startActivity(intent)
@@ -189,7 +190,7 @@ class HomeFragment : Fragment() {
                 launch(Dispatchers.Main) {
                     homeloading!!.asdf()
                 }
-                delay(4000L)
+                delay(2500L)
 
                 colorRecommend()
             }
@@ -200,7 +201,7 @@ class HomeFragment : Fragment() {
                 launch(Dispatchers.Main) {
                     homeloading!!.asdf()
                 }
-                delay(4000L)
+                delay(2500L)
 
                 recommend()
             }

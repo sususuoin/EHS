@@ -3,11 +3,14 @@ package com.example.ehs.Home
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.example.ehs.Loading
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity.Companion.codycolorRecommend
@@ -16,6 +19,8 @@ import com.example.ehs.ml.ColorModel
 import kotlinx.android.synthetic.main.activity_color_recommend.*
 import kotlinx.android.synthetic.main.activity_pro_recommend.*
 import kotlinx.android.synthetic.main.activity_pro_recommend.tv_userid
+import kotlinx.android.synthetic.main.fragment_closet.*
+import kotlinx.android.synthetic.main.loading.*
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
@@ -43,6 +48,11 @@ class ColorRecommendActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_color_recommend)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
+            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+        }
+
         userId = AutoLogin.getUserId(this@ColorRecommendActivity)
         tv_userid.text = userId
         /**
@@ -56,6 +66,7 @@ class ColorRecommendActivity : AppCompatActivity() {
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
         HomeFragment.homeloading?.finish()
+        tv_loadingtitle.text = "컬러 추천"
 
         colorcody = AutoHome.getColorcody(this)
         when(colorcody) {

@@ -3,16 +3,16 @@
 
     <item
         android:drawable="@drawable/hanger"
-        android:duration="600"/>
+        android:duration="400"/>
     <item
         android:drawable="@drawable/tshirt"
-        android:duration="600"/>
+        android:duration="400"/>
 
     <item
         android:drawable="@drawable/jeans"
-        android:duration="600"/>
+        android:duration="400"/>
     <item
         android:drawable="@drawable/shoes"
-        android:duration="600"/>
+        android:duration="400"/>
 
 </animation-list>

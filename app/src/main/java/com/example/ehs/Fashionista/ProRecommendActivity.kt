@@ -2,17 +2,22 @@ package com.example.ehs.Fashionista
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ehs.Home.HomeFragment
 import com.example.ehs.Home.StyleRecommend
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_pro_recommend.*
+import kotlinx.android.synthetic.main.fragment_closet.*
+import kotlinx.android.synthetic.main.loading.*
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -34,6 +39,11 @@ class ProRecommendActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pro_recommend)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
+            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+        }
+
         userId = AutoLogin.getUserId(this@ProRecommendActivity)
         tv_userid.text = userId
 
@@ -47,6 +57,7 @@ class ProRecommendActivity : AppCompatActivity() {
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
+        tv_loadingtitle.text = "전문가 추천"
         HomeFragment.homeloading?.finish()
 
         var proIdArr = AutoPro.getProProfileId(this)
@@ -64,7 +75,7 @@ class ProRecommendActivity : AppCompatActivity() {
         proId2.text = proIdArr3[1]
         proId3.text = proIdArr3[2]
 
-        proIdArr.indexOf(proIdArr3[0])
+        Log.d("afsadf" ,proIdArr.indexOf(proIdArr3[0]).toString())
 
 
         iv_proImg1.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[0]))
