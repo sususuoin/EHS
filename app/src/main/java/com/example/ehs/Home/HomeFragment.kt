@@ -3,6 +3,7 @@ package com.example.ehs.Home
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
@@ -46,6 +47,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
@@ -83,7 +89,6 @@ class HomeFragment : Fragment() {
     var cAdapter : CalendarlistAdapter? = null
     lateinit var userId: String
 
-
     companion object {
         const val TAG : String = "홈 프레그먼트"
         fun newInstance() : HomeFragment { // newInstance()라는 함수를 호출하면 HomeFragment를 반환함
@@ -96,6 +101,10 @@ class HomeFragment : Fragment() {
         var homeContext: Context? = null
         var homeloading : Loading? = null
     }
+
+    var random_clothesCategoryArr = ArrayList<String>()
+    var random_clothesNameArr = ArrayList<String>()
+    var random_bitmapArr = ArrayList<Bitmap>()
 
     // 프래그먼트가 메모리에 올라갔을때
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,26 +124,13 @@ class HomeFragment : Fragment() {
 
         homeloading = Loading(a!!)
 
+        //랜덤으로 색 가져오기
+        random_clothesCategoryArr = AutoHome.getRandom_clothesCategory(a!!)
+        random_clothesNameArr = AutoHome.getRandom_clothesName(a!!)
+        Log.d("랜덤랜덤", random_clothesCategoryArr.toString())
+        Log.d("랜덤랜덤", random_clothesNameArr.toString())
 
-//        //대표색상구하기
-//        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.cody2)
-//        val pb: Palette.Builder = Palette.from(bitmap)
-//        val palette = pb.generate()
-//        Palette.from(bitmap).generate {
-//            val dominantSwatch = palette.dominantSwatch
-//            val dominantRgb = dominantSwatch!!.rgb
-//            var red = dominantRgb.red.toString(16)
-//            var green = dominantRgb.green.toString(16)
-//            var blue = dominantRgb.blue.toString(16)
-//            Log.d("컬러코드", "#$red$green$blue")
-//
-//            val dominantRgb2 = dominantSwatch!!.titleTextColor
-//            val dominantRgb3 = dominantSwatch!!.bodyTextColor
-//
-//
-//            // palette가 만들어졌을 때 하고싶은 것...
-//        }
-
+        asdf()
 
     }
     // 프래그먼트를 안고 있는 액티비티에 붙었을 때
@@ -176,7 +172,7 @@ class HomeFragment : Fragment() {
         view.iv_recotag.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 launch(Dispatchers.Main) {
-                    homeloading!!.asdf()
+                    homeloading!!.init()
                 }
                 delay(2500L)
 
@@ -188,7 +184,7 @@ class HomeFragment : Fragment() {
         view.iv_recocolor.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 launch(Dispatchers.Main) {
-                    homeloading!!.asdf()
+                    homeloading!!.init()
                 }
                 delay(2500L)
 
@@ -199,7 +195,7 @@ class HomeFragment : Fragment() {
         view.iv_recopro.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 launch(Dispatchers.Main) {
-                    homeloading!!.asdf()
+                    homeloading!!.init()
                 }
                 delay(2500L)
 
@@ -267,6 +263,48 @@ class HomeFragment : Fragment() {
 
         (activity as MainActivity).CalendarImg()
         cAdapter!!.notifyDataSetChanged()
+
+
+    }
+
+    fun asdf() {
+        var a_bitmap : Bitmap? = null
+        for (i in 0 until random_clothesNameArr.size) {
+            val uThread: Thread = object : Thread() {
+                override fun run() {
+                    try {
+                        Log.d("코디랜덤추천", random_clothesNameArr[i])
+
+                        val url = URL("http://13.125.7.2/img/clothes/" + random_clothesNameArr[i])
+
+                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                        conn.setDoInput(true)
+                        conn.connect()
+                        val iss: InputStream = conn.getInputStream()
+                        a_bitmap = BitmapFactory.decodeStream(iss)
+
+                    } catch (e: MalformedURLException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+            uThread.start() // 작업 Thread 실행
+
+            try {
+
+                uThread.join()
+                random_bitmapArr.add(a_bitmap!!)
+
+
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+        }
+        Log.d("랜덤랜덤2", random_bitmapArr.size.toString())
+
     }
 
     fun getweather () {
@@ -295,11 +333,6 @@ class HomeFragment : Fragment() {
                     val cTemp = weatherResponse!!.main!!.temp - 273.15  //켈빈을 섭씨로 변환
                     val minTemp = weatherResponse.main!!.temp_min - 273.15
                     val maxTemp = weatherResponse.main!!.temp_max - 273.15
-
-//                    var cutting = WeatherActivity.city?.split(' ') // 공백을 기준으로 리스트 생성해서 필요한 주소값만 출력하기
-//                    Log.d("잘리냐", "어케생겨먹었니" + WeatherActivity.city)
-//                    WeatherActivity.city = cutting[1]+" "+cutting[2]+" "+cutting[3]
-//                    Log.d("잘리냐", "어케생겨먹었니" + WeatherActivity.city)
 
                     val intcTemp = cTemp.roundToInt()
                     val intMinTemp = minTemp.roundToInt()
@@ -542,5 +575,7 @@ class HomeFragment : Fragment() {
         val queue = Volley.newRequestQueue(a!!)
         queue.add(colorRecommend_Request)
     }
+
+
 
 }

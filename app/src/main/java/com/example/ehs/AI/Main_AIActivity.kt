@@ -79,7 +79,7 @@ class Main_AIActivity : AppCompatActivity() {
 
             GlobalScope.launch(Dispatchers.Main) {
                 launch(Dispatchers.Main) {
-                    mainAIloading!!.asdf()
+                    mainAIloading!!.init()
                 }
                 delay(2500)
 
