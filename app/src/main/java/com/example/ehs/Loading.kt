@@ -18,7 +18,7 @@ class Loading(context: Context) : Dialog(context) {
     var animationDrawable: AnimationDrawable? = null
 
 
-    fun asdf() {
+    fun init() {
         Log.d("로딩1", "코가막힘 ㅜㅜ")
         context.show()
         start()

@@ -8,7 +8,6 @@ import android.location.*
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowInsetsController
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -26,9 +25,9 @@ import com.example.ehs.Closet.*
 import com.example.ehs.Fashionista.*
 import com.example.ehs.Feed.*
 import com.example.ehs.Home.AutoHome
+import com.example.ehs.Home.CodyRandom_Request
 import com.example.ehs.Home.HomeFragment
 import com.example.ehs.Login.AutoLogin
-import com.example.ehs.Login.LoginActivity
 import com.example.ehs.Mypage.ClothesColor_Response
 import com.example.ehs.Mypage.MypageFragment
 import com.example.ehs.ml.ColorModel
@@ -38,10 +37,6 @@ import com.gun0912.tedpermission.TedPermission
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_closet.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -60,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         var mContext: Context? = null
 //        var loading : Loading? = null
         lateinit var codycolorRecommend : String
+
     }
 
     lateinit var getLatitude : String
@@ -140,6 +136,8 @@ class MainActivity : AppCompatActivity() {
         Feed_ranking()
         GetFeedLikeTotalcnt()
         GetColor()
+
+        CodyRandom()
     }
 
     // 바텀 네비게이션 아이템 클릭 리스너 설정
@@ -187,7 +185,7 @@ class MainActivity : AppCompatActivity() {
 
 //                    GlobalScope.launch(Dispatchers.Main) {
 //                        launch(Dispatchers.Main) {
-//                            loading!!.asdf()
+//                            loading!!.init()
 //                        }
 //                        delay(4000L)
 //
@@ -917,7 +915,7 @@ class MainActivity : AppCompatActivity() {
         val outputs = model.process(inputFeature0)
         val outputFeature0 = outputs.outputFeature0AsTensorBuffer
 
-        var asdf = ArrayList<Double>()
+        var doubleArr = ArrayList<Double>()
         var colorLabelArr = ArrayList<String>()
         colorLabelArr.add("경쾌한")
         colorLabelArr.add("고상한")
@@ -933,16 +931,62 @@ class MainActivity : AppCompatActivity() {
         colorLabelArr.add("화려한")
 
         for(i in 0 until outputFeature0.floatArray.size) {
-            asdf.add(outputFeature0.floatArray[i].div(255.0)*100)
+            doubleArr.add(outputFeature0.floatArray[i].div(255.0)*100)
         }
-        var max = asdf.indexOf(asdf.max())
+        var max = doubleArr.indexOf(doubleArr.max())
         codycolorRecommend = colorLabelArr[max]
         Log.d("컬러추천", colorLabelArr[max])
-        Log.d("컬러추천", asdf.max().toString())
+        Log.d("컬러추천", doubleArr.max().toString())
 
         // Releases model resources if no longer used.
         model.close()
 
+    }
+
+    fun CodyRandom() {
+
+        var random_clothesCategory: String
+        var random_clothesName: String
+
+        var random_clothesCategoryArr = java.util.ArrayList<String>()
+        var random_clothesNameArr = java.util.ArrayList<String>()
+
+        val responseListener: Response.Listener<String?> = Response.Listener<String?> { response ->
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    var response = jsonObject.toString()
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    if (arr.length() == 0) {
+                        Toast.makeText(this, "전문가부족현상으로 다음에 이용해주시기 바랍니다.", Toast.LENGTH_SHORT).show()
+                        return@Listener
+                    } else {
+                        for (i in 0 until arr.length()) {
+                            val proObject = arr.getJSONObject(i)
+
+                            random_clothesCategory = proObject.getString("clothesCategory")
+                            random_clothesName = proObject.getString("clothesName")
+
+                            random_clothesCategoryArr.add(random_clothesCategory)
+                            random_clothesNameArr.add(random_clothesName)
+
+                        }
+
+                        AutoHome.setRandom_clothesCategory(this, random_clothesCategoryArr)
+                        AutoHome.setRandom_clothesName(this, random_clothesNameArr)
+
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "코디를 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
+                }
+            }
+        val codyRandom_Request = CodyRandom_Request(userId!!, responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(codyRandom_Request)
     }
 
 
