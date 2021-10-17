@@ -10,7 +10,8 @@
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/main_line_logo">
 
         <ImageView
             android:id="@+id/iv_logo"
