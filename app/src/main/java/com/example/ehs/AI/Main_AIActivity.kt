@@ -79,7 +79,7 @@ class Main_AIActivity : AppCompatActivity() {
 
             GlobalScope.launch(Dispatchers.Main) {
                 launch(Dispatchers.Main) {
-                    mainAIloading!!.init()
+                    mainAIloading!!.init("코디 평가")
                 }
                 delay(2500)
 

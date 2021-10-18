@@ -66,7 +66,6 @@ class ColorRecommendActivity : AppCompatActivity() {
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
         HomeFragment.homeloading?.finish()
-        tv_loadingtitle.text = "컬러 추천"
 
         colorcody = AutoHome.getColorcody(this)
         when(colorcody) {

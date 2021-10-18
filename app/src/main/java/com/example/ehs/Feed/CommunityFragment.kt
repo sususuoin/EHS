@@ -20,11 +20,6 @@ import kotlinx.android.synthetic.main.fragment_community.view.*
 class CommunityFragment : Fragment() {
     private var a: Activity? = null
     val communityList = mutableListOf<Community>()
-    lateinit var btncommunityEdit: ImageButton
-    lateinit var youtubeCC : ImageView
-
-
-
 
     companion object {
         const val TAG : String = "커뮤니티 프레그먼트"
@@ -54,27 +49,17 @@ class CommunityFragment : Fragment() {
         Log.d(TAG, "CommunityFragment - onCreateView() called")
         val view = inflater.inflate(R.layout.fragment_community, container, false)
 
-        btncommunityEdit = view!!.findViewById(R.id.btn_communityEdit)
-        btncommunityEdit.setOnClickListener{
+        view.btn_communityEdit.setOnClickListener{
             activity?.let{
                 val intent = Intent(context, CommunityEditActivity::class.java)
                 startActivity(intent) }
         }
 
-        youtubeCC = view!!.findViewById(R.id.youtubecc)
-        youtubeCC.setOnClickListener{
+        view.youtubecc.setOnClickListener{
             activity?.let{
                 val intent = Intent(context, CommunityEditActivity::class.java)
                 startActivity(intent) }
         }
-
-
-
-//------------------------------------------------------------------다시
-//        view.btn_C_heart.setOnClickListener {
-//            btn_C_heart.background = R.drawable.ic_heart
-//        }
-        //------------------------------------------------------------------
 
         view.tv_feed2.setOnClickListener {
             Log.d("CommunityFragment", "피드로 이동")

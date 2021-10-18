@@ -21,6 +21,7 @@ import com.android.volley.toolbox.Volley
 import com.example.ehs.AI.Main_AIActivity
 import com.example.ehs.Calendar.AutoCalendar
 import com.example.ehs.Calendar.CalendarActivity
+import com.example.ehs.Closet.CodySaveActivity
 import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Fashionista.FavoriteFragment
 import com.example.ehs.Fashionista.ProRecommendActivity
@@ -33,6 +34,7 @@ import com.example.ehs.Weather.WeatherActivity
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.loading.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -104,7 +106,6 @@ class HomeFragment : Fragment() {
 
     var random_clothesCategoryArr = ArrayList<String>()
     var random_clothesNameArr = ArrayList<String>()
-    var random_bitmapArr = ArrayList<Bitmap>()
 
     // 프래그먼트가 메모리에 올라갔을때
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -124,13 +125,6 @@ class HomeFragment : Fragment() {
 
         homeloading = Loading(a!!)
 
-        //랜덤으로 색 가져오기
-        random_clothesCategoryArr = AutoHome.getRandom_clothesCategory(a!!)
-        random_clothesNameArr = AutoHome.getRandom_clothesName(a!!)
-        Log.d("랜덤랜덤", random_clothesCategoryArr.toString())
-        Log.d("랜덤랜덤", random_clothesNameArr.toString())
-
-        asdf()
 
     }
     // 프래그먼트를 안고 있는 액티비티에 붙었을 때
@@ -172,7 +166,7 @@ class HomeFragment : Fragment() {
         view.iv_recotag.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 launch(Dispatchers.Main) {
-                    homeloading!!.init()
+                    homeloading!!.init("스타일 추천")
                 }
                 delay(2500L)
 
@@ -184,7 +178,7 @@ class HomeFragment : Fragment() {
         view.iv_recocolor.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 launch(Dispatchers.Main) {
-                    homeloading!!.init()
+                    homeloading!!.init("컬러 추천")
                 }
                 delay(2500L)
 
@@ -195,7 +189,7 @@ class HomeFragment : Fragment() {
         view.iv_recopro.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 launch(Dispatchers.Main) {
-                    homeloading!!.init()
+                    homeloading!!.init("전문가 추천")
                 }
                 delay(2500L)
 
@@ -214,6 +208,29 @@ class HomeFragment : Fragment() {
             Log.d("HomeFragment", "위도 : ${getLatitude}")
             Log.d("HomeFragment", "경도 : ${getLongitude}")
             getweather()
+        }
+
+        view.btn_retry.setOnClickListener {
+            (MainActivity.mContext as MainActivity).CodyRandom()
+            Log.d("랜덤랜덤", "새로고침")
+            asdf()
+        }
+
+        view.btn_saveRandomCody.setOnClickListener {
+            view.ll_randomCody.setDrawingCacheEnabled(true)
+            view.ll_randomCody.buildDrawingCache()
+
+            //조합한 코디를 캡쳐하여 비트맵으로 변경
+            var saveBitmap = view.ll_randomCody.getDrawingCache()
+            (MainActivity.mContext as MainActivity).Codycolor(saveBitmap)
+
+            if(CodySaveActivity.codySaveContext != null) {
+                (CodySaveActivity.codySaveContext as CodySaveActivity).uploadCody(saveBitmap)
+            } else {
+                Toast.makeText(a!!, "타임타임 아직 오류가 발생합니다.", Toast.LENGTH_SHORT).show()
+            }
+
+
         }
 
         /**
@@ -250,7 +267,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getweather()
-
+        asdf()
     }
 
     override fun onResume() {
@@ -268,6 +285,12 @@ class HomeFragment : Fragment() {
     }
 
     fun asdf() {
+        //랜덤으로 색 가져오기
+        random_clothesCategoryArr = AutoHome.getRandom_clothesCategory(a!!)
+        random_clothesNameArr = AutoHome.getRandom_clothesName(a!!)
+        Log.d("랜덤랜덤", random_clothesCategoryArr.toString())
+        Log.d("랜덤랜덤", random_clothesNameArr.toString())
+
         var a_bitmap : Bitmap? = null
         for (i in 0 until random_clothesNameArr.size) {
             val uThread: Thread = object : Thread() {
@@ -296,18 +319,37 @@ class HomeFragment : Fragment() {
             try {
 
                 uThread.join()
-                random_bitmapArr.add(a_bitmap!!)
+
+                when(random_clothesCategoryArr[i]) {
+
+                    "상의" -> {
+                        iv_top.setImageBitmap(a_bitmap)
+                        Log.d("랜덤", "상의")
+                    }
+                    "하의" -> {
+                        iv_bottom.setImageBitmap(a_bitmap)
+                    }
+                    "신발" -> {
+                        iv_shoes.setImageBitmap(a_bitmap)
+                    }
+                    "아우터" -> {
+                        iv_outer.setImageBitmap(a_bitmap)
+                    }
+                    "가방" -> {
+                        iv_bag.setImageBitmap(a_bitmap)
+                    }
+                }
+
 
 
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
         }
-        Log.d("랜덤랜덤2", random_bitmapArr.size.toString())
 
     }
 
-    fun getweather () {
+    fun getweather() {
         //Create Retrofit Builder
         val retrofit = Retrofit.Builder()
             .baseUrl(WeatherActivity.BaseUrl)
