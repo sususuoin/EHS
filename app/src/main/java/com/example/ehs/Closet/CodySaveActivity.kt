@@ -33,10 +33,10 @@ import java.util.*
 
 class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetButtonClickListener {
 
-    var codyStyle : String = ""
+    var codyStyle : String = "데일리"
     var userId : String= ""
 
-    var codyOpen : Boolean = false
+    var codyOpen : Boolean = true
 
     companion object {
         const val TAG : String = "코디세이브 액티비티"

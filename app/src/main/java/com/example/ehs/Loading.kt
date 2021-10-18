@@ -10,21 +10,24 @@ import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.TextView
+import kotlinx.android.synthetic.main.loading.*
 
 
 class Loading(context: Context) : Dialog(context) {
     private val context = Dialog(context)   //부모 액티비티의 context 가 들어감
     lateinit var imageView: ImageView
+    lateinit var tv_loadingtitle: TextView
     var animationDrawable: AnimationDrawable? = null
 
 
-    fun init() {
+    fun init(title : String) {
         Log.d("로딩1", "코가막힘 ㅜㅜ")
         context.show()
-        start()
+        start(title)
     }
 
-    fun start() {
+    fun start(title : String) {
 
         context.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 //        context.window!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#CC000000")))
@@ -38,6 +41,9 @@ class Loading(context: Context) : Dialog(context) {
         params!!.height = WindowManager.LayoutParams.MATCH_PARENT
         context.window!!.attributes = params
         context.window!!.setGravity( Gravity.CENTER )
+
+        tv_loadingtitle = context.findViewById(R.id.tv_loadingtitle)
+        tv_loadingtitle.text = title
 
         imageView = context.findViewById(R.id.progresss)
         imageView.setBackgroundResource(R.drawable.loading_item)

@@ -57,7 +57,6 @@ class ProRecommendActivity : AppCompatActivity() {
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
-        tv_loadingtitle.text = "전문가 추천"
         HomeFragment.homeloading?.finish()
 
         var proIdArr = AutoPro.getProProfileId(this)
