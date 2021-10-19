@@ -74,8 +74,11 @@ class ProRecommendActivity : AppCompatActivity() {
         proId2.text = proIdArr3[1]
         proId3.text = proIdArr3[2]
 
-        Log.d("afsadf" ,proIdArr.indexOf(proIdArr3[0]).toString())
-
+        for ( i in  0 until proIdArr3.size) {
+           var proNum =  proIdArr.lastIndexOf(proIdArr3[i])
+            Log.d("proNum", proNum.toString())
+            Log.d("proNum", proIdArr.toString())
+        }
 
         iv_proImg1.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[0]))
         iv_proImg2.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[1]))
@@ -113,6 +116,8 @@ class ProRecommendActivity : AppCompatActivity() {
 
         proRecommendList3.add(asdf8)
         proRecommendList3.add(asdf9)
+
+
 
 //        var a_bitmap : Bitmap? = null
 //        for (i in 0 until proplusImgPathArr.size) {
