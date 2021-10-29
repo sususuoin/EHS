@@ -110,7 +110,7 @@ class FeedFragment : Fragment() {
 
                 uThread.join()
 
-                var fuserProfile = AutoLogin.StringToBitmap(feeduserprofileImgArr[i])
+                var fuserProfile = AutoLogin.StringToBitmap(feeduserprofileImgArr[i], 100, 100)
                 val resizedBmp = Bitmap.createScaledBitmap(fuserProfile!!, 100, 100, true)
 //                val resizedBmp2 = Bitmap.createScaledBitmap(a_bitmap!!, 160, 160, true)
                 var feed = Feed(feedNumArr[i], resizedBmp!!, feedIdArr[i], feedStyleArr[i], a_bitmap, feedlikeCntArr[i], feednolikeCntArr[i])
@@ -186,7 +186,7 @@ class FeedFragment : Fragment() {
                     var int_idx = feedIdArr.indexOf(feedrank_feeduserId[i])
                     Log.d("zzzz키득", int_idx.toString())
 
-                    var ranking_profile = AutoLogin.StringToBitmap(feeduserprofileImgArr[int_idx])
+                    var ranking_profile = AutoLogin.StringToBitmap(feeduserprofileImgArr[int_idx], 100, 100)
 
 
                     if(feedIdArr.contains(feedrank_feeduserId[i])) {

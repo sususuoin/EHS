@@ -80,9 +80,9 @@ class ProRecommendActivity : AppCompatActivity() {
             Log.d("proNum", proIdArr.toString())
         }
 
-        iv_proImg1.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[0]))
-        iv_proImg2.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[1]))
-        iv_proImg3.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[2]))
+        iv_proImg1.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[0], 100, 100))
+        iv_proImg2.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[1], 100, 100))
+        iv_proImg3.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[2], 100, 100))
 
 
         var bitmap1 = BitmapFactory.decodeResource(resources, R.drawable.diao1)

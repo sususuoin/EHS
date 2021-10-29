@@ -295,7 +295,7 @@ class CalendarClothesFragment : Fragment() {
 
     fun BitmapToString(bitmap: Bitmap): String? {
         val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 70, baos)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
         val bytes = baos.toByteArray()
         return Base64.encodeToString(bytes, Base64.DEFAULT)
     }

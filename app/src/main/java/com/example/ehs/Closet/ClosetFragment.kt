@@ -341,17 +341,17 @@ class ClosetFragment : Fragment() {
                     val bitmap: Bitmap
                     val file = File(currentPhotoPath)
                     var fileuri = Uri.fromFile(file)
-                    uploadImgName = getName(fileuri)
+//                    uploadImgName = getName(fileuri)
                     if (Build.VERSION.SDK_INT < 28) { // 안드로이드 9.0 (Pie) 버전보다 낮을 경우
                         bitmap = MediaStore.Images.Media.getBitmap(a!!.contentResolver, fileuri)
-
-                        bmp = bitmap
+                        bmp = Bitmap.createScaledBitmap(bitmap!!, 400, 400, true)
+                        Log.d("zz카메라", bmp.toString())
 
                     } else { // 안드로이드 9.0 (Pie) 버전보다 높을 경우
                         val decode = ImageDecoder.createSource(a!!.contentResolver, fileuri)
                         bitmap = ImageDecoder.decodeBitmap(decode)
-
-                        bmp = bitmap
+                        bmp = Bitmap.createScaledBitmap(bitmap!!, 400, 400, true)
+                        Log.d("zz카메라", bmp.toString())
 
 
                     }

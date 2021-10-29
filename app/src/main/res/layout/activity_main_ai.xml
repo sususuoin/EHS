@@ -24,6 +24,23 @@
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
+    <LinearLayout
+        android:id="@+id/ll_margin1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_margin2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:orientation="horizontal"
+        android:visibility="gone">
+    </LinearLayout>
+
     <ImageButton
         android:id="@+id/btn_album"
         android:layout_width="55dp"
@@ -31,22 +48,22 @@
         android:layout_gravity="center"
         android:backgroundTint="@color/ourcolor"
         android:layout_marginBottom="20dp"
-        android:tint="@color/white"
+        app:tint="@color/white"
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <ImageView
         android:id="@+id/iv_aiImg"
         android:layout_width="300dp"
-        android:layout_height="450dp"
+        android:layout_height="400dp"
         android:layout_gravity="center"
-        tools:srcCompat="@tools:sample/avatars" />
-
+        tools:srcCompat="@tools:sample/avatars"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_gravity="center"
         android:textSize="25dp"
         android:text="" />
