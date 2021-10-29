@@ -64,7 +64,7 @@ class CalendarMakeCodyActivity : AppCompatActivity() , View.OnTouchListener{
 
         Log.d("하하", StringList.size.toString())
         for(i in 0 until StringList.size) {
-            Add_image(AutoLogin.StringToBitmap(StringList[i])!!)
+            Add_image(AutoLogin.StringToBitmap(StringList[i], 300, 300)!!)
         }
 
         btn_makecody.setOnClickListener {

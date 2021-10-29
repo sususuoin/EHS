@@ -81,7 +81,7 @@ class FashionistaFragment : Fragment() {
         var fuserProfile : Bitmap?
         for (i in 0 until fuserIdArr2.size) {
 
-            fuserProfile = AutoLogin.StringToBitmap(fuserProImgArr2[i])
+            fuserProfile = AutoLogin.StringToBitmap(fuserProImgArr2[i], 100, 100)
             var fashin = Fashionista(fuserIdArr2[i], fuserLevelArr2[i], fuserProfile)
             FashionistaList.add(fashin)
             fuserProfile == null

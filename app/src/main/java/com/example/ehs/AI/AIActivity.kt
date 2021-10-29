@@ -194,16 +194,22 @@ class AIActivity : AppCompatActivity() {
                                 val urione = clipData.getItemAt(i).uri
                                 when (i) {
                                     0 -> {
-                                        iv_aiImg1.setImageURI(urione)
+//                                        iv_aiImg1.setImageURI(urione)
+
                                         bitmap1 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
+                                        iv_aiImg1.setImageBitmap(Bitmap.createScaledBitmap(bitmap1!!, 400, 533, true))
                                     }
                                     1 -> {
-                                        iv_aiImg2.setImageURI(urione)
+//                                        iv_aiImg2.setImageURI(urione)
+
                                         bitmap2 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
+                                        iv_aiImg2.setImageBitmap(Bitmap.createScaledBitmap(bitmap2!!, 400, 533, true))
                                     }
                                     2 -> {
-                                        iv_aiImg3.setImageURI(urione)
+//                                        iv_aiImg3.setImageURI(urione)
+
                                         bitmap3 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
+                                        iv_aiImg3.setImageBitmap(Bitmap.createScaledBitmap(bitmap3!!, 400, 533, true))
                                     }
                                 }
                             }
@@ -213,6 +219,13 @@ class AIActivity : AppCompatActivity() {
             }
         }
         tv_result.text = ""
+
+        ll_margin1.isVisible = false
+        btn_album.isVisible = false
+
+        ll_margin2.isVisible = true
+        ll_img.isVisible = true
+
         btn_ai.isVisible = true
         btn_register.isVisible = false
 

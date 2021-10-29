@@ -145,14 +145,14 @@ object AutoLogin {
         return prefs.getString("MY_PROFILEIMG", "").toString()
     }
 
-    fun StringToBitmap(encodedString: String?): Bitmap? {
+    fun StringToBitmap(encodedString: String?, width: Int, height: Int): Bitmap? {
 
         try{
             val encodeByte: ByteArray = Base64.decode(encodedString, Base64.DEFAULT) // String 화 된 이미지를  base64방식으로 인코딩하여 byte배열을 만듬
             val options = BitmapFactory.Options()
             options.inSampleSize = 4
             val src = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size) //만들어진 bitmap을 return
-            return Bitmap.createScaledBitmap(src, 100, 100, true)
+            return Bitmap.createScaledBitmap(src, width, height, true)
         }catch (e: Exception) {
             e.printStackTrace()
             return null

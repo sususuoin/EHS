@@ -299,24 +299,6 @@ class MypageFragment : Fragment() {
         }
     }
 
-    private fun resize(bm: Bitmap): Bitmap {
-        var bm: Bitmap = bm
-        val config: Configuration = resources.configuration
-        bm =
-            if (config.smallestScreenWidthDp >= 800)
-                Bitmap.createScaledBitmap(bm, 400, 240, true)
-            else if (config.smallestScreenWidthDp >= 600)
-                Bitmap.createScaledBitmap(bm, 300, 180, true)
-            else if (config.smallestScreenWidthDp >= 400)
-                Bitmap.createScaledBitmap(bm, 200, 120, true)
-            else if (config.smallestScreenWidthDp >= 360)
-                Bitmap.createScaledBitmap(bm, 180, 108, true)
-            else
-                Bitmap.createScaledBitmap(bm, 160, 96, true)
-        return bm
-    }
-
-
     private fun setupPieChart() {
         with(pieChart) {
             isDrawHoleEnabled = true

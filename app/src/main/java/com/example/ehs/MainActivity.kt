@@ -3,6 +3,7 @@ package com.example.ehs
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.location.*
 import android.os.Build
@@ -988,6 +989,24 @@ class MainActivity : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this)
         queue.add(codyRandom_Request)
     }
+
+    fun resize(bm: Bitmap): Bitmap {
+        var bm: Bitmap = bm
+        val config: Configuration = resources.configuration
+        bm =
+            if (config.smallestScreenWidthDp >= 800)
+                Bitmap.createScaledBitmap(bm, 400, 240, true)
+            else if (config.smallestScreenWidthDp >= 600)
+                Bitmap.createScaledBitmap(bm, 300, 180, true)
+            else if (config.smallestScreenWidthDp >= 400)
+                Bitmap.createScaledBitmap(bm, 200, 120, true)
+            else if (config.smallestScreenWidthDp >= 360)
+                Bitmap.createScaledBitmap(bm, 180, 108, true)
+            else
+                Bitmap.createScaledBitmap(bm, 160, 96, true)
+        return bm
+    }
+
 
 
 }

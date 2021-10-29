@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
 import com.example.ehs.Loading
 import com.example.ehs.R
 import com.example.ehs.ml.ModelUnquant
@@ -158,6 +159,12 @@ class Main_AIActivity : AppCompatActivity() {
             }
         }
         tv_result.text = ""
+
+        ll_margin1.isVisible = false
+        btn_album.isVisible = false
+
+        ll_margin2.isVisible = true
+        iv_aiImg.isVisible = true
 
     }
 

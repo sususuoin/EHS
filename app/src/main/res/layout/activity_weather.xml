@@ -1,118 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Weather.WeatherActivity"
+    android:background="@color/cream"
     android:orientation="vertical"
-    android:background="@color/cream">
+    tools:context=".Weather.WeatherActivity">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_weather"
-            android:layout_width="match_parent"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_weather"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            tools:ignore="MissingConstraints" >
+            android:layout_gravity="center"
+            android:text="오늘의 날씨"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/circle_weather"
+                android:orientation="vertical">
+
+
                 <TextView
+                    android:id="@+id/tv_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="오늘의 날씨"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-        </androidx.appcompat.widget.Toolbar>
+                    android:layout_marginTop="25dp"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
-
-        <TextView
-            android:id="@+id/tv_city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="25sp"
-            android:textColor="@color/black"
-            android:text="TextView"
-            android:layout_marginTop="40dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-                <ImageButton
-                    android:id="@+id/btn_updateW"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-
-                    app:srcCompat="@drawable/ic_update"
-                    android:background="@drawable/btn_color_radius"
-                    android:backgroundTint="@null"
-                    android:layout_marginTop="2dp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="업데이트"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginLeft="2dp"
-                    android:textSize="13dp"/>
-        </LinearLayout>
-
-
-        <ImageView
-            android:id="@+id/img_weather"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="80dp"
-            app:srcCompat="@drawable/ic_launcher_background" />
-
-        <TextView
-            android:id="@+id/tv_cTemp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="TextView"
-            android:layout_gravity="center"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"/>
-
-        <TextView
-            android:id="@+id/tv_MinMaxTemp"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_height="30dp"
-            android:text="TextView"
-            android:textColor="@color/black"/>
-
-        <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="250dp"
-            android:orientation="vertical"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="40dp"
-            android:gravity="center"
-            android:background="@drawable/circle_weather">
-
-                <TextView
-                    android:id="@+id/textView13"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textSize="12sp"
-                    android:textColor="@color/darkgray"
-                    android:text="-------------------     오늘의 코디 Tip     -------------------" />
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_updateW"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/btn_color_radius"
+                        android:backgroundTint="@null"
+                        app:srcCompat="@drawable/ic_update" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center"
+                        android:text="업데이트"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/img_weather"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_cTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_MinMaxTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="350dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="@color/lightgray"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:text="-------------------     오늘의 코디 Tip     -------------------"
+                        android:textColor="@color/darkgray"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_weather"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="5dp"
+                android:text="시간별"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/circle_weather"
+                android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_weather"
-                    android:layout_width="290dp"
-                    android:layout_height="152dp"
+                    android:id="@+id/rv_Hweather"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:orientation="horizontal" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="5dp"
+                android:text="일별"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/circle_weather"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_Dweather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
         </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

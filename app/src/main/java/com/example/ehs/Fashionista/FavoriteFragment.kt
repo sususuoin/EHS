@@ -65,7 +65,7 @@ class FavoriteFragment : Fragment() {
             var favoriteuserProfile : Bitmap?
 
             for(i in 0 until favoriteuserIdArr.size) {
-                favoriteuserProfile = AutoLogin.StringToBitmap(favoriteuserProImgArr[i])
+                favoriteuserProfile = AutoLogin.StringToBitmap(favoriteuserProImgArr[i], 100, 100)
                 val resizedBmp = Bitmap.createScaledBitmap(favoriteuserProfile!!, 100, 100, true)
                 var favorite = Favorite(favoriteuserIdArr[i], '#' + favoriteuserHashTagArr[i], resizedBmp)
 

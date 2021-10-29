@@ -49,7 +49,7 @@ class UserModifyActivity : AppCompatActivity(), BottomSheet_gender.BottomSheetBu
         userGender = AutoLogin.getUserGender(this)
         userEmail = AutoLogin.getUserEmail(this)
         userProfileImg = AutoLogin.getUserProfileImg(this)
-        var userProfile = AutoLogin.StringToBitmap(userProfileImg)
+        var userProfile = AutoLogin.StringToBitmap(userProfileImg, 100, 100)
 
         et_userName.setText(userName)
         et_userPassword.setText(userPw)
