@@ -14,11 +14,12 @@ import kotlinx.android.synthetic.main.clothes.view.*
 class CalendarClothesListAdapter(private val items: MutableList<Clothes>)
     : RecyclerView.Adapter<CalendarClothesListAdapter.ViewHolder>() {
 
-    var clickList = ArrayList<String>()
-    var clickListimg = ArrayList<Bitmap>()
-
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
