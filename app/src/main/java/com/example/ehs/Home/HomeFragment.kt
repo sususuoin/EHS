@@ -124,7 +124,7 @@ class HomeFragment : Fragment() {
         calendarDayArr = AutoCalendar.getCalendarDay(a!!)
 
         homeloading = Loading(a!!)
-
+        getweather()
 
     }
     // 프래그먼트를 안고 있는 액티비티에 붙었을 때
@@ -266,7 +266,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getweather()
         asdf()
     }
 
@@ -372,14 +371,15 @@ class HomeFragment : Fragment() {
                 if (response.code() == 200) {
                     val weatherResponse = response.body()
                     Log.d("HomeFragment", "result: " + weatherResponse.toString())
-                    val cTemp = weatherResponse!!.main!!.temp - 273.15  //켈빈을 섭씨로 변환
-                    val minTemp = weatherResponse.main!!.temp_min - 273.15
-                    val maxTemp = weatherResponse.main!!.temp_max - 273.15
+                    val cTemp = weatherResponse!!.current!!.Ctemp - 273.15  //켈빈을 섭씨로 변환
+
+                    val minTemp = weatherResponse!!.daily[0].Dtemp!!.Dmin - 273.15
+                    val maxTemp = weatherResponse!!.daily[0].Dtemp!!.Dmax - 273.15
 
                     val intcTemp = cTemp.roundToInt()
                     val intMinTemp = minTemp.roundToInt()
                     val intMaxTemp = maxTemp.roundToInt()
-                    val weatherIMG = weatherResponse!!.weather!!.get(0).icon.toString()
+                    val weatherIMG = weatherResponse!!.current!!.weather[0].icon.toString()
 
                     when (weatherIMG) { // 날씨에 맞는 아이콘 출력
                         "01d" -> view!!.img_weatherH.setImageResource(R.drawable.ic_sun)
