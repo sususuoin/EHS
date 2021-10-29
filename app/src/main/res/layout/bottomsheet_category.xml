@@ -123,6 +123,4 @@
         android:textStyle="bold"
         android:text="선택완료"
         />
-
-
 </LinearLayout>
