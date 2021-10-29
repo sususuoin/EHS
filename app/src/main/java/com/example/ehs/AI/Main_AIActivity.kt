@@ -2,12 +2,14 @@ package com.example.ehs.AI
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ClipData
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
@@ -15,8 +17,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
+import com.example.ehs.Camera_choice
 import com.example.ehs.Loading
 import com.example.ehs.R
 import com.example.ehs.ml.ModelUnquant
@@ -31,27 +36,34 @@ import kotlinx.coroutines.launch
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 
 
 class Main_AIActivity : AppCompatActivity() {
-
+    lateinit var currentPhotoPath: String
 
     val REQUEST_IMAGE_CAPTURE = 1 // 카메라 사진 촬영 요청코드, 한번 지정되면 값이 바뀌지 않음
     val REQUEST_OPEN_GALLERY = 2
 
     var mainAIloading : Loading? = null
+    var camera_choice : Camera_choice? = null
+
     var bitmap : Bitmap? = null
 
     lateinit var airesult :String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_ai)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
-            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+            this.window.statusBarColor = ContextCompat.getColor(this, R.color.white)
         }
 
         /**
@@ -65,14 +77,27 @@ class Main_AIActivity : AppCompatActivity() {
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
         mainAIloading = Loading(this)
-
+        camera_choice = Camera_choice(this)
 
         //권한설정
         setPermission()
 
-        btn_album.setOnClickListener {
-            openGallery()
-            btn_ai.isClickable =true
+        btn_choice.setOnClickListener {
+            camera_choice!!.init()
+
+            camera_choice!!.btn_choice_camera.setOnClickListener {
+                camera_choice!!.finish()
+                takeCapture()
+                btn_ai.isClickable =true
+            }
+            camera_choice!!.btn_choice_album.setOnClickListener {
+                camera_choice!!.finish()
+                openGallery()
+                btn_ai.isClickable =true
+
+            }
+
+
         }
 
         btn_ai.setOnClickListener {
@@ -103,7 +128,8 @@ class Main_AIActivity : AppCompatActivity() {
             val model = ModelUnquant.newInstance(this@Main_AIActivity)
 
             //input
-            val inputFeature = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+            val inputFeature = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3),
+                DataType.UINT8)
             val tbuffer = TensorImage.fromBitmap(resized)
             val byteBuffer = tbuffer.buffer
             inputFeature.loadBuffer(byteBuffer)
@@ -145,12 +171,33 @@ class Main_AIActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) { //resultCode가 Ok이고
                 REQUEST_IMAGE_CAPTURE -> { // requestcode가 REQUEST_IMAGE_CAPTURE이면
+                    val bmp: Bitmap
+                    val file = File(currentPhotoPath)
+                    var fileuri = Uri.fromFile(file)
+                    Glide.with(this).load(fileuri).into(iv_aiImg)
 
+                    if (Build.VERSION.SDK_INT < 28) { // 안드로이드 9.0 (Pie) 버전보다 낮을 경우
+                        bmp = MediaStore.Images.Media.getBitmap(this.contentResolver, fileuri)
+                        bitmap = Bitmap.createScaledBitmap(bmp!!, 300, 400, true)
+                        Log.d("zz카메라", bmp.toString())
+
+                    } else { // 안드로이드 9.0 (Pie) 버전보다 높을 경우
+                        bmp = MediaStore.Images.Media.getBitmap(this.contentResolver, fileuri)
+//                        val decode = ImageDecoder.createSource(this.contentResolver, fileuri)
+//                        bmp = ImageDecoder.decodeBitmap(decode)
+                        bitmap = Bitmap.createScaledBitmap(bmp!!, 300, 400, true)
+                        Log.d("zz카메라", bmp.toString())
+
+                    }
+                    savePhoto(bitmap!!)
+
+//                    iv_aiImg.setImageBitmap(bitmap)
+                    if (file.exists()) {
+                        file.delete()
+                    }
                 }
                 REQUEST_OPEN_GALLERY -> { // requestcode가 REQUEST_OPEN_GALLERY이면
-
                     iv_aiImg.setImageResource(0)
-
                     val currentImageUrl: Uri? = data?.data // data의 data형태로 들어옴
 
                     iv_aiImg.setImageURI(currentImageUrl)
@@ -161,7 +208,7 @@ class Main_AIActivity : AppCompatActivity() {
         tv_result.text = ""
 
         ll_margin1.isVisible = false
-        btn_album.isVisible = false
+        btn_choice.isVisible = false
 
         ll_margin2.isVisible = true
         iv_aiImg.isVisible = true
@@ -176,6 +223,42 @@ class Main_AIActivity : AppCompatActivity() {
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
         startActivityForResult(intent, REQUEST_OPEN_GALLERY)
     }
+
+    /**
+     * 카메라 오픈 함수
+     */
+    fun takeCapture() {
+        // 기본 카메라 앱 실행
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager!!)?.also {
+                val photoFile: File? = try{
+                    createImageFile()
+                } catch (ex: IOException){
+                    null
+                }
+                photoFile?.also{
+                    val photoURI : Uri = FileProvider.getUriForFile(
+                        this,
+                        "com.example.closet.fileprovider",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
+            }
+        }
+    }
+
+    /**
+     * 이미지 파일 생성
+     */
+    private fun createImageFile(): File {
+        val timestamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile("PNG_${timestamp}_", ".png", storageDir)
+            .apply { currentPhotoPath = absolutePath }
+    }
+
 
     /**
      * 테드 퍼미션 설정
@@ -196,6 +279,25 @@ class Main_AIActivity : AppCompatActivity() {
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 android.Manifest.permission.CAMERA
             ).check()
+    }
+
+    /**
+     * 갤러리에 저장
+     */
+    private fun savePhoto(bitmap: Bitmap) {
+        val folderPath = Environment.getExternalStorageDirectory().absolutePath + "/Pictures/Omonemo/" // 사진폴더로 저장하기 위한 경로 선언
+        val timestamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val fileName = "${timestamp}.png"
+        val folder = File(folderPath)
+        if(!folder.isDirectory) { // 현재 해당 경로에 폴더가 존재하지 않는다면
+            folder.mkdir() // make diretory 줄임말로 해당 경로에 폴더를 자동으로 새로 만든다
+        }
+        // 실제적인 저장처리
+        val out = FileOutputStream(folderPath + fileName)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+        out.close()
+        Toast.makeText(this, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show()
+
     }
 
     /**

@@ -39,6 +39,10 @@ class CalendarlistAdapter(
         return calendarList.size
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder?.bind(calendarList[position], context)
     }

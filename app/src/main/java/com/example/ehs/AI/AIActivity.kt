@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
+import com.example.ehs.Loading
 import com.example.ehs.Login.RegisterActivity
 import com.example.ehs.R
 import com.example.ehs.ml.ModelUnquant
@@ -24,6 +25,10 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.activity_ai.*
 import kotlinx.android.synthetic.main.fragment_closet.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
@@ -36,12 +41,13 @@ class AIActivity : AppCompatActivity() {
     val REQUEST_IMAGE_CAPTURE = 1 // 카메라 사진 촬영 요청코드, 한번 지정되면 값이 바뀌지 않음
     val REQUEST_OPEN_GALLERY = 2
 
-
     var bitmap1 : Bitmap? = null
     var bitmap2 : Bitmap? = null
     var bitmap3 : Bitmap? = null
 
     lateinit var airesult :String
+
+    var aIloading : Loading? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,14 +71,25 @@ class AIActivity : AppCompatActivity() {
         //권한설정
         setPermission()
 
+        aIloading = Loading(this)
+
         btn_album.setOnClickListener {
             openGallery()
         }
 
         btn_ai.setOnClickListener {
 
-            Log.d("평가하기", "버튼클릭")
-            AIpredict()
+            GlobalScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
+                    aIloading!!.init("코디 평가")
+                }
+                delay(2500)
+
+                Log.d("평가하기", "버튼클릭")
+                AIpredict()
+            }
+
+
         }
 
         btn_register.setOnClickListener {
@@ -162,7 +179,7 @@ class AIActivity : AppCompatActivity() {
             btn_register.isVisible = true
             Log.d("이것이 베스트점수 결과로다", airesult)
 
-
+            aIloading!!.finish()
             model.close()
 
 
