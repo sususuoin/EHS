@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
@@ -19,6 +20,7 @@ import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.toolbox.Volley
 import com.example.ehs.AI.Main_AIActivity
+import com.example.ehs.BottomSheet.BottomSheet_tpo
 import com.example.ehs.Calendar.AutoCalendar
 import com.example.ehs.Calendar.CalendarActivity
 import com.example.ehs.Closet.CodySaveActivity
@@ -231,6 +233,15 @@ class HomeFragment : Fragment() {
             }
 
 
+        }
+        view.tv_tpo.setOnClickListener {
+            val BottomSheet_tpo: BottomSheet_tpo = BottomSheet_tpo {
+                when (it) {
+                    0 -> Toast.makeText(a!!, "추천순", Toast.LENGTH_SHORT).show()
+                    1 -> Toast.makeText(a!!, "리뷰순", Toast.LENGTH_SHORT).show()
+                }
+            }
+            BottomSheet_tpo.show((activity as AppCompatActivity).supportFragmentManager, BottomSheet_tpo.tag)
         }
 
         /**

@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/ourcolor"
+        android:background="@color/white"
         android:orientation="horizontal">
 
         <ImageButton
@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:background="@null"
-            android:src="@drawable/ic_back_white"
+            android:src="@drawable/ic_back"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -39,7 +39,7 @@
             android:text="2021년 5월"
             android:textAlignment="center"
             android:layout_gravity="center"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="20sp" />
 
         <ImageButton
@@ -57,7 +57,7 @@
         android:layout_height="30dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="@color/lightgray">
+        android:background="@color/white">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -115,6 +115,12 @@
             android:textAlignment="center"
             android:textSize="16sp"/>
     </LinearLayout>
+    <View
+        android:id="@+id/view_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/lightgray" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
