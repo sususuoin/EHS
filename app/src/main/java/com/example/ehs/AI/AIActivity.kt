@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
+import com.example.ehs.Closet.ClosetFragment
 import com.example.ehs.Loading
 import com.example.ehs.Login.RegisterActivity
 import com.example.ehs.R
@@ -235,6 +236,10 @@ class AIActivity : AppCompatActivity() {
                 }
             }
         }
+        else {
+            Toast.makeText(this, "취소하였습니다.", Toast.LENGTH_SHORT).show()
+        }
+
         tv_result.text = ""
 
         ll_margin1.isVisible = false
