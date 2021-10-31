@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
@@ -18,6 +19,7 @@ import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.example.ehs.Closet.ClosetFragment
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_fashionista_profile.*
@@ -180,6 +182,9 @@ class FashionistaProfile_Activity : AppCompatActivity() {
                     }
                 }
             }
+        }
+        else {
+            Toast.makeText(this, "취소하였습니다.", Toast.LENGTH_SHORT).show()
         }
 
         val intent = Intent(this, ProfilePlus_Activity::class.java)

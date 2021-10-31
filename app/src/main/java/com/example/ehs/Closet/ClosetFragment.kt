@@ -389,6 +389,9 @@ class ClosetFragment : Fragment() {
                 }
             }
         }
+        else {
+            Toast.makeText(a!!, "취소하였습니다.", Toast.LENGTH_SHORT).show()
+        }
 
 
         GlobalScope.launch(Dispatchers.Main) {

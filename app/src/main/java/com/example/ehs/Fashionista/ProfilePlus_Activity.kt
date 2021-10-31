@@ -22,6 +22,7 @@ import androidx.core.content.FileProvider
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.example.ehs.Closet.ClosetFragment
 import com.example.ehs.Closet.ClothesUpload_Request
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
@@ -235,6 +236,9 @@ class ProfilePlus_Activity : AppCompatActivity() {
                     }
                 }
             }
+        }
+        else {
+            Toast.makeText(ClosetFragment.a!!, "취소하였습니다.", Toast.LENGTH_SHORT).show()
         }
 
     }
