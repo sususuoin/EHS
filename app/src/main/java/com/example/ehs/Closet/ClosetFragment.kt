@@ -27,12 +27,17 @@ import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Closet.ClothesSaveActivity.Companion.clothesSaveActivity_Dialog
+import com.example.ehs.Loading
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.fragment_closet.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -84,6 +89,7 @@ class ClosetFragment : Fragment() {
     lateinit var userId : String
 
     val adapter = ClothesListAdapter(clothesList)
+    var bgremoveloading : Loading? = null
 
     companion object {
         var a: Activity? = null
@@ -102,6 +108,7 @@ class ClosetFragment : Fragment() {
         AndroidThreeTen.init(a)
 
         userId = AutoLogin.getUserId(a!!)
+        bgremoveloading = Loading(a!!)
 
         //clothes테이블에서 나의 데이터가져오기
         //현재는 날씨
@@ -373,8 +380,7 @@ class ClosetFragment : Fragment() {
                             a!!.contentResolver,
                             currentImageUrl
                         )
-
-                        bmp = bitmap
+                        bmp = Bitmap.createScaledBitmap(bitmap!!, 400, 400, true)
 
 
                     } catch (e: Exception) {
@@ -417,14 +423,6 @@ class ClosetFragment : Fragment() {
     }
 
 
-    private fun getPath(uri: Uri?): String {
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = a!!.managedQuery(uri, projection, null, null, null)
-        val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        cursor.moveToFirst()
-        return cursor.getString(column_index)
-    }
-
     // 파일명 찾기
     private fun getName(uri: Uri?): String {
         val projection = arrayOf(MediaStore.Images.ImageColumns.DISPLAY_NAME)
@@ -456,10 +454,7 @@ class ClosetFragment : Fragment() {
 
                     Toast.makeText(a, originImgName, Toast.LENGTH_SHORT).show()
 
-                    val intent = Intent(a, ClothesSaveActivity::class.java)
-                    intent.putExtra("originImgName", originImgName);
-                    Log.d(TAG, originImgName)
-                    startActivity(intent)
+                    bgremove(originImgName)
 
 
                 } catch (e: JSONException) {
@@ -485,6 +480,43 @@ class ClosetFragment : Fragment() {
 
         //adding the request to volley
         Volley.newRequestQueue(a).add(clothesUploadRequest)
+
+    }
+
+
+    fun bgremove(originImgName : String) {
+
+        val responseListener: Response.Listener<String?> = Response.Listener<String?> { response ->
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    var success = jsonObject.getBoolean("success")
+                    Log.d(TAG, userId)
+
+                    if (success) {
+                        GlobalScope.launch(Dispatchers.Main) {
+                            launch(Dispatchers.Main) {
+                                bgremoveloading!!.init("배경제거중")
+                            }
+                            delay(3000L)
+
+                            val intent = Intent(a, ClothesSaveActivity::class.java)
+                            intent.putExtra("originImgName", originImgName);
+                            Log.d(TAG, originImgName)
+                            startActivity(intent)
+                        }
+
+                    }
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    Toast.makeText(a!!, "배경제거실패 ㅜ", Toast.LENGTH_SHORT).show()
+                }
+            }
+        val clothesBgremove_Request = ClothesBgremove_Request(originImgName, responseListener)
+        val queue = Volley.newRequestQueue(a!!)
+        queue.add(clothesBgremove_Request)
 
     }
 
