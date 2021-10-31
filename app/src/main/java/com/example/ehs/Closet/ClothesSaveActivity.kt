@@ -162,10 +162,6 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
     }
 
 
-
-
-
-
     fun getFileDataFromDrawable(bitmap: Bitmap): ByteArray? {
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)

@@ -390,7 +390,17 @@ class ClosetFragment : Fragment() {
             }
         }
 
-        uploadBitmap(bmp)
+
+        GlobalScope.launch(Dispatchers.Main) {
+            launch(Dispatchers.Main) {
+                bgremoveloading!!.init("배경제거중")
+            }
+            delay(3000L)
+
+            uploadBitmap(bmp)
+        }
+
+
 
     }
 
@@ -494,20 +504,14 @@ class ClosetFragment : Fragment() {
                     Log.d(TAG, userId)
 
                     if (success) {
-                        GlobalScope.launch(Dispatchers.Main) {
-                            launch(Dispatchers.Main) {
-                                bgremoveloading!!.init("배경제거중")
-                            }
-                            delay(3000L)
 
-                            val intent = Intent(a, ClothesSaveActivity::class.java)
-                            intent.putExtra("originImgName", originImgName);
-                            Log.d(TAG, originImgName)
-                            startActivity(intent)
-                        }
+                        bgremoveloading?.finish()
+                        val intent = Intent(a, ClothesSaveActivity::class.java)
+                        intent.putExtra("originImgName", originImgName);
+                        Log.d(TAG, originImgName)
+                        startActivity(intent)
 
                     }
-
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
