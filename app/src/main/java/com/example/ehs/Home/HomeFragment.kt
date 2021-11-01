@@ -1,6 +1,7 @@
 package com.example.ehs.Home
 
 import android.app.Activity
+import android.app.ProgressDialog.show
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -12,11 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.blue
-import androidx.core.graphics.green
-import androidx.core.graphics.red
 import androidx.fragment.app.Fragment
-import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.toolbox.Volley
 import com.example.ehs.AI.Main_AIActivity
@@ -25,7 +22,6 @@ import com.example.ehs.Calendar.AutoCalendar
 import com.example.ehs.Calendar.CalendarActivity
 import com.example.ehs.Closet.CodySaveActivity
 import com.example.ehs.Fashionista.AutoPro
-import com.example.ehs.Fashionista.FavoriteFragment
 import com.example.ehs.Fashionista.ProRecommendActivity
 import com.example.ehs.Fashionista.ProRecommend_Request
 import com.example.ehs.Loading
@@ -34,6 +30,7 @@ import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.example.ehs.Weather.WeatherActivity
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.android.synthetic.main.activity_cody_save.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.loading.*
@@ -66,7 +63,7 @@ class HomeFragment : Fragment() {
     private var a: Activity? = null
     val now: LocalDateTime = LocalDateTime.now()
     var Strnow = now?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-
+    var tpochoice : String? = null
     lateinit var crecyclerview: androidx.recyclerview.widget.RecyclerView
 
     // 요일 받아오기
@@ -235,14 +232,17 @@ class HomeFragment : Fragment() {
 
         }
         view.tv_tpo.setOnClickListener {
-            val BottomSheet_tpo: BottomSheet_tpo = BottomSheet_tpo {
-                when (it) {
-                    0 -> Toast.makeText(a!!, "추천순", Toast.LENGTH_SHORT).show()
-                    1 -> Toast.makeText(a!!, "리뷰순", Toast.LENGTH_SHORT).show()
+            val BottomSheet_tpo = BottomSheet_tpo {
+                tpochoice = it
+                when(it) {
+                    tpochoice -> Log.d("0번", tpochoice!!)
                 }
+                tv_tpo.text = tpochoice
             }
             BottomSheet_tpo.show((activity as AppCompatActivity).supportFragmentManager, BottomSheet_tpo.tag)
+
         }
+
 
         /**
          * 캘린더 리사이클러뷰 객체
@@ -628,7 +628,10 @@ class HomeFragment : Fragment() {
         val queue = Volley.newRequestQueue(a!!)
         queue.add(colorRecommend_Request)
     }
-
+//    // 바텀시트에서 선택한 항목 보여주기
+//    fun onTpoButtonClicked(text: String) {
+//        tv_tpo.text = text
+//    }
 
 
 }
