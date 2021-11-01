@@ -388,20 +388,21 @@ class ClosetFragment : Fragment() {
                     }
                 }
             }
+            GlobalScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
+                    bgremoveloading!!.init("배경제거중")
+                }
+                delay(3000L)
+
+                uploadBitmap(bmp)
+            }
         }
         else {
             Toast.makeText(a!!, "취소하였습니다.", Toast.LENGTH_SHORT).show()
         }
 
 
-        GlobalScope.launch(Dispatchers.Main) {
-            launch(Dispatchers.Main) {
-                bgremoveloading!!.init("배경제거중")
-            }
-            delay(3000L)
 
-            uploadBitmap(bmp)
-        }
 
 
 

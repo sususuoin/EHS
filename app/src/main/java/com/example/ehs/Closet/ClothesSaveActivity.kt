@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.bumptech.glide.Glide
 import com.example.ehs.BottomSheet.BottomSheet_category
 import com.example.ehs.BottomSheet.BottomSheet_color
 import com.example.ehs.BottomSheet.BottomSheet_season
@@ -25,6 +26,7 @@ import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_clothes_save.*
+import kotlinx.android.synthetic.main.activity_main_ai.*
 import kotlinx.android.synthetic.main.bottomsheet_category.*
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.coroutines.*
@@ -281,10 +283,13 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
         }
 
-        override fun onPostExecute(img: Bitmap) {
-            mProgressDialog.dismiss()
-            iv_clothes.setImageBitmap(clothesImg)
-        }
+
+// 이거 그거거야 알았지?
+//        override fun onPostExecute(img: Bitmap) {
+//            mProgressDialog.dismiss()
+//            Glide.with(this).load(fileuri).into(iv_clothes)
+//            iv_clothes.setImageBitmap(clothesImg)
+//        }
 
 
     }

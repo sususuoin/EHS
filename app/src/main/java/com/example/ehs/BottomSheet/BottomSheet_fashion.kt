@@ -11,7 +11,6 @@ import android.widget.Button
 import android.widget.Toast
 import com.example.ehs.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.bottomsheet_category.*
 import kotlinx.android.synthetic.main.bottomsheet_fashion.*
 
 /**
@@ -77,7 +76,7 @@ class BottomSheet_fashion : BottomSheetDialogFragment() {
                     fashionchoice = null
                 }
             }
-            "상의" -> {
+            "데일리" -> {
                 btn_daily.setBackgroundResource(R.drawable.button_background)
                 btn_daily.setTextColor(Color.BLACK)
                 dailyclicked = false
