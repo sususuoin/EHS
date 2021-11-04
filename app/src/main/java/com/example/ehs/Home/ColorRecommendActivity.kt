@@ -15,7 +15,6 @@ import com.example.ehs.Loading
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity.Companion.codycolorRecommend
 import com.example.ehs.R
-import com.example.ehs.ml.ColorModel
 import kotlinx.android.synthetic.main.activity_color_recommend.*
 import kotlinx.android.synthetic.main.activity_pro_recommend.*
 import kotlinx.android.synthetic.main.activity_pro_recommend.tv_userid

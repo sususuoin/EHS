@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
@@ -33,6 +34,7 @@ import kotlinx.coroutines.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -256,7 +258,9 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
 
      open inner class back : AsyncTask<String?, Int?, Bitmap>() {
-         protected override fun onPreExecute() {
+
+         lateinit var fileuri : Uri
+         override fun onPreExecute() {
 
              // Create a progressdialog
              mProgressDialog = ProgressDialog(this@ClothesSaveActivity)
@@ -271,11 +275,16 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
         override fun doInBackground(vararg urls: String?): Bitmap {
             try {
                 val myFileUrl = URL(urls[0])
+
+                val file = File(urls[0].toString())
+                fileuri = Uri.fromFile(file)
+
                 val conn: HttpURLConnection = myFileUrl.openConnection() as HttpURLConnection
                 conn.doInput = true
                 conn.connect()
                 val iss: InputStream = conn.inputStream
                 clothesImg = BitmapFactory.decodeStream(iss)
+
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -283,16 +292,15 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
         }
 
-
-// 이거 그거거야 알았지?
-//        override fun onPostExecute(img: Bitmap) {
-//            mProgressDialog.dismiss()
-//            Glide.with(this).load(fileuri).into(iv_clothes)
-//            iv_clothes.setImageBitmap(clothesImg)
-//        }
+        override fun onPostExecute(img: Bitmap) {
+            mProgressDialog.dismiss()
+            Glide.with(this@ClothesSaveActivity).load(img).into(iv_clothes)
+//            iv_clothes.setImageBitmap(img)
+        }
 
 
     }
+
 
     // 바텀시트에서 선택한거 적용
     override fun onCategoryButtonClicked(text: String) {
