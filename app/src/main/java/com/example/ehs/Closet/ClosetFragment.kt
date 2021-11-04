@@ -1,12 +1,12 @@
 package com.example.ehs.Closet
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -198,7 +198,7 @@ class ClosetFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         Log.d(TAG, "ClosetFragment - onCreateView() called")
         val view: View = inflater!!.inflate(R.layout.fragment_closet, container, false)
@@ -351,13 +351,21 @@ class ClosetFragment : Fragment() {
 //                    uploadImgName = getName(fileuri)
                     if (Build.VERSION.SDK_INT < 28) { // 안드로이드 9.0 (Pie) 버전보다 낮을 경우
                         bitmap = MediaStore.Images.Media.getBitmap(a!!.contentResolver, fileuri)
-                        bmp = Bitmap.createScaledBitmap(bitmap!!, 400, 400, true)
+//                        bmp = Bitmap.createScaledBitmap(bitmap!!, 400, 400, true)
+
+                        bmp = bitmap.rotate(90F) // value must be float
+                        bmp = Bitmap.createScaledBitmap(bmp, 400, 400, true)
+
                         Log.d("zz카메라", bmp.toString())
 
                     } else { // 안드로이드 9.0 (Pie) 버전보다 높을 경우
                         val decode = ImageDecoder.createSource(a!!.contentResolver, fileuri)
                         bitmap = ImageDecoder.decodeBitmap(decode)
-                        bmp = Bitmap.createScaledBitmap(bitmap!!, 400, 400, true)
+//                        bmp = Bitmap.createScaledBitmap(bitmap!!, 400, 400, true)
+
+                        bmp = bitmap.rotate(90F) // value must be float
+                        bmp = Bitmap.createScaledBitmap(bmp, 400, 400, true)
+
                         Log.d("zz카메라", bmp.toString())
 
 
@@ -376,18 +384,17 @@ class ClosetFragment : Fragment() {
                     uploadImgName = getName(currentImageUrl)
 
                     try {
-                        val bitmap = MediaStore.Images.Media.getBitmap(
-                            a!!.contentResolver,
-                            currentImageUrl
-                        )
-                        bmp = Bitmap.createScaledBitmap(bitmap!!, 400, 400, true)
+                        val bitmap = MediaStore.Images.Media.getBitmap(a!!.contentResolver,  currentImageUrl)
 
+                        bmp = bitmap.rotate(90F) // value must be float
+                        bmp = Bitmap.createScaledBitmap(bmp, 400, 400, true)
 
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 }
             }
+
             GlobalScope.launch(Dispatchers.Main) {
                 launch(Dispatchers.Main) {
                     bgremoveloading!!.init("배경제거중")
@@ -396,16 +403,17 @@ class ClosetFragment : Fragment() {
 
                 uploadBitmap(bmp)
             }
+
         }
         else {
             Toast.makeText(a!!, "취소하였습니다.", Toast.LENGTH_SHORT).show()
         }
 
+    }
 
-
-
-
-
+    fun Bitmap.rotate(degrees: Float): Bitmap {
+        val matrix = Matrix().apply { postRotate(degrees) }
+        return Bitmap.createBitmap(this, 0, 0, this.width, this.height, matrix, true)
     }
 
     /**
@@ -466,8 +474,6 @@ class ClosetFragment : Fragment() {
 
                     Log.d("서버에 저장되어진 파일이름", originImgName)
 
-                    Toast.makeText(a, originImgName, Toast.LENGTH_SHORT).show()
-
                     bgremove(originImgName)
 
 
@@ -498,7 +504,7 @@ class ClosetFragment : Fragment() {
     }
 
 
-    fun bgremove(originImgName : String) {
+    fun bgremove(originImgName: String) {
 
         val responseListener: Response.Listener<String?> = Response.Listener<String?> { response ->
                 try {

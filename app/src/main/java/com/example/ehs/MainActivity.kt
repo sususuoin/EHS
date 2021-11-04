@@ -31,7 +31,7 @@ import com.example.ehs.Home.HomeFragment
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.Mypage.ClothesColor_Response
 import com.example.ehs.Mypage.MypageFragment
-import com.example.ehs.ml.ColorModel
+import com.example.ehs.ml.ModelColor
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -902,7 +902,7 @@ class MainActivity : AppCompatActivity() {
     fun Codycolor(bitmap : Bitmap) {
 
         val resized1 : Bitmap = Bitmap.createScaledBitmap(bitmap!!, 224, 224, true)
-        val model = ColorModel.newInstance(this)
+        val model = ModelColor.newInstance(this)
 
         // Creates inputs for reference.
         val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
