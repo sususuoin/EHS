@@ -116,7 +116,7 @@ class FavoriteListAdapter(private val items: List<Favorite>)
                         ContextCompat.startActivity(holder.itemView.context, intent, null)
 
                     }
-                val fashionistaProfileServer_Request = FashionistaProfileServer_Request(userId!!, responseListener)
+                val fashionistaProfileServer_Request = FashionistaProfileServer_Request(userId, responseListener)
                 val queue = Volley.newRequestQueue(holder.itemView.context)
                 queue.add(fashionistaProfileServer_Request)
 

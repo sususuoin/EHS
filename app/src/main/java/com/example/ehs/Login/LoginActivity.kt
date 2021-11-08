@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.AI.AIActivity
@@ -62,6 +63,38 @@ class LoginActivity : AppCompatActivity() {
             this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
         }
         Log.d(TAG, "로그인액티비티 출발")
+
+        var ehs = false
+        tv_register_ehs.setOnClickListener {
+            if(ehs == false) {
+                tv_register.isVisible = false
+                tv_register_ehs.text = "일반 사용자 로그인"
+                tv_title.text = "관리자 로그인"
+                btn_login.isVisible = false
+                btn_login2.isVisible = true
+                ehs = true
+            } else  {
+                tv_register.isVisible = true
+                tv_register_ehs.text = "관리자 로그인"
+                tv_title.text = "Hello World!"
+                btn_login.isVisible = true
+                btn_login2.isVisible = false
+                ehs = false
+            }
+
+        }
+
+        btn_login2.setOnClickListener {
+            var userId = et_id.text.toString()
+            var userPw = et_pw.text.toString()
+
+            if(userId == "ehs" && userPw == "ehs") {
+                Toast.makeText(this, "관리자로그인성공", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "아이디나 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+            }
+
+        }
 
         tv_register.setOnClickListener {
             Log.d(TAG, "회원가입 클릭")
