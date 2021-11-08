@@ -5,7 +5,11 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 
 class CodyRandom_Request (
-    userId : String,
+    sql_top : String,
+    sql_bottom : String,
+    sql_shoes : String,
+    sql_outer : String,
+    sql_bag : String,
     listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {
 
     private val map: MutableMap<String, String>
@@ -22,7 +26,11 @@ class CodyRandom_Request (
 
     init {
         map = HashMap()
-        map["userId"] = userId
+        map["sql_top"] = sql_top
+        map["sql_bottom"] = sql_bottom
+        map["sql_shoes"] = sql_shoes
+        map["sql_outer"] = sql_outer
+        map["sql_bag"] = sql_bag
     }
 }
 

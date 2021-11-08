@@ -2,7 +2,6 @@ package com.example.ehs.Home
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.AsyncTask
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,18 +10,13 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.example.ehs.Loading
 import com.example.ehs.Login.AutoLogin
-import com.example.ehs.MainActivity.Companion.codycolorRecommend
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_color_recommend.*
 import kotlinx.android.synthetic.main.activity_pro_recommend.*
 import kotlinx.android.synthetic.main.activity_pro_recommend.tv_userid
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.loading.*
-import org.tensorflow.lite.DataType
-import org.tensorflow.lite.support.image.TensorImage
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
