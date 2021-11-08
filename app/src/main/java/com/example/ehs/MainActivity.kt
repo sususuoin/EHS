@@ -57,6 +57,12 @@ class MainActivity : AppCompatActivity() {
 //        var loading : Loading? = null
         lateinit var codycolorRecommend : String
 
+        lateinit var basic_detail_top : String
+        lateinit var basic_detail_bottom : String
+        lateinit var basic_detail_shoes : String
+        lateinit var basic_detail_outer : String
+        lateinit var basic_detail_bag : String
+
     }
 
     lateinit var getLatitude : String
@@ -73,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mypageFragment: MypageFragment
 
 
-    var userId: String? = ""
+    lateinit var userId: String
     val bundle = Bundle()
 
     private var backKeyPressedTime: Long = 0
@@ -138,7 +144,13 @@ class MainActivity : AppCompatActivity() {
         GetFeedLikeTotalcnt()
         GetColor()
 
-        CodyRandom()
+        basic_detail_top = "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
+        basic_detail_bottom = "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
+        basic_detail_shoes = "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
+        basic_detail_outer = "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
+        basic_detail_bag = "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
+
+        CodyRandom(basic_detail_top, basic_detail_bottom, basic_detail_shoes, basic_detail_outer, basic_detail_bag)
     }
 
     // 바텀 네비게이션 아이템 클릭 리스너 설정
@@ -944,13 +956,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun CodyRandom() {
-
+    fun CodyRandom(sql_top : String, sql_bottom: String, sql_shoes: String, sql_outer: String, sql_bag: String) {
+        Log.d("티피오2", ",,")
         var random_clothesCategory: String
         var random_clothesName: String
+        var random_clothesCategory_Detail: String
 
-        var random_clothesCategoryArr = java.util.ArrayList<String>()
-        var random_clothesNameArr = java.util.ArrayList<String>()
+        var random_clothesCategoryArr = ArrayList<String>()
+        var random_clothesNameArr = ArrayList<String>()
+        var random_clothesCategory_DetailArr = ArrayList<String>()
 
         val responseListener: Response.Listener<String?> = Response.Listener<String?> { response ->
                 try {
@@ -961,7 +975,7 @@ class MainActivity : AppCompatActivity() {
                     val arr: JSONArray = jsonObject.getJSONArray("response")
 
                     if (arr.length() == 0) {
-                        Toast.makeText(this, "전문가부족현상으로 다음에 이용해주시기 바랍니다.", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this, "등록된 옷이 부족합니다.", Toast.LENGTH_SHORT).show()
                         return@Listener
                     } else {
                         for (i in 0 until arr.length()) {
@@ -969,23 +983,26 @@ class MainActivity : AppCompatActivity() {
 
                             random_clothesCategory = proObject.getString("clothesCategory")
                             random_clothesName = proObject.getString("clothesName")
+                            random_clothesCategory_Detail = proObject.getString("clothesCategory_Detail")
 
                             random_clothesCategoryArr.add(random_clothesCategory)
                             random_clothesNameArr.add(random_clothesName)
+                            random_clothesCategory_DetailArr.add(random_clothesCategory_Detail)
 
                         }
 
                         AutoHome.setRandom_clothesCategory(this, random_clothesCategoryArr)
                         AutoHome.setRandom_clothesName(this, random_clothesNameArr)
+                        AutoHome.setRandom_clothesCategory_Detail(this, random_clothesCategory_DetailArr)
 
                     }
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
-                    Toast.makeText(this, "코디를 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "옷을 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
                 }
             }
-        val codyRandom_Request = CodyRandom_Request(userId!!, responseListener)
+        val codyRandom_Request = CodyRandom_Request(sql_top, sql_bottom, sql_shoes, sql_outer, sql_bag, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(codyRandom_Request)
     }

@@ -1,9 +1,7 @@
 package com.example.ehs.Fashionista
 
-import android.R.attr.bitmap
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
@@ -13,19 +11,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.volley.Response
-import com.android.volley.toolbox.Volley
 import com.example.ehs.Fashionista.FashionistaFragment.Companion.dialog
 import com.example.ehs.Home.HomeFragment
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
-import kotlinx.android.synthetic.main.fragment_community.*
 import kotlinx.android.synthetic.main.fragment_favorite.*
 import kotlinx.android.synthetic.main.fragment_favorite.view.*
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 import java.util.*
 
 
@@ -106,7 +98,7 @@ class FavoriteFragment : Fragment() {
 
         // 추천배너 클릭 시
         view.btn_recommend.setOnClickListener {
-            (HomeFragment.homeContext as HomeFragment).recommend()
+            Toast.makeText(a, "추천기능 메인으로 이동", Toast.LENGTH_LONG).show()
         }
 
 

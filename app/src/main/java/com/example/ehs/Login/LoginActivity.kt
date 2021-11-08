@@ -15,7 +15,6 @@ import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.AI.AIActivity
 import com.example.ehs.MainActivity
-import com.example.ehs.MainLoadingActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_closet.*

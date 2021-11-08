@@ -1,7 +1,6 @@
 package com.example.ehs.Home
 
 import android.app.Activity
-import android.app.ProgressDialog.show
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -99,19 +98,18 @@ class HomeFragment : Fragment() {
         var calendarYearArr = ArrayList<String>()
         var calendarMonthArr = ArrayList<String>()
         var calendarDayArr = ArrayList<String>()
-        var homeContext: Context? = null
         var homeloading : Loading? = null
     }
 
     var random_clothesCategoryArr = ArrayList<String>()
     var random_clothesNameArr = ArrayList<String>()
+    var random_clothesCategory_DetailArr = ArrayList<String>()
 
     // 프래그먼트가 메모리에 올라갔을때
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "HomeFragment - onCreate() called")
         AndroidThreeTen.init(a)
-        homeContext=a!!
         userId = AutoLogin.getUserId(a!!)
 
         getLongitude = AutoHome.getLongitude(a!!)
@@ -210,7 +208,9 @@ class HomeFragment : Fragment() {
         }
 
         view.btn_retry.setOnClickListener {
-            (MainActivity.mContext as MainActivity).CodyRandom()
+            (MainActivity.mContext as MainActivity).CodyRandom(MainActivity.basic_detail_top,
+                MainActivity.basic_detail_bottom, MainActivity.basic_detail_shoes,
+                MainActivity.basic_detail_outer, MainActivity.basic_detail_bag)
             Log.d("랜덤랜덤", "새로고침")
             asdf()
         }
@@ -238,6 +238,8 @@ class HomeFragment : Fragment() {
                     tpochoice -> Log.d("0번", tpochoice!!)
                 }
                 tv_tpo.text = tpochoice
+                Log.d("티피오", ",,")
+                asdf()
             }
             BottomSheet_tpo.show((activity as AppCompatActivity).supportFragmentManager, BottomSheet_tpo.tag)
 
@@ -295,11 +297,20 @@ class HomeFragment : Fragment() {
     }
 
     fun asdf() {
-        //랜덤으로 색 가져오기
+        iv_top.setImageResource(0)
+        iv_bottom.setImageResource(0)
+        iv_shoes.setImageResource(0)
+        iv_outer.setImageResource(0)
+        iv_bag.setImageResource(0)
+        iv_onepiece.setImageResource(0)
+
         random_clothesCategoryArr = AutoHome.getRandom_clothesCategory(a!!)
         random_clothesNameArr = AutoHome.getRandom_clothesName(a!!)
+        random_clothesCategory_DetailArr = AutoHome.getRandom_clothesCategory_Detail(a!!)
+
         Log.d("랜덤랜덤", random_clothesCategoryArr.toString())
         Log.d("랜덤랜덤", random_clothesNameArr.toString())
+        Log.d("랜덤랜덤", random_clothesCategory_DetailArr.toString())
 
         var a_bitmap : Bitmap? = null
         for (i in 0 until random_clothesNameArr.size) {
@@ -331,13 +342,19 @@ class HomeFragment : Fragment() {
                 uThread.join()
 
                 when(random_clothesCategoryArr[i]) {
-
                     "상의" -> {
                         iv_top.setImageBitmap(a_bitmap)
-                        Log.d("랜덤", "상의")
                     }
                     "하의" -> {
                         iv_bottom.setImageBitmap(a_bitmap)
+                    }
+                    "원피스" -> {
+                        iv_onepiece.setImageBitmap(a_bitmap)
+                        when(random_clothesCategoryArr[i]) {
+                            "하의" -> {
+                                iv_bottom.setImageResource(0)
+                            }
+                        }
                     }
                     "신발" -> {
                         iv_shoes.setImageBitmap(a_bitmap)
@@ -348,6 +365,7 @@ class HomeFragment : Fragment() {
                     "가방" -> {
                         iv_bag.setImageBitmap(a_bitmap)
                     }
+
                 }
 
 

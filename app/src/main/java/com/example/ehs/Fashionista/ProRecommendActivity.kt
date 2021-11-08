@@ -1,6 +1,5 @@
 package com.example.ehs.Fashionista
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
@@ -12,17 +11,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ehs.Home.HomeFragment
-import com.example.ehs.Home.StyleRecommend
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_pro_recommend.*
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.loading.*
-import java.io.IOException
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.MalformedURLException
-import java.net.URL
 
 class ProRecommendActivity : AppCompatActivity() {
 
