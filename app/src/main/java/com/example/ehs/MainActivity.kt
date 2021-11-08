@@ -144,11 +144,11 @@ class MainActivity : AppCompatActivity() {
         GetFeedLikeTotalcnt()
         GetColor()
 
-        basic_detail_top = "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
-        basic_detail_bottom = "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
-        basic_detail_shoes = "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
-        basic_detail_outer = "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
-        basic_detail_bag = "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
+        basic_detail_top = "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='" +userId+ "' OR  clothesCategory='원피스' AND clothesSeason!='여름' AND userId='$userId' ORDER BY rand() LIMIT 1"
+        basic_detail_bottom = "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
+        basic_detail_shoes = "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
+        basic_detail_outer = "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
+        basic_detail_bag = "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
 
         CodyRandom(basic_detail_top, basic_detail_bottom, basic_detail_shoes, basic_detail_outer, basic_detail_bag)
     }

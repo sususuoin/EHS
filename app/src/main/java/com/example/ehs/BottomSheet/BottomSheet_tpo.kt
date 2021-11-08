@@ -32,9 +32,9 @@ class BottomSheet_tpo(val itemClick: (String) -> Unit) : BottomSheetDialogFragme
     var officelookclicked = false
     var partylookclicked = false
     var guestlookclicked = false
-    var hikinglookclicked = false
     var athleisurelookclicked = false
     var speciallookclicked = false
+    var resetclicked = false
 
     lateinit var userId: String
     var tpo_loading : Loading? = null
@@ -96,15 +96,15 @@ class BottomSheet_tpo(val itemClick: (String) -> Unit) : BottomSheetDialogFragme
                         dailylookclicked = true
                         tpochoice = "데일리룩"
                         detail_top =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' ORDER BY rand() LIMIT 1"
                         detail_bottom =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId'  AND clothesCategory_Detail IN('면바지', '청바지', '슬랙스', '반바지', '미니스커트', '롱스커트') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId'  AND clothesCategory_Detail IN('면바지', '청바지', '슬랙스', '반바지', '미니스커트', '롱스커트') ORDER BY rand() LIMIT 1"
                         detail_outer =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId' ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId' ORDER BY rand() LIMIT 1"
                         detail_shoes =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId'  AND clothesCategory_Detail IN('스니커즈', '부츠', '구두') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId'  AND clothesCategory_Detail IN('스니커즈', '부츠', '구두') ORDER BY rand() LIMIT 1"
                         detail_bag =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='$userId' ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='$userId' ORDER BY rand() LIMIT 1"
                         (MainActivity.mContext as MainActivity).CodyRandom(detail_top, detail_bottom, detail_shoes, detail_outer, detail_bag)
                     } else {
                         view.btn_dailylook.setBackgroundResource(R.drawable.button_background)
@@ -138,15 +138,15 @@ class BottomSheet_tpo(val itemClick: (String) -> Unit) : BottomSheetDialogFragme
                         datelookclicked = true
                         tpochoice = "데이트룩"
                         detail_top =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' AND clothesCategory_Detail IN('블라우스', '니트', '셔츠') OR  clothesCategory='원피스' AND clothesSeason!='여름' AND clothesCategory_Detail='패턴원피스' AND userId='$userId' ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' AND clothesCategory_Detail IN('블라우스', '니트', '셔츠') OR  clothesCategory='원피스' AND clothesSeason!='여름' AND clothesCategory_Detail='패턴원피스' AND userId='$userId' ORDER BY rand() LIMIT 1"
                         detail_bottom =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId'  AND clothesCategory_Detail IN('면바지', '청바지', '슬랙스', '반바지', '미니스커트', '롱스커트') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId'  AND clothesCategory_Detail IN('면바지', '청바지', '슬랙스', '반바지', '미니스커트', '롱스커트') ORDER BY rand() LIMIT 1"
                         detail_outer =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId'  AND clothesCategory_Detail IN('가디건', '코트', '점퍼', '수트자켓') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId'  AND clothesCategory_Detail IN('가디건', '코트', '점퍼', '수트자켓') ORDER BY rand() LIMIT 1"
                         detail_shoes =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId'  AND clothesCategory_Detail IN('스니커즈', '부츠', '구두') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId'  AND clothesCategory_Detail IN('스니커즈', '부츠', '구두') ORDER BY rand() LIMIT 1"
                         detail_bag =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='$userId' AND clothesCategory_Detail IN('일반 가방', '에코백') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='$userId' AND clothesCategory_Detail IN('일반 가방', '에코백') ORDER BY rand() LIMIT 1"
                         (MainActivity.mContext as MainActivity).CodyRandom(detail_top, detail_bottom, detail_shoes, detail_outer, detail_bag)
                     } else {
                         view.btn_datelook.setBackgroundResource(R.drawable.button_background)
@@ -182,15 +182,15 @@ class BottomSheet_tpo(val itemClick: (String) -> Unit) : BottomSheetDialogFragme
                         officelookclicked = true
                         tpochoice = "오피스룩"
                         detail_top =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' AND clothesCategory_Detail IN('블라우스', '니트', '셔츠') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' AND clothesCategory_Detail IN('블라우스', '셔츠') ORDER BY rand() LIMIT 1"
                         detail_bottom =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId'  AND clothesCategory_Detail IN('슬랙스') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId' AND clothesCategory_Detail IN('슬랙스') ORDER BY rand() LIMIT 1"
                         detail_outer =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId'  AND clothesCategory_Detail IN('코트', '수트자켓') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId' AND clothesCategory_Detail IN('코트', '수트자켓') ORDER BY rand() LIMIT 1"
                         detail_shoes =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId'  AND clothesCategory_Detail IN('구두') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId' AND clothesCategory_Detail IN('구두') ORDER BY rand() LIMIT 1"
                         detail_bag =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='$userId' AND clothesCategory_Detail IN('일반 가방') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='$userId' AND clothesCategory_Detail IN('일반 가방') ORDER BY rand() LIMIT 1"
                         (MainActivity.mContext as MainActivity).CodyRandom(detail_top, detail_bottom, detail_shoes, detail_outer, detail_bag)
                     } else {
                         view.btn_officelook.setBackgroundResource(R.drawable.button_background)
@@ -270,15 +270,15 @@ class BottomSheet_tpo(val itemClick: (String) -> Unit) : BottomSheetDialogFragme
                         guestlookclicked = true
                         tpochoice = "하객룩"
                         detail_top =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' AND clothesCategory_Detail IN('블라우스', '니트', '셔츠') OR clothesCategory='원피스' AND clothesSeason!='여름' AND clothesCategory_Detail='무지원피스' AND userId='$userId' ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' AND clothesCategory_Detail IN('블라우스', '니트', '셔츠') AND clothesColor!='흰색' OR clothesCategory='원피스' AND clothesSeason!='여름' AND clothesCategory_Detail='무지원피스' AND userId='$userId' AND clothesColor!='흰색' ORDER BY rand() LIMIT 1"
                         detail_bottom =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId'  AND clothesCategory_Detail IN('면바지', '청바지', '슬랙스', '롱스커트') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId'  AND clothesCategory_Detail IN('면바지', '청바지', '슬랙스', '롱스커트') ORDER BY rand() LIMIT 1"
                         detail_outer =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId'  AND clothesCategory_Detail IN('가디건', '코트', '점퍼', '수트자켓') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId'  AND clothesCategory_Detail IN('가디건', '코트', '점퍼', '수트자켓') ORDER BY rand() LIMIT 1"
                         detail_shoes =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId'  AND clothesCategory_Detail IN('부츠', '구두') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId'  AND clothesCategory_Detail IN('부츠', '구두') ORDER BY rand() LIMIT 1"
                         detail_bag =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='$userId' AND clothesCategory_Detail IN('일반 가방') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='$userId' AND clothesCategory_Detail IN('일반 가방') ORDER BY rand() LIMIT 1"
                         (MainActivity.mContext as MainActivity).CodyRandom(detail_top, detail_bottom, detail_shoes, detail_outer, detail_bag)
                     } else {
                         view.btn_guestlook.setBackgroundResource(R.drawable.button_background)
@@ -291,50 +291,6 @@ class BottomSheet_tpo(val itemClick: (String) -> Unit) : BottomSheetDialogFragme
                     view.btn_guestlook.setBackgroundResource(R.drawable.button_background)
                     view.btn_guestlook.setTextColor(Color.BLACK)
                     guestlookclicked = false
-                    tpochoice = null
-                }
-                else -> {
-                    Toast.makeText(activity, "하나의 항목만 선택해주세요.", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-        }
-
-        view.btn_hikinglook.setOnClickListener {
-            detail_top=""
-            detail_bottom=""
-            detail_shoes=""
-            detail_outer=""
-            detail_bag=""
-            when (tpochoice) {
-                null -> {
-                    if (!hikinglookclicked) {
-                        view.btn_hikinglook.setBackgroundResource(R.drawable.button_choice_background)
-                        view.btn_hikinglook.setTextColor(Color.rgb(99,80,172))
-                        hikinglookclicked = true
-                        tpochoice = "등산룩"
-                        detail_top =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' AND clothesCategory_Detail IN('티셔츠', '후드') ORDER BY rand() LIMIT 1"
-                        detail_bottom =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId'  AND clothesCategory_Detail IN('츄리닝') ORDER BY rand() LIMIT 1"
-                        detail_outer =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId'  AND clothesCategory_Detail IN('패딩') ORDER BY rand() LIMIT 1"
-                        detail_shoes =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId'  AND clothesCategory_Detail IN('스니커즈') ORDER BY rand() LIMIT 1"
-                        detail_bag =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='$userId' AND clothesCategory_Detail IN('백팩') ORDER BY rand() LIMIT 1"
-                        (MainActivity.mContext as MainActivity).CodyRandom(detail_top, detail_bottom, detail_shoes, detail_outer, detail_bag)
-                    } else {
-                        view.btn_hikinglook.setBackgroundResource(R.drawable.button_background)
-                        view.btn_hikinglook.setTextColor(Color.BLACK)
-                        hikinglookclicked = false
-                        tpochoice = null
-                    }
-                }
-                "등산룩" -> {
-                    view.btn_hikinglook.setBackgroundResource(R.drawable.button_background)
-                    view.btn_hikinglook.setTextColor(Color.BLACK)
-                    hikinglookclicked = false
                     tpochoice = null
                 }
                 else -> {
@@ -358,15 +314,15 @@ class BottomSheet_tpo(val itemClick: (String) -> Unit) : BottomSheetDialogFragme
                         athleisurelookclicked = true
                         tpochoice = "애슬레저룩"
                         detail_top =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' AND clothesCategory_Detail IN('티셔츠', '후드') OR clothesCategory='원피스' AND clothesSeason!='여름' AND clothesCategory_Detail='후드원피스' AND userId='$userId' ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' AND clothesCategory_Detail IN('티셔츠', '후드') OR clothesCategory='원피스' AND clothesSeason!='여름' AND clothesCategory_Detail='후드원피스' AND userId='$userId' ORDER BY rand() LIMIT 1"
                         detail_bottom =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId'  AND clothesCategory_Detail IN('츄리닝') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId'  AND clothesCategory_Detail IN('츄리닝') ORDER BY rand() LIMIT 1"
                         detail_outer =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId'  AND clothesCategory_Detail IN('패딩', '점퍼') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId'  AND clothesCategory_Detail IN('패딩', '점퍼') ORDER BY rand() LIMIT 1"
                         detail_shoes =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId'  AND clothesCategory_Detail IN('스니커즈') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId'  AND clothesCategory_Detail IN('스니커즈') ORDER BY rand() LIMIT 1"
                         detail_bag =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='$userId' AND clothesCategory_Detail IN('백팩') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='$userId' AND clothesCategory_Detail IN('백팩') ORDER BY rand() LIMIT 1"
                         (MainActivity.mContext as MainActivity).CodyRandom(detail_top, detail_bottom, detail_shoes, detail_outer, detail_bag)
                     } else {
                         view.btn_athleisurelook.setBackgroundResource(R.drawable.button_background)
@@ -402,15 +358,15 @@ class BottomSheet_tpo(val itemClick: (String) -> Unit) : BottomSheetDialogFragme
                         speciallookclicked = true
                         tpochoice = "스페셜룩"
                         detail_top =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' AND clothesCategory_Detail IN('블라우스', '니트', '셔츠', '티셔츠') OR clothesCategory='원피스' AND clothesSeason!='여름' AND clothesCategory_Detail IN('패턴원피스', '무지원피스') AND userId='$userId' ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' AND clothesCategory_Detail IN('블라우스', '니트', '셔츠', '티셔츠') OR clothesCategory='원피스' AND clothesSeason!='여름' AND clothesCategory_Detail IN('패턴원피스', '무지원피스') AND userId='$userId' ORDER BY rand() LIMIT 1"
                         detail_bottom =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId'  AND clothesCategory_Detail IN('면바지', '청바지', '반바지', '미니스커트', '롱스커트') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId'  AND clothesCategory_Detail IN('면바지', '청바지', '반바지', '미니스커트', '롱스커트') ORDER BY rand() LIMIT 1"
                         detail_outer =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId'  AND clothesCategory_Detail IN('가디건', '코트', '점퍼', '수트자켓', '패딩') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId'  AND clothesCategory_Detail IN('가디건', '코트', '점퍼', '수트자켓', '패딩') ORDER BY rand() LIMIT 1"
                         detail_shoes =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId'  AND clothesCategory_Detail IN('스니커즈', '부츠', '구두') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId'  AND clothesCategory_Detail IN('스니커즈', '부츠', '구두') ORDER BY rand() LIMIT 1"
                         detail_bag =
-                            "SELECT clothesCategory, clothesName FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='$userId' AND clothesCategory_Detail IN('일반 가방') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='$userId' AND clothesCategory_Detail IN('일반 가방') ORDER BY rand() LIMIT 1"
                         (MainActivity.mContext as MainActivity).CodyRandom(detail_top, detail_bottom, detail_shoes, detail_outer, detail_bag)
                     } else {
                         view.btn_speciallook.setBackgroundResource(R.drawable.button_background)
@@ -431,12 +387,49 @@ class BottomSheet_tpo(val itemClick: (String) -> Unit) : BottomSheetDialogFragme
             }
 
         }
+
+        view.btn_reset.setOnClickListener {
+            detail_top=""
+            detail_bottom=""
+            detail_shoes=""
+            detail_outer=""
+            detail_bag=""
+            when (tpochoice) {
+                null -> {
+                    if (!resetclicked) {
+                        view.btn_speciallook.setBackgroundResource(R.drawable.button_choice_background)
+                        view.btn_speciallook.setTextColor(Color.rgb(99,80,172))
+                        resetclicked = true
+                        tpochoice = "티피오"
+                        (MainActivity.mContext as MainActivity).CodyRandom(MainActivity.basic_detail_top,
+                            MainActivity.basic_detail_bottom, MainActivity.basic_detail_shoes,
+                            MainActivity.basic_detail_outer, MainActivity.basic_detail_bag)
+                    } else {
+                        view.btn_speciallook.setBackgroundResource(R.drawable.button_background)
+                        view.btn_speciallook.setTextColor(Color.BLACK)
+                        resetclicked = false
+                        tpochoice = null
+                    }
+                }
+                "티피오" -> {
+                    view.btn_speciallook.setBackgroundResource(R.drawable.button_background)
+                    view.btn_speciallook.setTextColor(Color.BLACK)
+                    resetclicked = false
+                    tpochoice = null
+                }
+                else -> {
+                    Toast.makeText(activity, "하나의 항목만 선택해주세요.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        }
+
         view.btn_tpochoice.setOnClickListener{
             GlobalScope.launch(Dispatchers.Main) {
                 launch(Dispatchers.Main) {
                     tpo_loading!!.init("스타일 검색 중")
                 }
-                delay(1500)
+                delay(1000)
 
                 tpo_loading?.finish()
                 dialog?.dismiss()
