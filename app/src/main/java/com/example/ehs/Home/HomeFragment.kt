@@ -520,6 +520,7 @@ class HomeFragment : Fragment() {
 
                     if(arr.length() == 0 || arr.length() == 1 || arr.length() ==2) {
                         Toast.makeText(a!!, "전문가부족현상으로 다음에 이용해주시기 바랍니다.", Toast.LENGTH_SHORT).show()
+                        homeloading?.finish()
                         return@Listener
                     }
 
@@ -558,6 +559,8 @@ class HomeFragment : Fragment() {
                 } catch (e: JSONException) {
                     e.printStackTrace()
                     Toast.makeText(a!!, "코디를 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
+                    homeloading?.finish()
+
                 }
             }
         val proRecommendRequest = ProRecommend_Request(userId!!, responseListener)
@@ -622,6 +625,7 @@ class HomeFragment : Fragment() {
                 } catch (e: JSONException) {
                     e.printStackTrace()
                     Toast.makeText(a!!, "코디를 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
+                    homeloading?.finish()
                 }
             }
         val colorRecommend_Request = ColorRecommend_Request(userId!!, responseListener)

@@ -12,6 +12,7 @@ class ClothesSave_Request (
     clothesName : String,
     clothesColor : String,
     clothesCategory : String,
+    clothesCategory_Detail : String,
     clothesSeason : String,
     listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {
 
@@ -35,6 +36,7 @@ class ClothesSave_Request (
         map["clothesName"] = clothesName
         map["clothesColor"] = clothesColor
         map["clothesCategory"] = clothesCategory
+        map["clothesCategory_Detail"] = clothesCategory_Detail
         map["clothesSeason"] = clothesSeason
     }
 }

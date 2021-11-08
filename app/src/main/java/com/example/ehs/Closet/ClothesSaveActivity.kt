@@ -26,6 +26,7 @@ import com.example.ehs.BottomSheet.BottomSheet_season
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
+import com.example.ehs.ml.*
 import kotlinx.android.synthetic.main.activity_clothes_save.*
 import kotlinx.android.synthetic.main.activity_main_ai.*
 import kotlinx.android.synthetic.main.bottomsheet_category.*
@@ -33,6 +34,9 @@ import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.coroutines.*
 import org.json.JSONException
 import org.json.JSONObject
+import org.tensorflow.lite.DataType
+import org.tensorflow.lite.support.image.TensorImage
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -55,6 +59,8 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
     lateinit var clothesName : String
     lateinit var clothesImg : Bitmap
+    lateinit var clothesCategory : String
+    lateinit var clothesCategory_Detail : String
 
     var tvcategory : String = ""
     var tvcolor : String = ""
@@ -142,7 +148,9 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
                 clothesSaveActivity_Dialog!!.setCanceledOnTouchOutside(false)
                 clothesSaveActivity_Dialog!!.show()
 
-                uploadBitmap(clothesImg)
+                clothesCategory = tv_category.text as String
+                category_detial(clothesImg)
+
             }
 
         }
@@ -170,6 +178,231 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
+    }
+
+    fun category_detial(clothesImg : Bitmap) {
+        when(clothesCategory) {
+            "상의" -> {
+                Log.d("세부카테고리222", clothesCategory)
+                val resized : Bitmap = Bitmap.createScaledBitmap(clothesImg, 224, 224, true)
+                val model = ModelTop.newInstance(this@ClothesSaveActivity)
+
+                //input
+                val inputFeature = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+                val tbuffer = TensorImage.fromBitmap(resized)
+                val byteBuffer = tbuffer.buffer
+                inputFeature.loadBuffer(byteBuffer)
+
+                //output
+                val outputs = model.process(inputFeature)
+                val outputFeature = outputs.outputFeature0AsTensorBuffer
+
+                var topdoubleArr = ArrayList<Double>()
+                var topLabelArr = ArrayList<String>()
+                topLabelArr.add("블라우스")
+                topLabelArr.add("후드")
+                topLabelArr.add("니트")
+                topLabelArr.add("티셔츠")
+                topLabelArr.add("셔츠")
+
+                for(i in 0 until outputFeature.floatArray.size) {
+                    topdoubleArr.add(outputFeature.floatArray[i].div(255.0)*100)
+                }
+                var max = topdoubleArr.indexOf(topdoubleArr.max())
+                Log.d("세부카테고리", max.toString())
+                Log.d("세부카테고리", topLabelArr[max])
+                clothesCategory_Detail = topLabelArr[max]
+                Log.d("세부카테고리", topdoubleArr.max().toString())
+
+//                uploadBitmap(clothesImg)
+
+                model.close()
+            }
+
+            "하의" -> {
+               Log.d("세부카테고리222", clothesCategory)
+                val resized : Bitmap = Bitmap.createScaledBitmap(clothesImg, 224, 224, true)
+                val model = ModelBottom.newInstance(this@ClothesSaveActivity)
+
+                //input
+                val inputFeature = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+                val tbuffer = TensorImage.fromBitmap(resized)
+                val byteBuffer = tbuffer.buffer
+                inputFeature.loadBuffer(byteBuffer)
+
+                //output
+                val outputs = model.process(inputFeature)
+                val outputFeature = outputs.outputFeature0AsTensorBuffer
+
+                var bottomdoubleArr = ArrayList<Double>()
+                var bottomLabelArr = ArrayList<String>()
+                bottomLabelArr.add("면바지")
+                bottomLabelArr.add("청바지")
+                bottomLabelArr.add("슬랙스")
+                bottomLabelArr.add("츄리닝")
+                bottomLabelArr.add("반바지")
+                bottomLabelArr.add("미니스커트")
+                bottomLabelArr.add("롱스커트")
+
+                for(i in 0 until outputFeature.floatArray.size) {
+                    bottomdoubleArr.add(outputFeature.floatArray[i].div(255.0)*100)
+                }
+                var max = bottomdoubleArr.indexOf(bottomdoubleArr.max())
+                Log.d("세부카테고리", max.toString())
+                Log.d("세부카테고리", bottomLabelArr[max])
+                clothesCategory_Detail = bottomLabelArr[max]
+                Log.d("세부카테고리", bottomdoubleArr.max().toString())
+
+//                uploadBitmap(clothesImg)
+
+                model.close()
+            }
+
+            "아우터" -> {
+                Log.d("세부카테고리222", clothesCategory)
+                val resized : Bitmap = Bitmap.createScaledBitmap(clothesImg, 224, 224, true)
+                val model = ModelOuter.newInstance(this@ClothesSaveActivity)
+
+                //input
+                val inputFeature = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+                val tbuffer = TensorImage.fromBitmap(resized)
+                val byteBuffer = tbuffer.buffer
+                inputFeature.loadBuffer(byteBuffer)
+
+                //output
+                val outputs = model.process(inputFeature)
+                val outputFeature = outputs.outputFeature0AsTensorBuffer
+
+                var outerdoubleArr = ArrayList<Double>()
+                var outerLabelArr = ArrayList<String>()
+                outerLabelArr.add("가디건")
+                outerLabelArr.add("코트")
+                outerLabelArr.add("점퍼")
+                outerLabelArr.add("패딩")
+                outerLabelArr.add("수트자켓")
+
+                for(i in 0 until outputFeature.floatArray.size) {
+                    outerdoubleArr.add(outputFeature.floatArray[i].div(255.0)*100)
+                }
+                var max = outerdoubleArr.indexOf(outerdoubleArr.max())
+                Log.d("세부카테고리", max.toString())
+                Log.d("세부카테고리", outerLabelArr[max])
+                clothesCategory_Detail = outerLabelArr[max]
+                Log.d("세부카테고리", outerdoubleArr.max().toString())
+
+//                uploadBitmap(clothesImg)
+
+                model.close()
+            }
+
+            "원피스" -> {
+                Log.d("세부카테고리222", clothesCategory)
+                val resized : Bitmap = Bitmap.createScaledBitmap(clothesImg, 224, 224, true)
+                val model = ModelOnepiece.newInstance(this@ClothesSaveActivity)
+
+                //input
+                val inputFeature = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+                val tbuffer = TensorImage.fromBitmap(resized)
+                val byteBuffer = tbuffer.buffer
+                inputFeature.loadBuffer(byteBuffer)
+
+                //output
+                val outputs = model.process(inputFeature)
+                val outputFeature = outputs.outputFeature0AsTensorBuffer
+
+                var outerdoubleArr = ArrayList<Double>()
+                var outerLabelArr = ArrayList<String>()
+                outerLabelArr.add("무지원피스")
+                outerLabelArr.add("패턴원피스")
+                outerLabelArr.add("후드원피스")
+
+                for(i in 0 until outputFeature.floatArray.size) {
+                    outerdoubleArr.add(outputFeature.floatArray[i].div(255.0)*100)
+                }
+                var max = outerdoubleArr.indexOf(outerdoubleArr.max())
+                Log.d("세부카테고리", max.toString())
+                Log.d("세부카테고리", outerLabelArr[max])
+                clothesCategory_Detail = outerLabelArr[max]
+                Log.d("세부카테고리", outerdoubleArr.max().toString())
+
+//                uploadBitmap(clothesImg)
+
+                model.close()
+            }
+
+            "신발" -> {
+                Log.d("세부카테고리222", clothesCategory)
+                val resized : Bitmap = Bitmap.createScaledBitmap(clothesImg, 224, 224, true)
+                val model = ModelShoes.newInstance(this@ClothesSaveActivity)
+
+                //input
+                val inputFeature = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+                val tbuffer = TensorImage.fromBitmap(resized)
+                val byteBuffer = tbuffer.buffer
+                inputFeature.loadBuffer(byteBuffer)
+
+                //output
+                val outputs = model.process(inputFeature)
+                val outputFeature = outputs.outputFeature0AsTensorBuffer
+
+                var shoesdoubleArr = ArrayList<Double>()
+                var shoesLabelArr = ArrayList<String>()
+                shoesLabelArr.add("스니커즈")
+                shoesLabelArr.add("부츠")
+                shoesLabelArr.add("구두")
+                shoesLabelArr.add("슬리퍼")
+
+                for(i in 0 until outputFeature.floatArray.size) {
+                    shoesdoubleArr.add(outputFeature.floatArray[i].div(255.0)*100)
+                }
+                var max = shoesdoubleArr.indexOf(shoesdoubleArr.max())
+                Log.d("세부카테고리", max.toString())
+                Log.d("세부카테고리", shoesLabelArr[max])
+                clothesCategory_Detail= shoesLabelArr[max]
+                Log.d("세부카테고리", shoesdoubleArr.max().toString())
+
+//                uploadBitmap(clothesImg)
+
+                model.close()
+            }
+
+            "가방" -> {
+                Log.d("세부카테고리222", clothesCategory)
+                val resized : Bitmap = Bitmap.createScaledBitmap(clothesImg, 224, 224, true)
+                val model = ModelBag.newInstance(this@ClothesSaveActivity)
+
+                //input
+                val inputFeature = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+                val tbuffer = TensorImage.fromBitmap(resized)
+                val byteBuffer = tbuffer.buffer
+                inputFeature.loadBuffer(byteBuffer)
+
+                //output
+                val outputs = model.process(inputFeature)
+                val outputFeature = outputs.outputFeature0AsTensorBuffer
+
+                var bagdoubleArr = ArrayList<Double>()
+                var bagLabelArr = ArrayList<String>()
+                bagLabelArr.add("스니커즈")
+                bagLabelArr.add("부츠")
+                bagLabelArr.add("구두")
+                bagLabelArr.add("슬리퍼")
+
+                for(i in 0 until outputFeature.floatArray.size) {
+                    bagdoubleArr.add(outputFeature.floatArray[i].div(255.0)*100)
+                }
+                var max = bagdoubleArr.indexOf(bagdoubleArr.max())
+                Log.d("세부카테고리", max.toString())
+                Log.d("세부카테고리", bagLabelArr[max])
+                clothesCategory_Detail = bagLabelArr[max]
+                Log.d("세부카테고리", bagdoubleArr.max().toString())
+
+                model.close()
+            }
+        }
+        clothesSaveActivity_Dialog?.dismiss()
+        uploadBitmap(clothesImg)
+
     }
 
 
@@ -240,7 +473,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
 
 
         var clothesColor : String = tv_color.text as String
-        var clothesCategory : String = tv_category.text as String
+
         var clothesSeason : String = tv_season.text as String
 
         Log.e("옷컬러검색", clothesColor)
@@ -250,6 +483,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
             clothesName,
             clothesColor,
             clothesCategory,
+            clothesCategory_Detail,
             clothesSeason,
             responseListener)
         val queue = Volley.newRequestQueue(this@ClothesSaveActivity)
@@ -316,7 +550,6 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
         }
         if(text == "크림"){
             btn_colorview.setBackgroundColor(this.resources.getColor(R.color.cream))
-
         }
         if(text == "연회색"){
             btn_colorview.setBackgroundColor(this.resources.getColor(R.color.lightgray))

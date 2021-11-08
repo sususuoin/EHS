@@ -116,7 +116,6 @@ class Main_AIActivity : AppCompatActivity() {
 
     }
 
-    @SuppressLint("SetTextI18n")
     fun AIpredict() {
         if(bitmap==null) {
             Toast.makeText(this, "사진을 선택하시오", Toast.LENGTH_SHORT).show()
@@ -128,12 +127,10 @@ class Main_AIActivity : AppCompatActivity() {
             val model = ModelUnquant.newInstance(this@Main_AIActivity)
 
             //input
-            val inputFeature = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3),
-                DataType.UINT8)
+            val inputFeature = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
             val tbuffer = TensorImage.fromBitmap(resized)
             val byteBuffer = tbuffer.buffer
             inputFeature.loadBuffer(byteBuffer)
-
 
             //output
             val outputs = model.process(inputFeature)
