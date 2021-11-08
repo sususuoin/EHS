@@ -268,13 +268,14 @@ class BottomSheet_tpo(val itemClick: (String) -> Unit) : BottomSheetDialogFragme
                         view.btn_guestlook.setBackgroundResource(R.drawable.button_choice_background)
                         view.btn_guestlook.setTextColor(Color.rgb(99,80,172))
                         guestlookclicked = true
-                        tpochoice = "하객룩"
+                        tpochoice = "" +
+                                "하객룩"
                         detail_top =
                             "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='$userId' AND clothesCategory_Detail IN('블라우스', '니트', '셔츠') AND clothesColor!='흰색' OR clothesCategory='원피스' AND clothesSeason!='여름' AND clothesCategory_Detail='무지원피스' AND userId='$userId' AND clothesColor!='흰색' ORDER BY rand() LIMIT 1"
                         detail_bottom =
                             "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='$userId'  AND clothesCategory_Detail IN('면바지', '청바지', '슬랙스', '롱스커트') ORDER BY rand() LIMIT 1"
                         detail_outer =
-                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId'  AND clothesCategory_Detail IN('가디건', '코트', '점퍼', '수트자켓') ORDER BY rand() LIMIT 1"
+                            "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='$userId'  AND clothesCategory_Detail IN('가디건', '코트', '수트자켓') ORDER BY rand() LIMIT 1"
                         detail_shoes =
                             "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='신발' AND userId='$userId'  AND clothesCategory_Detail IN('부츠', '구두') ORDER BY rand() LIMIT 1"
                         detail_bag =

@@ -238,7 +238,7 @@ class HomeFragment : Fragment() {
             if(CodySaveActivity.codySaveContext != null) {
                 (CodySaveActivity.codySaveContext as CodySaveActivity).uploadCody(saveBitmap)
             } else {
-                Toast.makeText(a!!, "타임타임 아직 오류가 발생합니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(a!!, "코디를 먼저 만든 후 저장해주세요", Toast.LENGTH_SHORT).show()
             }
 
 
@@ -359,20 +359,17 @@ class HomeFragment : Fragment() {
                         iv_top.setImageBitmap(a_bitmap)
                     }
                     "하의" -> {
-                        if(random_clothesCategory_DetailArr[i] == "미니스커트" || random_clothesCategory_DetailArr[i] == "반바지") {
+                        if (random_clothesCategoryArr[0] == "원피스") {
+                            iv_bottom.setImageResource(0)
+                            iv_bottom2.setImageResource(0)
+                        } else if(random_clothesCategory_DetailArr[i] == "미니스커트" || random_clothesCategory_DetailArr[i] == "반바지") {
                             iv_bottom2.setImageBitmap(a_bitmap)
                         } else {
                             iv_bottom.setImageBitmap(a_bitmap)
                         }
-
                     }
                     "원피스" -> {
                         iv_onepiece.setImageBitmap(a_bitmap)
-                        when(random_clothesCategoryArr[i]) {
-                            "하의" -> {
-                                iv_bottom.setImageResource(0)
-                            }
-                        }
                     }
                     "신발" -> {
                         iv_shoes.setImageBitmap(a_bitmap)
@@ -630,6 +627,7 @@ class HomeFragment : Fragment() {
 
                     if (arr.length() == 0) {
                         Toast.makeText(a!!, "전문가부족현상으로 다음에 이용해주시기 바랍니다.", Toast.LENGTH_SHORT).show()
+                        homeloading?.finish()
                         return@Listener
                     } else {
                         for (i in 0 until arr.length()) {
