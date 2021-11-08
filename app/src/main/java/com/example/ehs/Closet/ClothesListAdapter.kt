@@ -10,7 +10,9 @@ import com.example.ehs.R
 import kotlinx.android.synthetic.main.clothes.view.*
 
 
-class ClothesListAdapter(private val items: List<Clothes>) : RecyclerView.Adapter<ClothesListAdapter.ViewHolder>() {
+class ClothesListAdapter
+    (private val items: List<Clothes>)
+    : RecyclerView.Adapter<ClothesListAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return items.size

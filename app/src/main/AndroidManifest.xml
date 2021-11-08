@@ -31,7 +31,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Calendar.CalendarSaveCodyActivity"/>
+        <activity android:name=".Closet.BasicClothesDetailActivity"></activity>
+        <activity android:name=".Closet.BasicClothesActivity" />
+        <activity android:name=".Calendar.CalendarSaveCodyActivity" />
         <activity android:name=".Calendar.CalendarChoiceActivity" />
         <activity android:name=".Calendar.CalendarMakeCodyActivity" />
         <activity android:name=".Closet.CodyMakeActivity" />
@@ -47,12 +49,10 @@
         <activity android:name=".AI.Main_AIActivity" />
         <activity android:name=".Calendar.CalendarActivity" />
         <activity android:name=".Closet.ClothesSaveActivity" />
-        <activity android:name=".Home.ColorRecommendActivity"/>
-        <activity android:name=".Home.StyleRecommendActivity"/>
-
-        <activity android:name=".Login.LoginActivity"/>
+        <activity android:name=".Home.ColorRecommendActivity" />
+        <activity android:name=".Home.StyleRecommendActivity" />
+        <activity android:name=".Login.LoginActivity" />
         <activity android:name=".Login.RegisterActivity" />
-
         <activity android:name=".MainActivity" />
         <activity android:name=".MainLoadingActivity">
             <intent-filter>
