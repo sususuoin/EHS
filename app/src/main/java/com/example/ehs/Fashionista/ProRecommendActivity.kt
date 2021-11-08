@@ -1,5 +1,6 @@
 package com.example.ehs.Fashionista
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +17,11 @@ import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_pro_recommend.*
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.loading.*
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 
 class ProRecommendActivity : AppCompatActivity() {
 
@@ -73,80 +79,94 @@ class ProRecommendActivity : AppCompatActivity() {
             Log.d("proNum", proIdArr.toString())
         }
 
-        iv_proImg1.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[0], 100, 100))
-        iv_proImg2.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[1], 100, 100))
-        iv_proImg3.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[2], 100, 100))
+        Log.d("proNum1", proplusImgPathArr.toString())
+        Log.d("proNum2", proplusImgNameArr.toString())
+        iv_proImg1.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr3[0])], 100, 100))
+        iv_proImg2.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr3[1])], 100, 100))
+        iv_proImg3.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr3[2])], 100, 100))
 
-
-        var bitmap1 = BitmapFactory.decodeResource(resources, R.drawable.diao1)
-        var bitmap2 = BitmapFactory.decodeResource(resources, R.drawable.diao2)
-        var bitmap3 = BitmapFactory.decodeResource(resources, R.drawable.diao3)
-        var bitmap4 = BitmapFactory.decodeResource(resources, R.drawable.diao4)
-        var bitmap5 = BitmapFactory.decodeResource(resources, R.drawable.diao5)
-        var bitmap6 = BitmapFactory.decodeResource(resources, R.drawable.diao6)
-        var bitmap7 = BitmapFactory.decodeResource(resources, R.drawable.diao7)
-        var bitmap8 = BitmapFactory.decodeResource(resources, R.drawable.diao8)
-        var bitmap9 = BitmapFactory.decodeResource(resources, R.drawable.diao9)
-
-        var asdf1 = ProRecommend(bitmap1)
-        var asdf2 = ProRecommend(bitmap2)
-        var asdf3 = ProRecommend(bitmap3)
-        var asdf4 = ProRecommend(bitmap4)
-        var asdf5 = ProRecommend(bitmap5)
-        var asdf6 = ProRecommend(bitmap6)
-        var asdf7 = ProRecommend(bitmap7)
-        var asdf8 = ProRecommend(bitmap8)
-        var asdf9 = ProRecommend(bitmap9)
-
-        proRecommendList1.add(asdf1)
-        proRecommendList1.add(asdf2)
-        proRecommendList1.add(asdf3)
-        proRecommendList1.add(asdf4)
-
-        proRecommendList2.add(asdf5)
-        proRecommendList2.add(asdf6)
-        proRecommendList2.add(asdf7)
-
-        proRecommendList3.add(asdf8)
-        proRecommendList3.add(asdf9)
-
-
-
-//        var a_bitmap : Bitmap? = null
-//        for (i in 0 until proplusImgPathArr.size) {
-//            val uThread: Thread = object : Thread() {
-//                override fun run() {
-//                    try {
 //
-//                        val url = URL(proplusImgPathArr[i] + proplusImgNameArr[i])
+//        var bitmap1 = BitmapFactory.decodeResource(resources, R.drawable.diao1)
+//        var bitmap2 = BitmapFactory.decodeResource(resources, R.drawable.diao2)
+//        var bitmap3 = BitmapFactory.decodeResource(resources, R.drawable.diao3)
+//        var bitmap4 = BitmapFactory.decodeResource(resources, R.drawable.diao4)
+//        var bitmap5 = BitmapFactory.decodeResource(resources, R.drawable.diao5)
+//        var bitmap6 = BitmapFactory.decodeResource(resources, R.drawable.diao6)
+//        var bitmap7 = BitmapFactory.decodeResource(resources, R.drawable.diao7)
+//        var bitmap8 = BitmapFactory.decodeResource(resources, R.drawable.diao8)
+//        var bitmap9 = BitmapFactory.decodeResource(resources, R.drawable.diao9)
 //
-//                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+//        var asdf1 = ProRecommend(bitmap1)
+//        var asdf2 = ProRecommend(bitmap2)
+//        var asdf3 = ProRecommend(bitmap3)
+//        var asdf4 = ProRecommend(bitmap4)
+//        var asdf5 = ProRecommend(bitmap5)
+//        var asdf6 = ProRecommend(bitmap6)
+//        var asdf7 = ProRecommend(bitmap7)
+//        var asdf8 = ProRecommend(bitmap8)
+//        var asdf9 = ProRecommend(bitmap9)
 //
-//                        conn.setDoInput(true)
-//                        conn.connect()
-//                        val iss: InputStream = conn.getInputStream()
-//                        a_bitmap = BitmapFactory.decodeStream(iss)
+//        proRecommendList1.add(asdf1)
+//        proRecommendList1.add(asdf2)
+//        proRecommendList1.add(asdf3)
+//        proRecommendList1.add(asdf4)
 //
-//                    } catch (e: MalformedURLException) {
-//                        e.printStackTrace()
-//                    } catch (e: IOException) {
-//                        e.printStackTrace()
-//                    }
-//                }
-//            }
-//            uThread.start() // 작업 Thread 실행
+//        proRecommendList2.add(asdf5)
+//        proRecommendList2.add(asdf6)
+//        proRecommendList2.add(asdf7)
 //
-//            try {
+//        proRecommendList3.add(asdf8)
+//        proRecommendList3.add(asdf9)
 //
-//                uThread.join()
-//
+
+
+        var a_bitmap : Bitmap? = null
+        for (i in 0 until proplusImgPathArr.size) {
+            val uThread: Thread = object : Thread() {
+                override fun run() {
+                    try {
+
+                        val url = URL(proplusImgPathArr[i] + proplusImgNameArr[i])
+
+                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                        conn.setDoInput(true)
+                        conn.connect()
+                        val iss: InputStream = conn.getInputStream()
+                        a_bitmap = BitmapFactory.decodeStream(iss)
+
+                    } catch (e: MalformedURLException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+            uThread.start() // 작업 Thread 실행
+
+            try {
+
+                uThread.join()
+
+                if(i <= proIdArr.lastIndexOf(proIdArr3[0])) {
+                    Log.d("proNum", i.toString())
+                    var asdf1 = ProRecommend(a_bitmap!!)
+                    proRecommendList1.add(asdf1)
+                } else if ( i <= proIdArr.lastIndexOf(proIdArr3[1])) {
+                    var asdf2 = ProRecommend(a_bitmap!!)
+                    proRecommendList2.add(asdf2)
+                } else if ( i <= proIdArr.lastIndexOf(proIdArr3[2])) {
+                    var asdf3 = ProRecommend(a_bitmap!!)
+                    proRecommendList3.add(asdf3)
+                }
+
 //                var fashionistaCody = StyleRecommend(a_bitmap!!)
 //                stylecodyList.add(fashionistaCody)
-//
-//            } catch (e: InterruptedException) {
-//                e.printStackTrace()
-//            }
-//        }
+
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+        }
 
 
         val Linear1 = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
