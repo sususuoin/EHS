@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.toolbox.Volley
@@ -208,9 +209,20 @@ class HomeFragment : Fragment() {
         }
 
         view.btn_retry.setOnClickListener {
-            (MainActivity.mContext as MainActivity).CodyRandom(MainActivity.basic_detail_top,
-                MainActivity.basic_detail_bottom, MainActivity.basic_detail_shoes,
-                MainActivity.basic_detail_outer, MainActivity.basic_detail_bag)
+            Log.d("랜덤새로고침", tv_tpo.text.toString())
+            if(tv_tpo.text == "티피오") {
+                Log.d("랜덤새로고침1", tv_tpo.text.toString())
+                (MainActivity.mContext as MainActivity).CodyRandom(MainActivity.basic_detail_top,
+                    MainActivity.basic_detail_bottom, MainActivity.basic_detail_shoes,
+                    MainActivity.basic_detail_outer, MainActivity.basic_detail_bag)
+            } else {
+                Log.d("랜덤새로고침2", tv_tpo.text.toString())
+                (MainActivity.mContext as MainActivity).CodyRandom(BottomSheet_tpo.detail_top,
+                    BottomSheet_tpo.detail_bottom,
+                    BottomSheet_tpo.detail_shoes,
+                    BottomSheet_tpo.detail_outer,
+                    BottomSheet_tpo.detail_bag)
+            }
             Log.d("랜덤랜덤", "새로고침")
             asdf()
         }
@@ -299,6 +311,7 @@ class HomeFragment : Fragment() {
     fun asdf() {
         iv_top.setImageResource(0)
         iv_bottom.setImageResource(0)
+        iv_bottom2.setImageResource(0)
         iv_shoes.setImageResource(0)
         iv_outer.setImageResource(0)
         iv_bag.setImageResource(0)
@@ -346,7 +359,12 @@ class HomeFragment : Fragment() {
                         iv_top.setImageBitmap(a_bitmap)
                     }
                     "하의" -> {
-                        iv_bottom.setImageBitmap(a_bitmap)
+                        if(random_clothesCategory_DetailArr[i] == "미니스커트" || random_clothesCategory_DetailArr[i] == "반바지") {
+                            iv_bottom2.setImageBitmap(a_bitmap)
+                        } else {
+                            iv_bottom.setImageBitmap(a_bitmap)
+                        }
+
                     }
                     "원피스" -> {
                         iv_onepiece.setImageBitmap(a_bitmap)
@@ -401,14 +419,13 @@ class HomeFragment : Fragment() {
                     val weatherResponse = response.body()
                     Log.d("HomeFragment", "result: " + weatherResponse.toString())
                     val cTemp = weatherResponse!!.current!!.Ctemp - 273.15  //켈빈을 섭씨로 변환
-
                     val minTemp = weatherResponse!!.daily[0].Dtemp!!.Dmin - 273.15
                     val maxTemp = weatherResponse!!.daily[0].Dtemp!!.Dmax - 273.15
 
                     val intcTemp = cTemp.roundToInt()
                     val intMinTemp = minTemp.roundToInt()
                     val intMaxTemp = maxTemp.roundToInt()
-                    val weatherIMG = weatherResponse!!.current!!.weather[0].icon.toString()
+                    val weatherIMG = weatherResponse.hourly[0].hweather[0].icon.toString()
 
                     when (weatherIMG) { // 날씨에 맞는 아이콘 출력
                         "01d" -> view!!.img_weatherH.setImageResource(R.drawable.ic_sun)
@@ -416,7 +433,10 @@ class HomeFragment : Fragment() {
                         "02d" -> view!!.img_weatherH.setImageResource(R.drawable.ic_sun_c)
                         "02n" -> view!!.img_weatherH.setImageResource(R.drawable.ic_suncloud_night)
                         "03n", "03d", "04d", "04n" -> view!!.img_weatherH.setImageResource(R.drawable.ic_cloud_many)
-                        "09d", "09n", "10d", "10n" -> view!!.img_weatherH.setImageResource(R.drawable.ic_rain)
+                        "09d", "09n", "10d", "10n" -> {
+                            view!!.img_weatherH.setImageResource(R.drawable.ic_rain)
+                            view!!.iv_umbrella.isVisible = true
+                        }
                         "11d", "11n" -> view!!.img_weatherH.setImageResource(R.drawable.ic_thunder)
                         "13d", "13n" -> view!!.img_weatherH.setImageResource(R.drawable.ic_snow)
                         "50n", "50d" -> view!!.img_weatherH.setImageResource(R.drawable.ic_mist)

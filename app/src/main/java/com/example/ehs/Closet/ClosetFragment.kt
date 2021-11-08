@@ -54,24 +54,31 @@ class ClosetFragment : Fragment() {
 
     val Fragment.packageManager get() = activity?.packageManager // 패키지 매니저 적용
 
-    private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(
-        a!!,
-        R.anim.rotate_open_anim
-    )}
-    private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(
-        a!!,
-        R.anim.rotate_close_anim
-    )}
-    private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(
-        a!!,
-        R.anim.from_bottom_anim
-    )}
-    private val toBottom: Animation by lazy { AnimationUtils.loadAnimation(
-        a!!,
-        R.anim.to_bottom_anim
-    )}
+    private val rotateOpen: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            a!!,
+            R.anim.rotate_open_anim
+        )
+    }
+    private val rotateClose: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            a!!,
+            R.anim.rotate_close_anim
+        )
+    }
+    private val fromBottom: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            a!!,
+            R.anim.from_bottom_anim
+        )
+    }
+    private val toBottom: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            a!!,
+            R.anim.to_bottom_anim
+        )
+    }
     private var clicked = false
-
 
 
     val REQUEST_IMAGE_CAPTURE = 1 // 카메라 사진 촬영 요청코드, 한번 지정되면 값이 바뀌지 않음
@@ -80,23 +87,23 @@ class ClosetFragment : Fragment() {
     lateinit var currentPhotoPath: String // 문자열 형태의 사진 경로 값 (초기 값을 null로 시작하고 싶을 때)
 
 
-    lateinit var bmp : Bitmap
-    lateinit var uploadImgName : String
-    lateinit var originImgName : String
+    lateinit var bmp: Bitmap
+    lateinit var uploadImgName: String
+    lateinit var originImgName: String
 
     val clothesList = mutableListOf<Clothes>()
 
-    lateinit var userId : String
+    lateinit var userId: String
 
     val adapter = ClothesListAdapter(clothesList)
-    var bgremoveloading : Loading? = null
+    var bgremoveloading: Loading? = null
 
     companion object {
         var a: Activity? = null
-        const val TAG : String = "클로젯 프레그먼트"
+        const val TAG: String = "클로젯 프레그먼트"
         var clothesArr = ArrayList<String>()
 
-        fun newInstance() : ClosetFragment { // newInstance()라는 함수를 호출하면 ClosetFragment를 반환함
+        fun newInstance(): ClosetFragment { // newInstance()라는 함수를 호출하면 ClosetFragment를 반환함
             return ClosetFragment()
         }
     }
@@ -115,6 +122,7 @@ class ClosetFragment : Fragment() {
         clothesResponse()
 
     }
+
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "새로고침 실행")
@@ -124,7 +132,7 @@ class ClosetFragment : Fragment() {
         clothesArr = AutoCloset.getClothesName(a!!)
         Log.d("ㅁㅁㅁㅁㅁ새로고침222", clothesArr.toString())
 
-        var a_bitmap : Bitmap? = null
+        var a_bitmap: Bitmap? = null
         for (i in 0 until clothesArr.size) {
             val uThread: Thread = object : Thread() {
                 override fun run() {
@@ -183,7 +191,6 @@ class ClosetFragment : Fragment() {
     }
 
 
-
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -193,6 +200,7 @@ class ClosetFragment : Fragment() {
         Log.d(TAG, "ClosetFragment - onAttach() called")
 
     }
+
     // 뷰가 생성되었을 때 화면과 연결
     // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
     override fun onCreateView(
@@ -232,7 +240,20 @@ class ClosetFragment : Fragment() {
             takeCapture() // 기본 카메라 앱을 실행하여 사진 촬영
             onAddButtonClicked()
         }
+        view.btn_basic.setOnClickListener { view ->
+            Log.d("클릭!!", "기본템 버튼 클릭!!")
+            onAddButtonClicked()
+            val intent = Intent(context, BasicClothesActivity::class.java)
+            startActivity(intent)
 
+        }
+        view.tv_basic.setOnClickListener { view ->
+            Log.d("클릭!!", "기본템 텍스트 클릭!!")
+            onAddButtonClicked()
+            val intent = Intent(context, BasicClothesActivity::class.java)
+            startActivity(intent)
+
+        }
         return view
     }
 
@@ -256,63 +277,74 @@ class ClosetFragment : Fragment() {
     }
 
     fun setVisibility(clicked: Boolean) {
-        if(!clicked) {
+        if (!clicked) {
             btn_gallery.visibility = View.VISIBLE
             btn_camera.visibility = View.VISIBLE
+            btn_basic.visibility = View.VISIBLE
             tv_camera.visibility = View.VISIBLE
             tv_gallery.visibility = View.VISIBLE
-        }else {
+            tv_basic.visibility = View.VISIBLE
+        } else {
             btn_gallery.visibility = View.INVISIBLE
             btn_camera.visibility = View.INVISIBLE
+            btn_basic.visibility = View.INVISIBLE
             tv_camera.visibility = View.INVISIBLE
             tv_gallery.visibility = View.INVISIBLE
+            tv_basic.visibility = View.INVISIBLE
             btn_add.backgroundTintList = AppCompatResources.getColorStateList(a!!, R.color.white)
         }
     }
+
     fun setAnimation(clicked: Boolean) {
-        if(!clicked) {
+        if (!clicked) {
             btn_gallery.startAnimation(fromBottom)
             btn_camera.startAnimation(fromBottom)
+            btn_basic.startAnimation(fromBottom)
             tv_gallery.startAnimation(fromBottom)
             tv_camera.startAnimation(fromBottom)
+            tv_basic.startAnimation(fromBottom)
             btn_add.startAnimation(rotateOpen)
         } else {
             btn_gallery.startAnimation(toBottom)
             btn_camera.startAnimation(toBottom)
+            btn_basic.startAnimation(toBottom)
             tv_gallery.startAnimation(toBottom)
             tv_camera.startAnimation(toBottom)
+            tv_basic.startAnimation(toBottom)
             btn_add.startAnimation(rotateClose)
         }
     }
 
     fun setClickable(clicked: Boolean) {
-        if(!clicked) {
+        if (!clicked) {
             btn_gallery.isClickable = true
             btn_camera.isClickable = true
+            btn_basic.isClickable = true
             tv_camera.isClickable = true
             tv_gallery.isClickable = true
+            tv_basic.isClickable = true
         } else {
             btn_gallery.isClickable = false
             btn_camera.isClickable = false
+            btn_basic.isClickable = false
             tv_camera.isClickable = false
             tv_gallery.isClickable = false
+            tv_basic.isClickable = false
         }
     }
-
-
 
 
     fun takeCapture() {
         // 기본 카메라 앱 실행
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager!!)?.also {
-                val photoFile: File? = try{
+                val photoFile: File? = try {
                     createImageFile()
-                } catch (ex: IOException){
+                } catch (ex: IOException) {
                     null
                 }
-                photoFile?.also{
-                    val photoURI : Uri = FileProvider.getUriForFile(
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
                         a!!,
                         "com.example.closet.fileprovider",
                         it
@@ -323,8 +355,6 @@ class ClosetFragment : Fragment() {
             }
         }
     }
-
-
 
 
     /**
@@ -338,12 +368,11 @@ class ClosetFragment : Fragment() {
     }
 
 
-
     // startAcitivityForResult를 통해서 기본 카메라 앱으로부터 받아온 사진 결과 값
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK) {
-            when(requestCode) { //resultCode가 Ok이고
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) { //resultCode가 Ok이고
                 REQUEST_IMAGE_CAPTURE -> { // requestcode가 REQUEST_IMAGE_CAPTURE이면
                     val bitmap: Bitmap
                     val file = File(currentPhotoPath)
@@ -384,7 +413,8 @@ class ClosetFragment : Fragment() {
                     uploadImgName = getName(currentImageUrl)
 
                     try {
-                        val bitmap = MediaStore.Images.Media.getBitmap(a!!.contentResolver,  currentImageUrl)
+                        val bitmap =
+                            MediaStore.Images.Media.getBitmap(a!!.contentResolver, currentImageUrl)
 
                         bmp = bitmap.rotate(90F) // value must be float
                         bmp = Bitmap.createScaledBitmap(bmp, 400, 400, true)
@@ -404,8 +434,7 @@ class ClosetFragment : Fragment() {
                 uploadBitmap(bmp)
             }
 
-        }
-        else {
+        } else {
             Toast.makeText(a!!, "취소하였습니다.", Toast.LENGTH_SHORT).show()
         }
 
@@ -420,11 +449,12 @@ class ClosetFragment : Fragment() {
      * 갤러리에 저장
      */
     private fun savePhoto(bitmap: Bitmap) {
-        val folderPath = Environment.getExternalStorageDirectory().absolutePath + "/Pictures/Omonemo/" // 사진폴더로 저장하기 위한 경로 선언
+        val folderPath =
+            Environment.getExternalStorageDirectory().absolutePath + "/Pictures/Omonemo/" // 사진폴더로 저장하기 위한 경로 선언
         val timestamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val fileName = "${timestamp}.png"
         val folder = File(folderPath)
-        if(!folder.isDirectory) { // 현재 해당 경로에 폴더가 존재하지 않는다면
+        if (!folder.isDirectory) { // 현재 해당 경로에 폴더가 존재하지 않는다면
             folder.mkdir() // make diretory 줄임말로 해당 경로에 폴더를 자동으로 새로 만든다
         }
         // 실제적인 저장처리
@@ -491,18 +521,18 @@ class ClosetFragment : Fragment() {
                 Toast.makeText(a, error.message, Toast.LENGTH_LONG).show()
                 Log.e("GotError", "" + error.message)
             }) {
-                override fun getByteData(): Map<String, DataPart>? {
-                    val params: MutableMap<String, DataPart> = HashMap()
-                    val imagename = System.currentTimeMillis()
-                    val uploadImgName = imagename.toString()
-                    Log.d("은정이는 민재이모", uploadImgName)
-                    params["image"] = DataPart(
-                        "$uploadImgName.PNG",
-                        getFileDataFromDrawable(bitmap)!!
-                    )
-                    return params
-                }
+            override fun getByteData(): Map<String, DataPart>? {
+                val params: MutableMap<String, DataPart> = HashMap()
+                val imagename = System.currentTimeMillis()
+                val uploadImgName = imagename.toString()
+                Log.d("은정이는 민재이모", uploadImgName)
+                params["image"] = DataPart(
+                    "$uploadImgName.PNG",
+                    getFileDataFromDrawable(bitmap)!!
+                )
+                return params
             }
+        }
 
         //adding the request to volley
         Volley.newRequestQueue(a).add(clothesUploadRequest)
@@ -513,27 +543,27 @@ class ClosetFragment : Fragment() {
     fun bgremove(originImgName: String) {
 
         val responseListener: Response.Listener<String?> = Response.Listener<String?> { response ->
-                try {
+            try {
 
-                    var jsonObject = JSONObject(response)
-                    var success = jsonObject.getBoolean("success")
-                    Log.d(TAG, userId)
+                var jsonObject = JSONObject(response)
+                var success = jsonObject.getBoolean("success")
+                Log.d(TAG, userId)
 
-                    if (success) {
+                if (success) {
 
-                        bgremoveloading?.finish()
-                        val intent = Intent(a, ClothesSaveActivity::class.java)
-                        intent.putExtra("originImgName", originImgName);
-                        Log.d(TAG, originImgName)
-                        startActivity(intent)
+                    bgremoveloading?.finish()
+                    val intent = Intent(a, ClothesSaveActivity::class.java)
+                    intent.putExtra("originImgName", originImgName);
+                    Log.d(TAG, originImgName)
+                    startActivity(intent)
 
-                    }
-
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                    Toast.makeText(a!!, "배경제거실패 ㅜ", Toast.LENGTH_SHORT).show()
                 }
+
+            } catch (e: JSONException) {
+                e.printStackTrace()
+                Toast.makeText(a!!, "배경제거실패 ㅜ", Toast.LENGTH_SHORT).show()
             }
+        }
         val clothesBgremove_Request = ClothesBgremove_Request(originImgName, responseListener)
         val queue = Volley.newRequestQueue(a!!)
         queue.add(clothesBgremove_Request)
@@ -543,8 +573,8 @@ class ClosetFragment : Fragment() {
 
     fun clothesResponse() {
 
-        var cuserId : String
-        var cColor : String
+        var cuserId: String
+        var cColor: String
         var cColorArr = mutableListOf<String>()
         val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
             override fun onResponse(response: String?) {
