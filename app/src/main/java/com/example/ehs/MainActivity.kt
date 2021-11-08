@@ -901,7 +901,7 @@ class MainActivity : AppCompatActivity() {
 
     fun Codycolor(bitmap : Bitmap) {
 
-        val resized1 : Bitmap = Bitmap.createScaledBitmap(bitmap!!, 224, 224, true)
+        val resized1 : Bitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, true)
         val model = ModelColor.newInstance(this)
 
         // Creates inputs for reference.

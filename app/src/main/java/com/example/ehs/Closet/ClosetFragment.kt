@@ -474,6 +474,12 @@ class ClosetFragment : Fragment() {
 
                     Log.d("서버에 저장되어진 파일이름", originImgName)
 
+
+//                    val intent = Intent(a, ClothesSaveActivity::class.java)
+//                    intent.putExtra("originImgName", originImgName);
+//                    Log.d(TAG, originImgName)
+//                    startActivity(intent)
+
                     bgremove(originImgName)
 
 
