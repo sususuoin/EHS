@@ -1,22 +1,32 @@
 package com.example.ehs.Fashionista
 
+import android.app.ProgressDialog
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
 import com.example.ehs.Home.HomeFragment
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_pro_recommend.*
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.android.synthetic.main.loading.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -81,44 +91,13 @@ class ProRecommendActivity : AppCompatActivity() {
 
         Log.d("proNum1", proplusImgPathArr.toString())
         Log.d("proNum2", proplusImgNameArr.toString())
-        iv_proImg1.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr3[0])], 100, 100))
-        iv_proImg2.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr3[1])], 100, 100))
-        iv_proImg3.setImageBitmap(AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr3[2])], 100, 100))
+        var proId1bitmap1 = AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr3[0])], 100, 100)
+        var proId2bitmap2 = AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr3[1])], 100, 100)
+        var proId3bitmap3 = AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr3[2])], 100, 100)
 
-//
-//        var bitmap1 = BitmapFactory.decodeResource(resources, R.drawable.diao1)
-//        var bitmap2 = BitmapFactory.decodeResource(resources, R.drawable.diao2)
-//        var bitmap3 = BitmapFactory.decodeResource(resources, R.drawable.diao3)
-//        var bitmap4 = BitmapFactory.decodeResource(resources, R.drawable.diao4)
-//        var bitmap5 = BitmapFactory.decodeResource(resources, R.drawable.diao5)
-//        var bitmap6 = BitmapFactory.decodeResource(resources, R.drawable.diao6)
-//        var bitmap7 = BitmapFactory.decodeResource(resources, R.drawable.diao7)
-//        var bitmap8 = BitmapFactory.decodeResource(resources, R.drawable.diao8)
-//        var bitmap9 = BitmapFactory.decodeResource(resources, R.drawable.diao9)
-//
-//        var asdf1 = ProRecommend(bitmap1)
-//        var asdf2 = ProRecommend(bitmap2)
-//        var asdf3 = ProRecommend(bitmap3)
-//        var asdf4 = ProRecommend(bitmap4)
-//        var asdf5 = ProRecommend(bitmap5)
-//        var asdf6 = ProRecommend(bitmap6)
-//        var asdf7 = ProRecommend(bitmap7)
-//        var asdf8 = ProRecommend(bitmap8)
-//        var asdf9 = ProRecommend(bitmap9)
-//
-//        proRecommendList1.add(asdf1)
-//        proRecommendList1.add(asdf2)
-//        proRecommendList1.add(asdf3)
-//        proRecommendList1.add(asdf4)
-//
-//        proRecommendList2.add(asdf5)
-//        proRecommendList2.add(asdf6)
-//        proRecommendList2.add(asdf7)
-//
-//        proRecommendList3.add(asdf8)
-//        proRecommendList3.add(asdf9)
-//
-
+        iv_proImg1.setImageBitmap(proId1bitmap1)
+        iv_proImg2.setImageBitmap(proId2bitmap2)
+        iv_proImg3.setImageBitmap(proId3bitmap3)
 
         var a_bitmap : Bitmap? = null
         for (i in 0 until proplusImgPathArr.size) {
@@ -187,6 +166,85 @@ class ProRecommendActivity : AppCompatActivity() {
         adapter1.notifyDataSetChanged()
         adapter2.notifyDataSetChanged()
         adapter3.notifyDataSetChanged()
+
+        ll_userid1.setOnClickListener{
+            show_profile(proId1, proId1bitmap1!!)
+        } // item 클릭하면 FashionistaProfile_Activity로 이동
+        ll_userid2.setOnClickListener{
+            show_profile(proId2, proId2bitmap2!!)
+        }
+        ll_userid3.setOnClickListener{
+            show_profile(proId3, proId3bitmap3!!)
+        }
+
+    }
+
+    fun show_profile(proId : TextView, proIdbitmap : Bitmap) {
+        var dialog = ProgressDialog(this)
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+        dialog.setMessage("이동 중입니다.")
+        dialog.show()
+
+        Toast.makeText(this, "asdf${proId.text}",
+            Toast.LENGTH_SHORT).show()
+        var fashionistaId = proId.text.toString()
+        var fashionistaProfile = proIdbitmap
+
+        val stream = ByteArrayOutputStream()
+        fashionistaProfile.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        val byteArray = stream.toByteArray()
+
+        var userId = fashionistaId
+        var cuserId: String
+        var plusImgName: String
+        var plusImgPath: String
+
+        var plusImgNameArr = ArrayList<String>()
+        var plusImgPathArr = ArrayList<String>()
+
+        val responseListener: Response.Listener<String?> =
+            Response.Listener<String?> { response ->
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    if(arr.length() == 0) {
+                        plusImgNameArr.clear()
+                    }
+                    else {
+                        for (i in 0 until arr.length()) {
+                            val plusObject = arr.getJSONObject(i)
+                            cuserId = plusObject.getString("userId")
+                            plusImgPath = plusObject.getString("plusImgPath")
+                            plusImgName = plusObject.getString("plusImgName")
+
+                            plusImgPathArr.add(plusImgPath)
+                            plusImgNameArr.add(plusImgName)
+
+                            Log.d("으음없는건가,..?", plusImgName)
+                        }
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+                AutoPro.setplusImgPath(this, plusImgPathArr)
+                AutoPro.setplusImgName(this, plusImgNameArr)
+
+                val intent = Intent(this, FashionistaProfile_Activity::class.java)
+                intent.putExtra("fashionistaId", fashionistaId)
+                intent.putExtra("fashionistaProfile", byteArray)
+
+                dialog.dismiss()
+                startActivity(intent)
+
+            }
+        val fashionistaProfileServer_Request = FashionistaProfileServer_Request(userId, responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(fashionistaProfileServer_Request)
+
     }
 
     /**
