@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Closet.BasicClothesDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_basicdetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="기본템 상세"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <ImageView
+        android:id="@+id/iv_basicdetail"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="색상 설정"
+        android:textColor="@color/ourcolor"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="443dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/btn_nocolor"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_nocolor" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="색없음"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_orange"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/orange" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="주황"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_pink"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/pink" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="분홍"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_red"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/red" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="빨강"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/btn_cream"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/cream" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="크림"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_beige"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/beige" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="베이지"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_lightpink"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/lightpink" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="연분홍"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_brown"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/brown" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="갈색"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/btn_lightgray"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+
+                    android:backgroundTint="@color/lightgray" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="연회색"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_yellow"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/yellow" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="노랑"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_green"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/green" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="초록"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_purple"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/purple" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="보라"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/btn_darkgray"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+
+                    android:backgroundTint="@color/darkgray" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="진회색"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_lightgreen"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/lightgreen" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="연두"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_kaki"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/kaki" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="카키"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_navy"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/navy" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="네이비"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/btn_black"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+
+                    android:backgroundTint="@color/black" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="검정"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_skyblue"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/skyblue" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="하늘"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_blue"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    android:backgroundTint="@color/blue" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="파랑"
+                    android:textColor="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btn_morecolor"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_color_radius"
+                    app:srcCompat="@drawable/ic_add"
+                    android:backgroundTint="@color/lightgray"/>
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="다른색"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
