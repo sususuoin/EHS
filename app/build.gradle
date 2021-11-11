@@ -130,4 +130,8 @@ dependencies {
     //이미지 회전
     implementation "androidx.exifinterface:exifinterface:1.1.0"
 
+    //color picker
+    implementation 'com.github.yukuku:ambilwarna:2.0.1'
+
+
 }

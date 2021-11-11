@@ -12,9 +12,14 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_basic_clothes_detail.*
 import kotlinx.android.synthetic.main.fragment_closet.*
+import yuku.ambilwarna.AmbilWarnaDialog
+import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener
 
 
 class BasicClothesDetailActivity : AppCompatActivity() {
+
+    var mDefaultColor: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_basic_clothes_detail)
@@ -37,7 +42,6 @@ class BasicClothesDetailActivity : AppCompatActivity() {
         if (intent.hasExtra("a")) {
             Log.d("이미지1, ", "ㅎ2" + intent.getStringExtra("a").toString())
             var one = intent.getStringExtra("a").toString()
-//            iv_basic.setImageBitmap(one)
             iv_basicdetail.setImageResource(one.toInt())
             Log.d("이미지2, ", "ㅎ2" + intent.getStringExtra("이미지").toString())
 
@@ -47,10 +51,9 @@ class BasicClothesDetailActivity : AppCompatActivity() {
             Log.d("클릭", "1")
             iv_basicdetail.setColorFilter(Color.parseColor("#40ff0000"))
         }
-
         btn_nocolor.setOnClickListener {
             Log.d("색변경", "원래대로")
-
+            iv_basicdetail.colorFilter = null
         }
         btn_orange.setOnClickListener {
             Log.d("색변경", "orange")
@@ -198,9 +201,32 @@ class BasicClothesDetailActivity : AppCompatActivity() {
         }
         btn_morecolor.setOnClickListener {
             Log.d("색변경", "다른색")
+            openColorPicker()
         }
+        btn_basicok.setOnClickListener {
+            Log.d("기본템등록", "확인")
 
 
+        }
+    }
+
+    fun openColorPicker() {
+
+        val colorPicker = AmbilWarnaDialog(this, mDefaultColor, object : OnAmbilWarnaListener {
+            override fun onCancel(dialog: AmbilWarnaDialog) {}
+            override fun onOk(dialog: AmbilWarnaDialog, color: Int) {
+                mDefaultColor = color
+
+                var color1 = onColorChanged(mDefaultColor).replace("#", "")
+
+                iv_basicdetail.setColorFilter(Color.parseColor("#80$color1"))
+
+
+                Log.d("무슨색?!", onColorChanged(mDefaultColor))
+
+            }
+        })
+        colorPicker.show()
     }
 
     /**
@@ -225,3 +251,4 @@ class BasicClothesDetailActivity : AppCompatActivity() {
         return hexColor
     }
 }
+
