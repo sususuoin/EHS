@@ -161,26 +161,18 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_home -> {
                     Log.d(TAG, "MainActivity - 홈버튼 클릭!")
 
-                    FashionistaCody()
-                    CalendarImg()
                     homeFragment = HomeFragment.newInstance()
                     replaceFragment(homeFragment)
                 }
                 R.id.menu_fashionista -> {
                     Log.d(TAG, "MainActivity - 패셔니스타 버튼 클릭!")
 
-                    //여기에다 실행하면 처음에 안뜸
-                    FashionistaUser()
-                    FashionistaCody()
-                    Favorite_check()
                     fashionistaFragment = FashionistaFragment.newInstance()
                     replaceFragment(fashionistaFragment)
                 }
                 R.id.menu_closet -> {
                     Log.d(TAG, "MainActivity - 옷장 버튼 클릭!")
 
-                    ClosetImg()
-                    CodyImg()
                     closetFragment = ClosetFragment.newInstance()
                     replaceFragment(closetFragment)
                     closetFragment.arguments = bundle
@@ -188,9 +180,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_feed -> {
                     Log.d(TAG, "MainActivity - 피드 버튼 클릭!")
-                    FeedImg()
-                    Feed_like_check()
-                    Feed_ranking()
+
 //                    loading = Loading(this)
 
                     feedFragment = FeedFragment.newInstance()
@@ -209,8 +199,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_mypage -> {
                     Log.d(TAG, "MainActivity - 마이페이지 버튼 클릭!")
-                    GetFeedLikeTotalcnt()
-                    GetColor()
+
                     mypageFragment = MypageFragment.newInstance()
                     replaceFragment(mypageFragment)
 
