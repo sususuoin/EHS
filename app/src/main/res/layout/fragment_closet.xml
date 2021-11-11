@@ -238,7 +238,7 @@
                 app:backgroundTint="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/btn_camera"
                 app:layout_constraintEnd_toEndOf="@+id/btn_camera"
-                app:srcCompat="@drawable/hanger" />
+                app:srcCompat="@drawable/ic_hanger" />
 
             <TextView
                 android:id="@+id/tv_gallery"

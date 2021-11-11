@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context=".Closet.BasicClothesDetailActivity">
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_basicdetail"
         android:layout_width="match_parent"
@@ -21,18 +22,28 @@
             android:text="기본템 상세"
             android:textColor="@android:color/black"
             android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btn_basicok"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:background="@color/white"
+            android:text="완료"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
     </androidx.appcompat.widget.Toolbar>
-
 
     <ImageView
         android:id="@+id/iv_basicdetail"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="30dp" />
-
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="15dp"/>
 
     <TextView
         android:layout_width="match_parent"
