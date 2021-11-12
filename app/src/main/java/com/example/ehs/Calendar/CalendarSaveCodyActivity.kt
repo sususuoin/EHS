@@ -78,7 +78,6 @@ class CalendarSaveCodyActivity : AppCompatActivity() {
         tv_selectday.text = AutoCalendar.getSelectday(this)
 
         btn_savecody.setOnClickListener {
-
             calendarsaveActivity_Dialog = ProgressDialog(this)
             calendarsaveActivity_Dialog!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
             calendarsaveActivity_Dialog!!.setMessage("업로드 중입니다.")
@@ -159,7 +158,7 @@ class CalendarSaveCodyActivity : AppCompatActivity() {
 
                     if(success) {
 
-                        (MainActivity.mContext as MainActivity).CalendarImg()
+                        (MainActivity.mContext as MainActivity).CalendarImg(calendarcodyMonth[0])
                         Log.d("zz달력이라네zz", CalendarActivity.calendarNameArr.size.toString())
 
 //                        val intent = Intent(this@CalendarSaveCodyActivity, CalendarActivity::class.java)

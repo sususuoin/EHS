@@ -24,12 +24,12 @@
             android:textStyle="bold" />
 
         <ImageButton
+            android:id="@+id/ib_premonth"
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="70dp"
             android:background="@null"
-            android:src="@drawable/ic_left"
-            android:onClick="previousMonthAction"/>
+            android:src="@drawable/ic_left" />
 
 
         <TextView
@@ -43,13 +43,13 @@
             android:textSize="20sp" />
 
         <ImageButton
+            android:id="@+id/ib_nextmonth"
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_marginRight="50dp"
             android:background="@null"
             android:src="@drawable/ic_right"
-            android:textColor="@color/black"
-            android:onClick="nextMonthAction"/>
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <LinearLayout

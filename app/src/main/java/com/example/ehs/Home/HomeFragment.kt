@@ -1,10 +1,13 @@
 package com.example.ehs.Home
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -100,11 +103,16 @@ class HomeFragment : Fragment() {
         var calendarMonthArr = ArrayList<String>()
         var calendarDayArr = ArrayList<String>()
         var homeloading : Loading? = null
+
+        var customProgressDialog: ProgressDialog? = null
     }
 
     var random_clothesCategoryArr = ArrayList<String>()
     var random_clothesNameArr = ArrayList<String>()
     var random_clothesCategory_DetailArr = ArrayList<String>()
+
+
+
 
     // 프래그먼트가 메모리에 올라갔을때
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,11 +123,6 @@ class HomeFragment : Fragment() {
 
         getLongitude = AutoHome.getLongitude(a!!)
         getLatitude = AutoHome.getLatitude(a!!)
-
-        calendarNameArr = AutoCalendar.getCalendarName(a!!)
-        calendarYearArr = AutoCalendar.getCalendarYear(a!!)
-        calendarMonthArr = AutoCalendar.getCalendarMonth(a!!)
-        calendarDayArr = AutoCalendar.getCalendarDay(a!!)
 
         homeloading = Loading(a!!)
         getweather()
@@ -139,15 +142,31 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         week(Strnow!!)
         Log.d(TAG, "HomeFragment - onCreateView() called")
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
+        customProgressDialog = ProgressDialog(a)
+        customProgressDialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val formatter2 = DateTimeFormatter.ofPattern("MM")
+        var nowmonth = now.format(formatter2).toString() // 현재날짜에서의 월만 표시
+        Log.d("nowmoth", nowmonth)
+
         view.btn_calendar.setOnClickListener{
-            val intent = Intent(a, CalendarActivity::class.java)
-            startActivity(intent)
+            GlobalScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
+                    customProgressDialog!!.show()
+                    (MainActivity.mContext as MainActivity).CalendarImg(nowmonth)
+                }
+                delay(1000L)
+
+                val intent = Intent(a, CalendarActivity::class.java)
+                startActivity(intent)
+            }
+
         }
         view.btn_weathergo.setOnClickListener{
             val intent = Intent(a, WeatherActivity::class.java)
@@ -224,7 +243,7 @@ class HomeFragment : Fragment() {
                     BottomSheet_tpo.detail_bag)
             }
             Log.d("랜덤랜덤", "새로고침")
-            asdf()
+            randomCody_Img()
         }
 
         view.btn_saveRandomCody.setOnClickListener {
@@ -251,9 +270,10 @@ class HomeFragment : Fragment() {
                 }
                 tv_tpo.text = tpochoice
                 Log.d("티피오", ",,")
-                asdf()
+                randomCody_Img()
             }
-            BottomSheet_tpo.show((activity as AppCompatActivity).supportFragmentManager, BottomSheet_tpo.tag)
+            BottomSheet_tpo.show((activity as AppCompatActivity).supportFragmentManager,
+                BottomSheet_tpo.tag)
 
         }
 
@@ -291,24 +311,26 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        asdf()
+        randomCody_Img()
     }
 
     override fun onResume() {
         super.onResume()
+
         Log.d(TAG, "HomeFragment - onResume() called")
         calendarNameArr = AutoCalendar.getCalendarName(a!!)
         calendarYearArr = AutoCalendar.getCalendarYear(a!!)
         calendarMonthArr = AutoCalendar.getCalendarMonth(a!!)
         calendarDayArr = AutoCalendar.getCalendarDay(a!!)
+        Log.d("zzzggzzdf", calendarMonthArr.toString())
+        Log.d("zzzggzzdf", calendarDayArr.toString())
 
-        (activity as MainActivity).CalendarImg()
         cAdapter!!.notifyDataSetChanged()
-
+        MainActivity.homeProgressDialog?.dismiss()
 
     }
 
-    fun asdf() {
+    fun randomCody_Img() {
         iv_top.setImageResource(0)
         iv_bottom.setImageResource(0)
         iv_bottom2.setImageResource(0)
@@ -362,7 +384,7 @@ class HomeFragment : Fragment() {
                         if (random_clothesCategoryArr[0] == "원피스") {
                             iv_bottom.setImageResource(0)
                             iv_bottom2.setImageResource(0)
-                        } else if(random_clothesCategory_DetailArr[i] == "미니스커트" || random_clothesCategory_DetailArr[i] == "반바지") {
+                        } else if (random_clothesCategory_DetailArr[i] == "미니스커트" || random_clothesCategory_DetailArr[i] == "반바지") {
                             iv_bottom2.setImageBitmap(a_bitmap)
                         } else {
                             iv_bottom.setImageBitmap(a_bitmap)
@@ -438,11 +460,12 @@ class HomeFragment : Fragment() {
                         "13d", "13n" -> view!!.img_weatherH.setImageResource(R.drawable.ic_snow)
                         "50n", "50d" -> view!!.img_weatherH.setImageResource(R.drawable.ic_mist)
                     }
-
                     tv_cityH.text = AutoHome.getLocation(a!!)
                     tv_MinMaxH.text =
                         intMinTemp.toString() + "\u00B0" + "/ " + intMaxTemp.toString() + "\u00B0"
                     tv_cTempH.text = intcTemp.toString() + "\u00B0"
+                } else {
+                    Log.d("에러메시지", "에러에러")
                 }
             }
 

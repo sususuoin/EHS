@@ -2,6 +2,7 @@ package com.example.ehs.Fashionista
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.example.ehs.Closet.AutoCloset
 import org.json.JSONArray
 import org.json.JSONException

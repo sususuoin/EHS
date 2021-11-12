@@ -103,7 +103,7 @@ class FashionistaProfile_Activity : AppCompatActivity() {
             val uThread: Thread = object : Thread() {
                 override fun run() {
                     try {
-                        Log.d("zzzzasd", FashionistaImgPathArr[i])
+//                        Log.d("zzzzasd", FashionistaImgPathArr[i])
                         val url = URL(FashionistaImgPathArr[i] + FashionistaImgNameArr[i])
 
                         val conn: HttpURLConnection = url.openConnection() as HttpURLConnection

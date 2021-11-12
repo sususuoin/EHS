@@ -1,5 +1,6 @@
 package com.example.ehs.Closet
 
+import android.util.Log
 import com.android.volley.*
 import com.android.volley.toolbox.HttpHeaderParser
 import java.io.*

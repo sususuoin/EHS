@@ -8,6 +8,7 @@ import com.android.volley.toolbox.StringRequest
 
 class CalendarCodyServer_Request(
     userId : String,
+    todaymonth : String,
     listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {
 
     private val map: MutableMap<String, String>
@@ -25,6 +26,7 @@ class CalendarCodyServer_Request(
     init {
         map = HashMap()
         map["userId"] = userId
+        map["todaymonth"] = todaymonth
     }
 }
 
