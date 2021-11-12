@@ -118,7 +118,7 @@ class MypageFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-
+        MainActivity.homeProgressDialog?.dismiss()
     }
 
 

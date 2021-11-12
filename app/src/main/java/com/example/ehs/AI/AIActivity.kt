@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
 import com.example.ehs.Closet.ClosetFragment
 import com.example.ehs.Loading
 import com.example.ehs.Login.RegisterActivity
@@ -214,20 +215,32 @@ class AIActivity : AppCompatActivity() {
                                     0 -> {
 //                                        iv_aiImg1.setImageURI(urione)
 
-                                        bitmap1 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
-                                        iv_aiImg1.setImageBitmap(Bitmap.createScaledBitmap(bitmap1!!, 400, 533, true))
+//                                        bitmap1 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
+//                                        iv_aiImg1.setImageBitmap(Bitmap.createScaledBitmap(bitmap1!!, 400, 533, true))
+                                        Glide.with(this)
+                                            .load(urione)
+                                            .override(400, 533)
+                                            .into(iv_aiImg1)
                                     }
                                     1 -> {
 //                                        iv_aiImg2.setImageURI(urione)
 
-                                        bitmap2 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
-                                        iv_aiImg2.setImageBitmap(Bitmap.createScaledBitmap(bitmap2!!, 400, 533, true))
+//                                        bitmap2 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
+//                                        iv_aiImg2.setImageBitmap(Bitmap.createScaledBitmap(bitmap2!!, 400, 533, true))
+                                        Glide.with(this)
+                                            .load(urione)
+                                            .override(400, 533)
+                                            .into(iv_aiImg1)
                                     }
                                     2 -> {
 //                                        iv_aiImg3.setImageURI(urione)
 
-                                        bitmap3 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
-                                        iv_aiImg3.setImageBitmap(Bitmap.createScaledBitmap(bitmap3!!, 400, 533, true))
+//                                        bitmap3 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
+//                                        iv_aiImg3.setImageBitmap(Bitmap.createScaledBitmap(bitmap3!!, 400, 533, true))
+                                        Glide.with(this)
+                                            .load(urione)
+                                            .override(400, 533)
+                                            .into(iv_aiImg3)
                                     }
                                 }
                             }

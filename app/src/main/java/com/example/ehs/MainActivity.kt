@@ -1,11 +1,15 @@
 package com.example.ehs
 
 import android.Manifest
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.*
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -38,12 +42,17 @@ import com.gun0912.tedpermission.TedPermission
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_closet.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import org.threeten.bp.LocalDate
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -63,6 +72,10 @@ class MainActivity : AppCompatActivity() {
         lateinit var basic_detail_outer : String
         lateinit var basic_detail_bag : String
 
+        lateinit var mainTodayMonth: LocalDate
+        lateinit var maintodaymonth : String
+
+        var homeProgressDialog: ProgressDialog? = null
     }
 
     lateinit var getLatitude : String
@@ -78,9 +91,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var feedFragment: FeedFragment
     private lateinit var mypageFragment: MypageFragment
 
-
     lateinit var userId: String
-    val bundle = Bundle()
 
     private var backKeyPressedTime: Long = 0
 
@@ -105,6 +116,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     // 화면이 메모리에 올라갔을 때
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,23 +138,27 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().add(R.id.fragments_frame, homeFragment)
             .commit() // add는 프레그먼트 추가해주는 것
 
-
+        homeProgressDialog = ProgressDialog(this)
+        homeProgressDialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         //권한설정
         setPermission()
         setLocation_Permission()
 
-        CalendarImg()
-        FashionistaUser()
+
+        mainTodayMonth = LocalDate.now()
+        maintodaymonth = mainTodayMonth.monthValue.toString() // 현재월 가져오기
+        CalendarImg(maintodaymonth)
+
         FashionistaCody()
         Favorite_check()
         Feed_like_check()
         ClosetImg()
         CodyImg()
-        FeedImg()
-        Feed_ranking()
+//        FeedImg()
+
         GetFeedLikeTotalcnt()
-        GetColor()
+//        GetColor()
 
         basic_detail_top = "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='" +userId+ "' OR  clothesCategory='원피스' AND clothesSeason!='여름' AND userId='$userId' ORDER BY rand() LIMIT 1"
         basic_detail_bottom = "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
@@ -151,6 +167,8 @@ class MainActivity : AppCompatActivity() {
         basic_detail_bag = "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
 
         CodyRandom(basic_detail_top, basic_detail_bottom, basic_detail_shoes, basic_detail_outer, basic_detail_bag)
+
+
     }
 
     // 바텀 네비게이션 아이템 클릭 리스너 설정
@@ -160,59 +178,68 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.menu_home -> {
                     Log.d(TAG, "MainActivity - 홈버튼 클릭!")
+                    GlobalScope.launch(Dispatchers.Main) {
+                        launch(Dispatchers.Main) {
+                            homeProgressDialog!!.show()
+                        }
+                        delay(1000L)
 
-                    FashionistaCody()
-                    CalendarImg()
-                    homeFragment = HomeFragment.newInstance()
-                    replaceFragment(homeFragment)
+                        homeFragment = HomeFragment.newInstance()
+                        replaceFragment(homeFragment)
+                    }
+
                 }
                 R.id.menu_fashionista -> {
                     Log.d(TAG, "MainActivity - 패셔니스타 버튼 클릭!")
+                    GlobalScope.launch(Dispatchers.Main) {
+                        launch(Dispatchers.Main) {
+                            homeProgressDialog!!.show()
+                        }
+                        delay(1000L)
 
-                    //여기에다 실행하면 처음에 안뜸
-                    FashionistaUser()
-                    FashionistaCody()
-                    Favorite_check()
-                    fashionistaFragment = FashionistaFragment.newInstance()
-                    replaceFragment(fashionistaFragment)
+                        fashionistaFragment = FashionistaFragment.newInstance()
+                        replaceFragment(fashionistaFragment)
+                    }
+
                 }
                 R.id.menu_closet -> {
                     Log.d(TAG, "MainActivity - 옷장 버튼 클릭!")
+                    GlobalScope.launch(Dispatchers.Main) {
+                        launch(Dispatchers.Main) {
+                            homeProgressDialog!!.show()
+                        }
+                        delay(1000L)
 
-                    ClosetImg()
-                    CodyImg()
-                    closetFragment = ClosetFragment.newInstance()
-                    replaceFragment(closetFragment)
-                    closetFragment.arguments = bundle
-
+                        closetFragment = ClosetFragment.newInstance()
+                        replaceFragment(closetFragment)
+                    }
                 }
                 R.id.menu_feed -> {
                     Log.d(TAG, "MainActivity - 피드 버튼 클릭!")
-                    FeedImg()
-                    Feed_like_check()
-                    Feed_ranking()
-//                    loading = Loading(this)
+                    GlobalScope.launch(Dispatchers.Main) {
+                        launch(Dispatchers.Main) {
+                            homeProgressDialog!!.show()
+                        }
+                        delay(1000L)
 
-                    feedFragment = FeedFragment.newInstance()
-                    replaceFragment(feedFragment)
+                        feedFragment = FeedFragment.newInstance()
+                        replaceFragment(feedFragment)
+                    }
 
-//                    GlobalScope.launch(Dispatchers.Main) {
-//                        launch(Dispatchers.Main) {
-//                            loading!!.init()
-//                        }
-//                        delay(4000L)
-//
-//                        feedFragment = FeedFragment.newInstance()
-//                        replaceFragment(feedFragment)
-//                    }
 
                 }
                 R.id.menu_mypage -> {
                     Log.d(TAG, "MainActivity - 마이페이지 버튼 클릭!")
-                    GetFeedLikeTotalcnt()
-                    GetColor()
-                    mypageFragment = MypageFragment.newInstance()
-                    replaceFragment(mypageFragment)
+                    GlobalScope.launch(Dispatchers.Main) {
+                        launch(Dispatchers.Main) {
+                            homeProgressDialog!!.show()
+                        }
+                        delay(1000L)
+
+                        mypageFragment = MypageFragment.newInstance()
+                        replaceFragment(mypageFragment)
+                    }
+
 
                 }
             } // when문 끝
@@ -395,54 +422,6 @@ class MainActivity : AppCompatActivity() {
         override fun onProviderDisabled(provider: String) {}
     }
 
-
-    /**
-     * 전문가 리스트 출력
-     */
-    fun FashionistaUser() {
-
-        var fuserId: String
-        var fuserLevel: String
-        var fuserProfileImg : String
-
-        var fuserIdArr = ArrayList<String>()
-        var fuserLevelArr = ArrayList<String>()
-        var fuserProImgArr = ArrayList<String>()
-
-        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
-            override fun onResponse(response: String?) {
-                try {
-
-                    var jsonObject = JSONObject(response)
-
-                    val arr: JSONArray = jsonObject.getJSONArray("response")
-
-                    for (i in 0 until arr.length()) {
-                        val fuserObject = arr.getJSONObject(i)
-
-                        fuserId = fuserObject.getString("userId")
-                        fuserLevel = fuserObject.getString("userLevel")
-                        fuserProfileImg = fuserObject.getString("userProfileImg")
-//                        fuserProfile = AutoLogin.StringToBitmap(fuserProfileImg)
-
-                        fuserIdArr.add(fuserId)
-                        fuserLevelArr.add(fuserLevel)
-                        fuserProImgArr.add(fuserProfileImg)
-                    }
-                    AutoPro.setProuserId(this@MainActivity, fuserIdArr)
-                    AutoPro.setProuserLevel(this@MainActivity, fuserLevelArr)
-                    AutoPro.setProuserProImg(this@MainActivity, fuserProImgArr)
-
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-        val fashionistaUserRequest = FashionistaUser_Request(responseListener)
-        val queue = Volley.newRequestQueue(this)
-        queue.add(fashionistaUserRequest)
-    }
-
     fun FashionistaCody() {
         var fuserId: String
         var fcodyImgName: String
@@ -473,8 +452,6 @@ class MainActivity : AppCompatActivity() {
 
                     }
 
-                    Log.d("zzz1", fuserIdArr.size.toString())
-
                     AutoPro.setFuserId(this@MainActivity, fuserIdArr)
                     AutoPro.setFcodyImgName(this@MainActivity, fcodyImgNameArr)
                     AutoPro.setFcodyStyle(this@MainActivity, fcodyStyleArr)
@@ -484,7 +461,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        val fashionistaCody_Request = FashionistaCody_Request(userId!!, responseListener)
+        val fashionistaCody_Request = FashionistaCody_Request(userId, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(fashionistaCody_Request)
     }
@@ -526,7 +503,7 @@ class MainActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-        val closetServer_Request = ClosetServer_Request(userId!!, responseListener)
+        val closetServer_Request = ClosetServer_Request(userId, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(closetServer_Request)
     }
@@ -563,11 +540,10 @@ class MainActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-        val codyServer_Request = CodyServer_Request(userId!!, responseListener)
+        val codyServer_Request = CodyServer_Request(userId, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(codyServer_Request)
     }
-
 
     fun FeedImg() {
 
@@ -631,13 +607,13 @@ class MainActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-        val feedServer_Request = FeedServer_Request(userId!!, responseListener)
+        val feedServer_Request = FeedServer_Request(userId, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(feedServer_Request)
     }
 
-    fun CalendarImg() {
-
+    fun CalendarImg(todaymonth : String) {
+        Log.d("zzghghghazz22", todaymonth)
         var cuserId: String
         var calendarName: String
         var calendarYear: String
@@ -654,40 +630,46 @@ class MainActivity : AppCompatActivity() {
                 try {
 
                     var jsonObject = JSONObject(response)
-                    var response = jsonObject.toString()
 
                     val arr: JSONArray = jsonObject.getJSONArray("response")
 
-                    for (i in 0 until arr.length()) {
-                        val codyObject = arr.getJSONObject(i)
+                    calendarNameArr.clear()
+                    calendarYearArr.clear()
+                    calendarMonthArr.clear()
+                    calendarDayArr.clear()
 
-                        calendarName = codyObject.getString("calendarName")
-                        calendarYear = codyObject.getString("calendarYear")
-                        calendarMonth = codyObject.getString("calendarMonth")
-                        calendarDay = codyObject.getString("calendarDay")
+                    if(arr.length() != 0) {
+                        for (i in 0 until arr.length()) {
+                            val codyObject = arr.getJSONObject(i)
 
-                        calendarNameArr.add(calendarName)
-                        calendarYearArr.add(calendarYear)
-                        calendarMonthArr.add(calendarMonth)
-                        calendarDayArr.add(calendarDay)
+                            calendarName = codyObject.getString("calendarName")
+                            calendarYear = codyObject.getString("calendarYear")
+                            calendarMonth = codyObject.getString("calendarMonth")
+                            calendarDay = codyObject.getString("calendarDay")
 
+                            calendarNameArr.add(calendarName)
+                            calendarYearArr.add(calendarYear)
+                            calendarMonthArr.add(calendarMonth)
+                            calendarDayArr.add(calendarDay)
+                        }
                     }
                     AutoCalendar.setCalendarName(this, calendarNameArr)
                     AutoCalendar.setCalendarYear(this, calendarYearArr)
                     AutoCalendar.setCalendarMonth(this, calendarMonthArr)
                     AutoCalendar.setCalendarDay(this, calendarDayArr)
-
+                    Log.d("zzghghghazz22", calendarDayArr.toString())
                     Log.d("a호리a", "a호리a")
                     if(CalendarSaveCodyActivity.calendarSaveContext!=null) {
                         Log.d("a호리a11", "a호리a")
                         (CalendarSaveCodyActivity.calendarSaveContext as CalendarSaveCodyActivity).finish()
                     }
 
+
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
             }
-        val calendarCodyServer_Request = CalendarCodyServer_Request(userId!!, responseListener)
+        val calendarCodyServer_Request = CalendarCodyServer_Request(userId, todaymonth, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(calendarCodyServer_Request)
     }
@@ -728,7 +710,7 @@ class MainActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-        val favoritecheck_Request = FavoriteCheck_Request(userId!!, responseListener)
+        val favoritecheck_Request = FavoriteCheck_Request(userId, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(favoritecheck_Request)
     }
@@ -776,73 +758,12 @@ class MainActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-        Log.d("zzzz호호호", userId!!)
-        val feedLikeCheck_Request = FeedLikeCheck_Request(userId!!, responseListener)
+        val feedLikeCheck_Request = FeedLikeCheck_Request(userId, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(feedLikeCheck_Request)
     }
 
-    fun Feed_ranking() {
-
-        var feedNum: String
-        var feed_userId: String
-        var like_cnt: String
-        var feed_ImgName: String
-
-        var feedNumArr = ArrayList<String>()
-        var feed_userIdArr = ArrayList<String>()
-        var like_cntArr = ArrayList<String>()
-        var feed_ImgNameArr = ArrayList<String>()
-
-        val responseListener: Response.Listener<String?> =
-            Response.Listener<String?> { response ->
-                try {
-
-                    var jsonObject = JSONObject(response)
-
-                    val arr: JSONArray = jsonObject.getJSONArray("response")
-
-                    if(arr.length() == 0 ) {
-                        feedNumArr.clear()
-                        feed_userIdArr.clear()
-                        like_cntArr.clear()
-                        feed_ImgNameArr.clear()
-                    }
-                    for (i in 0 until arr.length()) {
-                        val Object = arr.getJSONObject(i)
-
-                        feedNum = Object.getString("feedNum")
-                        feed_userId = Object.getString("feed_userId")
-                        like_cnt = Object.getString("like_cnt")
-                        feed_ImgName = Object.getString("feed_ImgName")
-
-                        feedNumArr.add(feedNum)
-                        feed_userIdArr.add(feed_userId)
-                        like_cntArr.add(like_cnt)
-                        feed_ImgNameArr.add(feed_ImgName)
-
-                    }
-                    AutoFeed.setFeedRank_feedNum(this, feedNumArr)
-                    AutoFeed.setFeedRank_feed_userId(this, feed_userIdArr)
-                    AutoFeed.setFeedRank_like_cnt(this, like_cntArr)
-                    AutoFeed.setFeedRank_feed_ImgName(this, feed_ImgNameArr)
-
-                    Log.d("크크크", feedNumArr.toString())
-                    Log.d("크크크", feed_userIdArr.toString())
-                    Log.d("크크크", like_cntArr.toString())
-                    Log.d("크크크", feed_ImgNameArr.toString())
-
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            }
-        val feedRanking_Request = FeedRanking_Request(responseListener)
-        val queue = Volley.newRequestQueue(this)
-        queue.add(feedRanking_Request)
-    }
-
     fun GetFeedLikeTotalcnt() {
-
         val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
             override fun onResponse(response: String?) {
                 try {
@@ -863,12 +784,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        val feedLikeTotalcnt_Request = FeedLikeTotalcnt_Request(userId!!, responseListener)
+        val feedLikeTotalcnt_Request = FeedLikeTotalcnt_Request(userId, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(feedLikeTotalcnt_Request)
-
     }
-
 
     fun GetColor() {
         var cColor : String
@@ -899,17 +818,67 @@ class MainActivity : AppCompatActivity() {
                         AutoCloset.setColorCnt(this@MainActivity, cCntArr)
                     }
 
-
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
             }
         }
-        val clothescolorResponse = ClothesColor_Response(userId!!, responseListener)
+        val clothescolorResponse = ClothesColor_Response(userId, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(clothescolorResponse)
-
     }
+
+    fun CodyRandom(sql_top : String, sql_bottom: String, sql_shoes: String, sql_outer: String, sql_bag: String) {
+        Log.d("티피오2", ",,")
+        var random_clothesCategory: String
+        var random_clothesName: String
+        var random_clothesCategory_Detail: String
+
+        var random_clothesCategoryArr = ArrayList<String>()
+        var random_clothesNameArr = ArrayList<String>()
+        var random_clothesCategory_DetailArr = ArrayList<String>()
+
+        val responseListener: Response.Listener<String?> = Response.Listener<String?> { response ->
+            try {
+
+                var jsonObject = JSONObject(response)
+                var response = jsonObject.toString()
+
+                val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                if (arr.length() == 0) {
+//                        Toast.makeText(this, "등록된 옷이 부족합니다.", Toast.LENGTH_SHORT).show()
+                    return@Listener
+                } else {
+                    for (i in 0 until arr.length()) {
+                        val proObject = arr.getJSONObject(i)
+
+                        random_clothesCategory = proObject.getString("clothesCategory")
+                        random_clothesName = proObject.getString("clothesName")
+                        random_clothesCategory_Detail = proObject.getString("clothesCategory_Detail")
+
+                        random_clothesCategoryArr.add(random_clothesCategory)
+                        random_clothesNameArr.add(random_clothesName)
+                        random_clothesCategory_DetailArr.add(random_clothesCategory_Detail)
+
+                    }
+
+                    AutoHome.setRandom_clothesCategory(this, random_clothesCategoryArr)
+                    AutoHome.setRandom_clothesName(this, random_clothesNameArr)
+                    AutoHome.setRandom_clothesCategory_Detail(this, random_clothesCategory_DetailArr)
+
+                }
+
+            } catch (e: JSONException) {
+                e.printStackTrace()
+                Toast.makeText(this, "옷을 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
+            }
+        }
+        val codyRandom_Request = CodyRandom_Request(sql_top, sql_bottom, sql_shoes, sql_outer, sql_bag, responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(codyRandom_Request)
+    }
+
 
     fun Codycolor(bitmap : Bitmap) {
 
@@ -954,74 +923,6 @@ class MainActivity : AppCompatActivity() {
         // Releases model resources if no longer used.
         model.close()
 
-    }
-
-    fun CodyRandom(sql_top : String, sql_bottom: String, sql_shoes: String, sql_outer: String, sql_bag: String) {
-        Log.d("티피오2", ",,")
-        var random_clothesCategory: String
-        var random_clothesName: String
-        var random_clothesCategory_Detail: String
-
-        var random_clothesCategoryArr = ArrayList<String>()
-        var random_clothesNameArr = ArrayList<String>()
-        var random_clothesCategory_DetailArr = ArrayList<String>()
-
-        val responseListener: Response.Listener<String?> = Response.Listener<String?> { response ->
-                try {
-
-                    var jsonObject = JSONObject(response)
-                    var response = jsonObject.toString()
-
-                    val arr: JSONArray = jsonObject.getJSONArray("response")
-
-                    if (arr.length() == 0) {
-//                        Toast.makeText(this, "등록된 옷이 부족합니다.", Toast.LENGTH_SHORT).show()
-                        return@Listener
-                    } else {
-                        for (i in 0 until arr.length()) {
-                            val proObject = arr.getJSONObject(i)
-
-                            random_clothesCategory = proObject.getString("clothesCategory")
-                            random_clothesName = proObject.getString("clothesName")
-                            random_clothesCategory_Detail = proObject.getString("clothesCategory_Detail")
-
-                            random_clothesCategoryArr.add(random_clothesCategory)
-                            random_clothesNameArr.add(random_clothesName)
-                            random_clothesCategory_DetailArr.add(random_clothesCategory_Detail)
-
-                        }
-
-                        AutoHome.setRandom_clothesCategory(this, random_clothesCategoryArr)
-                        AutoHome.setRandom_clothesName(this, random_clothesNameArr)
-                        AutoHome.setRandom_clothesCategory_Detail(this, random_clothesCategory_DetailArr)
-
-                    }
-
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                    Toast.makeText(this, "옷을 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
-                }
-            }
-        val codyRandom_Request = CodyRandom_Request(sql_top, sql_bottom, sql_shoes, sql_outer, sql_bag, responseListener)
-        val queue = Volley.newRequestQueue(this)
-        queue.add(codyRandom_Request)
-    }
-
-    fun resize(bm: Bitmap): Bitmap {
-        var bm: Bitmap = bm
-        val config: Configuration = resources.configuration
-        bm =
-            if (config.smallestScreenWidthDp >= 800)
-                Bitmap.createScaledBitmap(bm, 400, 240, true)
-            else if (config.smallestScreenWidthDp >= 600)
-                Bitmap.createScaledBitmap(bm, 300, 180, true)
-            else if (config.smallestScreenWidthDp >= 400)
-                Bitmap.createScaledBitmap(bm, 200, 120, true)
-            else if (config.smallestScreenWidthDp >= 360)
-                Bitmap.createScaledBitmap(bm, 180, 108, true)
-            else
-                Bitmap.createScaledBitmap(bm, 160, 96, true)
-        return bm
     }
 
 

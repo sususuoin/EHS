@@ -2,6 +2,7 @@ package com.example.ehs.Feed
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Login.AutoLogin
 import org.json.JSONArray

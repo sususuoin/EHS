@@ -60,11 +60,10 @@ class FeedFragment : Fragment() {
 //        (activity as MainActivity).Feed_like_check()
 //        (activity as MainActivity).Feed_ranking()
 
-        feedrank_feedNumArr = AutoFeed.getFeedRank_feedNum(a!!)
-        feedrank_feeduserId = AutoFeed.getFeedRank_feed_userId(a!!)
-        feedrank_likecnt = AutoFeed.getFeedRank_like_cnt(a!!)
-        feedrank_ImgName = AutoFeed.getFeedRank_feed_ImgName(a!!)
-
+//        feedrank_feedNumArr = AutoFeed.getFeedRank_feedNum(a!!)
+//        feedrank_feeduserId = AutoFeed.getFeedRank_feed_userId(a!!)
+//        feedrank_likecnt = AutoFeed.getFeedRank_like_cnt(a!!)
+//        feedrank_ImgName = AutoFeed.getFeedRank_feed_ImgName(a!!)
 
     }
 
@@ -123,6 +122,7 @@ class FeedFragment : Fragment() {
         }
 
         adapter.notifyDataSetChanged()
+        MainActivity.homeProgressDialog?.dismiss()
 //        MainActivity.loading?.finish()
     }
 
@@ -151,102 +151,82 @@ class FeedFragment : Fragment() {
             (activity as MainActivity?)!!.replaceFragment(YoutubeFragment.newInstance())
         }
 
-        var a_bitmap : Bitmap? = null
-        Log.d("피드랭킹이미지", feedrank_ImgName.size.toString())
-        if(feedrank_feedNumArr.size==1 || feedrank_feedNumArr.size==2 || feedrank_feedNumArr.size==3){
-            for (i in 0 until feedrank_feedNumArr.size) {
-                val uThread: Thread = object : Thread() {
-                    override fun run() {
-                        try {
-                            Log.d("피드랭킹이미지", feedrank_ImgName[i])
-
-                            val url = URL("http://13.125.7.2/img/cody/" + feedrank_ImgName[i])
-
-                            val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-
-                            conn.setDoInput(true)
-                            conn.connect()
-                            val iss: InputStream = conn.getInputStream()
-                            a_bitmap = BitmapFactory.decodeStream(iss)
-
-                        } catch (e: MalformedURLException) {
-                            e.printStackTrace()
-                        } catch (e: IOException) {
-                            e.printStackTrace()
-                        }
-                    }
-                }
-                uThread.start() // 작업 Thread 실행
-                try {
-                    uThread.join()
-
-                    feedIdArr = AutoFeed.getFeedId(a!!)
-                    feeduserprofileImgArr = AutoFeed.getFeeduserprofileImg(a!!)
-
-                    var int_idx = feedIdArr.indexOf(feedrank_feeduserId[i])
-                    Log.d("zzzz키득", int_idx.toString())
-
-                    var ranking_profile = AutoLogin.StringToBitmap(feeduserprofileImgArr[int_idx], 100, 100)
-
-
-                    if(feedIdArr.contains(feedrank_feeduserId[i])) {
-                        when(i) {
-                            0 -> {
-                                view.top1Img.setImageBitmap(a_bitmap)
-                                view.top1Id.setText(feedrank_feeduserId[i])
-                                view.top1cnt.setText(feedrank_likecnt[i])
-                                view.iv_userphoto1.setImageBitmap(ranking_profile)
-                            }
-                            1 -> {
-                                view.top2Img.setImageBitmap(a_bitmap)
-                                view.top2Id.setText(feedrank_feeduserId[i])
-                                view.top2cnt.setText(feedrank_likecnt[i])
-                                view.iv_userphoto2.setImageBitmap(ranking_profile)
-                            }
-                            2 -> {
-                                view.top3Img.setImageBitmap(a_bitmap)
-                                view.top3Id.setText(feedrank_feeduserId[i])
-                                view.top3cnt.setText(feedrank_likecnt[i])
-                                view.iv_userphoto3.setImageBitmap(ranking_profile)
-                            }
-                        }
-                    }
-
-
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
-
-            }
-
-        } else {
-
-//            Toast.makeText(a!!, "이상이상", Toast.LENGTH_LONG).show()
-        }
-
-
-
-        return view
-    }
-
-
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+//        var a_bitmap : Bitmap? = null
+//        Log.d("피드랭킹이미지", feedrank_ImgName.size.toString())
+//        if(feedrank_feedNumArr.size==1 || feedrank_feedNumArr.size==2 || feedrank_feedNumArr.size==3){
+//            for (i in 0 until feedrank_feedNumArr.size) {
+//                val uThread: Thread = object : Thread() {
+//                    override fun run() {
+//                        try {
+//                            Log.d("피드랭킹이미지", feedrank_ImgName[i])
+//
+//                            val url = URL("http://13.125.7.2/img/cody/" + feedrank_ImgName[i])
+//
+//                            val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+//
+//                            conn.setDoInput(true)
+//                            conn.connect()
+//                            val iss: InputStream = conn.getInputStream()
+//                            a_bitmap = BitmapFactory.decodeStream(iss)
+//
+//                        } catch (e: MalformedURLException) {
+                    //        e.printStackTrace()
+//                        } catch (e: IOException) {
+//                            e.printStackTrace()
+//                        }
+//                    }
+//                }
+//                uThread.start() // 작업 Thread 실행
+//                try {
+//                    uThread.join()
+//
+//                    feedIdArr = AutoFeed.getFeedId(a!!)
+//                    feeduserprofileImgArr = AutoFeed.getFeeduserprofileImg(a!!)
+//
+//                    var int_idx = feedIdArr.indexOf(feedrank_feeduserId[i])
+//                    Log.d("zzzz키득", int_idx.toString())
+//
+//                    var ranking_profile = AutoLogin.StringToBitmap(feeduserprofileImgArr[int_idx], 100, 100)
+//
+//
+//                    if(feedIdArr.contains(feedrank_feeduserId[i])) {
+//                        when(i) {
+//                            0 -> {
+//                                view.top1Img.setImageBitmap(a_bitmap)
+//                                view.top1Id.setText(feedrank_feeduserId[i])
+//                                view.top1cnt.setText(feedrank_likecnt[i])
+//                                view.iv_userphoto1.setImageBitmap(ranking_profile)
+//                            }
+//                            1 -> {
+//                                view.top2Img.setImageBitmap(a_bitmap)
+//                                view.top2Id.setText(feedrank_feeduserId[i])
+//                                view.top2cnt.setText(feedrank_likecnt[i])
+//                                view.iv_userphoto2.setImageBitmap(ranking_profile)
+//                            }
+//                            2 -> {
+//                                view.top3Img.setImageBitmap(a_bitmap)
+//                                view.top3Id.setText(feedrank_feeduserId[i])
+//                                view.top3cnt.setText(feedrank_likecnt[i])
+//                                view.iv_userphoto3.setImageBitmap(ranking_profile)
+//                            }
+//                        }
+//                    }
+//
+//
+//                } catch (e: InterruptedException) {
+//                    e.printStackTrace()
+//                }
+//
+//            }
+//
+//        }
 
         val gridLayoutManager = GridLayoutManager(a, 2)
-        rv_userfeed.layoutManager = gridLayoutManager
-
-
-        rv_userfeed.adapter = adapter
+        view.rv_userfeed.layoutManager = gridLayoutManager
+        view.rv_userfeed.adapter = adapter
         adapter.notifyDataSetChanged()
-        //recylerview 이거 fashionista.xml에 있는 변수
+        return view
     }
-
-
-
 
 
 }

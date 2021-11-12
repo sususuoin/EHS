@@ -9,8 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ehs.Closet.Cody
-import com.example.ehs.Home.HomeFragment
+import com.example.ehs.Calendar.CalendarActivity.Companion.todaymonth
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.calendar_cell.view.*
 import org.threeten.bp.LocalDate
@@ -53,22 +52,17 @@ class CalendarAdapter(private val calendar: ArrayList<Calendar>) :
         }
 
         holder.apply {
-            bind(listener, item)
+            bind(item)
             itemView.tag = item
         }
     }
 
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        var selectmonth: String? = (CalendarActivity.context_calendar as CalendarActivity).todaymonth // 지금 화면에 보여지는 월, calendar액티비에서 가져온 변수
         private var view: View = v
-        fun bind(listener: View.OnClickListener, item: Calendar) {
+        fun bind(item: Calendar) {
             view.cellDayText.text = item.day
-            // val day = itemView?.findViewById<TextView>(R.id.cellDayText) // 캘린더 날짜
-            // val daycody = itemView?.findViewById<ImageView>(R.id.iv_calendarcody) // 캘린더 코디
-
-            /* dogPhoto의 setImageResource에 들어갈 이미지의 id를 파일명(String)으로 찾고,
-                이미지가 없는 경우 안드로이드 기본 아이콘을 표시한다.*/
+            view.iv_calendarcody.setImageBitmap(item.photo)
 
             var today: LocalDate = LocalDate.now() // 현재 날짜 받아오기
             val ddformatter = DateTimeFormatter.ofPattern("dd")
@@ -80,47 +74,8 @@ class CalendarAdapter(private val calendar: ArrayList<Calendar>) :
                 nowday =nowday.replace("0", "")
 
             }
-            if (item.day == nowday && selectmonth.toString() == nowmonth ) { // 현재 일이고 뿌려지는 월과 오늘 월이 같다면
+            if (item.day == nowday && todaymonth.toString() == nowmonth ) { // 현재 일이고 뿌려지는 월과 오늘 월이 같다면
                 view.cellDayText.setTextColor(Color.parseColor("#521b93")) // 날짜 보라색으로 표시
-            }
-
-            var a_bitmap : Bitmap? = null
-            for (i in 0 until CalendarActivity.calendarNameArr.size) {
-                val uThread: Thread = object : Thread() {
-                    override fun run() {
-                        try {
-//                            Log.d("달력", CalendarActivity.calendarNameArr[i])
-                            val url = URL("http://13.125.7.2/img/calendar/" + CalendarActivity.calendarNameArr[i])
-
-                            val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-
-                            conn.setDoInput(true)
-                            conn.connect()
-                            val iss: InputStream = conn.getInputStream()
-                            a_bitmap = BitmapFactory.decodeStream(iss)
-
-                        } catch (e: MalformedURLException) {
-                            e.printStackTrace()
-                        } catch (e: IOException) {
-                            e.printStackTrace()
-                        }
-                    }
-                }
-                uThread.start() // 작업 Thread 실행
-
-                try {
-
-                    uThread.join()
-
-                    //지정한 날짜에 이미지 넣기
-                    if(selectmonth.toString() == CalendarActivity.calendarMonthArr[i] &&  item.day == CalendarActivity.calendarDayArr[i]) {
-                        view.iv_calendarcody.setImageBitmap(a_bitmap)
-                    }
-
-
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
             }
 
         }

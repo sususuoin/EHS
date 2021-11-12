@@ -188,6 +188,7 @@ class ClosetFragment : Fragment() {
         }
 
         adapter.notifyDataSetChanged()
+        MainActivity.homeProgressDialog?.dismiss()
     }
 
 
@@ -560,7 +561,6 @@ class ClosetFragment : Fragment() {
                 }
 
             } catch (e: JSONException) {
-                e.printStackTrace()
                 Toast.makeText(a!!, "배경제거실패 ㅜ", Toast.LENGTH_SHORT).show()
             }
         }

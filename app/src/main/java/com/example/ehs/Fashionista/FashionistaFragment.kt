@@ -137,16 +137,8 @@ class FashionistaFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d("FashionistaFragment", "RESUME")
-        refreshFragment(this, getFragmentManager())
+        MainActivity.homeProgressDialog?.dismiss()
     }
-
-    // Fragment 새로고침
-    fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager?) {
-        var ft: FragmentTransaction? = fragmentManager?.beginTransaction()
-        ft?.detach(fragment)?.attach(fragment)?.commit()
-    }
-
-
 
     private fun favoriteListUp() {
 

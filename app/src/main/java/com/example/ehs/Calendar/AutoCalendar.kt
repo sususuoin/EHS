@@ -2,6 +2,7 @@ package com.example.ehs.Calendar
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.example.ehs.Closet.AutoCody
 import org.json.JSONArray
 import org.json.JSONException
