@@ -27,8 +27,12 @@
         <Button
             android:id="@+id/btn_codymade"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="완룔ㄹ" />
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:background="@color/white"
+            android:text="완료"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
 

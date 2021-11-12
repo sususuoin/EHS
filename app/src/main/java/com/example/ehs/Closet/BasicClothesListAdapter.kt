@@ -33,7 +33,7 @@ class BasicClothesListAdapter
 
         val listener = View.OnClickListener { it ->
             Toast.makeText(it.context, "기본템" + item, Toast.LENGTH_SHORT).show()
-            val intent = Intent(holder.itemView?.context, BasicClothesDetailActivity::class.java)
+            val intent = Intent(holder.itemView.context, BasicClothesDetailActivity::class.java)
             intent.putExtra("a", item.basicCothes.toString())
             Log.d("넘어가", intent.putExtra("이미지", item.basicCothes).toString())
             ContextCompat.startActivity(holder.itemView.context, intent, null)

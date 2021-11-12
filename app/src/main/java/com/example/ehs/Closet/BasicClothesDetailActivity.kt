@@ -1,19 +1,32 @@
 package com.example.ehs.Closet
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.WindowInsetsControllerCompat
+import com.android.volley.NetworkResponse
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_basic_clothes_detail.*
 import kotlinx.android.synthetic.main.fragment_closet.*
+import org.json.JSONException
+import org.json.JSONObject
 import yuku.ambilwarna.AmbilWarnaDialog
 import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener
+import java.io.ByteArrayOutputStream
+import java.io.FileOutputStream
+import java.io.IOException
 
 
 class BasicClothesDetailActivity : AppCompatActivity() {
@@ -205,8 +218,10 @@ class BasicClothesDetailActivity : AppCompatActivity() {
         }
         btn_basicok.setOnClickListener {
             Log.d("기본템등록", "확인")
-
-
+            iv_basicdetail.setDrawingCacheEnabled(true)
+            iv_basicdetail.buildDrawingCache()
+            val bitmap = iv_basicdetail.getDrawingCache()
+            uploadBitmap(bitmap)
         }
     }
 
@@ -250,5 +265,55 @@ class BasicClothesDetailActivity : AppCompatActivity() {
 
         return hexColor
     }
+
+    fun getFileDataFromDrawable(bitmap: Bitmap): ByteArray? {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+        return byteArrayOutputStream.toByteArray()
+    }
+
+    fun uploadBitmap(bitmap: Bitmap) {
+        val clothesUploadRequest: ClothesUpload_Request = object : ClothesUpload_Request(
+            Method.POST, "http://13.125.7.2/upload4.php",
+            Response.Listener<NetworkResponse> { response ->
+                try {
+
+                    val obj = JSONObject(String(response!!.data))
+                    var originImgName = obj.get("file_name") as String
+
+                    Log.d("서버에 저장되어진 파일이름", originImgName)
+
+                    val intent = Intent(this, ClothesSaveActivity::class.java)
+                    intent.putExtra("originImgName", originImgName);
+                    Log.d("originImgName", originImgName)
+                    startActivity(intent)
+                    finish()
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()
+                Log.e("GotError", "" + error.message)
+            }) {
+            override fun getByteData(): Map<String, DataPart>? {
+                val params: MutableMap<String, DataPart> = HashMap()
+                val imagename = System.currentTimeMillis()
+                val uploadImgName = imagename.toString()
+                Log.d("은정이는 민재이모", uploadImgName)
+                params["image"] = DataPart(
+                    "$uploadImgName.PNG",
+                    getFileDataFromDrawable(bitmap)!!
+                )
+                return params
+            }
+        }
+
+        //adding the request to volley
+        Volley.newRequestQueue(this).add(clothesUploadRequest)
+
+    }
+
 }
 

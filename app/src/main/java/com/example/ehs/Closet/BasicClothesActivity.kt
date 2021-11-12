@@ -15,10 +15,10 @@ import kotlinx.android.synthetic.main.fragment_closet.*
 
 class BasicClothesActivity : AppCompatActivity() {
 
-    val BasicClothes = mutableListOf<BasicClothes>()
+    val BasicClothesList = mutableListOf<BasicClothes>()
     var a_bitmap: Bitmap? = null
 
-    var adapter = BasicClothesListAdapter(BasicClothes)
+    var adapter = BasicClothesListAdapter(BasicClothesList)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,35 +41,37 @@ class BasicClothesActivity : AppCompatActivity() {
         // 툴바에 뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 여기까지 툴바 설정 완료
 
+
+
+        BasicClothesList.add(BasicClothes(R.drawable.basic_tee))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_longtee))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_jean))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_whiteshortskirt))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_whitelongskirt))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_whiteshoes))
+
+        BasicClothesList.add(BasicClothes(R.drawable.basic_blackjacket))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_whitejacket))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_tweed))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_trench))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_bluejacket))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_cardigan))
+
+        BasicClothesList.add(BasicClothes(R.drawable.basic_grayknit))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_whiteknit))
+
+        BasicClothesList.add(BasicClothes(R.drawable.basic_blackjeans))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_shortskirt))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_grayshortskirt))
+
+        BasicClothesList.add(BasicClothes(R.drawable.basic_shoes))
+
+
         val gridLayoutManager = GridLayoutManager(applicationContext, 3)
         rv_basic.layoutManager = gridLayoutManager
 
         rv_basic.adapter = adapter
         adapter.notifyDataSetChanged()
-
-        BasicClothes.add(BasicClothes(R.drawable.basic_longtee))
-        BasicClothes.add(BasicClothes(R.drawable.basic_blackjacket))
-        BasicClothes.add(BasicClothes(R.drawable.basic_jean))
-        BasicClothes.add(BasicClothes(R.drawable.basic_shoes))
-        BasicClothes.add(BasicClothes(R.drawable.basic_tee))
-        BasicClothes.add(BasicClothes(R.drawable.basic_blackjeans))
-        BasicClothes.add(BasicClothes(R.drawable.basic_whitejacket))
-        BasicClothes.add(BasicClothes(R.drawable.basic_grayknit))
-        BasicClothes.add(BasicClothes(R.drawable.basic_tweed))
-        BasicClothes.add(BasicClothes(R.drawable.basic_trench))
-        BasicClothes.add(BasicClothes(R.drawable.basic_whitelongskirt))
-        BasicClothes.add(BasicClothes(R.drawable.basic_cardigan))
-        BasicClothes.add(BasicClothes(R.drawable.basic_bluejacket))
-        BasicClothes.add(BasicClothes(R.drawable.basic_whiteshoes))
-        BasicClothes.add(BasicClothes(R.drawable.basic_grayshortskirt))
-        BasicClothes.add(BasicClothes(R.drawable.basic_shortskirt))
-        BasicClothes.add(BasicClothes(R.drawable.basic_whiteknit))
-        BasicClothes.add(BasicClothes(R.drawable.basic_whiteshortskirt))
-
-
-//        BasicClothes.add(BasicClothes(BitmapFactory.decodeResource(resources,R.drawable.basic_longtee)))
-//        BasicClothes.add(BasicClothes(BitmapFactory.decodeResource(resources,R.drawable.basic_tee)))
-//        BasicClothes.add(BasicClothes(BitmapFactory.decodeResource(resources,R.drawable.basic_jean)))
 
 
     }
