@@ -35,13 +35,13 @@ class ColorRecommendActivity : AppCompatActivity() {
 
     var bitmap: Bitmap? = null
 
-    lateinit var colorcody : String
-    var coloruserIdArr = ArrayList<String>()
+    lateinit var colorcody : String // 컬러 뭔지
+    var coloruserIdArr = ArrayList<String>() // 유저 아이디
     var colorplusImgPathArr = ArrayList<String>()
     var colorplusImgNameArr = ArrayList<String>()
     var colorplusImgStyleArr = ArrayList<String>()
 
-    val colorcodyList = mutableListOf<ColorRecommend>()
+    val colorcodyList = mutableListOf<ColorRecommend>() // 컬러 가져온거
     val adapter = ColorRecommendListAdapter(colorcodyList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,18 +68,19 @@ class ColorRecommendActivity : AppCompatActivity() {
 
         colorcody = AutoHome.getColorcody(this)
         when(colorcody) {
-            "경쾌한" -> tv_colorDetail.text = "채도가 높고 명도가 살짝 높은 선명한 색으로 경쾌한 느낌을 주는 컬러입니다."
-            "화려한" -> tv_colorDetail.text = "채도가 높은 원색 계열로 화려한 느낌을 주는 컬러입니다."
-            "다이나믹한" -> tv_colorDetail.text = "채도가 높고 명도가 살짝 낮은 딥한 원색 계열로 다이나믹한 느낌을 주는 컬러입니다."
-            "모던한" -> tv_colorDetail.text = "컬러감이 두드러지지 않는 무채색 계열로 모던한 느낌을 주는 컬러입니다."
-            "점잖은" -> tv_colorDetail.text = "채도가 높고 명도가 낮은 색으로 점잖은 느낌을 주는 컬러입니다."
-            "고상한" -> tv_colorDetail.text = "채도가 중간이고 명도가 살짝 높은 그레이 톤이 가미된 색으로 고상한 느낌을 주는 컬러입니다."
-            "우아한" -> tv_colorDetail.text = "채도와 명도가 중간인 그레이 톤이 가미된 색으로 우아한 느낌을 주는 컬러입니다."
-            "은은한" -> tv_colorDetail.text = "채도와 명도가 중간인 그래이 톤이 가미된 색으로 우아한 느낌을 주는 컬러입니다."
-            "내츄럴한" -> tv_colorDetail.text = "채도가 높고 명도가 중간인 베이지 톤이 가미된 색으로 내츄럴한 느낌을 주는 컬러입니다."
-            "귀여운" -> tv_colorDetail.text = "채도가 높고 명도가 중간인 파스텔 계열의 색으로 귀여운 느낌을 주는 컬러입니다."
-            "맑은" -> tv_colorDetail.text = "채도와 명도가 중간인 파스텔 계열로 맑은 느낌을 주는 컬러입니다."
-            "온화한" -> tv_colorDetail.text = "채도와 명도가 중간인 파스텔 계열에 회색 톤이 가미된 색으로 온화한 느낌을 주는 컬러입니다."
+            "Vivid" -> tv_colorDetail.text = "채도가 높고 명도가 중간인 원색으로 선명하고 다이나믹한 느낌을 주는 컬러입니다."
+            "Bright" -> tv_colorDetail.text = "채도가 높고 명도가 살짝 높은 밝은 색으로 경쾌하고 발랄한 느낌을 주는 컬러입니다."
+            "Strong" -> tv_colorDetail.text = "채도가 높고 명도가 살짝 낮은 색으로 강렬하고 화려한 느낌을 주는 컬러입니다."
+            "Deep" -> tv_colorDetail.text = "채도가 높고 명도가 낮은 색으로 안정적이고 고풍스러운 느낌을 주는 컬러입니다."
+            "Light" -> tv_colorDetail.text = "채도가 중간이고 명도가 높은 색으로 화사하고 귀여운 느낌을 주는 컬러입니다."
+            "Soft" -> tv_colorDetail.text = "채도와 명도가 중간인 색으로 부드럽고 편안한 느낌을 주는 컬러입니다."
+            "Dull" -> tv_colorDetail.text = "채도가 중간이고 명도가 다소 낮은 색으로 차분하고 고상한 느낌을 주는 컬러입니다."
+            "Dark" -> tv_colorDetail.text = "채도가 중간이고 명도가 낮은 색으로 성숙하고 중후한 느낌을 주는 컬러입니다."
+            "Pale" -> tv_colorDetail.text = "채도가 낮고 명도가 높은 색으로 연약하고 맑은 느낌을 주는 컬러입니다."
+            "Light Grayish" -> tv_colorDetail.text = "채도가 낮고 명도가 다소 높은 그레이 톤이 가미된 색으로 은은하고 세련된 느낌을 주는 컬러입니다."
+            "Grayish" -> tv_colorDetail.text = "채도가 낮고 명도가 다소 낮은 그레이 톤이 가미된 색으로 안정적이고 품위있는 느낌을 주는 컬러입니다."
+            "Dark Grayish" -> tv_colorDetail.text = "채도가 낮고 명도가 낮은 그레이 톤이 가미된 색으로 무게감이 느껴주고 어두운 느낌을 주는 컬러입니다."
+            "Colorless" -> tv_colorDetail.text = "컬러감이 두드러지지 않는 무채색 계열로 모던한 느낌을 주는 컬러입니다."
         }
 
         bitmap = BitmapFactory.decodeResource(resources, R.drawable.colortest)
