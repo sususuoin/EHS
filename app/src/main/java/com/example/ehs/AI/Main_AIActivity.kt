@@ -6,6 +6,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -54,9 +56,6 @@ class Main_AIActivity : AppCompatActivity() {
     var camera_choice : Camera_choice? = null
 
     var bitmap : Bitmap? = null
-
-    lateinit var airesult :String
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

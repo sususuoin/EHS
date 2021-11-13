@@ -67,64 +67,64 @@ class FeedFragment : Fragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "새로고침 실행")
-        feedsList.clear()
-
-        feedNumArr = AutoFeed.getFeedNum(a!!)
-        feedIdArr = AutoFeed.getFeedId(a!!)
-        feedStyleArr = AutoFeed.getFeedStyle(a!!)
-        feedImgArr = AutoFeed.getFeedName(a!!)
-        feedlikeCntArr = AutoFeed.getFeedLikeCnt(a!!)
-        feednolikeCntArr = AutoFeed.getFeednoLikeCnt(a!!)
-        feeduserprofileImgArr = AutoFeed.getFeeduserprofileImg(a!!)
-
-        var a_bitmap : Bitmap? = null
-        for (i in 0 until feedImgArr.size) {
-            val uThread: Thread = object : Thread() {
-                override fun run() {
-                    try {
-                        Log.d("feed프래그먼터리스트123", feedImgArr[i])
-
-                        val url = URL("http://13.125.7.2/img/cody/" + feedImgArr[i])
-
-                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-
-                        conn.setDoInput(true)
-                        conn.connect()
-                        val iss: InputStream = conn.getInputStream()
-                        a_bitmap = BitmapFactory.decodeStream(iss)
-
-                    } catch (e: MalformedURLException) {
-                        e.printStackTrace()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-            uThread.start() // 작업 Thread 실행
-
-            try {
-
-                uThread.join()
-
-                var fuserProfile = AutoLogin.StringToBitmap(feeduserprofileImgArr[i], 100, 100)
-                val resizedBmp = Bitmap.createScaledBitmap(fuserProfile!!, 100, 100, true)
-//                val resizedBmp2 = Bitmap.createScaledBitmap(a_bitmap!!, 160, 160, true)
-                var feed = Feed(feedNumArr[i], resizedBmp!!, feedIdArr[i], feedStyleArr[i], a_bitmap, feedlikeCntArr[i], feednolikeCntArr[i])
-                feedsList.add(feed)
-
-
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
-            }
-        }
-
-        adapter.notifyDataSetChanged()
-        MainActivity.homeProgressDialog?.dismiss()
-//        MainActivity.loading?.finish()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        Log.d(TAG, "새로고침 실행")
+//        feedsList.clear()
+//
+//        feedNumArr = AutoFeed.getFeedNum(a!!)
+//        feedIdArr = AutoFeed.getFeedId(a!!)
+//        feedStyleArr = AutoFeed.getFeedStyle(a!!)
+//        feedImgArr = AutoFeed.getFeedName(a!!)
+//        feedlikeCntArr = AutoFeed.getFeedLikeCnt(a!!)
+//        feednolikeCntArr = AutoFeed.getFeednoLikeCnt(a!!)
+//        feeduserprofileImgArr = AutoFeed.getFeeduserprofileImg(a!!)
+//
+//        var a_bitmap : Bitmap? = null
+//        for (i in 0 until feedImgArr.size) {
+//            val uThread: Thread = object : Thread() {
+//                override fun run() {
+//                    try {
+//                        Log.d("feed프래그먼터리스트123", feedImgArr[i])
+//
+//                        val url = URL("http://13.125.7.2/img/cody/" + feedImgArr[i])
+//
+//                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+//
+//                        conn.setDoInput(true)
+//                        conn.connect()
+//                        val iss: InputStream = conn.getInputStream()
+//                        a_bitmap = BitmapFactory.decodeStream(iss)
+//
+//                    } catch (e: MalformedURLException) {
+//                        e.printStackTrace()
+//                    } catch (e: IOException) {
+//                        e.printStackTrace()
+//                    }
+//                }
+//            }
+//            uThread.start() // 작업 Thread 실행
+//
+//            try {
+//
+//                uThread.join()
+//
+//                var fuserProfile = AutoLogin.StringToBitmap(feeduserprofileImgArr[i], 100, 100)
+//                val resizedBmp = Bitmap.createScaledBitmap(fuserProfile!!, 100, 100, true)
+////                val resizedBmp2 = Bitmap.createScaledBitmap(a_bitmap!!, 160, 160, true)
+//                var feed = Feed(feedNumArr[i], resizedBmp!!, feedIdArr[i], feedStyleArr[i], a_bitmap, feedlikeCntArr[i], feednolikeCntArr[i])
+//                feedsList.add(feed)
+//
+//
+//            } catch (e: InterruptedException) {
+//                e.printStackTrace()
+//            }
+//        }
+//
+//        adapter.notifyDataSetChanged()
+//        MainActivity.homeProgressDialog?.dismiss()
+////        MainActivity.loading?.finish()
+//    }
 
 
 
@@ -221,10 +221,10 @@ class FeedFragment : Fragment() {
 //
 //        }
 
-        val gridLayoutManager = GridLayoutManager(a, 2)
-        view.rv_userfeed.layoutManager = gridLayoutManager
-        view.rv_userfeed.adapter = adapter
-        adapter.notifyDataSetChanged()
+//        val gridLayoutManager = GridLayoutManager(a, 2)
+//        view.rv_userfeed.layoutManager = gridLayoutManager
+//        view.rv_userfeed.adapter = adapter
+//        adapter.notifyDataSetChanged()
         return view
     }
 

@@ -2,6 +2,8 @@ package com.example.ehs.Mypage
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
