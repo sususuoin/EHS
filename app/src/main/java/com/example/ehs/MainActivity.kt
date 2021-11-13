@@ -4,12 +4,12 @@ import android.Manifest
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.location.*
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
-            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+            this.window.statusBarColor = ContextCompat.getColor(this, R.color.white)
         }
 
         AndroidThreeTen.init(this)
@@ -166,7 +166,11 @@ class MainActivity : AppCompatActivity() {
         basic_detail_outer = "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='아우터' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
         basic_detail_bag = "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='가방' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
 
-        CodyRandom(basic_detail_top, basic_detail_bottom, basic_detail_shoes, basic_detail_outer, basic_detail_bag)
+        CodyRandom(basic_detail_top,
+            basic_detail_bottom,
+            basic_detail_shoes,
+            basic_detail_outer,
+            basic_detail_bag)
 
 
     }
@@ -612,7 +616,7 @@ class MainActivity : AppCompatActivity() {
         queue.add(feedServer_Request)
     }
 
-    fun CalendarImg(todaymonth : String) {
+    fun CalendarImg(todaymonth: String) {
         Log.d("zzghghghazz22", todaymonth)
         var cuserId: String
         var calendarName: String
@@ -669,7 +673,9 @@ class MainActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-        val calendarCodyServer_Request = CalendarCodyServer_Request(userId, todaymonth, responseListener)
+        val calendarCodyServer_Request = CalendarCodyServer_Request(userId,
+            todaymonth,
+            responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(calendarCodyServer_Request)
     }
@@ -702,7 +708,8 @@ class MainActivity : AppCompatActivity() {
                         favoriteuserIdArr.add(favoriteuserId)
                         Log.d("기분?", favoriteuserId)
 
-                        AutoPro.setFavoriteuserId(this, favoriteuserIdArr as java.util.ArrayList<String>)
+                        AutoPro.setFavoriteuserId(this,
+                            favoriteuserIdArr as java.util.ArrayList<String>)
 
                     }
 
@@ -828,7 +835,13 @@ class MainActivity : AppCompatActivity() {
         queue.add(clothescolorResponse)
     }
 
-    fun CodyRandom(sql_top : String, sql_bottom: String, sql_shoes: String, sql_outer: String, sql_bag: String) {
+    fun CodyRandom(
+        sql_top: String,
+        sql_bottom: String,
+        sql_shoes: String,
+        sql_outer: String,
+        sql_bag: String,
+    ) {
         Log.d("티피오2", ",,")
         var random_clothesCategory: String
         var random_clothesName: String
@@ -865,7 +878,8 @@ class MainActivity : AppCompatActivity() {
 
                     AutoHome.setRandom_clothesCategory(this, random_clothesCategoryArr)
                     AutoHome.setRandom_clothesName(this, random_clothesNameArr)
-                    AutoHome.setRandom_clothesCategory_Detail(this, random_clothesCategory_DetailArr)
+                    AutoHome.setRandom_clothesCategory_Detail(this,
+                        random_clothesCategory_DetailArr)
 
                 }
 
@@ -874,13 +888,18 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "옷을 한개이상 등록해주세요", Toast.LENGTH_SHORT).show()
             }
         }
-        val codyRandom_Request = CodyRandom_Request(sql_top, sql_bottom, sql_shoes, sql_outer, sql_bag, responseListener)
+        val codyRandom_Request = CodyRandom_Request(sql_top,
+            sql_bottom,
+            sql_shoes,
+            sql_outer,
+            sql_bag,
+            responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(codyRandom_Request)
     }
 
 
-    fun Codycolor(bitmap : Bitmap) {
+    fun Codycolor(bitmap: Bitmap) {
 
         val resized1 : Bitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, true)
         val model = ModelColor.newInstance(this)
@@ -913,7 +932,7 @@ class MainActivity : AppCompatActivity() {
         colorLabelArr.add("화려한")
 
         for(i in 0 until outputFeature0.floatArray.size) {
-            doubleArr.add(outputFeature0.floatArray[i].div(255.0)*100)
+            doubleArr.add(outputFeature0.floatArray[i].div(255.0) * 100)
         }
         var max = doubleArr.indexOf(doubleArr.max())
         codycolorRecommend = colorLabelArr[max]
