@@ -7,7 +7,6 @@ import com.android.volley.toolbox.StringRequest
 
 
 class FeedServer_Request(
-    userId : String,
     listener: Response.Listener<String?>?) : StringRequest(Method.POST, URL, listener, null) {
 
     private val map: MutableMap<String, String>
@@ -24,7 +23,6 @@ class FeedServer_Request(
 
     init {
         map = HashMap()
-        map["userId"] = userId
     }
 }
 

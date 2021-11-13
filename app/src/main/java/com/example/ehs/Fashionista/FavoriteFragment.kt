@@ -87,12 +87,7 @@ class FavoriteFragment : Fragment() {
 
         view.tv_fashionista2.setOnClickListener {
             Log.d("FavoriteFragment", "패셔니스타로 이동")
-            if (requireFragmentManager().findFragmentByTag("fashionista") != null) {
-                requireFragmentManager().beginTransaction().show(requireFragmentManager().findFragmentByTag("fashionista")!!).commit()
-            } else {
-                requireFragmentManager().beginTransaction().add(R.id.fragments_frame, FashionistaFragment.newInstance(), "fashionista").commit()
-            }
-            requireFragmentManager().beginTransaction().hide(requireFragmentManager().findFragmentByTag("favorite")!!).commit()
+            (activity as MainActivity?)!!.replaceFragment(FashionistaFragment.newInstance())
         }
 
         view.tv_favorite.setOnClickListener {
@@ -116,7 +111,7 @@ class FavoriteFragment : Fragment() {
 
         val gridLayoutManager = LinearLayoutManager(a)
         rv_favorite.layoutManager = gridLayoutManager
-
+        rv_favorite.isNestedScrollingEnabled = false
 
         rv_favorite.adapter = adapter
         adapter.notifyDataSetChanged()
