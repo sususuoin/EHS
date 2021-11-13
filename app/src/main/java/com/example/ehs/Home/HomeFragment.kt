@@ -289,7 +289,7 @@ class HomeFragment : Fragment() {
             Calendarlist("", thu!!, "목"),
             Calendarlist("", fri!!, "금"),
             Calendarlist("", sat!!, "토"),
-            Calendarlist("", "캘린더로", " 이동")
+            Calendarlist("", "캘린더로", "이동")
         )
         /**
          * 캘린더 리사이클러 뷰

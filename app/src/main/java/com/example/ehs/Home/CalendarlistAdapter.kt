@@ -72,7 +72,15 @@ class CalendarlistAdapter(
             if(calendar.day == nowday) { // 현재 날짜라면 해당 날짜 텍스트 컬러 보라색으로 표시
                 itemView.tv_day!!.setTextColor(ContextCompat.getColor(context ,R.color.ourcolor))
                 itemView.tv_yoil!!.setTextColor(ContextCompat.getColor(context ,R.color.ourcolor))
+                itemView.iv_homecalendarcody.setImageResource(R.drawable.calendar_plus_today)
+            }else{
+                itemView.iv_homecalendarcody.setImageResource(R.drawable.calendar_plus)
             }
+            if(calendar.day == "캘린더로") {
+                itemView.iv_homecalendarcody.setImageResource(R.drawable.ic_gocalendar)
+            }
+
+
 
             var a_bitmap : Bitmap? = null
             for (i in 0 until HomeFragment.calendarNameArr.size) {
@@ -116,7 +124,6 @@ class CalendarlistAdapter(
 
 
             /* 나머지 TextView와 String 데이터를 연결한다. */
-            itemView.tv_month.text = calendar.month
             itemView.tv_day.text = calendar.day
             itemView.tv_yoil.text = calendar.yoil
         }
