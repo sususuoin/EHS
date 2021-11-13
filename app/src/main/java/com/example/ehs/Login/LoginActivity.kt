@@ -8,16 +8,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.isVisible
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.AI.AIActivity
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.et_id
+import kotlinx.android.synthetic.main.admin_login.*
+import kotlinx.android.synthetic.main.admin_login.view.*
 import kotlinx.android.synthetic.main.fragment_closet.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -60,40 +63,38 @@ class LoginActivity : AppCompatActivity() {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
-            this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+            this.window.statusBarColor = ContextCompat.getColor(this, R.color.white)
         }
         Log.d(TAG, "로그인액티비티 출발")
 
+        val builder = AlertDialog.Builder(this)
+        var ad: AlertDialog = builder.create()
+
+
+        val dialogView = layoutInflater.inflate(R.layout.admin_login, null)
+
         var ehs = false
         tv_register_ehs.setOnClickListener {
-            if(ehs == false) {
-                tv_register.isVisible = false
-                tv_register_ehs.text = "일반 사용자 로그인"
-                tv_title.text = "관리자 로그인"
-                btn_login.isVisible = false
-                btn_login2.isVisible = true
-                ehs = true
-            } else  {
-                tv_register.isVisible = true
-                tv_register_ehs.text = "관리자 로그인"
-                tv_title.text = "Hello World!"
-                btn_login.isVisible = true
-                btn_login2.isVisible = false
-                ehs = false
+
+            ad.setView(dialogView)
+            ad.show()
+
+
+            dialogView.btn_andminlogin.setOnClickListener {
+                var userId = dialogView.et_admin_id.text.toString()
+                var userPw = dialogView.et_admin_pw.text.toString()
+
+                if (userId == "ehs" && userPw == "ehs") {
+                    Toast.makeText(this, "관리자로그인성공", Toast.LENGTH_SHORT).show()
+                    ad.dismiss()
+                } else {
+                    Toast.makeText(this, "아이디나 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                }
             }
 
-        }
-
-        btn_login2.setOnClickListener {
-            var userId = et_id.text.toString()
-            var userPw = et_pw.text.toString()
-
-            if(userId == "ehs" && userPw == "ehs") {
-                Toast.makeText(this, "관리자로그인성공", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "아이디나 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+            dialogView.btn_adminexit.setOnClickListener{
+                ad.dismiss()
             }
-
         }
 
         tv_register.setOnClickListener {
@@ -104,19 +105,21 @@ class LoginActivity : AppCompatActivity() {
         }
 
         //키보드입력시 다른 곳 클릭시 키보드 내려감
-        layout_login.setOnClickListener{
+        layout_login.setOnClickListener {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(et_id.windowToken, 0)
         }
 
 
-        if (AutoLogin.getUserId(this)==""|| AutoLogin.getUserId(this)==null || AutoLogin.getUserPw(
-                this).isBlank()) {
+        if (AutoLogin.getUserId(this) == "" || AutoLogin.getUserId(this) == null || AutoLogin.getUserPw(
+                this).isBlank()
+        ) {
             //저장되어진 아이디가 없다면
             Login()
         } else {
             // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
-            Toast.makeText(this, "${AutoLogin.getUserId(this)}님 자동 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "${AutoLogin.getUserId(this)}님 자동 로그인 되었습니다.", Toast.LENGTH_SHORT)
+                .show()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -173,7 +176,6 @@ class LoginActivity : AppCompatActivity() {
                             Log.d(TAG, userId)
                             startActivity(mainIntent)
                             finish()
-
 
 
                         } else {
