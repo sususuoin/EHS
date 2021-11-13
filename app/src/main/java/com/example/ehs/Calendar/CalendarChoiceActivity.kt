@@ -36,7 +36,7 @@ class CalendarChoiceActivity : AppCompatActivity() {
         calendarChoiceContext = this
 
         calendarclothesFragment = CalendarClothesFragment.newInstance()
-        supportFragmentManager.beginTransaction().add(R.id.fragments_frame, calendarclothesFragment)
+        supportFragmentManager.beginTransaction().add(R.id.fragments_frame_calendar, calendarclothesFragment)
             .commit() // add는 프레그먼트 추가해주는 것
 
     }
@@ -44,7 +44,7 @@ class CalendarChoiceActivity : AppCompatActivity() {
     fun replaceFragment(fragment: Fragment?) {
         val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragments_frame, fragment!!)
+        fragmentTransaction.replace(R.id.fragments_frame_calendar, fragment!!)
         fragmentTransaction.commit()
     }
 

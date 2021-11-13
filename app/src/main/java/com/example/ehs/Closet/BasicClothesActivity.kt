@@ -1,5 +1,6 @@
 package com.example.ehs.Closet
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,9 @@ class BasicClothesActivity : AppCompatActivity() {
 
     var adapter = BasicClothesListAdapter(BasicClothesList)
 
+    companion object {
+        var basicClothesContext: Context? = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +33,7 @@ class BasicClothesActivity : AppCompatActivity() {
             WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
             this.window.statusBarColor = ContextCompat.getColor(this, R.color.white)
         }
-
+        basicClothesContext=this
 
         /**
          * 액션바 대신 툴바를 사용하도록 설정

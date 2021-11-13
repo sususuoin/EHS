@@ -6,9 +6,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.location.*
 import android.os.Build
 import android.os.Bundle
@@ -76,6 +74,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var maintodaymonth : String
 
         var homeProgressDialog: ProgressDialog? = null
+
     }
 
     lateinit var getLatitude : String
@@ -83,13 +82,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var city: String
 
     private val REQUEST_ACCESS_FINE_LOCATION = 1000
-
-    // 메인액티비티 클래스가 가지고 있는 멤버들
-    private lateinit var homeFragment: HomeFragment
-    private lateinit var fashionistaFragment: FashionistaFragment
-    private lateinit var closetFragment: ClosetFragment
-    private lateinit var feedFragment: FeedFragment
-    private lateinit var mypageFragment: MypageFragment
 
     lateinit var userId: String
 
@@ -134,9 +126,8 @@ class MainActivity : AppCompatActivity() {
         // 바텀 네비게이션
         bottom_nav.setOnNavigationItemSelectedListener(onBottomNavItemSeletedListener)
 
-        homeFragment = HomeFragment.newInstance()
-        supportFragmentManager.beginTransaction().add(R.id.fragments_frame, homeFragment)
-            .commit() // add는 프레그먼트 추가해주는 것
+        val fragmentManager: FragmentManager = supportFragmentManager
+        fragmentManager.beginTransaction().replace(R.id.fragments_frame, HomeFragment(), "home").commitAllowingStateLoss()
 
         homeProgressDialog = ProgressDialog(this)
         homeProgressDialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -178,70 +169,174 @@ class MainActivity : AppCompatActivity() {
     // 바텀 네비게이션 아이템 클릭 리스너 설정
     private val onBottomNavItemSeletedListener =
         BottomNavigationView.OnNavigationItemSelectedListener {
+            val fragmentManager: FragmentManager = supportFragmentManager
+
             // when은 코틀린에서 switch문
             when (it.itemId) {
                 R.id.menu_home -> {
                     Log.d(TAG, "MainActivity - 홈버튼 클릭!")
-                    GlobalScope.launch(Dispatchers.Main) {
-                        launch(Dispatchers.Main) {
-                            homeProgressDialog!!.show()
-                        }
-                        delay(1000L)
 
-                        homeFragment = HomeFragment.newInstance()
-                        replaceFragment(homeFragment)
+                    if (fragmentManager.findFragmentByTag("home") != null) {
+                        fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("home")!!).commit()
+                    } else {
+                        GlobalScope.launch(Dispatchers.Main) {
+                            launch(Dispatchers.Main) {
+                                homeProgressDialog!!.show()
+                            }
+                            delay(1000L)
+
+                            fragmentManager.beginTransaction().add(R.id.fragments_frame, HomeFragment.newInstance(), "home").commit()
+                        }
+
+                    }
+                    if (fragmentManager.findFragmentByTag("fashionista") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("fashionista")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("closet") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("closet")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("feed") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("feed")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("mypage") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("mypage")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("test") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("test")!!).commit()
                     }
 
                 }
                 R.id.menu_fashionista -> {
                     Log.d(TAG, "MainActivity - 패셔니스타 버튼 클릭!")
-                    GlobalScope.launch(Dispatchers.Main) {
-                        launch(Dispatchers.Main) {
-                            homeProgressDialog!!.show()
-                        }
-                        delay(1000L)
 
-                        fashionistaFragment = FashionistaFragment.newInstance()
-                        replaceFragment(fashionistaFragment)
+                    if (fragmentManager.findFragmentByTag("fashionista") != null) {
+                        fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("fashionista")!!).commit()
+                    } else {
+                        GlobalScope.launch(Dispatchers.Main) {
+                            launch(Dispatchers.Main) {
+                                homeProgressDialog!!.show()
+                            }
+                            delay(1000L)
+
+                            fragmentManager.beginTransaction().add(R.id.fragments_frame, FashionistaFragment.newInstance(), "fashionista").commit()
+
+                        }
+
+                    }
+
+                    if (fragmentManager.findFragmentByTag("home") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("home")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("closet") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("closet")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("feed") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("feed")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("mypage") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("mypage")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("test") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("test")!!).commit()
                     }
 
                 }
                 R.id.menu_closet -> {
                     Log.d(TAG, "MainActivity - 옷장 버튼 클릭!")
-                    GlobalScope.launch(Dispatchers.Main) {
-                        launch(Dispatchers.Main) {
-                            homeProgressDialog!!.show()
-                        }
-                        delay(1000L)
 
-                        closetFragment = ClosetFragment.newInstance()
-                        replaceFragment(closetFragment)
+                    if (fragmentManager.findFragmentByTag("closet") != null) {
+                        fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("closet")!!).commit()
+                    } else {
+                        GlobalScope.launch(Dispatchers.Main) {
+                            launch(Dispatchers.Main) {
+                                homeProgressDialog!!.show()
+                            }
+                            delay(1000L)
+
+                            fragmentManager.beginTransaction().add(R.id.fragments_frame, ClosetFragment(), "closet").commit()
+                        }
+
                     }
+                    if (fragmentManager.findFragmentByTag("home") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("home")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("fashionista") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("fashionista")!!).commit()
+                    }
+
+                    if (fragmentManager.findFragmentByTag("feed") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("feed")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("mypage") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("mypage")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("test") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("test")!!).commit()
+                    }
+
                 }
                 R.id.menu_feed -> {
                     Log.d(TAG, "MainActivity - 피드 버튼 클릭!")
-                    GlobalScope.launch(Dispatchers.Main) {
-                        launch(Dispatchers.Main) {
-                            homeProgressDialog!!.show()
-                        }
-                        delay(1000L)
+                    if (fragmentManager.findFragmentByTag("feed") != null) {
+                        fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("feed")!!).commit()
+                    } else {
+                        GlobalScope.launch(Dispatchers.Main) {
+                            launch(Dispatchers.Main) {
+                                homeProgressDialog!!.show()
+                            }
+                            delay(1000L)
 
-                        feedFragment = FeedFragment.newInstance()
-                        replaceFragment(feedFragment)
+                            fragmentManager.beginTransaction().add(R.id.fragments_frame, FeedFragment(), "feed").commit()
+                        }
+
+                    }
+                    if (fragmentManager.findFragmentByTag("home") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("home")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("fashionista") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("fashionista")!!).commit()
                     }
 
+                    if (fragmentManager.findFragmentByTag("closet") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("closet")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("mypage") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("mypage")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("test") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("test")!!).commit()
+                    }
 
                 }
                 R.id.menu_mypage -> {
-                    Log.d(TAG, "MainActivity - 마이페이지 버튼 클릭!")
-                    GlobalScope.launch(Dispatchers.Main) {
-                        launch(Dispatchers.Main) {
-                            homeProgressDialog!!.show()
-                        }
-                        delay(1000L)
+                    if (fragmentManager.findFragmentByTag("mypage") != null) {
+                        fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("mypage")!!).commit()
+                    } else {
+                        GlobalScope.launch(Dispatchers.Main) {
+                            launch(Dispatchers.Main) {
+                                homeProgressDialog!!.show()
+                            }
+                            delay(1000L)
 
-                        mypageFragment = MypageFragment.newInstance()
-                        replaceFragment(mypageFragment)
+                            fragmentManager.beginTransaction().add(R.id.fragments_frame, MypageFragment(), "mypage").commit()
+                        }
+
+                    }
+                    if (fragmentManager.findFragmentByTag("home") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("home")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("fashionista") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("fashionista")!!).commit()
+                    }
+
+                    if (fragmentManager.findFragmentByTag("closet") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("closet")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("feed") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("feed")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("test") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("test")!!).commit()
                     }
 
 
@@ -250,8 +345,21 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-
     fun replaceFragment(fragment: Fragment?) {
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragments_frame, fragment!!, "test")
+        fragmentTransaction.commit()
+    }
+
+    fun addFragment(fragment: Fragment?) {
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragments_frame, fragment!!)
+        fragmentTransaction.commit()
+    }
+
+    fun showFragment(fragment: Fragment?) {
         val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragments_frame, fragment!!)
@@ -284,23 +392,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setLocation_Permission() {
         // OS가 Marshmallow 이상일 경우 권한체크를 해야 합니다.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val permissionCheck =
-                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+        val permissionCheck =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
 
-                // 권한 없음
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    REQUEST_ACCESS_FINE_LOCATION
-                )
-            } else {
-                getLocation()
-                // ACCESS_FINE_LOCATION 에 대한 권한이 이미 있음.
-            }
+            // 권한 없음
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_ACCESS_FINE_LOCATION
+            )
         } else {
-
+            getLocation()
+            // ACCESS_FINE_LOCATION 에 대한 권한이 이미 있음.
         }
 
     }
@@ -708,8 +812,7 @@ class MainActivity : AppCompatActivity() {
                         favoriteuserIdArr.add(favoriteuserId)
                         Log.d("기분?", favoriteuserId)
 
-                        AutoPro.setFavoriteuserId(this,
-                            favoriteuserIdArr as java.util.ArrayList<String>)
+                        AutoPro.setFavoriteuserId(this, favoriteuserIdArr as java.util.ArrayList<String>)
 
                     }
 

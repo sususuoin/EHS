@@ -102,7 +102,9 @@ class FashionistaFragment : Fragment() {
 
         view.tv_fashionista.setOnClickListener {
             Log.d("FashionistaFragment", "나로 이동")
-            (activity as MainActivity?)!!.replaceFragment(newInstance())
+
+            requireFragmentManager().beginTransaction().detach(this).attach(this).commit()
+//            (activity as MainActivity?)!!.replaceFragment(newInstance())
         }
         
         view.tv_favorite.setOnClickListener {
@@ -152,6 +154,7 @@ class FashionistaFragment : Fragment() {
 
         favoriteListArr2 = AutoPro.getFavoriteuserId(a!!)
 
+        favoriteuserIdArr.clear()
         for (i in 0 until favoriteListArr2!!.size) {
             val responseListener: Response.Listener<String?> =
                 Response.Listener<String?> { response ->
@@ -181,6 +184,8 @@ class FashionistaFragment : Fragment() {
                     Log.d("기분1111111111",favoriteuserIdArr.toString())
                     Log.d("기분2222222222",favoriteListArr2.toString())
                     if (favoriteuserIdArr.size == favoriteListArr2?.size) {
+                        dialog.dismiss()
+
                         (activity as MainActivity?)?.replaceFragment(FavoriteFragment.newInstance())
                     }
                 }

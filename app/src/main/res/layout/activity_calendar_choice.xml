@@ -9,7 +9,7 @@
     android:background="@color/white">
 
     <FrameLayout
-        android:id="@+id/fragments_frame"
+        android:id="@+id/fragments_frame_calendar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
