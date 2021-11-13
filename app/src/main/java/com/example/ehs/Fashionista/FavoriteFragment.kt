@@ -87,7 +87,12 @@ class FavoriteFragment : Fragment() {
 
         view.tv_fashionista2.setOnClickListener {
             Log.d("FavoriteFragment", "패셔니스타로 이동")
-            (activity as MainActivity?)!!.replaceFragment(FashionistaFragment.newInstance())
+            if (requireFragmentManager().findFragmentByTag("fashionista") != null) {
+                requireFragmentManager().beginTransaction().show(requireFragmentManager().findFragmentByTag("fashionista")!!).commit()
+            } else {
+                requireFragmentManager().beginTransaction().add(R.id.fragments_frame, FashionistaFragment.newInstance(), "fashionista").commit()
+            }
+            requireFragmentManager().beginTransaction().hide(requireFragmentManager().findFragmentByTag("favorite")!!).commit()
         }
 
         view.tv_favorite.setOnClickListener {
