@@ -63,7 +63,7 @@ class CommunityFragment : Fragment() {
 
         view.tv_feed2.setOnClickListener {
             Log.d("CommunityFragment", "피드로 이동")
-            (activity as MainActivity?)!!.replaceFragment(FeedFragment.newInstance())
+            (activity as MainActivity?)!!.replaceFragment(FeedFragment2.newInstance())
         }
 
         var one = Community("EHS","오늘 뭐입지~?")

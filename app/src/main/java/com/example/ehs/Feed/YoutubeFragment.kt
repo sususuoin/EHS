@@ -100,7 +100,7 @@ class YoutubeFragment : Fragment() {
 
         view.tv_feed.setOnClickListener {
             Log.d("FeedFragment", "피드로 이동")
-            (activity as MainActivity?)!!.replaceFragment(FeedFragment.newInstance())
+            (activity as MainActivity?)!!.replaceFragment(FeedFragment2.newInstance())
         }
 
         view.view_thumbnail0.setOnClickListener(View.OnClickListener {

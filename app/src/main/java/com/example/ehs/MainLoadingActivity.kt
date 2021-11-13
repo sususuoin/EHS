@@ -61,7 +61,7 @@ class MainLoadingActivity : Activity() {
             startActivity(intent)
             FashionistaUser()
             Feed_ranking()
-            finish() }, 3000)
+            finish() }, 2500)
         Log.d("로딩화면", "끝")
     }
 
