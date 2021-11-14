@@ -136,7 +136,11 @@ class ClosetFragment : Fragment() {
         clothesSaveActivity_Dialog?.dismiss()
 
         clothesArr = AutoCloset.getClothesName(a!!)
-        after_page = 15
+        if(clothesArr.size <= 15) {
+            after_page = clothesArr.size
+        } else {
+            after_page = 15
+        }
         parseResult(before_page, after_page)
         Log.d("ㅁㅁㅁㅁㅁ새로고침222", clothesArr.toString())
     }

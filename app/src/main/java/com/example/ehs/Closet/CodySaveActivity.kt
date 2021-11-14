@@ -22,6 +22,7 @@ import com.example.ehs.Feed.FeedCodySave_Request
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.MainActivity.Companion.codycolorRecommend
+import com.example.ehs.MainLoadingActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_cody_save.*
 import kotlinx.android.synthetic.main.fragment_closet.*
@@ -176,7 +177,7 @@ class CodySaveActivity : AppCompatActivity(), BottomSheet_fashion.BottomSheetBut
                         }
                         (CodyMakeActivity.codyContext as CodyMakeActivity).finish()
                         (MainActivity.mContext as MainActivity).CodyImg()
-                        (MainActivity.mContext as MainActivity).FeedImg()
+                        (MainLoadingActivity.mainLoadingContext as MainLoadingActivity).FeedImg()
 
 
                     } else {

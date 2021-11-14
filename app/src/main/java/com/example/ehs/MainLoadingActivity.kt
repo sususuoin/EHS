@@ -2,6 +2,7 @@ package com.example.ehs
 
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -18,6 +19,7 @@ import com.example.ehs.Fashionista.FashionistaCody_Request
 import com.example.ehs.Fashionista.FashionistaUser_Request
 import com.example.ehs.Feed.AutoFeed
 import com.example.ehs.Feed.FeedRanking_Request
+import com.example.ehs.Feed.FeedServer_Request
 import com.example.ehs.Login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_closet.*
 import org.json.JSONArray
@@ -28,6 +30,10 @@ class MainLoadingActivity : Activity() {
     val TAG: String = "로딩화면"
 
     private var backKeyPressedTime: Long = 0
+
+    companion object {
+        var mainLoadingContext: Context? = null
+    }
 
     override fun onBackPressed() {
         if (System.currentTimeMillis() > backKeyPressedTime + 1500) {
@@ -50,6 +56,7 @@ class MainLoadingActivity : Activity() {
             this.window.statusBarColor = ContextCompat.getColor(this,R.color.white)
         }
 
+        mainLoadingContext=this
         Log.d("로딩화면", "시작")
         startLoading()
     }
@@ -61,6 +68,7 @@ class MainLoadingActivity : Activity() {
             startActivity(intent)
             FashionistaUser()
             Feed_ranking()
+            FeedImg()
             finish() }, 2500)
         Log.d("로딩화면", "끝")
     }
@@ -164,6 +172,71 @@ class MainLoadingActivity : Activity() {
         val feedRanking_Request = FeedRanking_Request(responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(feedRanking_Request)
+    }
+
+
+    fun FeedImg() {
+        var feed_userId: String
+        var feedNum: String
+        var feed_ImgName: String
+        var feed_style: String
+        var feed_likecnt : String
+        var feed_nolikecnt : String
+        var feed_userprofileImg : String
+
+        var feedNumArr = ArrayList<String>()
+        var feedIdArr = ArrayList<String>()
+        var feedStyleArr = ArrayList<String>()
+        var feedImgArr = ArrayList<String>()
+        var feedlikecntArr = ArrayList<String>()
+        var feednolikecntArr = ArrayList<String>()
+        var feed_userprofileImgArr = ArrayList<String>()
+
+        val responseListener: Response.Listener<String?> =
+            Response.Listener<String?> { response ->
+                try {
+
+                    var jsonObject = JSONObject(response)
+                    var response = jsonObject.toString()
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    for (i in 0 until arr.length()) {
+                        val feedObject = arr.getJSONObject(i)
+
+                        feedNum = feedObject.getString("feedNum")
+                        feed_userId = feedObject.getString("feed_userId")
+                        feed_ImgName = feedObject.getString("feed_ImgName")
+                        feed_style = feedObject.getString("feed_style")
+                        feed_likecnt = feedObject.getString("feed_likecnt")
+                        feed_nolikecnt = feedObject.getString("feed_nolikecnt")
+                        feed_userprofileImg = feedObject.getString("feed_userprofileImg")
+
+                        feedNumArr.add(feedNum)
+                        Log.d("feenNum", feedNum)
+                        feedIdArr.add(feed_userId)
+                        feedImgArr.add(feed_ImgName)
+                        feedStyleArr.add(feed_style)
+                        feedlikecntArr.add(feed_likecnt)
+                        feednolikecntArr.add(feed_nolikecnt)
+                        feed_userprofileImgArr.add(feed_userprofileImg)
+
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+                AutoFeed.setFeedNum(this, feedNumArr)
+                AutoFeed.setFeedId(this, feedIdArr)
+                AutoFeed.setFeedName(this, feedImgArr)
+                AutoFeed.setFeedStyle(this, feedStyleArr)
+                AutoFeed.setFeedLikeCnt(this, feedlikecntArr)
+                AutoFeed.setFeednoLikeCnt(this, feednolikecntArr)
+                AutoFeed.setFeeduserprofileImg(this, feed_userprofileImgArr)
+                Log.d("1112222", feedlikecntArr.toString())
+            }
+        val feedServer_Request = FeedServer_Request(responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(feedServer_Request)
     }
 
 }

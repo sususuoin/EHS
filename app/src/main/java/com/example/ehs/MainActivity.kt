@@ -151,7 +151,6 @@ class MainActivity : AppCompatActivity() {
         Feed_like_check()
         ClosetImg()
         CodyImg()
-        FeedImg()
 
         GetFeedLikeTotalcnt()
         GetColor()
@@ -686,71 +685,6 @@ class MainActivity : AppCompatActivity() {
         val codyServer_Request = CodyServer_Request(userId, responseListener)
         val queue = Volley.newRequestQueue(this)
         queue.add(codyServer_Request)
-    }
-
-    fun FeedImg() {
-
-        var feed_userId: String
-        var feedNum: String
-        var feed_ImgName: String
-        var feed_style: String
-        var feed_likecnt : String
-        var feed_nolikecnt : String
-        var feed_userprofileImg : String
-
-        var feedNumArr = ArrayList<String>()
-        var feedIdArr = ArrayList<String>()
-        var feedStyleArr = ArrayList<String>()
-        var feedImgArr = ArrayList<String>()
-        var feedlikecntArr = ArrayList<String>()
-        var feednolikecntArr = ArrayList<String>()
-        var feed_userprofileImgArr = ArrayList<String>()
-
-        val responseListener: Response.Listener<String?> =
-            Response.Listener<String?> { response ->
-                try {
-
-                    var jsonObject = JSONObject(response)
-                    var response = jsonObject.toString()
-
-                    val arr: JSONArray = jsonObject.getJSONArray("response")
-
-                    for (i in 0 until arr.length()) {
-                        val feedObject = arr.getJSONObject(i)
-
-                        feedNum = feedObject.getString("feedNum")
-                        feed_userId = feedObject.getString("feed_userId")
-                        feed_ImgName = feedObject.getString("feed_ImgName")
-                        feed_style = feedObject.getString("feed_style")
-                        feed_likecnt = feedObject.getString("feed_likecnt")
-                        feed_nolikecnt = feedObject.getString("feed_nolikecnt")
-//                        feed_userprofileImg = feedObject.getString("feed_userprofileImg")
-
-                        feedNumArr.add(feedNum)
-                        Log.d("feenNum", feedNum)
-                        feedIdArr.add(feed_userId)
-                        feedImgArr.add(feed_ImgName)
-                        feedStyleArr.add(feed_style)
-                        feedlikecntArr.add(feed_likecnt)
-                        feednolikecntArr.add(feed_nolikecnt)
-//                        feed_userprofileImgArr.add(feed_userprofileImg)
-
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-                AutoFeed.setFeedNum(this, feedNumArr)
-                AutoFeed.setFeedId(this, feedIdArr)
-                AutoFeed.setFeedName(this, feedImgArr)
-                AutoFeed.setFeedStyle(this, feedStyleArr)
-                AutoFeed.setFeedLikeCnt(this, feedlikecntArr)
-                AutoFeed.setFeednoLikeCnt(this, feednolikecntArr)
-//                AutoFeed.setFeeduserprofileImg(this, feed_userprofileImgArr)
-                Log.d("1112222", feedlikecntArr.toString())
-            }
-        val feedServer_Request = FeedServer_Request(responseListener)
-        val queue = Volley.newRequestQueue(this)
-        queue.add(feedServer_Request)
     }
 
     fun CalendarImg(todaymonth: String) {
