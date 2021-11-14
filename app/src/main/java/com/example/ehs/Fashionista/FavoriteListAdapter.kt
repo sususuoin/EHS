@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +16,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_community_item.view.*
+import kotlinx.android.synthetic.main.fragment_favorite.view.*
 import kotlinx.android.synthetic.main.fragment_favorite_item.view.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -26,6 +29,10 @@ class FavoriteListAdapter(private val items: List<Favorite>)
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
 
@@ -50,6 +57,7 @@ class FavoriteListAdapter(private val items: List<Favorite>)
 
         holder.apply {
             bind(listener, item)
+
 //            itemView.tag = item
             itemView.setOnClickListener {
 
@@ -58,9 +66,7 @@ class FavoriteListAdapter(private val items: List<Favorite>)
                 dialog.setMessage("업로드 중입니다.")
                 dialog.show()
 
-                Toast.makeText(holder.itemView.context,
-                    "asdf ${items[position].proId}",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(holder.itemView.context, "asdf ${items[position].proId}", Toast.LENGTH_SHORT).show()
                 var fashionistaId = items[position].proId
                 var fashionistaProfile = items[position].profile
 

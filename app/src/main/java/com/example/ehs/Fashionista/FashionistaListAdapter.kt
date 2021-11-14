@@ -31,6 +31,10 @@ class FashionistaListAdapter(private val itemList: List<Fashionista>)
         return itemList.size
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflatedView = LayoutInflater.from(parent.context)
             .inflate(R.layout.fashionista, parent, false)

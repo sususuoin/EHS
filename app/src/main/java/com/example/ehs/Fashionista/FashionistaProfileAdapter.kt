@@ -14,6 +14,10 @@ class FashionistaProfileAdapter (val items : List<FashionistaUserProfiles>) :Rec
         return items.size
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fashionista_profile_item, parent, false)

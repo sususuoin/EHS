@@ -211,6 +211,9 @@ class MainActivity : AppCompatActivity() {
                     if (fragmentManager.findFragmentByTag("cody") != null) {
                         fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("cody")!!).commit()
                     }
+                    if (fragmentManager.findFragmentByTag("youtube") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("youtube")!!).commit()
+                    }
 
                 }
                 R.id.menu_fashionista -> {
@@ -249,6 +252,9 @@ class MainActivity : AppCompatActivity() {
                     if (fragmentManager.findFragmentByTag("cody") != null) {
                         fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("cody")!!).commit()
                     }
+                    if (fragmentManager.findFragmentByTag("youtube") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("youtube")!!).commit()
+                    }
 
                 }
                 R.id.menu_closet -> {
@@ -286,6 +292,9 @@ class MainActivity : AppCompatActivity() {
                     if (fragmentManager.findFragmentByTag("cody") != null) {
                         fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("cody")!!).commit()
                     }
+                    if (fragmentManager.findFragmentByTag("youtube") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("youtube")!!).commit()
+                    }
 
                 }
                 R.id.menu_feed -> {
@@ -322,6 +331,9 @@ class MainActivity : AppCompatActivity() {
                     if (fragmentManager.findFragmentByTag("cody") != null) {
                         fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("cody")!!).commit()
                     }
+                    if (fragmentManager.findFragmentByTag("youtube") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("youtube")!!).commit()
+                    }
 
                 }
                 R.id.menu_mypage -> {
@@ -356,6 +368,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     if (fragmentManager.findFragmentByTag("cody") != null) {
                         fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("cody")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("youtube") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("youtube")!!).commit()
                     }
 
 

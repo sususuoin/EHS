@@ -18,6 +18,10 @@ class ClothesListAdapter
         return items.size
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflatedView = LayoutInflater.from(parent.context)

@@ -18,9 +18,10 @@ import kotlinx.android.synthetic.main.fragment_community_item.view.*
 class CommunityDetailAdapter (private val items: List<CommunityDetails>)
     : RecyclerView.Adapter<CommunityDetailAdapter.ViewHolder>() {
 
-    lateinit var tv_detail_talkNum: TextView
 
-
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 
 
     override fun getItemCount(): Int {

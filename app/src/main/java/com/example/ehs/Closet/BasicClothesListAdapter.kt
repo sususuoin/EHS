@@ -18,6 +18,10 @@ class BasicClothesListAdapter
         return items.size
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.basic_clothes, parent, false)
@@ -25,6 +29,7 @@ class BasicClothesListAdapter
 
         return ViewHolder(view)
     }
+
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -38,8 +43,6 @@ class BasicClothesListAdapter
             intent.putExtra("a", item.basicCothes.toString())
             Log.d("넘어가", intent.putExtra("이미지", item.basicCothes).toString())
             ContextCompat.startActivity(holder.itemView.context, intent, null)
-
-            (BasicClothesActivity.basicClothesContext as BasicClothesActivity).finish()
         }
 
         //리스트사이간격조절

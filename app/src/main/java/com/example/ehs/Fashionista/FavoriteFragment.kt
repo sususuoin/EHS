@@ -90,16 +90,14 @@ class FavoriteFragment : Fragment() {
             (activity as MainActivity?)!!.replaceFragment(FashionistaFragment.newInstance())
         }
 
-        view.tv_favorite.setOnClickListener {
-            Log.d("FashionistaFragment", "즐겨찾기로 두두둥2")
-            (activity as MainActivity?)!!.replaceFragment(newInstance())
-        }
-
 
         // 추천배너 클릭 시
         view.btn_recommend.setOnClickListener {
             Toast.makeText(a, "추천기능 메인으로 이동", Toast.LENGTH_LONG).show()
         }
+
+        var count = adapter.itemCount
+        view.tv_favoritecount.text = count.toString()
 
 
         return view

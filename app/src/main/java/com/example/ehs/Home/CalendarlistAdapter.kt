@@ -37,6 +37,7 @@ class CalendarlistAdapter(
         return calendarList.size
     }
 
+
     override fun getItemViewType(position: Int): Int {
         return position
     }

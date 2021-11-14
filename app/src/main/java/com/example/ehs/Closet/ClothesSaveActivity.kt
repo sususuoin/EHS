@@ -149,6 +149,7 @@ class ClothesSaveActivity : AppCompatActivity(), BottomSheet_category.BottomShee
                 clothesSaveActivity_Dialog!!.setMessage("업로드 중입니다.")
                 clothesSaveActivity_Dialog!!.setCanceledOnTouchOutside(false)
                 clothesSaveActivity_Dialog!!.show()
+                (BasicClothesActivity.basicClothesContext as BasicClothesActivity).finish()
 
                 clothesCategory = tv_category.text as String
                 category_detial(clothesImg)
