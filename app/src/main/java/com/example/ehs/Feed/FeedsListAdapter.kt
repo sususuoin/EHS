@@ -180,7 +180,7 @@ class FeedsListAdapter(private val itemList: List<Feed>)
         private var view: View = v
 
         fun bind(item: Feed) {
-            view.iv_userphoto.setImageBitmap(item.userprofileImg)
+            view.iv_userphoto.setImageResource(item.userprofileImg)
             view.tv_userID.setText(item.userID)
             view.tv_styletag.setText(item.styletag)
             view.iv_feedphoto.setImageBitmap(item.feedImg)

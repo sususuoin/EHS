@@ -41,8 +41,8 @@ class CodyMakeListAdapter(private val items: List<Clothes>)
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 350
-        layoutParams.width = 350
+        layoutParams.height = 340
+        layoutParams.width = 340
         holder.itemView.requestLayout()
 
 

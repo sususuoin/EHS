@@ -74,7 +74,7 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
         adapter.setItemClickListener(object : CodyMakeListAdapter.OnItemClickListener { // 리사이클러뷰 아이템 클릭 시
             override fun onClick(v: View, position: Int) {
                 // 옷 클릭 시 화면에 선택한 옷 추가
-                var newclothes: Bitmap? = codyMakeList[position].clothes
+                var newclothes: Bitmap? = codyMakeList[position].clothes // 클릭한 옷의 clothes 이미지
                 if (newclothes != null) {
                     Add_image(newclothes)
                 }
@@ -215,6 +215,7 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
         val Y = event.rawY.toInt()
         val pointerCount = event.pointerCount
         iv = view as ImageView // 이미지 크기 조정을 위해 이미지 클릭 시 클릭한 이미지로 iv를 바꿔줌
+        iv.bringToFront() // 클릭 시 맨 앞으로 이동
 
         mScaleGestureDetector!!.onTouchEvent(event)
         when (event.action and MotionEvent.ACTION_MASK) {
