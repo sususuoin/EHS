@@ -29,6 +29,12 @@ class DailyWeatherAdapter(val itemList: List<DailyWeathers>)
         //item들의 총 개수
         return itemList.size
     }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
+
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.iv_dweather.setImageResource(itemList[position].dicon)
         holder.dmintemp.text = itemList[position].dmintemp

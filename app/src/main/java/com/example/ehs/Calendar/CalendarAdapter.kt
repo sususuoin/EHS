@@ -28,6 +28,10 @@ class CalendarAdapter(private val calendar: ArrayList<Calendar>) :
         return calendar.size
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)

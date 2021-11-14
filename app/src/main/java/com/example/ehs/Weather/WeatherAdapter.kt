@@ -31,6 +31,11 @@ class WeatherAdapter(val itemList: List<Weathers>)
         //item들의 총 개수
         return itemList.size
     }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.imgcolthes.setImageResource(itemList[position].clothes)
         holder.clothesname.text = itemList[position].clothesname
