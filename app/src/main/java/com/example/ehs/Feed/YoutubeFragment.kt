@@ -29,6 +29,10 @@ import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.youtube.YouTube
 import kotlinx.android.synthetic.main.fragment_youtube.*
 import kotlinx.android.synthetic.main.fragment_youtube.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import java.io.IOException
@@ -100,7 +104,21 @@ class YoutubeFragment : Fragment() {
 
         view.tv_feed.setOnClickListener {
             Log.d("FeedFragment", "피드로 이동")
-            (activity as MainActivity?)!!.replaceFragment(FeedFragment2.newInstance())
+            if (requireFragmentManager().findFragmentByTag("feed") != null) {
+                requireFragmentManager().beginTransaction().show(requireFragmentManager().findFragmentByTag("feed")!!).commit()
+            } else {
+                GlobalScope.launch(Dispatchers.Main) {
+                    launch(Dispatchers.Main) {
+                        MainActivity.homeProgressDialog!!.show()
+                    }
+                    delay(500L)
+
+                    requireFragmentManager().beginTransaction().add(R.id.fragments_frame, FeedFragment(), "feed").commit()
+                }
+            }
+            if (requireFragmentManager().findFragmentByTag("youtube") != null) {
+                requireFragmentManager().beginTransaction().hide(requireFragmentManager().findFragmentByTag("youtube")!!).commit()
+            }
         }
 
         view.view_thumbnail0.setOnClickListener(View.OnClickListener {

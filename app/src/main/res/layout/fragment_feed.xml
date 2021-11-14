@@ -70,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingHorizontal="7dp"
             android:paddingBottom="15dp"
             android:background="@color/purple_bg" >
 
@@ -145,10 +146,10 @@
                             android:textSize="14dp" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginLeft="7dp">
+                            android:layout_weight="1">
 
                             <ImageView
                                 android:id="@+id/iv_rankinglike2"
@@ -244,9 +245,10 @@
                             android:textSize="17dp" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
 
                             <ImageView
                                 android:id="@+id/iv_rankinglike1"
@@ -341,10 +343,10 @@
                             android:textSize="14dp" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginLeft="5dp">
+                            android:layout_weight="1">
 
                             <ImageView
                                 android:id="@+id/iv_rankinglike3"
@@ -374,7 +376,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingLeft="10dp">
+                android:paddingHorizontal="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -402,10 +404,22 @@
                 </LinearLayout>
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_userfeed"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="4dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_userfeed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
