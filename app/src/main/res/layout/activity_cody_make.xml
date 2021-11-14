@@ -54,7 +54,7 @@
                     android:layout_gravity="center"
                     android:layout_width="350dp"
                     android:layout_height="350dp"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="7dp"
                     android:background="@color/white"
                     android:orientation="vertical">
                 </RelativeLayout>
@@ -72,8 +72,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="5dp">
+                    android:orientation="horizontal">
                     <TextView
                         android:id="@+id/tv_all"
                         android:layout_width="wrap_content"
@@ -105,12 +104,38 @@
                         android:layout_marginRight="10dp"
                         android:text="하의"
                         android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/btn_addclothes"
+                    <TextView
+                        android:id="@+id/tv_onepiece"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="옷 추가" />
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="원피스"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_shoes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="하의"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_cap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="모자"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_etc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="기타"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
