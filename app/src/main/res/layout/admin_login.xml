@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_gravity="center">
+
+    <Button
+        android:id="@+id/btn_adminexit"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="X"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:background="@color/white"
+        android:layout_gravity="right"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="관리자 모드"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/ourcolor"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp">
+
+
+
+        <EditText
+            android:id="@+id/et_admin_id"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="8dp"
+            android:hint="아이디" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center">
+
+
+        <EditText
+            android:id="@+id/et_admin_pw"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="8dp"
+            android:hint="비밀번호"
+            android:inputType="textPassword"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_andminlogin"
+        android:layout_width="213dp"
+        android:layout_height="50dp"
+        android:text="로그인"
+        android:background="@color/ourcolor"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.562"
+        android:layout_marginBottom="40dp"
+        android:layout_gravity="center"/>
+
+</LinearLayout>
+
