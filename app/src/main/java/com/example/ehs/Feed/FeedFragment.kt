@@ -9,17 +9,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.ehs.Calendar.CalendarClothesListAdapter
-import com.example.ehs.Closet.CodyFragment
-import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_feed.view.*
-import kotlinx.android.synthetic.main.fragment_feed_item.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -247,7 +242,7 @@ class FeedFragment : Fragment() {
 //                    var fuserProfile = AutoLogin.StringToBitmap(feeduserprofileImgArr[i], 100, 100)
 //                    val resizedBmp = Bitmap.createScaledBitmap(fuserProfile!!, 100, 100, true)
 //                val resizedBmp2 = Bitmap.createScaledBitmap(a_bitmap!!, 160, 160, true)
-                    var feed = Feed(feedNumArr[i], null,
+                    var feed = Feed(feedNumArr[i], R.drawable.profile_basic,
                         feedIdArr[i],
                         feedStyleArr[i],
                         a_bitmap,

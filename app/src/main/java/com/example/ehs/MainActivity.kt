@@ -134,6 +134,7 @@ class MainActivity : AppCompatActivity() {
         fragmentManager.beginTransaction().replace(R.id.fragments_frame, HomeFragment(), "home").commitAllowingStateLoss()
 
         homeProgressDialog = ProgressDialog(this)
+        homeProgressDialog!!.setCanceledOnTouchOutside(false)
         homeProgressDialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         //권한설정
