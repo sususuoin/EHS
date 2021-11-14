@@ -112,7 +112,7 @@ class FashionistaFragment : Fragment() {
             if(favoriteListArr.size !=0) {
 
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                dialog.setMessage("업로드 중입니다.")
+                dialog.setMessage("로딩 중입니다.")
                 dialog.setCanceledOnTouchOutside(false)
                 dialog.show()
 
