@@ -7,15 +7,12 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -26,6 +23,7 @@ import com.example.ehs.AI.Main_AIActivity
 import com.example.ehs.BottomSheet.BottomSheet_tpo
 import com.example.ehs.Calendar.AutoCalendar
 import com.example.ehs.Calendar.CalendarActivity
+import com.example.ehs.Calendar.CalendarChoiceActivity
 import com.example.ehs.Closet.CodySaveActivity
 import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Fashionista.ProRecommendActivity
@@ -64,7 +62,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(){
 
     private var a: Activity? = null
     val now: LocalDateTime = LocalDateTime.now()
@@ -301,6 +299,26 @@ class HomeFragment : Fragment() {
 
         crecyclerview.adapter = cAdapter
         cAdapter!!.notifyDataSetChanged()
+        cAdapter!!.setItemClickListener(object :
+            CalendarlistAdapter.OnItemClickListener { // 리사이클러뷰 아이템 클릭 시
+            override fun onClick(v: View, position: Int) {
+                if (calendarList[position].day == "캘린더로") {
+                    val intent = Intent(a, CalendarActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    var now = now?.format(DateTimeFormatter.ofPattern("yyyy년 M월"))
+                    var selectday =
+                        now + " " + calendarList[position].day + "일"
+                    Toast.makeText(activity!!, selectday, Toast.LENGTH_SHORT).show()
+
+                    AutoCalendar.setSelectday(a!!, selectday)
+
+                    val intent = Intent(a!!, CalendarChoiceActivity::class.java)
+                    startActivity(intent)
+
+                }
+            }
+        })
 
         // RecyclerView Adapter에서는 레이아웃 매니저 (LayoutManager) 를 설정
         // recyclerView에 setHasFixedSize 옵션에 true 값을 준다.

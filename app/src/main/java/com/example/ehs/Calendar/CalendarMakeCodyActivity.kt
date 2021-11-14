@@ -127,6 +127,7 @@ class CalendarMakeCodyActivity : AppCompatActivity() , View.OnTouchListener{
         val Y = event.rawY.toInt()
         val pointerCount = event.pointerCount
         iv = view as ImageView // 이미지 크기 조정을 위해 이미지 클릭 시 클릭한 이미지로 iv를 바꿔줌
+        iv.bringToFront() // 클릭 시 맨 앞으로 이동
 
         mScaleGestureDetector!!.onTouchEvent(event)
         when (event.action and MotionEvent.ACTION_MASK) {
