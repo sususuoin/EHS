@@ -15,6 +15,10 @@ class ProRecommendyListAdapter(private val itemList: List<ProRecommend>)
         return itemList.size
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflatedView = LayoutInflater.from(parent.context)
             .inflate(R.layout.pro_recommend_cody, parent, false)

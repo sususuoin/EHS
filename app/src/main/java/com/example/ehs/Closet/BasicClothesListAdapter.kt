@@ -43,8 +43,6 @@ class BasicClothesListAdapter
             intent.putExtra("a", item.basicCothes.toString())
             Log.d("넘어가", intent.putExtra("이미지", item.basicCothes).toString())
             ContextCompat.startActivity(holder.itemView.context, intent, null)
-
-            (BasicClothesActivity.basicClothesContext as BasicClothesActivity).finish()
         }
 
         //리스트사이간격조절
