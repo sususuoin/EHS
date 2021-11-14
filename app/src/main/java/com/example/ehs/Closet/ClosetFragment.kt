@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.FileProvider
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.NetworkResponse
@@ -98,6 +99,9 @@ class ClosetFragment : Fragment() {
     val adapter = ClothesListAdapter(clothesList)
     var bgremoveloading: Loading? = null
 
+    var before_page : Int = 0
+    var after_page : Int = 0
+
     companion object {
         var a: Activity? = null
         const val TAG: String = "클로젯 프레그먼트"
@@ -117,9 +121,11 @@ class ClosetFragment : Fragment() {
         userId = AutoLogin.getUserId(a!!)
         bgremoveloading = Loading(a!!)
 
+
         //clothes테이블에서 나의 데이터가져오기
         //현재는 날씨
         clothesResponse()
+
 
     }
 
@@ -127,13 +133,129 @@ class ClosetFragment : Fragment() {
         super.onResume()
         Log.d(TAG, "새로고침 실행")
         clothesList.clear()
-
         clothesSaveActivity_Dialog?.dismiss()
-        clothesArr = AutoCloset.getClothesName(a!!)
-        Log.d("ㅁㅁㅁㅁㅁ새로고침222", clothesArr.toString())
 
+        clothesArr = AutoCloset.getClothesName(a!!)
+        after_page = 15
+        parseResult(before_page, after_page)
+        Log.d("ㅁㅁㅁㅁㅁ새로고침222", clothesArr.toString())
+    }
+
+
+    // 프레그먼트를 안고 있는 액티비티에 붙었을 때
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is Activity) {
+            a = context
+        }
+        Log.d(TAG, "ClosetFragment - onAttach() called")
+
+    }
+
+    // 뷰가 생성되었을 때 화면과 연결
+    // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
+        Log.d(TAG, "ClosetFragment - onCreateView() called")
+        val view: View = inflater!!.inflate(R.layout.fragment_closet, container, false)
+
+        view.tv_mycody.setOnClickListener { view ->
+            Log.d("ClosetFragment", "내 코디로 이동")
+            if (requireFragmentManager().findFragmentByTag("cody") != null) {
+                requireFragmentManager().beginTransaction().show(requireFragmentManager().findFragmentByTag("cody")!!).commit()
+            } else {
+                GlobalScope.launch(Dispatchers.Main) {
+                    launch(Dispatchers.Main) {
+                        MainActivity.homeProgressDialog!!.show()
+                    }
+                    delay(500L)
+
+                    requireFragmentManager().beginTransaction().add(R.id.fragments_frame, CodyFragment(), "cody").commit()
+                }
+            }
+            if (requireFragmentManager().findFragmentByTag("closet") != null) {
+                requireFragmentManager().beginTransaction().hide(requireFragmentManager().findFragmentByTag("closet")!!).commit()
+            }
+        }
+
+        view.btn_add.setOnClickListener { view ->
+            Log.d("클릭!!", "플러스 버튼 클릭!!")
+            onAddButtonClicked()
+        }
+        view.btn_gallery.setOnClickListener { view ->
+            Log.d("클릭!!", "갤러리 버튼 클릭!!")
+            openGallery()
+            onAddButtonClicked()
+        }
+        view.tv_gallery.setOnClickListener { view ->
+            Log.d("클릭!!", "갤러리 텍스트 클릭!!")
+            openGallery()
+            onAddButtonClicked()
+        }
+        view.btn_camera.setOnClickListener { view ->
+            Log.d("클릭!!", "카메라 버튼 클릭!!")
+            takeCapture() // 기본 카메라 앱을 실행하여 사진 촬영
+            onAddButtonClicked()
+        }
+        view.tv_camera.setOnClickListener { view ->
+            Log.d("클릭!!", "카메라 텍스트 클릭!!")
+            takeCapture() // 기본 카메라 앱을 실행하여 사진 촬영
+            onAddButtonClicked()
+        }
+        view.btn_basic.setOnClickListener { view ->
+            Log.d("클릭!!", "기본템 버튼 클릭!!")
+            onAddButtonClicked()
+            val intent = Intent(context, BasicClothesActivity::class.java)
+            startActivity(intent)
+
+        }
+        view.tv_basic.setOnClickListener { view ->
+            Log.d("클릭!!", "기본템 텍스트 클릭!!")
+            onAddButtonClicked()
+            val intent = Intent(context, BasicClothesActivity::class.java)
+            startActivity(intent)
+
+        }
+
+        view.nsview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            Log.d("피드갯수", "스크롤")
+            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+                Log.d("피드갯수1", before_page.toString())
+                Log.d("피드갯수2", after_page.toString())
+                before_page += 15
+                after_page += 15
+                Log.d("피드갯수3", before_page.toString())
+                Log.d("피드갯수4", after_page.toString())
+                view.nsprogress.visibility = View.VISIBLE
+                if(clothesArr.size <= after_page) {
+                    Log.d("피드갯수5", clothesArr.size.toString())
+                    Log.d("피드갯수6", after_page.toString())
+                    after_page = clothesArr.size
+                }
+                parseResult(before_page, after_page)
+
+            }
+        })
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val gridLayoutManager = GridLayoutManager(a, 3)
+        recyclerView.layoutManager = gridLayoutManager
+
+        recyclerView.adapter = adapter
+        adapter.notifyDataSetChanged()
+        //recylerview 이거 fashionista.xml에 있는 변수
+    }
+
+    private fun parseResult(before_page: Int, after_page: Int) {
         var a_bitmap: Bitmap? = null
-        for (i in 0 until clothesArr.size) {
+        for (i in before_page until after_page) {
             val uThread: Thread = object : Thread() {
                 override fun run() {
                     try {
@@ -186,88 +308,9 @@ class ClosetFragment : Fragment() {
                 e.printStackTrace()
             }
         }
-
+        view?.nsprogress?.visibility = View.GONE
         adapter.notifyDataSetChanged()
         MainActivity.homeProgressDialog?.dismiss()
-    }
-
-
-    // 프레그먼트를 안고 있는 액티비티에 붙었을 때
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is Activity) {
-            a = context
-        }
-        Log.d(TAG, "ClosetFragment - onAttach() called")
-
-    }
-
-    // 뷰가 생성되었을 때 화면과 연결
-    // 프레그먼트와 레이아웃을 연결시켜주는 부분이다.
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        Log.d(TAG, "ClosetFragment - onCreateView() called")
-        val view: View = inflater!!.inflate(R.layout.fragment_closet, container, false)
-
-        view.tv_mycody.setOnClickListener { view ->
-            Log.d("ClosetFragment", "내 코디로 이동")
-            (activity as MainActivity?)!!.replaceFragment(CodyFragment.newInstance())
-        }
-
-        view.btn_add.setOnClickListener { view ->
-            Log.d("클릭!!", "플러스 버튼 클릭!!")
-            onAddButtonClicked()
-        }
-        view.btn_gallery.setOnClickListener { view ->
-            Log.d("클릭!!", "갤러리 버튼 클릭!!")
-            openGallery()
-            onAddButtonClicked()
-        }
-        view.tv_gallery.setOnClickListener { view ->
-            Log.d("클릭!!", "갤러리 텍스트 클릭!!")
-            openGallery()
-            onAddButtonClicked()
-        }
-        view.btn_camera.setOnClickListener { view ->
-            Log.d("클릭!!", "카메라 버튼 클릭!!")
-            takeCapture() // 기본 카메라 앱을 실행하여 사진 촬영
-            onAddButtonClicked()
-        }
-        view.tv_camera.setOnClickListener { view ->
-            Log.d("클릭!!", "카메라 텍스트 클릭!!")
-            takeCapture() // 기본 카메라 앱을 실행하여 사진 촬영
-            onAddButtonClicked()
-        }
-        view.btn_basic.setOnClickListener { view ->
-            Log.d("클릭!!", "기본템 버튼 클릭!!")
-            onAddButtonClicked()
-            val intent = Intent(context, BasicClothesActivity::class.java)
-            startActivity(intent)
-
-        }
-        view.tv_basic.setOnClickListener { view ->
-            Log.d("클릭!!", "기본템 텍스트 클릭!!")
-            onAddButtonClicked()
-            val intent = Intent(context, BasicClothesActivity::class.java)
-            startActivity(intent)
-
-        }
-        return view
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val gridLayoutManager = GridLayoutManager(a, 3)
-        recyclerView.layoutManager = gridLayoutManager
-
-        recyclerView.adapter = adapter
-        adapter.notifyDataSetChanged()
-        //recylerview 이거 fashionista.xml에 있는 변수
     }
 
     fun onAddButtonClicked() {

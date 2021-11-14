@@ -49,8 +49,6 @@ import java.util.*
 
 class CodyFragment : Fragment() {
 
-    val Fragment.packageManager get() = activity?.packageManager // 패키지 매니저 적용
-
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(
         a!!,
         R.anim.rotate_open_anim
@@ -138,6 +136,7 @@ class CodyFragment : Fragment() {
         }
 
         adapter.notifyDataSetChanged()
+        MainActivity.homeProgressDialog?.dismiss()
     }
 
 
@@ -162,7 +161,21 @@ class CodyFragment : Fragment() {
         val view: View = inflater!!.inflate(R.layout.fragment_cody, container, false)
         view.tv_myclothes2.setOnClickListener {
             Log.d("CodyFragment", "내 옷으로 이동")
-            (activity as MainActivity?)!!.replaceFragment(ClosetFragment.newInstance())
+            if (requireFragmentManager().findFragmentByTag("closet") != null) {
+                requireFragmentManager().beginTransaction().show(requireFragmentManager().findFragmentByTag("closet")!!).commit()
+            } else {
+                GlobalScope.launch(Dispatchers.Main) {
+                    launch(Dispatchers.Main) {
+                        MainActivity.homeProgressDialog!!.show()
+                    }
+                    delay(1000L)
+
+                    requireFragmentManager().beginTransaction().add(R.id.fragments_frame, ClosetFragment(), "closet").commit()
+                }
+            }
+            if (requireFragmentManager().findFragmentByTag("cody") != null) {
+                requireFragmentManager().beginTransaction().hide(requireFragmentManager().findFragmentByTag("cody")!!).commit()
+            }
         }
         view.btn_add2.setOnClickListener { view ->
             Log.d("클릭!!", "플러스 버튼 클릭!!")

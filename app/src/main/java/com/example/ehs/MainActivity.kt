@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
         FeedImg()
 
         GetFeedLikeTotalcnt()
-//        GetColor()
+        GetColor()
 
         basic_detail_top = "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='상의' AND userId='" +userId+ "' OR  clothesCategory='원피스' AND clothesSeason!='여름' AND userId='$userId' ORDER BY rand() LIMIT 1"
         basic_detail_bottom = "SELECT clothesCategory, clothesName, clothesCategory_Detail FROM clothes WHERE clothesSeason!='여름' AND clothesCategory='하의' AND userId='" +userId+ "' ORDER BY rand() LIMIT 1"
@@ -208,6 +208,9 @@ class MainActivity : AppCompatActivity() {
                     if (fragmentManager.findFragmentByTag("test") != null) {
                         fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("test")!!).commit()
                     }
+                    if (fragmentManager.findFragmentByTag("cody") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("cody")!!).commit()
+                    }
 
                 }
                 R.id.menu_fashionista -> {
@@ -243,6 +246,9 @@ class MainActivity : AppCompatActivity() {
                     if (fragmentManager.findFragmentByTag("test") != null) {
                         fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("test")!!).commit()
                     }
+                    if (fragmentManager.findFragmentByTag("cody") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("cody")!!).commit()
+                    }
 
                 }
                 R.id.menu_closet -> {
@@ -277,6 +283,9 @@ class MainActivity : AppCompatActivity() {
                     if (fragmentManager.findFragmentByTag("test") != null) {
                         fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("test")!!).commit()
                     }
+                    if (fragmentManager.findFragmentByTag("cody") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("cody")!!).commit()
+                    }
 
                 }
                 R.id.menu_feed -> {
@@ -290,7 +299,7 @@ class MainActivity : AppCompatActivity() {
                             }
                             delay(1000L)
 
-                            fragmentManager.beginTransaction().add(R.id.fragments_frame, FeedFragment2(), "feed").commit()
+                            fragmentManager.beginTransaction().add(R.id.fragments_frame, FeedFragment(), "feed").commit()
                         }
 
                     }
@@ -309,6 +318,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     if (fragmentManager.findFragmentByTag("test") != null) {
                         fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("test")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("cody") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("cody")!!).commit()
                     }
 
                 }
@@ -341,6 +353,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     if (fragmentManager.findFragmentByTag("test") != null) {
                         fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("test")!!).commit()
+                    }
+                    if (fragmentManager.findFragmentByTag("cody") != null) {
+                        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("cody")!!).commit()
                     }
 
 
@@ -693,7 +708,7 @@ class MainActivity : AppCompatActivity() {
                         feed_style = feedObject.getString("feed_style")
                         feed_likecnt = feedObject.getString("feed_likecnt")
                         feed_nolikecnt = feedObject.getString("feed_nolikecnt")
-                        feed_userprofileImg = feedObject.getString("feed_userprofileImg")
+//                        feed_userprofileImg = feedObject.getString("feed_userprofileImg")
 
                         feedNumArr.add(feedNum)
                         Log.d("feenNum", feedNum)
@@ -702,7 +717,7 @@ class MainActivity : AppCompatActivity() {
                         feedStyleArr.add(feed_style)
                         feedlikecntArr.add(feed_likecnt)
                         feednolikecntArr.add(feed_nolikecnt)
-                        feed_userprofileImgArr.add(feed_userprofileImg)
+//                        feed_userprofileImgArr.add(feed_userprofileImg)
 
                     }
                 } catch (e: JSONException) {
@@ -714,7 +729,7 @@ class MainActivity : AppCompatActivity() {
                 AutoFeed.setFeedStyle(this, feedStyleArr)
                 AutoFeed.setFeedLikeCnt(this, feedlikecntArr)
                 AutoFeed.setFeednoLikeCnt(this, feednolikecntArr)
-                AutoFeed.setFeeduserprofileImg(this, feed_userprofileImgArr)
+//                AutoFeed.setFeeduserprofileImg(this, feed_userprofileImgArr)
                 Log.d("1112222", feedlikecntArr.toString())
             }
         val feedServer_Request = FeedServer_Request(responseListener)
