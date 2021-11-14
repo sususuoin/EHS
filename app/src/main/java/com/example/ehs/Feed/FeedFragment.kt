@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_feed.view.*
@@ -54,7 +55,7 @@ class FeedFragment : Fragment() {
     var feedImgArr = ArrayList<String>()
     var feedlikeCntArr = ArrayList<String>()
     var feednolikeCntArr = ArrayList<String>()
-//    var feeduserprofileImgArr = ArrayList<String>()
+    var feeduserprofileImgArr = ArrayList<String>()
 
     // 프레그먼트가 메모리에 올라갔을때
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +73,9 @@ class FeedFragment : Fragment() {
         feedImgArr = AutoFeed.getFeedName(a!!)
         feedlikeCntArr = AutoFeed.getFeedLikeCnt(a!!)
         feednolikeCntArr = AutoFeed.getFeednoLikeCnt(a!!)
-//        feeduserprofileImgArr = AutoFeed.getFeeduserprofileImg(a!!)
+        feeduserprofileImgArr = AutoFeed.getFeeduserprofileImg(a!!)
+
+        feeduserprofileImgArr = AutoFeed.getFeeduserprofileImg(a!!)
 
         after_page = 6
         parseResult(before_page, after_page)
@@ -152,12 +155,10 @@ class FeedFragment : Fragment() {
                     uThread.join()
 
                     feedIdArr = AutoFeed.getFeedId(a!!)
-//                    feeduserprofileImgArr = AutoFeed.getFeeduserprofileImg(a!!)
-
                     var int_idx = feedIdArr.indexOf(feedrank_feeduserId[i])
                     Log.d("zzzz키득", int_idx.toString())
 
-//                    var ranking_profile = AutoLogin.StringToBitmap(feeduserprofileImgArr[int_idx], 100, 100)
+                    var ranking_profile = AutoLogin.StringToBitmap(feeduserprofileImgArr[int_idx], 100, 100)
 
 
                     if(feedIdArr.contains(feedrank_feeduserId[i])) {
@@ -166,19 +167,19 @@ class FeedFragment : Fragment() {
                                 view.top1Img.setImageBitmap(a_bitmap)
                                 view.top1Id.setText(feedrank_feeduserId[i])
                                 view.top1cnt.setText(feedrank_likecnt[i])
-                                view.iv_userphoto1.setImageBitmap(null)
+                                view.iv_userphoto1.setImageBitmap(ranking_profile)
                             }
                             1 -> {
                                 view.top2Img.setImageBitmap(a_bitmap)
                                 view.top2Id.setText(feedrank_feeduserId[i])
                                 view.top2cnt.setText(feedrank_likecnt[i])
-                                view.iv_userphoto2.setImageBitmap(null)
+                                view.iv_userphoto2.setImageBitmap(ranking_profile)
                             }
                             2 -> {
                                 view.top3Img.setImageBitmap(a_bitmap)
                                 view.top3Id.setText(feedrank_feeduserId[i])
                                 view.top3cnt.setText(feedrank_likecnt[i])
-                                view.iv_userphoto3.setImageBitmap(null)
+                                view.iv_userphoto3.setImageBitmap(ranking_profile)
                             }
                         }
                     }
@@ -239,10 +240,10 @@ class FeedFragment : Fragment() {
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
-//                    var fuserProfile = AutoLogin.StringToBitmap(feeduserprofileImgArr[i], 100, 100)
-//                    val resizedBmp = Bitmap.createScaledBitmap(fuserProfile!!, 100, 100, true)
+                    var fuserProfile = AutoLogin.StringToBitmap(feeduserprofileImgArr[i], 100, 100)
+                    val resizedBmp = Bitmap.createScaledBitmap(fuserProfile!!, 100, 100, true)
 //                val resizedBmp2 = Bitmap.createScaledBitmap(a_bitmap!!, 160, 160, true)
-                    var feed = Feed(feedNumArr[i], R.drawable.profile_basic,
+                    var feed = Feed(feedNumArr[i], resizedBmp!!,
                         feedIdArr[i],
                         feedStyleArr[i],
                         a_bitmap,
