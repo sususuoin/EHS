@@ -44,7 +44,7 @@
             android:layout_width="100dp"
             android:layout_height="2dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/darkgray" />
+            android:background="@color/lightgray" />
 
         <View
             android:layout_width="100dp"
@@ -64,7 +64,9 @@
             android:id="@+id/youtubecc"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@drawable/youtube_cc"></ImageView>
+            android:background="@drawable/youtube_cc">
+
+        </ImageView>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="120dp"

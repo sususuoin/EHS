@@ -37,10 +37,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+        android:layout_marginVertical="10dp">
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="10dp">
             <de.hdodenhof.circleimageview.CircleImageView
@@ -68,12 +68,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginRight="15dp">
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp">
 
             <LinearLayout
                 android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -103,7 +104,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -132,7 +133,10 @@
             <Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="wrap_content"
+                android:background="@color/ourcolor"
+                android:textColor="@color/white"
+                android:layout_marginTop="5dp"
                 android:text="FOLLOW" />
         </LinearLayout>
     </LinearLayout>

@@ -40,7 +40,7 @@ class ClothesListAdapter
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 360
+        layoutParams.height = 358
         holder.itemView.requestLayout()
 
 
