@@ -29,7 +29,12 @@ import com.example.ehs.R
 import com.example.ehs.ml.ModelUnquant
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import kotlinx.android.synthetic.main.activity_ai.*
 import kotlinx.android.synthetic.main.activity_main_ai.*
+import kotlinx.android.synthetic.main.activity_main_ai.btn_ai
+import kotlinx.android.synthetic.main.activity_main_ai.ll_margin1
+import kotlinx.android.synthetic.main.activity_main_ai.ll_margin2
+import kotlinx.android.synthetic.main.activity_main_ai.tv_result
 import kotlinx.android.synthetic.main.fragment_closet.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -143,9 +148,12 @@ class Main_AIActivity : AppCompatActivity() {
         var worst2 = 100-worst
         Log.d("점수23", worst.toString())
         if(best>worst){
-            tv_result.text = "당신의 점수는~~?   $best"
+            tv_result.text = "$best"
+            tv_resultscore.isVisible= true
         }else{
-            tv_result.text = "당신의 점수는~~?   $worst2"
+            tv_result.text = "$worst2"
+            tv_resultscore.isVisible= true
+
         } // 박수쳐~~~~~~ 호로로로로로로로롤
         //오예 짞짝짞짜까ㅉ까짞 신은정 짱짱맨~~
 
