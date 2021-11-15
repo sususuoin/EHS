@@ -10,6 +10,5 @@
         android:id="@+id/iv_plusImg"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        android:background="@drawable/fab_text_bg"
-        android:scaleType="centerInside" />
+        android:scaleType="center" />
 </LinearLayout>

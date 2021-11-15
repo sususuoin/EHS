@@ -159,6 +159,19 @@ class CodyFragment : Fragment() {
     ): View? {
         Log.d(TAG, "CodyFragment - onCreateView() called")
         val view: View = inflater!!.inflate(R.layout.fragment_cody, container, false)
+
+        view.tv_mycody.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
+                    (MainActivity.mContext as MainActivity).CodyImg()
+                    MainActivity.homeProgressDialog!!.show()
+                }
+                delay(500L)
+                (activity as MainActivity?)!!.replaceFragment(newInstance())
+            }
+            Log.d("FeedFragment", "새로고침")
+        }
+
         view.tv_myclothes2.setOnClickListener {
             Log.d("CodyFragment", "내 옷으로 이동")
             if (requireFragmentManager().findFragmentByTag("closet") != null) {

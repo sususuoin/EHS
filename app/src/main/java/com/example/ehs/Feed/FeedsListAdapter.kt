@@ -40,8 +40,7 @@ class FeedsListAdapter(private val itemList: List<Feed>)
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 790
-        layoutParams.width = 500
+        layoutParams.height = 820
         holder.itemView.requestLayout()
 
         var feednumlikeArr = AutoFeed.getFeedNumlike(holder.itemView.context)
@@ -182,7 +181,7 @@ class FeedsListAdapter(private val itemList: List<Feed>)
         fun bind(item: Feed) {
             view.iv_userphoto.setImageBitmap(item.userprofileImg)
             view.tv_userID.setText(item.userID)
-            view.tv_styletag.setText(item.styletag)
+            view.tv_styletag.setText("# "+item.styletag)
             view.iv_feedphoto.setImageBitmap(item.feedImg)
 
             view.tv_feedlikecount.setText(item.feedLikeCount)
