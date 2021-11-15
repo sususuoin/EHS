@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
-import kotlinx.android.synthetic.main.color_recommend.view.*
+import kotlinx.android.synthetic.main.recommend_color.view.*
 
 class ColorRecommendListAdapter(private val items: List<ColorRecommend>) : RecyclerView.Adapter<ColorRecommendListAdapter.ViewHolder>() {
 
@@ -20,7 +20,7 @@ class ColorRecommendListAdapter(private val items: List<ColorRecommend>) : Recyc
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflatedView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.color_recommend, parent, false)
+            .inflate(R.layout.recommend_color, parent, false)
 
         return ViewHolder(inflatedView)
     }
@@ -35,7 +35,7 @@ class ColorRecommendListAdapter(private val items: List<ColorRecommend>) : Recyc
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 200 * items.size
+        layoutParams.height = 400 * items.size
         holder.itemView.requestLayout()
 
 

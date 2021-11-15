@@ -10,6 +10,7 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_color_recommend.*
@@ -79,7 +80,6 @@ class ColorRecommendActivity : AppCompatActivity() {
 
         }
 
-        bitmap = BitmapFactory.decodeResource(resources, R.drawable.colortest)
 
         coloruserIdArr = AutoHome.getColoruserId(this@ColorRecommendActivity)
         colorplusImgPathArr = AutoHome.getColorplusImgPath(this@ColorRecommendActivity)
@@ -123,6 +123,11 @@ class ColorRecommendActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+
+
+        val Linear = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recycler_colorcody.layoutManager = Linear
+        recycler_colorcody.setHasFixedSize(true)
 
         recycler_colorcody.adapter = adapter
         adapter.notifyDataSetChanged()
