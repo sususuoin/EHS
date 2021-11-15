@@ -62,19 +62,21 @@ class ColorRecommendActivity : AppCompatActivity() {
 
         colorcody = AutoHome.getColorcody(this)
         when(colorcody) {
-            "Vivid" -> tv_colorDetail.text = "채도가 높고 명도가 중간인 원색으로 선명하고 다이나믹한 느낌을 주는 컬러입니다."
-            "Bright" -> tv_colorDetail.text = "채도가 높고 명도가 살짝 높은 밝은 색으로 경쾌하고 발랄한 느낌을 주는 컬러입니다."
-            "Strong" -> tv_colorDetail.text = "채도가 높고 명도가 살짝 낮은 색으로 강렬하고 화려한 느낌을 주는 컬러입니다."
-            "Deep" -> tv_colorDetail.text = "채도가 높고 명도가 낮은 색으로 안정적이고 고풍스러운 느낌을 주는 컬러입니다."
-            "Light" -> tv_colorDetail.text = "채도가 중간이고 명도가 높은 색으로 화사하고 귀여운 느낌을 주는 컬러입니다."
-            "Soft" -> tv_colorDetail.text = "채도와 명도가 중간인 색으로 부드럽고 편안한 느낌을 주는 컬러입니다."
-            "Dull" -> tv_colorDetail.text = "채도가 중간이고 명도가 다소 낮은 색으로 차분하고 고상한 느낌을 주는 컬러입니다."
-            "Dark" -> tv_colorDetail.text = "채도가 중간이고 명도가 낮은 색으로 성숙하고 중후한 느낌을 주는 컬러입니다."
-            "Pale" -> tv_colorDetail.text = "채도가 낮고 명도가 높은 색으로 연약하고 맑은 느낌을 주는 컬러입니다."
-            "Light Grayish" -> tv_colorDetail.text = "채도가 낮고 명도가 다소 높은 그레이 톤이 가미된 색으로 은은하고 세련된 느낌을 주는 컬러입니다."
-            "Grayish" -> tv_colorDetail.text = "채도가 낮고 명도가 다소 낮은 그레이 톤이 가미된 색으로 안정적이고 품위있는 느낌을 주는 컬러입니다."
-            "Dark Grayish" -> tv_colorDetail.text = "채도가 낮고 명도가 낮은 그레이 톤이 가미된 색으로 무게감이 느껴주고 어두운 느낌을 주는 컬러입니다."
-            "Colorless" -> tv_colorDetail.text = "컬러감이 두드러지지 않는 무채색 계열로 모던한 느낌을 주는 컬러입니다."
+            "Vivid" -> tv_colorDetail.text = "채도가 높고 명도가 중간인 원색으로\n선명하고 다이나믹한 느낌을 주는 컬러입니다."
+            "Bright" -> tv_colorDetail.text = "채도가 높고 명도가 살짝 높은 밝은 색으로\n경쾌하고 발랄한 느낌을 주는 컬러입니다."
+            "Strong" -> tv_colorDetail.text = "채도가 높고 명도가 살짝 낮은 색으로\n강렬하고 화려한 느낌을 주는 컬러입니다."
+            "Deep" -> tv_colorDetail.text = "채도가 높고 명도가 낮은 색으로\n안정적이고 고풍스러운 느낌을 주는 컬러입니다."
+            "Light" -> tv_colorDetail.text = "채도가 중간이고 명도가 높은 색으로\n화사하고 귀여운 느낌을 주는 컬러입니다."
+            "Soft" -> tv_colorDetail.text = "채도와 명도가 중간인 색으로\n부드럽고 편안한 느낌을 주는 컬러입니다."
+            "Dull" -> tv_colorDetail.text = "채도가 중간이고 명도가 다소 낮은 색으로\n차분하고 고상한 느낌을 주는 컬러입니다."
+            "Dark" -> tv_colorDetail.text = "채도가 중간이고 명도가 낮은 색으로\n성숙하고 중후한 느낌을 주는 컬러입니다."
+            "Pale" -> tv_colorDetail.text = "채도가 낮고 명도가 높은 색으로\n연약하고 맑은 느낌을 주는 컬러입니다."
+            "Light Grayish" -> tv_colorDetail.text = "채도가 낮고 명도가 다소 높은 그레이 톤이 가미된 색으로\n은은하고 세련된 느낌을 주는 컬러입니다."
+            "Grayish" -> tv_colorDetail.text = "채도가 낮고 명도가 다소 낮은 그레이 톤이 가미된 색으로\n안정적이고 품위있는 느낌을 주는 컬러입니다."
+            "Dark Grayish" -> tv_colorDetail.text = "채도가 낮고 명도가 낮은 그레이 톤이 가미된 색으로\n무게감이 느껴주고 어두운 느낌을 주는 컬러입니다."
+            "Colorless" -> tv_colorDetail.text = "컬러감이 두드러지지 않는 무채색 계열로\n모던한 느낌을 주는 컬러입니다."
+
+
         }
 
         bitmap = BitmapFactory.decodeResource(resources, R.drawable.colortest)

@@ -101,62 +101,59 @@ class Main_AIActivity : AppCompatActivity() {
 
         btn_ai.setOnClickListener {
             Log.d("평가하기", "버튼클릭")
+            if(bitmap==null) {
+                Toast.makeText(this, "사진을 선택하시오", Toast.LENGTH_SHORT).show()
+            } else{
+                Log.d("adfa", "asdfasdF1111")
 
-            GlobalScope.launch(Dispatchers.Main) {
+                GlobalScope.launch(Dispatchers.Main) {
                 launch(Dispatchers.Main) {
                     mainAIloading!!.init("코디 평가")
                 }
-                delay(2500)
+                    delay(2500)
 
-                AIpredict()
+                    AIpredict()
+                }
             }
-
         }
-
     }
 
     fun AIpredict() {
-        if(bitmap==null) {
-            Toast.makeText(this, "사진을 선택하시오", Toast.LENGTH_SHORT).show()
-        }
-        else {
-            Log.d("평가하기", bitmap.toString())
 
-            val resized : Bitmap = Bitmap.createScaledBitmap(bitmap!!, 224, 224, true)
-            val model = ModelUnquant.newInstance(this@Main_AIActivity)
+        Log.d("평가하기", bitmap.toString())
 
-            //input
-            val inputFeature = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
-            val tbuffer = TensorImage.fromBitmap(resized)
-            val byteBuffer = tbuffer.buffer
-            inputFeature.loadBuffer(byteBuffer)
+        val resized : Bitmap = Bitmap.createScaledBitmap(bitmap!!, 224, 224, true)
+        val model = ModelUnquant.newInstance(this@Main_AIActivity)
 
-            //output
-            val outputs = model.process(inputFeature)
-            val outputFeature = outputs.outputFeature0AsTensorBuffer
+        //input
+        val inputFeature = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.UINT8)
+        val tbuffer = TensorImage.fromBitmap(resized)
+        val byteBuffer = tbuffer.buffer
+        inputFeature.loadBuffer(byteBuffer)
 
-            val best = (outputFeature.floatArray[0].div(255.0) * 100).roundToInt() // best값 백분율로
-            val worst = (outputFeature.floatArray[1].div(255.0)*100).roundToInt() // worst값 백분율로
+        //output
+        val outputs = model.process(inputFeature)
+        val outputFeature = outputs.outputFeature0AsTensorBuffer
 
-            Log.d("점수", best.toString())
-            Log.d("점수2", worst.toString())
-            var worst2 = 100-worst
-            Log.d("점수23", worst.toString())
-            if(best>worst){
-                tv_result.text = "당신의 점수는~~?   $best"
-            }else{
-                tv_result.text = "당신의 점수는~~?   $worst2"
-            } // 박수쳐~~~~~~ 호로로로로로로로롤
-            //오예 짞짝짞짜까ㅉ까짞 신은정 짱짱맨~~
+        val best = (outputFeature.floatArray[0].div(255.0) * 100).roundToInt() // best값 백분율로
+        val worst = (outputFeature.floatArray[1].div(255.0)*100).roundToInt() // worst값 백분율로
 
-            btn_ai.isClickable = false
-            mainAIloading!!.finish()
+        Log.d("점수", best.toString())
+        Log.d("점수2", worst.toString())
+        var worst2 = 100-worst
+        Log.d("점수23", worst.toString())
+        if(best>worst){
+            tv_result.text = "당신의 점수는~~?   $best"
+        }else{
+            tv_result.text = "당신의 점수는~~?   $worst2"
+        } // 박수쳐~~~~~~ 호로로로로로로로롤
+        //오예 짞짝짞짜까ㅉ까짞 신은정 짱짱맨~~
+
+        btn_ai.isClickable = false
+        mainAIloading!!.finish()
 
 
-            model.close()
-
-
-        }
+        model.close()
 
     }
 
