@@ -166,6 +166,19 @@ class ClosetFragment : Fragment() {
         Log.d(TAG, "ClosetFragment - onCreateView() called")
         val view: View = inflater!!.inflate(R.layout.fragment_closet, container, false)
 
+        view.tv_myclothes.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
+                    (MainActivity.mContext as MainActivity).ClosetImg()
+                    MainActivity.homeProgressDialog!!.show()
+                }
+                delay(500L)
+                (activity as MainActivity?)!!.replaceFragment(newInstance())
+            }
+            Log.d("FeedFragment", "새로고침")
+
+        }
+
         view.tv_mycody.setOnClickListener { view ->
             Log.d("ClosetFragment", "내 코디로 이동")
             if (requireFragmentManager().findFragmentByTag("cody") != null) {

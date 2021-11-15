@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingHorizontal="7dp"
+            android:paddingHorizontal="3dp"
             android:paddingBottom="15dp"
             android:background="@color/purple_bg" >
 
@@ -110,14 +110,19 @@
 
                     </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/top2Img"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="130dp"
-                        android:layout_gravity="center"
                         android:layout_marginVertical="10dp"
                         android:background="@drawable/fab_text_bg2"
-                        android:layout_margin="4dp"/>
+                        android:layout_margin="4dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/top2Img"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp" />
+                    </LinearLayout>
 
 
                     <LinearLayout
@@ -128,8 +133,8 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/iv_userphoto2"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:layout_marginVertical="4dp"
                             android:layout_marginLeft="7dp"
@@ -138,19 +143,28 @@
 
                         <TextView
                             android:id="@+id/top2Id"
-                            android:layout_width="42dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="4dp"
                             android:text="2등"
                             android:textColor="@color/ourcolor"
-                            android:textSize="14dp" />
+                            android:textSize="12dp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="3dp"
+                            android:layout_weight="1">
+
+                        </View>
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_weight="1">
+                            android:gravity="right"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="5dp">
 
                             <ImageView
                                 android:id="@+id/iv_rankinglike2"
@@ -237,26 +251,33 @@
 
                         <TextView
                             android:id="@+id/top1Id"
-                            android:layout_width="93dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="6dp"
                             android:text="1등"
                             android:textColor="@color/ourcolor"
-                            android:textSize="17dp" />
+                            android:textSize="15dp" />
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="3dp"
+                            android:layout_weight="1">
+
+                        </View>
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_weight="1">
+                            android:gravity="right"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="5dp">
 
                             <ImageView
                                 android:id="@+id/iv_rankinglike1"
                                 android:layout_width="18dp"
                                 android:layout_height="18dp"
-                                android:background="@drawable/like_after"
-                                android:gravity="center" />
+                                android:background="@drawable/like_after" />
 
                             <TextView
                                 android:id="@+id/top1cnt"
@@ -307,15 +328,20 @@
 
                     </LinearLayout>
 
-
-                    <ImageView
-                        android:id="@+id/top3Img"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="130dp"
-                        android:layout_gravity="center"
                         android:layout_marginVertical="10dp"
                         android:background="@drawable/fab_text_bg2"
-                        android:layout_margin="4dp"/>
+                        android:layout_margin="4dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/top3Img"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp" />
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -325,8 +351,8 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/iv_userphoto3"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:layout_marginVertical="4dp"
                             android:layout_marginLeft="7dp"
@@ -335,19 +361,27 @@
 
                         <TextView
                             android:id="@+id/top3Id"
-                            android:layout_width="41dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="4dp"
                             android:text="3등"
                             android:textColor="@color/ourcolor"
-                            android:textSize="14dp" />
+                            android:textSize="12dp" />
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="3dp"
+                            android:layout_weight="1">
+
+                        </View>
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_weight="1">
+                            android:gravity="right"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="5dp">
 
                             <ImageView
                                 android:id="@+id/iv_rankinglike3"
@@ -393,28 +427,31 @@
                         android:textSize="20sp"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                    </View>
 
                     <Spinner
                         android:id="@+id/spinner2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:entries="@array/feed"
-                        android:scrollbarSize="5dp"
-                        android:gravity="center_vertical|right" />
-                        <!-- 이거오른쪽정렬하고싶은데 안되네... -->
+                        android:scrollbarSize="5dp" />
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="4dp">
+                    android:orientation="vertical">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_userfeed"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/fragment_feed_item"/>
 
                     <ProgressBar
                         android:id="@+id/progress_bar"

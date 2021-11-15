@@ -946,8 +946,7 @@ class MainActivity : AppCompatActivity() {
 
                     AutoHome.setRandom_clothesCategory(this, random_clothesCategoryArr)
                     AutoHome.setRandom_clothesName(this, random_clothesNameArr)
-                    AutoHome.setRandom_clothesCategory_Detail(this,
-                        random_clothesCategory_DetailArr)
+                    AutoHome.setRandom_clothesCategory_Detail(this, random_clothesCategory_DetailArr)
 
                 }
 
