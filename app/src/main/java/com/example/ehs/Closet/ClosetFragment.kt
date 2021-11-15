@@ -136,10 +136,10 @@ class ClosetFragment : Fragment() {
         clothesSaveActivity_Dialog?.dismiss()
 
         clothesArr = AutoCloset.getClothesName(a!!)
-        if(clothesArr.size <= 15) {
+        if(clothesArr.size <= 18) {
             after_page = clothesArr.size
         } else {
-            after_page = 15
+            after_page = 18
         }
         parseResult(before_page, after_page)
         Log.d("ㅁㅁㅁㅁㅁ새로고침222", clothesArr.toString())
@@ -229,8 +229,8 @@ class ClosetFragment : Fragment() {
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
                 Log.d("피드갯수1", before_page.toString())
                 Log.d("피드갯수2", after_page.toString())
-                before_page += 15
-                after_page += 15
+                before_page += 18
+                after_page += 18
                 Log.d("피드갯수3", before_page.toString())
                 Log.d("피드갯수4", after_page.toString())
                 view.nsprogress.visibility = View.VISIBLE

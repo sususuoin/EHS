@@ -27,7 +27,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true" >
+        android:fillViewport="true"
+        android:background="#c9bece">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,8 +38,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="20dp"
+                android:paddingHorizontal="20dp"
                 android:orientation="horizontal">
 
 
@@ -46,7 +47,6 @@
                     android:id="@+id/tv_userid"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
                     android:gravity="center"
                     android:text="EHS"
                     android:textColor="@color/black"
@@ -60,7 +60,8 @@
                     android:text="님의 스타일은 #"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginLeft="5dp"/>
 
                 <TextView
                     android:id="@+id/tv_styleRecommend_hashtag"
@@ -71,19 +72,27 @@
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tv_colorDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="평소에 부담없이 즐겨 입을 수 있는 룩입니다."
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingHorizontal="20dp"/>
+
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="10dp"
                 android:id="@+id/recycler_stylecody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="6dp"
-                android:paddingTop="6dp"
+                android:layout_marginTop="70dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:overScrollMode="never"
-                android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/color_recommend" />
+                android:nestedScrollingEnabled="false" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
