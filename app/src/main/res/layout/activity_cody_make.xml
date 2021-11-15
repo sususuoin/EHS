@@ -139,14 +139,17 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightgray" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_codymake"
                     android:background="@color/lightgray"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="6dp"
-                    tools:listitem="@layout/clothes" />
+                    android:paddingHorizontal="1dp" />
 
             </LinearLayout>
         </LinearLayout>

@@ -44,6 +44,11 @@ class CalendarlistAdapter(
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(calendarList[position], context)
+
+        val layoutParams = holder.itemView.layoutParams
+        layoutParams.width = 242
+        holder.itemView.requestLayout()
+
         // (1) 리스트 내 항목 클릭 시 onClick() 호출
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)

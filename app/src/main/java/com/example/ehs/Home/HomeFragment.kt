@@ -68,7 +68,6 @@ class HomeFragment : Fragment(){
     val now: LocalDateTime = LocalDateTime.now()
     var Strnow = now?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     var tpochoice : String? = null
-    lateinit var crecyclerview: androidx.recyclerview.widget.RecyclerView
 
     // 요일 받아오기
     var sun: String? = null
@@ -293,11 +292,12 @@ class HomeFragment : Fragment(){
          * 캘린더 리사이클러 뷰
          */
         cAdapter = CalendarlistAdapter(a!!, calendarList)
-        crecyclerview = view.findViewById(R.id.rv_homecalendar)
         val gridLayoutManager = GridLayoutManager(a, 4)
-        crecyclerview.layoutManager = gridLayoutManager
+        view.rv_homecalendar.layoutManager = gridLayoutManager
 
-        crecyclerview.adapter = cAdapter
+        view.rv_homecalendar.adapter = cAdapter
+        view.rv_homecalendar.setHasFixedSize(true)
+
         cAdapter!!.notifyDataSetChanged()
         cAdapter!!.setItemClickListener(object :
             CalendarlistAdapter.OnItemClickListener { // 리사이클러뷰 아이템 클릭 시
@@ -322,7 +322,6 @@ class HomeFragment : Fragment(){
 
         // RecyclerView Adapter에서는 레이아웃 매니저 (LayoutManager) 를 설정
         // recyclerView에 setHasFixedSize 옵션에 true 값을 준다.
-        crecyclerview.setHasFixedSize(true)
 
         return view
     } // oncreateview 끝

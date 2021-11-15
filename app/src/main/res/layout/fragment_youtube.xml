@@ -39,10 +39,10 @@
 
         <View
             android:layout_width="100dp"
-            android:layout_height="5dp"
+            android:layout_height="2dp"
             android:layout_marginLeft="52dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/darkgray" />
+            android:background="@color/lightgray" />
 
         <View
             android:layout_width="100dp"
@@ -54,33 +54,13 @@
     </LinearLayout>
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_youtube"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/purple_bg"
-        tools:ignore="MissingConstraints" >
-        <TextView
-            android:id="@+id/youtu"
-            android:layout_marginVertical="15dp"
-            android:padding="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="오늘의 Youtube 코디 영상 추천"
-            android:background="@color/white"
-            android:textColor="@android:color/black"
-
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </androidx.appcompat.widget.Toolbar>
-
 
 
     <ScrollView
         android:background="@color/purple_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingVertical="20dp"
         android:layout_gravity="center_horizontal">
 
         <LinearLayout
@@ -120,14 +100,6 @@
 
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/tv_line"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textColor="@color/lightgray"
-                android:text="ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ" />
-
             <!--two-->
             <androidx.cardview.widget.CardView
                 android:layout_width="370dp"
@@ -157,13 +129,6 @@
                     android:layout_gravity="center_horizontal"/>
 
             </androidx.cardview.widget.CardView>
-            <TextView
-                android:id="@+id/tv_line2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textColor="@color/lightgray"
-                android:text="ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ" />
 
             <!--three-->
             <androidx.cardview.widget.CardView
@@ -193,14 +158,6 @@
                     android:layout_marginTop="55dp"
                     android:layout_gravity="center_horizontal"/>
             </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/tv_line3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textColor="@color/lightgray"
-                android:text="ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ" />
 
             <!--four-->
             <androidx.cardview.widget.CardView
