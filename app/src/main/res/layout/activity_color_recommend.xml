@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fashionista.ProRecommendActivity"
-    android:background="@color/white">
+    tools:context=".Fashionista.ProRecommendActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_prorecommend"
@@ -39,7 +38,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:orientation="horizontal"
                 android:paddingHorizontal="20dp">
 
@@ -59,7 +58,7 @@
                     android:gravity="center"
                     android:text="님이 선호하는 컬러는"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginHorizontal="5dp"/>
             </LinearLayout>

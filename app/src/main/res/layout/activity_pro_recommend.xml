@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".Fashionista.ProRecommendActivity">
 
@@ -27,7 +26,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#15ceb5c9">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,94 +35,120 @@
             android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#c1a3bb"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="165dp"
+                android:layout_height="300dp"
+                android:src="@drawable/casual"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="50dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/reco_style_logo"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center">
 
 
                 <TextView
                     android:id="@+id/tv_userid"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
                     android:gravity="center"
                     android:text="EHS"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textColor="#0f2208"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="님에게 추천하는 전문가"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:text=" 님에게 추천하는 전문가"
+                    android:textColor="#0f2208"
+                    android:textSize="15sp"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginHorizontal="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
                     android:text="#"
-                    android:textColor="@color/black"
+                    android:textColor="#0f2208"
                     android:textSize="25dp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_proStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="스트립"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:text="스트릿"
+                    android:textColor="#0f2208"
+                    android:textSize="25sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
+        </LinearLayout>
+        </LinearLayout>
 
             <!-- 전문가 추천 이미지 시작-->
 
-            <!--one-->
 
+            <!--one-->
             <LinearLayout
                 android:layout_width="380dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/color_recommend_background"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/pro_recomend_background"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="30dp"
+                android:elevation="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
-
                     <LinearLayout
                         android:id="@+id/ll_userid1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:background="@drawable/pro_recomend_background_two">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/iv_proImg1"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
+                            android:layout_width="38dp"
+                            android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginVertical="10dp" />
+                            android:layout_marginVertical="5dp"
+                            android:layout_marginLeft="10dp" />
 
                         <TextView
                             android:id="@+id/proId1"
@@ -131,15 +157,17 @@
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
                             android:text="TextView"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="20sp"
                             android:textStyle="bold" />
+
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rc_procody1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 </LinearLayout>
@@ -150,30 +178,31 @@
                 android:layout_width="380dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/color_recommend_background"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/pro_recomend_background"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="30dp"
+                android:elevation="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
-
                     <LinearLayout
                         android:id="@+id/ll_userid2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:background="@drawable/pro_recomend_background_two">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/iv_proImg2"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginVertical="10dp" />
+                            android:layout_marginVertical="5dp"/>
 
                         <TextView
                             android:id="@+id/proId2"
@@ -182,16 +211,16 @@
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
                             android:text="TextView"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="20sp"
                             android:textStyle="bold" />
-
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rc_procody2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 </LinearLayout>
@@ -202,30 +231,31 @@
                 android:layout_width="380dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/color_recommend_background"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/pro_recomend_background"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="30dp"
+                android:elevation="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
-
                     <LinearLayout
                         android:id="@+id/ll_userid3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:background="@drawable/pro_recomend_background_two">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/iv_proImg3"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginVertical="10dp" />
+                            android:layout_marginVertical="5dp"/>
 
                         <TextView
                             android:id="@+id/proId3"
@@ -234,21 +264,20 @@
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
                             android:text="TextView"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="20sp"
                             android:textStyle="bold" />
-
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rc_procody3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

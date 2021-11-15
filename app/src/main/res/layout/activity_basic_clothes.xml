@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/lightGrey"
+    android:orientation="vertical"
     tools:context=".Closet.BasicClothesActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -26,10 +26,13 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_basic"
-        android:background="@color/lightgray"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="1dp"/>
 </LinearLayout>
+
