@@ -62,12 +62,24 @@
         android:visibility="gone"/>
 
     <TextView
-        android:id="@+id/tv_result"
+        android:id="@+id/tv_resultscore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:layout_gravity="center"
         android:textSize="25dp"
+        android:text="You're  SCORE"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/tv_result"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:textSize="40dp"
         android:text="" />
 
 

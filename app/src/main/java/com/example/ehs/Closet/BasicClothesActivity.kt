@@ -46,29 +46,55 @@ class BasicClothesActivity : AppCompatActivity() {
         ab.setDisplayHomeAsUpEnabled(true) // 여기까지 툴바 설정 완료
 
 
-
-        BasicClothesList.add(BasicClothes(R.drawable.basic_tee))
-        BasicClothesList.add(BasicClothes(R.drawable.basic_longtee))
-        BasicClothesList.add(BasicClothes(R.drawable.basic_jean))
-        BasicClothesList.add(BasicClothes(R.drawable.basic_whiteshortskirt))
-        BasicClothesList.add(BasicClothes(R.drawable.basic_whitelongskirt))
-        BasicClothesList.add(BasicClothes(R.drawable.basic_whiteshoes))
-
+        BasicClothesList.add(BasicClothes(R.drawable.basic_padding))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_paddingwhite))
         BasicClothesList.add(BasicClothes(R.drawable.basic_blackjacket))
         BasicClothesList.add(BasicClothes(R.drawable.basic_whitejacket))
-        BasicClothesList.add(BasicClothes(R.drawable.basic_tweed))
-        BasicClothesList.add(BasicClothes(R.drawable.basic_trench))
         BasicClothesList.add(BasicClothes(R.drawable.basic_bluejacket))
         BasicClothesList.add(BasicClothes(R.drawable.basic_cardigan))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_tweed))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_coat))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_trench))
 
         BasicClothesList.add(BasicClothes(R.drawable.basic_grayknit))
         BasicClothesList.add(BasicClothes(R.drawable.basic_whiteknit))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_shirt))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_blouse))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_hoodywhite))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_longtee))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_tee))
+
 
         BasicClothesList.add(BasicClothes(R.drawable.basic_blackjeans))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_bluejeans_two))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_bluejeans_three))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_bluejeans))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_pants_))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_jean))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_pantsgray))
+
         BasicClothesList.add(BasicClothes(R.drawable.basic_shortskirt))
         BasicClothesList.add(BasicClothes(R.drawable.basic_grayshortskirt))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_whiteshortskirt))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_blacklongskirt))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_whitelongskirt))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_skirt_blue))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_dressblack))
 
         BasicClothesList.add(BasicClothes(R.drawable.basic_shoes))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_whiteshoes))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_loafer))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_boots))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_bootswhite))
+
+        BasicClothesList.add(BasicClothes(R.drawable.basic_bag))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_bagwhite))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_ehco))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_backpack))
+
+        BasicClothesList.add(BasicClothes(R.drawable.basic_cap))
+        BasicClothesList.add(BasicClothes(R.drawable.basic_act))
+
 
 
         val gridLayoutManager = GridLayoutManager(applicationContext, 3)
