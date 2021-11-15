@@ -200,6 +200,41 @@ object AutoPro {
 
     }
 
+    fun setProProfileId2(context: Context, input: ArrayList<String>) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        val a = JSONArray()
+        for (i in 0 until input.size) {
+            a.put(input[i])
+        }
+        if (input.isNotEmpty()) {
+            editor.putString("MY_ProProfileId2", a.toString())
+        } else {
+            editor.putString("MY_ProProfileId2", null)
+        }
+        editor.apply()
+
+    }
+
+    fun getProProfileId2(context: Context): ArrayList<String> {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
+        val arr = prefs.getString("MY_ProProfileId2", "")
+        val urls = ArrayList<String>()
+        if (arr != null) {
+            try {
+                val a = JSONArray(arr)
+                for (i in 0 until a.length()) {
+                    val url = a.optString(i)
+                    urls.add(url)
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+        return urls
+
+    }
+
     fun setProplusImgPath(context: Context, input: ArrayList<String>) {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_PRO, Context.MODE_PRIVATE)
         val editor = prefs.edit()

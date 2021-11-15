@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
@@ -72,35 +73,82 @@ class ProRecommendActivity : AppCompatActivity() {
         HomeFragment.homeloading?.finish()
 
         var proIdArr = AutoPro.getProProfileId(this)
+        var proIdArr2 = AutoPro.getProProfileId2(this)
         var proImgArr = AutoPro.getProProfileImg(this)
         var proStyle = AutoPro.getStyle(this)
         var proplusImgPathArr = AutoPro.getProplusImgPath(this)
         var proplusImgNameArr = AutoPro.getProplusImgName(this)
 
-        val proIdArr2: HashSet<String> = HashSet(proIdArr)
-        val proIdArr3: ArrayList<String> = ArrayList(proIdArr2)
 
-        Log.d("aaa", proIdArr3.toString())
+        Log.d("aaa", proIdArr2.toString())
         tv_proStyle.text = proStyle
-        proId1.text = proIdArr3[0]
-        proId2.text = proIdArr3[1]
-        proId3.text = proIdArr3[2]
+        proId1.text = proIdArr2[0]
+        proId2.text = proIdArr2[1]
 
-        for ( i in  0 until proIdArr3.size) {
-           var proNum =  proIdArr.lastIndexOf(proIdArr3[i])
+        if(proIdArr2.size==3) {
+            ll_ttree.isVisible = true
+            proId3.text = proIdArr2[2]
+            var proId3bitmap3 = AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr2[2])], 100, 100)
+            iv_proImg3.setImageBitmap(proId3bitmap3)
+
+            var a_bitmap : Bitmap? = null
+            for (i in 0 until proplusImgPathArr.size) {
+                val uThread: Thread = object : Thread() {
+                    override fun run() {
+                        try {
+
+                            val url = URL(proplusImgPathArr[i] + proplusImgNameArr[i])
+
+                            val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                            conn.setDoInput(true)
+                            conn.connect()
+                            val iss: InputStream = conn.getInputStream()
+                            a_bitmap = BitmapFactory.decodeStream(iss)
+
+                        } catch (e: MalformedURLException) {
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+                uThread.start() // 작업 Thread 실행
+
+                try {
+
+                    uThread.join()
+
+                    if ( i <= proIdArr.lastIndexOf(proIdArr2[2])) {
+                        var asdf3 = ProRecommend(a_bitmap!!)
+                        proRecommendList3.add(asdf3)
+                    }
+
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+            }
+
+            ll_userid3.setOnClickListener{
+                show_profile(proId3, proId3bitmap3!!)
+            }
+        }
+
+
+        for ( i in  0 until proIdArr2.size) {
+           var proNum =  proIdArr.lastIndexOf(proIdArr2[i])
             Log.d("proNum", proNum.toString())
             Log.d("proNum", proIdArr.toString())
         }
 
         Log.d("proNum1", proplusImgPathArr.toString())
         Log.d("proNum2", proplusImgNameArr.toString())
-        var proId1bitmap1 = AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr3[0])], 100, 100)
-        var proId2bitmap2 = AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr3[1])], 100, 100)
-        var proId3bitmap3 = AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr3[2])], 100, 100)
+        var proId1bitmap1 = AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr2[0])], 100, 100)
+        var proId2bitmap2 = AutoLogin.StringToBitmap(proImgArr[proIdArr.lastIndexOf(proIdArr2[1])], 100, 100)
 
         iv_proImg1.setImageBitmap(proId1bitmap1)
         iv_proImg2.setImageBitmap(proId2bitmap2)
-        iv_proImg3.setImageBitmap(proId3bitmap3)
+
 
         var a_bitmap : Bitmap? = null
         for (i in 0 until proplusImgPathArr.size) {
@@ -130,16 +178,13 @@ class ProRecommendActivity : AppCompatActivity() {
 
                 uThread.join()
 
-                if(i <= proIdArr.lastIndexOf(proIdArr3[0])) {
+                if(i <= proIdArr.lastIndexOf(proIdArr2[0])) {
                     Log.d("proNum", i.toString())
                     var asdf1 = ProRecommend(a_bitmap!!)
                     proRecommendList1.add(asdf1)
-                } else if ( i <= proIdArr.lastIndexOf(proIdArr3[1])) {
+                } else if ( i <= proIdArr.lastIndexOf(proIdArr2[1])) {
                     var asdf2 = ProRecommend(a_bitmap!!)
                     proRecommendList2.add(asdf2)
-                } else if ( i <= proIdArr.lastIndexOf(proIdArr3[2])) {
-                    var asdf3 = ProRecommend(a_bitmap!!)
-                    proRecommendList3.add(asdf3)
                 }
 
 //                var fashionistaCody = StyleRecommend(a_bitmap!!)
@@ -176,9 +221,7 @@ class ProRecommendActivity : AppCompatActivity() {
         ll_userid2.setOnClickListener{
             show_profile(proId2, proId2bitmap2!!)
         }
-        ll_userid3.setOnClickListener{
-            show_profile(proId3, proId3bitmap3!!)
-        }
+
 
     }
 
