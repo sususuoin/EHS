@@ -601,42 +601,45 @@ class HomeFragment : Fragment(){
                     Log.d("~~2", arr.toString())
                     Log.d("~~22", arr.length().toString())
 
-                    if(arr.length() == 0 || arr.length() == 1 || arr.length() ==2) {
+
+                    for (i in 0 until arr.length()) {
+                        val proObject = arr.getJSONObject(i)
+                        Log.d("~~3", arr[i].toString())
+
+                        prouserId = proObject.getString("userId")
+                        proprofileImg = proObject.getString("userProfileImg")
+                        proplusImgPath = proObject.getString("plusImgPath")
+                        proplusImgName =  proObject.getString("plusImgName")
+                        proStyle = proObject.getString("plusImgStyle")
+
+                        proIdArr.add(prouserId)
+                        proImgArr.add(proprofileImg)
+                        proplusImgPathArr.add(proplusImgPath)
+                        proplusImgNameArr.add(proplusImgName)
+
+                        AutoPro.setStyle(a!!, proStyle)
+                    }
+
+                    val proIdArr2: HashSet<String> = HashSet(proIdArr)
+                    val proIdArr3: ArrayList<String> = ArrayList(proIdArr2)
+
+                    Log.d("어우 추췅", proIdArr3.size.toString())
+                    if(proIdArr3.size <= 1) {
+                        Log.d("어우 추췅", proIdArr3.size.toString())
                         Toast.makeText(a!!, "전문가부족현상으로 다음에 이용해주시기 바랍니다.", Toast.LENGTH_SHORT).show()
                         homeloading?.finish()
                         return@Listener
-                    }
-
-                    else {
-                        for (i in 0 until arr.length()) {
-                            val proObject = arr.getJSONObject(i)
-                            Log.d("~~3", arr[i].toString())
-
-                            prouserId = proObject.getString("userId")
-                            proprofileImg = proObject.getString("userProfileImg")
-                            proplusImgPath = proObject.getString("plusImgPath")
-                            proplusImgName =  proObject.getString("plusImgName")
-                            proStyle = proObject.getString("plusImgStyle")
-
-                            proIdArr.add(prouserId)
-                            proImgArr.add(proprofileImg)
-                            proplusImgPathArr.add(proplusImgPath)
-                            proplusImgNameArr.add(proplusImgName)
-
-                            AutoPro.setStyle(a!!, proStyle)
-                        }
-
+                    } else {
                         AutoPro.setProProfileId(a!!, proIdArr)
+                        AutoPro.setProProfileId2(a!!, proIdArr3)
                         AutoPro.setProProfileImg(a!!, proImgArr)
                         AutoPro.setProplusImgPath(a!!, proplusImgPathArr)
                         AutoPro.setProplusImgName(a!!, proplusImgNameArr)
-
 
                         // 추천 액티비티로 이동
                         val intent = Intent(a!!, ProRecommendActivity::class.java)
                         startActivity(intent)
                     }
-
 
 
                 } catch (e: JSONException) {
