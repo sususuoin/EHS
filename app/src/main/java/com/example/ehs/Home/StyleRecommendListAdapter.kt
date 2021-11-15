@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
-import kotlinx.android.synthetic.main.style_recommend.view.*
+import kotlinx.android.synthetic.main.recommend_style.view.*
 
 class StyleRecommendListAdapter(private val items: List<StyleRecommend>) : RecyclerView.Adapter<StyleRecommendListAdapter.ViewHolder>() {
 
@@ -20,7 +20,7 @@ class StyleRecommendListAdapter(private val items: List<StyleRecommend>) : Recyc
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflatedView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.style_recommend, parent, false)
+            .inflate(R.layout.recommend_style, parent, false)
 
         return ViewHolder(inflatedView)
     }
@@ -35,7 +35,7 @@ class StyleRecommendListAdapter(private val items: List<StyleRecommend>) : Recyc
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 180 * items.size
+        layoutParams.height = 300 * items.size
         holder.itemView.requestLayout()
 
 

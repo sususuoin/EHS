@@ -10,6 +10,7 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ehs.Fashionista.AutoPro
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
@@ -56,8 +57,6 @@ class StyleRecommendActivity : AppCompatActivity() {
 
         HomeFragment.homeloading?.finish()
 
-        bitmap = BitmapFactory.decodeResource(resources, R.drawable.colortest)
-
         fuserIdArr = AutoPro.getFuserId(this@StyleRecommendActivity)
         fcodyImgName = AutoPro.getFcodyImgName(this@StyleRecommendActivity)
         fcodyStyle = AutoPro.getFcodyStyle(this@StyleRecommendActivity)
@@ -84,6 +83,8 @@ class StyleRecommendActivity : AppCompatActivity() {
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
+                    var fashionistaCody = StyleRecommend(a_bitmap!!)
+                    stylecodyList.add(fashionistaCody)
                 }
             }
             uThread.start() // 작업 Thread 실행
@@ -92,13 +93,14 @@ class StyleRecommendActivity : AppCompatActivity() {
 
                 uThread.join()
 
-                var fashionistaCody = StyleRecommend(a_bitmap!!)
-                stylecodyList.add(fashionistaCody)
-
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
         }
+
+        val Linear = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recycler_stylecody.layoutManager = Linear
+        recycler_stylecody.setHasFixedSize(true)
 
         recycler_stylecody.adapter = adapter
         adapter.notifyDataSetChanged()

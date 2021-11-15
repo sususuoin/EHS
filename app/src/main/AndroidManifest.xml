@@ -31,7 +31,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Closet.BasicClothesDetailActivity"></activity>
+        <activity android:name=".Admin.LevelManagementActivity"></activity>
+        <activity android:name=".Admin.FeedManagementActivity" />
+        <activity android:name=".Admin.UserManagementActivity" />
+        <activity android:name=".Admin.AdminchoiceActivity" />
+        <activity android:name=".Closet.BasicClothesDetailActivity" />
         <activity android:name=".Closet.BasicClothesActivity" />
         <activity android:name=".Calendar.CalendarSaveCodyActivity" />
         <activity android:name=".Calendar.CalendarChoiceActivity" />
