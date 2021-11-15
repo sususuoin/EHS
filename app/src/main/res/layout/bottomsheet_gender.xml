@@ -4,8 +4,7 @@
     android:id="@+id/bottomSheetContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -36,8 +35,7 @@
             android:layout_marginRight="10dp"
             android:textStyle="bold"
             android:background="@drawable/button_background"
-            android:text="남성"
-            />
+            android:text="남성" />
         <Button
             android:id="@+id/btn_female"
             android:layout_width="180dp"

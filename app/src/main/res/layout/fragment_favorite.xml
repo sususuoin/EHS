@@ -6,12 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/fragment_favorite">
+    android:id="@+id/fragment_favorite"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/white">
         <TextView
             android:id="@+id/tv_fashionista2"
             android:layout_width="202dp"
@@ -42,7 +44,7 @@
             android:layout_width="100dp"
             android:layout_height="2dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/darkgray" />
+            android:background="@color/lightgray" />
 
         <View
             android:layout_width="100dp"
@@ -88,11 +90,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favorite"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_marginHorizontal="10dp"
-        android:orientation="vertical"
-
-        />
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="vertical" />
 
 
 

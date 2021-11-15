@@ -7,112 +7,140 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="188dp"
-        android:layout_height="290dp"
-        android:orientation="vertical"
-        android:verticalScrollbarPosition="right"
+        android:layout_width="165dp"
+        android:layout_height="260dp"
         android:background="@drawable/fab_text_bg"
-        android:elevation="10dp">
+        android:orientation="vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="10dp">
 
         <ImageView
+            android:layout_marginTop="10dp"
             android:id="@+id/iv_feedphoto"
-            android:layout_width="160dp"
-            android:layout_height="220dp"
+            android:layout_width="140dp"
+            android:layout_height="160dp"
             android:layout_gravity="center" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:gravity="center">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_userphoto"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
                 android:layout_marginVertical="10dp"
+                android:layout_marginLeft="10dp"
                 android:src="@drawable/profile_basic" />
 
             <TextView
                 android:id="@+id/tv_userID"
-                android:layout_width="144dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:text="SUIN" />
+                android:text="SUIN"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
             android:orientation="horizontal"
-            android:layout_marginTop="3dp">
+            android:gravity="center">
 
             <TextView
+                android:gravity="center"
                 android:id="@+id/tv_styletag"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-
-                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="14dp"
                 android:fontFamily="sans-serif"
                 android:text="#스타일"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:textSize="15sp"/>
 
-
-            <Button
-                android:id="@+id/btn_like_before"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center"
-                android:background="@drawable/like_before"
-                android:gravity="center" />
-            <Button
-                android:id="@+id/btn_like_after"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center"
-                android:background="@drawable/like_after"
-                android:gravity="center"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/tv_feedlikecount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_marginLeft="5dp"
-                android:text="0" />
+                android:orientation="horizontal"
+                android:gravity="center">
 
-            <Button
-                android:id="@+id/btn_unlike_before"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center"
-                android:background="@drawable/unlike_before"
-                android:gravity="center" />
-            <Button
-                android:id="@+id/btn_unlike_after"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center"
-                android:background="@drawable/unlike_after"
-                android:gravity="center"
-                android:visibility="gone" />
+                <LinearLayout
+                    android:id="@+id/ll_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_feedunlikecount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="5dp"
-                android:text="0" />
+                    <Button
+                        android:id="@+id/btn_like_before"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/like_before"
+                        android:gravity="center" />
 
+                    <Button
+                        android:id="@+id/btn_like_after"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/like_after"
+                        android:gravity="center"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_feedlikecount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:text="0" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_unlike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_unlike_before"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/unlike_before"
+                        android:gravity="center" />
+
+                    <Button
+                        android:id="@+id/btn_unlike_after"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/unlike_after"
+                        android:gravity="center"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_feedunlikecount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="0" />
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
 
         </LinearLayout>
 

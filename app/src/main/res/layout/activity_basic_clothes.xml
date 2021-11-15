@@ -33,8 +33,6 @@
         android:id="@+id/rv_basic"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/lightgray"
-        android:paddingLeft="6dp"
-        android:paddingTop="6dp" />
-    </ScrollView>
+        android:layout_margin="1dp"/>
 </LinearLayout>
+

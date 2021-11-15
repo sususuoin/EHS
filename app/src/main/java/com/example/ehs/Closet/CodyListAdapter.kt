@@ -35,8 +35,7 @@ class CodyListAdapter(private val items: List<Cody>) : RecyclerView.Adapter<Cody
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 505
-        layoutParams.width = 505
+        layoutParams.height = 500
         holder.itemView.requestLayout()
 
 

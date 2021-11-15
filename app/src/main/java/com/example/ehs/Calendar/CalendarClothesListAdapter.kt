@@ -40,8 +40,7 @@ class CalendarClothesListAdapter(private val items: MutableList<Clothes>)
 
         //리스트사이간격조절
         val layoutParams = holder.itemView.layoutParams
-        layoutParams.height = 337
-        layoutParams.width = 337
+        layoutParams.height = 325
         holder.itemView.requestLayout()
 
 

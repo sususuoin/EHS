@@ -68,7 +68,6 @@ class HomeFragment : Fragment(){
     val now: LocalDateTime = LocalDateTime.now()
     var Strnow = now?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     var tpochoice : String? = null
-    lateinit var crecyclerview: androidx.recyclerview.widget.RecyclerView
 
     // 요일 받아오기
     var sun: String? = null
@@ -111,6 +110,8 @@ class HomeFragment : Fragment(){
     var random_clothesCategoryArr = ArrayList<String>()
     var random_clothesNameArr = ArrayList<String>()
     var random_clothesCategory_DetailArr = ArrayList<String>()
+
+    var saveBitmap : Bitmap? = null
 
     // 프래그먼트가 메모리에 올라갔을때
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -227,7 +228,7 @@ class HomeFragment : Fragment(){
 
         view.btn_retry.setOnClickListener {
             Log.d("랜덤새로고침", tv_tpo.text.toString())
-            if(tv_tpo.text == "티피오") {
+            if(tv_tpo.text == "TPO 선택") {
                 Log.d("랜덤새로고침1", tv_tpo.text.toString())
                 (MainActivity.mContext as MainActivity).CodyRandom(MainActivity.basic_detail_top,
                     MainActivity.basic_detail_bottom, MainActivity.basic_detail_shoes,
@@ -245,15 +246,16 @@ class HomeFragment : Fragment(){
         }
 
         view.btn_saveRandomCody.setOnClickListener {
+            saveBitmap = null
             view.ll_randomCody.setDrawingCacheEnabled(true)
             view.ll_randomCody.buildDrawingCache()
 
             //조합한 코디를 캡쳐하여 비트맵으로 변경
-            var saveBitmap = view.ll_randomCody.getDrawingCache()
-            (MainActivity.mContext as MainActivity).Codycolor(saveBitmap)
+            saveBitmap = view.ll_randomCody.getDrawingCache()
+            (MainActivity.mContext as MainActivity).Codycolor(saveBitmap!!)
 
             if(CodySaveActivity.codySaveContext != null) {
-                (CodySaveActivity.codySaveContext as CodySaveActivity).uploadCody(saveBitmap)
+                (CodySaveActivity.codySaveContext as CodySaveActivity).uploadCody(saveBitmap!!)
             } else {
                 Toast.makeText(a!!, "코디를 먼저 만든 후 저장해주세요", Toast.LENGTH_SHORT).show()
             }
@@ -293,11 +295,12 @@ class HomeFragment : Fragment(){
          * 캘린더 리사이클러 뷰
          */
         cAdapter = CalendarlistAdapter(a!!, calendarList)
-        crecyclerview = view.findViewById(R.id.rv_homecalendar)
         val gridLayoutManager = GridLayoutManager(a, 4)
-        crecyclerview.layoutManager = gridLayoutManager
+        view.rv_homecalendar.layoutManager = gridLayoutManager
 
-        crecyclerview.adapter = cAdapter
+        view.rv_homecalendar.adapter = cAdapter
+        view.rv_homecalendar.setHasFixedSize(true)
+
         cAdapter!!.notifyDataSetChanged()
         cAdapter!!.setItemClickListener(object :
             CalendarlistAdapter.OnItemClickListener { // 리사이클러뷰 아이템 클릭 시
@@ -322,7 +325,6 @@ class HomeFragment : Fragment(){
 
         // RecyclerView Adapter에서는 레이아웃 매니저 (LayoutManager) 를 설정
         // recyclerView에 setHasFixedSize 옵션에 true 값을 준다.
-        crecyclerview.setHasFixedSize(true)
 
         return view
     } // oncreateview 끝
@@ -353,6 +355,7 @@ class HomeFragment : Fragment(){
         iv_bottom.setImageResource(0)
         iv_bottom2.setImageResource(0)
         iv_shoes.setImageResource(0)
+        iv_shoes2.setImageResource(0)
         iv_outer.setImageResource(0)
         iv_bag.setImageResource(0)
         iv_onepiece.setImageResource(0)
@@ -412,7 +415,11 @@ class HomeFragment : Fragment(){
                         iv_onepiece.setImageBitmap(a_bitmap)
                     }
                     "신발" -> {
-                        iv_shoes.setImageBitmap(a_bitmap)
+                        if (random_clothesCategoryArr[0] == "원피스" || random_clothesCategory_DetailArr[i] == "미니스커트" || random_clothesCategory_DetailArr[i] == "반바지") {
+                            iv_shoes2.setImageBitmap(a_bitmap)
+                        } else {
+                            iv_shoes.setImageBitmap(a_bitmap)
+                        }
                     }
                     "아우터" -> {
                         iv_outer.setImageBitmap(a_bitmap)

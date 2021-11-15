@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
+import com.example.ehs.MainLoadingActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 import kotlinx.coroutines.Dispatchers
@@ -105,6 +106,19 @@ class FeedFragment : Fragment() {
     ): View? {
         Log.d(TAG, "FeedFragment - onCreateView() called")
         val view = inflater.inflate(R.layout.fragment_feed, container, false)
+
+        view.tv_feed.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
+                    (MainLoadingActivity.mainLoadingContext as MainLoadingActivity).FeedImg()
+                    MainActivity.homeProgressDialog!!.show()
+                }
+                delay(500L)
+                (activity as MainActivity?)!!.replaceFragment(newInstance())
+
+            }
+            Log.d("FeedFragment", "새로고침")
+        }
 
         view.tv_youtube.setOnClickListener {
             Log.d("FeedFragment", "유튜브추천 이동")
