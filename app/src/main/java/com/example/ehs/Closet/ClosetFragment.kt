@@ -443,8 +443,8 @@ class ClosetFragment : Fragment() {
                         bitmap = MediaStore.Images.Media.getBitmap(a!!.contentResolver, fileuri)
 //                        bmp = Bitmap.createScaledBitmap(bitmap!!, 400, 400, true)
 
-                        bmp = bitmap.rotate(90F) // value must be float
-                        bmp = Bitmap.createScaledBitmap(bmp, 400, 400, true)
+//                        bmp = bitmap.rotate(90F) // value must be float
+                        bmp = Bitmap.createScaledBitmap(bitmap, 400, 400, true)
 
                         Log.d("zz카메라", bmp.toString())
 
@@ -453,8 +453,8 @@ class ClosetFragment : Fragment() {
                         bitmap = ImageDecoder.decodeBitmap(decode)
 //                        bmp = Bitmap.createScaledBitmap(bitmap!!, 400, 400, true)
 
-                        bmp = bitmap.rotate(90F) // value must be float
-                        bmp = Bitmap.createScaledBitmap(bmp, 400, 400, true)
+//                        bmp = bitmap.rotate(90F) // value must be float
+                        bmp = Bitmap.createScaledBitmap(bitmap, 400, 400, true)
 
                         Log.d("zz카메라", bmp.toString())
 
