@@ -1,8 +1,10 @@
 package com.example.ehs.Home
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -247,20 +249,35 @@ class HomeFragment : Fragment(){
 
         view.btn_saveRandomCody.setOnClickListener {
             saveBitmap = null
-            view.ll_randomCody.setDrawingCacheEnabled(true)
-            view.ll_randomCody.buildDrawingCache()
 
-            //조합한 코디를 캡쳐하여 비트맵으로 변경
-            saveBitmap = view.ll_randomCody.getDrawingCache()
-            (MainActivity.mContext as MainActivity).Codycolor(saveBitmap!!)
-
-            if(CodySaveActivity.codySaveContext != null) {
-                (CodySaveActivity.codySaveContext as CodySaveActivity).uploadCody(saveBitmap!!)
-            } else {
+            if(CodySaveActivity.codySaveContext == null) {
                 Toast.makeText(a!!, "코디를 먼저 만든 후 저장해주세요", Toast.LENGTH_SHORT).show()
+            } else {
+                var savealert = AlertDialog.Builder(a!!)
+                savealert.setTitle("저장확인")
+                savealert.setMessage("내 코디에 저장하시겠습니까?")
+
+                // 버튼 클릭시에 무슨 작업을 할 것인가!
+                var listener = object : DialogInterface.OnClickListener {
+                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                        when (p1) {
+                            // 확인 버튼 클릭 시
+                            DialogInterface.BUTTON_POSITIVE -> {
+                                // 로그아웃 설정
+                                view.ll_randomCody.setDrawingCacheEnabled(true)
+                                view.ll_randomCody.buildDrawingCache()
+
+                                //조합한 코디를 캡쳐하여 비트맵으로 변경
+                                saveBitmap = view.ll_randomCody.getDrawingCache()
+                                (MainActivity.mContext as MainActivity).Codycolor(saveBitmap!!)
+                            }
+                        }
+                    }
+                }
+                savealert.setPositiveButton("확인", listener)
+                savealert.setNegativeButton("취소", null)
+                savealert.show()
             }
-
-
         }
         view.tv_tpo.setOnClickListener {
             val BottomSheet_tpo = BottomSheet_tpo {
