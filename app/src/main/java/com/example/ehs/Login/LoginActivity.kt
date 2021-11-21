@@ -15,9 +15,8 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.AI.AIActivity
-import com.example.ehs.Admin.AdminchoiceActivity
+import com.example.ehs.Admin.Managementchoice_Activity
 import com.example.ehs.MainActivity
-import com.example.ehs.Mypage.UserModifyActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.et_id
@@ -89,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
                 if (userId == "ehs" && userPw == "ehs") {
                     Toast.makeText(this, "관리자로그인성공", Toast.LENGTH_SHORT).show()
                     ad.dismiss()
-                    val intent = Intent(this@LoginActivity, AdminchoiceActivity::class.java)
+                    val intent = Intent(this@LoginActivity, Managementchoice_Activity::class.java)
                     startActivity(intent)
                 } else {
                     Toast.makeText(this, "아이디나 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
