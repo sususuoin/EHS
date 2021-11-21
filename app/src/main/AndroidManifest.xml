@@ -31,10 +31,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Admin.LevelManagementActivity"></activity>
-        <activity android:name=".Admin.FeedManagementActivity" />
-        <activity android:name=".Admin.UserManagementActivity" />
-        <activity android:name=".Admin.AdminchoiceActivity" />
+        
+        <activity android:name=".Admin.ManagementLevel_Activity"/>
+        <activity android:name=".Admin.ManagementFeed_Activity" />
+        <activity android:name=".Admin.ManagementUser_Activity" />
+        <activity android:name=".Admin.ManagementUserModify_Activity"/>
+        <activity android:name=".Admin.Managementchoice_Activity" />
         <activity android:name=".Closet.BasicClothesDetailActivity" />
         <activity android:name=".Closet.BasicClothesActivity" />
         <activity android:name=".Calendar.CalendarSaveCodyActivity" />
