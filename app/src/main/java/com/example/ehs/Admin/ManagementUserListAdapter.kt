@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ehs.R
-import kotlinx.android.synthetic.main.fashionista.view.*
+import kotlinx.android.synthetic.main.management_user.view.*
 
 class ManagementUserListAdapter(private val itemList: List<ManagementUser>)
     : RecyclerView.Adapter<ManagementUserListAdapter.ViewHolder>()  {
@@ -46,8 +46,9 @@ class ManagementUserListAdapter(private val itemList: List<ManagementUser>)
 
         fun bind(item: ManagementUser) {
             view.mName.text = item.name
-            view.mHashtag.text = item.hashtag
+            view.mLevel.text = item.level
             view.mProfile.setImageBitmap(item.profile)
+            view.mDate.text = item.date
         }
     }
 
