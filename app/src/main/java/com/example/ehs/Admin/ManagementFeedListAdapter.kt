@@ -32,9 +32,9 @@ class ManagementFeedListAdapter(private val itemList: List<ManagementFeed>)
         layoutParams.height = 220
         holder.itemView.requestLayout()
 
-        holder.itemView.setOnClickListener {
-            itemClickListener.onClick(it, position)
-        }
+//        holder.itemView.setOnClickListener {
+//            itemClickListener.onClick(it, position)
+//        }
         
         holder.apply {
             bind(item)

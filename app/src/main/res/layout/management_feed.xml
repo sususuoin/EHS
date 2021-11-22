@@ -32,12 +32,12 @@
         </LinearLayout>
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/feedImg"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_mypage" />
+            android:scaleType="fitCenter"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btn_like_after"
+                        android:id="@+id/btn_like"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_gravity="center"
@@ -91,7 +91,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btn_unlike_after"
+                        android:id="@+id/btn_unlike"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_gravity="center"
