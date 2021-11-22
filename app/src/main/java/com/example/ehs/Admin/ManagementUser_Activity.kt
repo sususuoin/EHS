@@ -2,18 +2,23 @@ package com.example.ehs.Admin
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_management_user.*
+import kotlinx.android.synthetic.main.activity_management_user.nsprogress
+import kotlinx.android.synthetic.main.fragment_closet.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -34,10 +39,16 @@ class ManagementUser_Activity : AppCompatActivity() {
     var muserLevelArr = ArrayList<String>()
     var mHashTagArr = ArrayList<String>()
     var muserProfileImgArr = ArrayList<String>()
+    var muserRegisterDateArr = ArrayList<String>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_management_user)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
+            this.window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+        }
         /**
          * 액션바 대신 툴바를 사용하도록 설정
          */
@@ -48,23 +59,6 @@ class ManagementUser_Activity : AppCompatActivity() {
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
         Managementchoice_Activity.adminProgressDialog!!.dismiss()
-
-//        muserIdArr = AutoManagement.getMuserId(this)
-//        muserPwArr = AutoManagement.getMuserPw(this)
-//        muserNameArr = AutoManagement.getMuserName(this)
-//        mnuserEmailArr = AutoManagement.getMuserEmail(this)
-//        muserBirthArr = AutoManagement.getMuserBirth(this)
-//        muserGenderArr = AutoManagement.getMuserGender(this)
-//        muserLevel2Arr = AutoManagement.getMuserLevel2(this)
-//        muserLevelArr = AutoManagement.getMuserLevel(this)
-//        mHashTagArr = AutoManagement.getMuserTag(this)
-//        muserProfileImgArr = AutoManagement.getMuserProfile(this)
-
-//        for (i in 0 until muserIdArr.size) {
-//            var fuserProfile = AutoLogin.StringToBitmap(muserProfileImgArr[i], 100, 100)
-//            var user = ManagementUser(muserIdArr[i], mHashTagArr[i], fuserProfile)
-//            userManagementlist.add(user)
-//        }
 
         adapter.setItemClickListener(object : ManagementUserListAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
@@ -109,6 +103,7 @@ class ManagementUser_Activity : AppCompatActivity() {
         var muserLevel : String
         var mHashTag : String
         var muserProfileImg : String
+        var muserRegisterDate : String
 
         nsprogress.isVisible = true
         userManagementlist.clear()
@@ -144,6 +139,7 @@ class ManagementUser_Activity : AppCompatActivity() {
                         muserLevel = fuserObject.getString("userLevel")
                         mHashTag = fuserObject.getString("HashTag")
                         muserProfileImg = fuserObject.getString("userProfileImg")
+                        muserRegisterDate = fuserObject.getString("userRegister_date")
 
                         muserIdArr.add(muserId)
                         muserPwArr.add(muserPw)
@@ -155,11 +151,12 @@ class ManagementUser_Activity : AppCompatActivity() {
                         muserLevelArr.add(muserLevel)
                         mHashTagArr.add(mHashTag)
                         muserProfileImgArr.add(muserProfileImg)
+                        muserRegisterDateArr.add(muserRegisterDate)
                     }
 
                     for (i in 0 until muserIdArr.size) {
                         var fuserProfile = AutoLogin.StringToBitmap(muserProfileImgArr[i], 100, 100)
-                        var user = ManagementUser(muserIdArr[i], mHashTagArr[i], fuserProfile)
+                        var user = ManagementUser(muserIdArr[i], muserLevelArr[i], fuserProfile, muserRegisterDateArr[i])
                         userManagementlist.add(user)
                         adapter.notifyDataSetChanged()
                     }

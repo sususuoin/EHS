@@ -213,34 +213,16 @@ class AIActivity : AppCompatActivity() {
                                 val urione = clipData.getItemAt(i).uri
                                 when (i) {
                                     0 -> {
-//                                        iv_aiImg1.setImageURI(urione)
-
-//                                        bitmap1 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
-//                                        iv_aiImg1.setImageBitmap(Bitmap.createScaledBitmap(bitmap1!!, 400, 533, true))
-                                        Glide.with(this)
-                                            .load(urione)
-                                            .override(400, 533)
-                                            .into(iv_aiImg1)
+                                        bitmap1 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
+                                        iv_aiImg1.setImageBitmap(Bitmap.createScaledBitmap(bitmap1!!, 400, 533, true))
                                     }
                                     1 -> {
-//                                        iv_aiImg2.setImageURI(urione)
-
-//                                        bitmap2 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
-//                                        iv_aiImg2.setImageBitmap(Bitmap.createScaledBitmap(bitmap2!!, 400, 533, true))
-                                        Glide.with(this)
-                                            .load(urione)
-                                            .override(400, 533)
-                                            .into(iv_aiImg1)
+                                        bitmap2 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
+                                        iv_aiImg2.setImageBitmap(Bitmap.createScaledBitmap(bitmap2!!, 400, 533, true))
                                     }
                                     2 -> {
-//                                        iv_aiImg3.setImageURI(urione)
-
-//                                        bitmap3 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
-//                                        iv_aiImg3.setImageBitmap(Bitmap.createScaledBitmap(bitmap3!!, 400, 533, true))
-                                        Glide.with(this)
-                                            .load(urione)
-                                            .override(400, 533)
-                                            .into(iv_aiImg3)
+                                        bitmap3 = MediaStore.Images.Media.getBitmap(this.contentResolver, urione)
+                                        iv_aiImg3.setImageBitmap(Bitmap.createScaledBitmap(bitmap3!!, 400, 533, true))
                                     }
                                 }
                             }
