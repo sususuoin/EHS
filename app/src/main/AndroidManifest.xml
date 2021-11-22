@@ -31,8 +31,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        
-        <activity android:name=".Admin.ManagementLevel_Activity"/>
+
         <activity android:name=".Admin.ManagementFeed_Activity" />
         <activity android:name=".Admin.ManagementUser_Activity" />
         <activity android:name=".Admin.ManagementUserModify_Activity"/>
