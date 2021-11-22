@@ -8,9 +8,15 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.activity_management_user.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 
 class ManagementUser_Activity : AppCompatActivity() {
@@ -43,22 +49,22 @@ class ManagementUser_Activity : AppCompatActivity() {
 
         Managementchoice_Activity.adminProgressDialog!!.dismiss()
 
-        muserIdArr = AutoManagement.getMuserId(this)
-        muserPwArr = AutoManagement.getMuserPw(this)
-        muserNameArr = AutoManagement.getMuserName(this)
-        mnuserEmailArr = AutoManagement.getMuserEmail(this)
-        muserBirthArr = AutoManagement.getMuserBirth(this)
-        muserGenderArr = AutoManagement.getMuserGender(this)
-        muserLevel2Arr = AutoManagement.getMuserLevel2(this)
-        muserLevelArr = AutoManagement.getMuserLevel(this)
-        mHashTagArr = AutoManagement.getMuserTag(this)
-        muserProfileImgArr = AutoManagement.getMuserProfile(this)
+//        muserIdArr = AutoManagement.getMuserId(this)
+//        muserPwArr = AutoManagement.getMuserPw(this)
+//        muserNameArr = AutoManagement.getMuserName(this)
+//        mnuserEmailArr = AutoManagement.getMuserEmail(this)
+//        muserBirthArr = AutoManagement.getMuserBirth(this)
+//        muserGenderArr = AutoManagement.getMuserGender(this)
+//        muserLevel2Arr = AutoManagement.getMuserLevel2(this)
+//        muserLevelArr = AutoManagement.getMuserLevel(this)
+//        mHashTagArr = AutoManagement.getMuserTag(this)
+//        muserProfileImgArr = AutoManagement.getMuserProfile(this)
 
-        for (i in 0 until muserIdArr.size) {
-            var fuserProfile = AutoLogin.StringToBitmap(muserProfileImgArr[i], 100, 100)
-            var user = ManagementUser(muserIdArr[i], mHashTagArr[i], fuserProfile)
-            userManagementlist.add(user)
-        }
+//        for (i in 0 until muserIdArr.size) {
+//            var fuserProfile = AutoLogin.StringToBitmap(muserProfileImgArr[i], 100, 100)
+//            var user = ManagementUser(muserIdArr[i], mHashTagArr[i], fuserProfile)
+//            userManagementlist.add(user)
+//        }
 
         adapter.setItemClickListener(object : ManagementUserListAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
@@ -89,9 +95,85 @@ class ManagementUser_Activity : AppCompatActivity() {
 
         rv_usermanagement.adapter = adapter
         adapter.notifyDataSetChanged()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        var muserId: String
+        var muserPw: String
+        var muserName : String
+        var mnuserEmail : String
+        var muserBirth : String
+        var muserGender : String
+        var muserLevel2 : String
+        var muserLevel : String
+        var mHashTag : String
+        var muserProfileImg : String
 
+        nsprogress.isVisible = true
+        userManagementlist.clear()
+        muserIdArr.clear()
+        muserPwArr.clear()
+        muserNameArr.clear()
+        mnuserEmailArr.clear()
+        muserBirthArr.clear()
+        muserGenderArr.clear()
+        muserLevel2Arr.clear()
+        muserLevelArr.clear()
+        mHashTagArr.clear()
+        muserProfileImgArr.clear()
 
+        val responseListener: Response.Listener<String?> = object : Response.Listener<String?> {
+            override fun onResponse(response: String?) {
+                try {
+
+                    var jsonObject = JSONObject(response)
+
+                    val arr: JSONArray = jsonObject.getJSONArray("response")
+
+                    for (i in 0 until arr.length()) {
+                        val fuserObject = arr.getJSONObject(i)
+
+                        muserId = fuserObject.getString("userId")
+                        muserPw = fuserObject.getString("userPw")
+                        muserName = fuserObject.getString("userName")
+                        mnuserEmail = fuserObject.getString("userEmail")
+                        muserBirth = fuserObject.getString("userBirth")
+                        muserGender = fuserObject.getString("userGender")
+                        muserLevel2 = fuserObject.getString("userLevel2")
+                        muserLevel = fuserObject.getString("userLevel")
+                        mHashTag = fuserObject.getString("HashTag")
+                        muserProfileImg = fuserObject.getString("userProfileImg")
+
+                        muserIdArr.add(muserId)
+                        muserPwArr.add(muserPw)
+                        muserNameArr.add(muserName)
+                        mnuserEmailArr.add(mnuserEmail)
+                        muserBirthArr.add(muserBirth)
+                        muserGenderArr.add(muserGender)
+                        muserLevel2Arr.add(muserLevel2)
+                        muserLevelArr.add(muserLevel)
+                        mHashTagArr.add(mHashTag)
+                        muserProfileImgArr.add(muserProfileImg)
+                    }
+
+                    for (i in 0 until muserIdArr.size) {
+                        var fuserProfile = AutoLogin.StringToBitmap(muserProfileImgArr[i], 100, 100)
+                        var user = ManagementUser(muserIdArr[i], mHashTagArr[i], fuserProfile)
+                        userManagementlist.add(user)
+                        adapter.notifyDataSetChanged()
+                    }
+
+                    nsprogress.isVisible = false
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        val managementUser_Request = ManagementUser_Request(responseListener)
+        val queue = Volley.newRequestQueue(this)
+        queue.add(managementUser_Request)
     }
 
     /**

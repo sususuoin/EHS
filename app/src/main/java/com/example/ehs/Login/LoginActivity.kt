@@ -62,10 +62,7 @@ class LoginActivity : AppCompatActivity() {
             WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
             this.window.statusBarColor = ContextCompat.getColor(this, R.color.white)
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = true
-            this.window.statusBarColor = ContextCompat.getColor(this, R.color.white)
-        }
+
         Log.d(TAG, "로그인액티비티 출발")
 
         val builder = AlertDialog.Builder(this)
@@ -74,13 +71,10 @@ class LoginActivity : AppCompatActivity() {
 
         val dialogView = layoutInflater.inflate(R.layout.admin_login, null)
 
-        var ehs = false
         tv_register_ehs.setOnClickListener {
 
             ad.setView(dialogView)
             ad.show()
-
-
             dialogView.btn_andminlogin.setOnClickListener {
                 var userId = dialogView.et_admin_id.text.toString()
                 var userPw = dialogView.et_admin_pw.text.toString()

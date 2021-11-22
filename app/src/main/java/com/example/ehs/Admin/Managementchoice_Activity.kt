@@ -1,6 +1,7 @@
 package com.example.ehs.Admin
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -25,12 +26,13 @@ class Managementchoice_Activity : AppCompatActivity() {
 
     companion object {
         var adminProgressDialog: ProgressDialog? = null
+        var manageContext: Context? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_choice)
-
+        manageContext=this
         /**
          * 액션바 대신 툴바를 사용하도록 설정
          */
@@ -45,14 +47,20 @@ class Managementchoice_Activity : AppCompatActivity() {
         adminProgressDialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         btn_usermanagement.setOnClickListener {
+//            getUserData()
 
-            GlobalScope.launch(Dispatchers.Main) {
-                launch(Dispatchers.Main) {
-                    adminProgressDialog!!.show()
-                }
-                delay(1000L)
-                getUserData()
-            }
+            val intent = Intent(this@Managementchoice_Activity, ManagementUser_Activity::class.java)
+            startActivity(intent)
+
+//            GlobalScope.launch(Dispatchers.Main) {
+//                launch(Dispatchers.Main) {
+//                    adminProgressDialog!!.show()
+//                }
+//                delay(500L)
+//
+//                val intent = Intent(this@Managementchoice_Activity, ManagementUser_Activity::class.java)
+//                startActivity(intent)
+//            }
 
         }
     }
@@ -125,9 +133,6 @@ class Managementchoice_Activity : AppCompatActivity() {
                     AutoManagement.setMuserLevel(this@Managementchoice_Activity, muserLevelArr)
                     AutoManagement.setMuserTag(this@Managementchoice_Activity, mHashTagArr)
                     AutoManagement.setMuserProfile(this@Managementchoice_Activity, muserProfileImgArr)
-
-                    val intent = Intent(this@Managementchoice_Activity, ManagementUser_Activity::class.java)
-                    startActivity(intent)
 
 
                 } catch (e: JSONException) {
