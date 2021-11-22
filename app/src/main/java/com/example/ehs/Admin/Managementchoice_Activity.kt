@@ -58,6 +58,11 @@ class Managementchoice_Activity : AppCompatActivity() {
             val intent = Intent(this@Managementchoice_Activity, ManagementUser_Activity::class.java)
             startActivity(intent)
         }
+
+        btn_feedmanagement.setOnClickListener {
+            val intent = Intent(this@Managementchoice_Activity, ManagementFeed_Activity::class.java)
+            startActivity(intent)
+        }
     }
 
     /**
