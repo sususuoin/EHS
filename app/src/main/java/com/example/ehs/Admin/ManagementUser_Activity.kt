@@ -9,6 +9,8 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -28,8 +30,13 @@ import java.io.ByteArrayOutputStream
 
 class ManagementUser_Activity : AppCompatActivity() {
 
+    val items = arrayOf("전체","전문가","일반인")
+
+
+
     val userManagementlist = mutableListOf<ManagementUser>()
     val userManagementlist2 = mutableListOf<ManagementUser>()
+    val userManagementlist3 = mutableListOf<ManagementUser>()
 
     val adapter = ManagementUserListAdapter(userManagementlist)
 
@@ -108,13 +115,44 @@ class ManagementUser_Activity : AppCompatActivity() {
                 search(text)
             }
         })
+
+        val myAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
+        sp_grade.adapter = myAdapter
+        sp_grade.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                // 문자 입력시마다 리스트를 지우고 새로 뿌려준다.
+                userManagementlist.clear()
+                //아이템이 클릭 되면 맨 위부터 position 0번부터 순서대로 동작하게 됩니다.
+                when (position) {
+                    0 -> {
+                        userManagementlist.addAll(userManagementlist2)
+                        // 리스트 데이터가 변경되었으므로 아답터를 갱신하여 검색된 데이터를 화면에 보여준다.
+                        adapter.notifyDataSetChanged()
+                    }
+                    1 -> {
+                        filter("전문가")
+                    }
+                    2 -> {
+                        filter("일반인")
+                    }
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // 문자 입력이 없을때는 모든 데이터를 보여준다.
+                userManagementlist.addAll(userManagementlist2)
+            }
+
+        }
     }
 
     fun search(charText: String) {
         // 문자 입력시마다 리스트를 지우고 새로 뿌려준다.
         userManagementlist.clear()
-
-        // 문자 입력이 없을때는 모든 데이터를 보여준다.
         if (charText.isEmpty()) {
             userManagementlist.addAll(userManagementlist2)
         } else {
@@ -131,19 +169,32 @@ class ManagementUser_Activity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
     }
 
+    fun filter(level: String) {
+            // 리스트의 모든 데이터를 검색한다.
+            for (i in 0 until userManagementlist2.size) {
+                // arraylist의 모든 데이터에 입력받은 단어(charText)가 포함되어 있으면 true 를 반환한다.
+                if (userManagementlist2[i].level == level) {
+                    // 검색된 데이터를 리스트에 추가한다.
+                    userManagementlist.add(userManagementlist2[i])
+                }
+            }
+        // 리스트 데이터가 변경되었으므로 아답터를 갱신하여 검색된 데이터를 화면에 보여준다.
+        adapter.notifyDataSetChanged()
+    }
+
     override fun onResume() {
         super.onResume()
         var muserId: String
         var muserPw: String
-        var muserName : String
-        var mnuserEmail : String
-        var muserBirth : String
-        var muserGender : String
-        var muserLevel2 : String
-        var muserLevel : String
-        var mHashTag : String
-        var muserProfileImg : String
-        var muserRegisterDate : String
+        var muserName: String
+        var mnuserEmail: String
+        var muserBirth: String
+        var muserGender: String
+        var muserLevel2: String
+        var muserLevel: String
+        var mHashTag: String
+        var muserProfileImg: String
+        var muserRegisterDate: String
 
         nsprogress.isVisible = true
         userManagementlist.clear()
