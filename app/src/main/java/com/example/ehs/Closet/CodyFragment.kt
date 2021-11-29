@@ -70,6 +70,7 @@ class CodyFragment : Fragment() {
 
     val codyList = mutableListOf<Cody>()
     var codyArr = ArrayList<String>()
+    var codyStyleArr = ArrayList<String>()
 
     val adapter = CodyListAdapter(codyList)
 
@@ -99,6 +100,8 @@ class CodyFragment : Fragment() {
         codysaveActivity_Dialog?.dismiss()
 
         codyArr = AutoCody.getCodyName(a!!)
+        codyStyleArr = AutoCody.getCodyStyle(a!!)
+
         if (codyArr.size <= 8) {
             after_page = codyArr.size
         } else {
@@ -250,7 +253,7 @@ class CodyFragment : Fragment() {
 
                 uThread.join()
 
-                var cody = Cody(a_bitmap)
+                var cody = Cody(a_bitmap, codyStyleArr[i])
                 codyList.add(cody)
 
 
