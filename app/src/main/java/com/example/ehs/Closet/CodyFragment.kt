@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -19,6 +20,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -32,8 +34,12 @@ import com.example.ehs.Closet.CodySaveActivity.Companion.codysaveActivity_Dialog
 import com.example.ehs.MainActivity
 import com.example.ehs.R
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.android.synthetic.main.fragment_closet.view.*
 import kotlinx.android.synthetic.main.fragment_cody.*
 import kotlinx.android.synthetic.main.fragment_cody.view.*
+import kotlinx.android.synthetic.main.fragment_cody.view.nsprogress
+import kotlinx.android.synthetic.main.fragment_cody.view.nsview
+import kotlinx.android.synthetic.main.fragment_cody.view.tv_mycody
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -107,7 +113,9 @@ class CodyFragment : Fragment() {
         } else {
             after_page = 8
         }
-        parseResult(before_page, after_page)
+        var parse1 = parseResult()
+        parse1.execute(before_page, after_page)
+
         Log.d("ㅁㅁㅁㅁㅁ새로고침222", codyArr.toString())
     }
 
@@ -181,6 +189,7 @@ class CodyFragment : Fragment() {
 
         view.nsview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             Log.d("피드갯수", "스크롤")
+            view.nsprogress.isVisible = true
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
                 Log.d("피드갯수1", before_page.toString())
                 Log.d("피드갯수2", after_page.toString())
@@ -188,13 +197,18 @@ class CodyFragment : Fragment() {
                 after_page += 8
                 Log.d("피드갯수3", before_page.toString())
                 Log.d("피드갯수4", after_page.toString())
-                view.nsprogress.visibility = View.VISIBLE
                 if(codyArr.size <= after_page) {
                     Log.d("피드갯수5", codyArr.size.toString())
                     Log.d("피드갯수6", after_page.toString())
                     after_page = codyArr.size
                 }
-                parseResult(before_page, after_page)
+                if(before_page < after_page) {
+                    val parse1 = parseResult()
+                    parse1.execute(before_page, after_page)
+                }
+                if(codyArr.size == codyList.size) {
+                    view.nsprogress.isVisible = false
+                }
 
             }
         })
@@ -223,49 +237,42 @@ class CodyFragment : Fragment() {
         //recylerview 이거 fashionista.xml에 있는 변수
     }
 
-    private fun parseResult(before_page: Int, after_page: Int) {
-        var a_bitmap : Bitmap? = null
-        for (i in before_page until after_page) {
-            val uThread: Thread = object : Thread() {
-                override fun run() {
-                    try {
-                        Log.d("Closet프래그먼터리스트123", codyArr[i])
+    open inner class parseResult : AsyncTask<Int?, Int?, Bitmap>() {
+        var a_bitmap: Bitmap? = null
+        override fun onPreExecute() {
+            view?.nsprogress!!.isVisible = true
+        }
 
-                        val url = URL("http://13.125.7.2/img/cody/" + codyArr[i])
-
-                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-
-                        conn.setDoInput(true)
-                        conn.connect()
-                        val iss: InputStream = conn.getInputStream()
-                        a_bitmap = BitmapFactory.decodeStream(iss)
-
-                    } catch (e: MalformedURLException) {
-                        e.printStackTrace()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-            uThread.start() // 작업 Thread 실행
-
+        override fun doInBackground(vararg pages: Int?): Bitmap {
             try {
+                for (i in pages[0]!!.toInt() until pages[1]!!.toInt()) {
+                    val url = URL("http://13.125.7.2/img/cody/" + codyArr[i])
+                    val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
 
-                uThread.join()
+                    conn.setDoInput(true)
+                    conn.connect()
+                    val iss: InputStream = conn.getInputStream()
+                    a_bitmap = BitmapFactory.decodeStream(iss)
 
-                var cody = Cody(a_bitmap, codyStyleArr[i])
-                codyList.add(cody)
+                    var cody = Cody(a_bitmap, codyStyleArr[i])
+                    codyList.add(cody)
+                }
 
-
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
+            return a_bitmap!!
+
         }
 
-        view?.nsprogress?.visibility = View.GONE
-        adapter.notifyDataSetChanged()
-        MainActivity.homeProgressDialog?.dismiss()
-
+        override fun onPostExecute(img: Bitmap) {
+            view?.nsprogress!!.isVisible = false
+            adapter.notifyDataSetChanged()
+        }
     }
 
     fun onAddButtonClicked() {

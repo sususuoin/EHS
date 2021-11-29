@@ -222,15 +222,7 @@ class MainActivity : AppCompatActivity() {
                     if (fragmentManager.findFragmentByTag("fashionista") != null) {
                         fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("fashionista")!!).commit()
                     } else {
-                        GlobalScope.launch(Dispatchers.Main) {
-                            launch(Dispatchers.Main) {
-                                homeProgressDialog!!.show()
-                            }
-                            delay(1000L)
-
-                            fragmentManager.beginTransaction().add(R.id.fragments_frame, FashionistaFragment.newInstance(), "fashionista").commit()
-
-                        }
+                        fragmentManager.beginTransaction().add(R.id.fragments_frame, FashionistaFragment.newInstance(), "fashionista").commit()
 
                     }
 
@@ -263,14 +255,7 @@ class MainActivity : AppCompatActivity() {
                     if (fragmentManager.findFragmentByTag("closet") != null) {
                         fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("closet")!!).commit()
                     } else {
-                        GlobalScope.launch(Dispatchers.Main) {
-                            launch(Dispatchers.Main) {
-                                homeProgressDialog!!.show()
-                            }
-                            delay(1000L)
-
-                            fragmentManager.beginTransaction().add(R.id.fragments_frame, ClosetFragment(), "closet").commit()
-                        }
+                        fragmentManager.beginTransaction().add(R.id.fragments_frame, ClosetFragment(), "closet").commit()
 
                     }
                     if (fragmentManager.findFragmentByTag("home") != null) {
@@ -302,14 +287,7 @@ class MainActivity : AppCompatActivity() {
                     if (fragmentManager.findFragmentByTag("feed") != null) {
                         fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("feed")!!).commit()
                     } else {
-                        GlobalScope.launch(Dispatchers.Main) {
-                            launch(Dispatchers.Main) {
-                                homeProgressDialog!!.show()
-                            }
-                            delay(1000L)
-
-                            fragmentManager.beginTransaction().add(R.id.fragments_frame, FeedFragment(), "feed").commit()
-                        }
+                        fragmentManager.beginTransaction().add(R.id.fragments_frame, FeedFragment(), "feed").commit()
 
                     }
                     if (fragmentManager.findFragmentByTag("home") != null) {
@@ -340,14 +318,7 @@ class MainActivity : AppCompatActivity() {
                     if (fragmentManager.findFragmentByTag("mypage") != null) {
                         fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("mypage")!!).commit()
                     } else {
-                        GlobalScope.launch(Dispatchers.Main) {
-                            launch(Dispatchers.Main) {
-                                homeProgressDialog!!.show()
-                            }
-                            delay(1000L)
-
-                            fragmentManager.beginTransaction().add(R.id.fragments_frame, MypageFragment(), "mypage").commit()
-                        }
+                        fragmentManager.beginTransaction().add(R.id.fragments_frame, MypageFragment(), "mypage").commit()
 
                     }
                     if (fragmentManager.findFragmentByTag("home") != null) {
@@ -383,20 +354,6 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragments_frame, fragment!!, "test")
-        fragmentTransaction.commit()
-    }
-
-    fun addFragment(fragment: Fragment?) {
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragments_frame, fragment!!)
-        fragmentTransaction.commit()
-    }
-
-    fun showFragment(fragment: Fragment?) {
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragments_frame, fragment!!)
         fragmentTransaction.commit()
     }
 

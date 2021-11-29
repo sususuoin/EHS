@@ -3,11 +3,9 @@ package com.example.ehs.Closet
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
-import android.graphics.Matrix
+import android.graphics.*
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -18,8 +16,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
@@ -147,7 +147,9 @@ class ClosetFragment : Fragment() {
         } else {
             after_page = 18
         }
-        parseResult(before_page, after_page)
+//        parseResult(before_page, after_page)
+        var parse1 = parseResult()
+        parse1.execute(before_page, after_page)
 
         Log.d("ㅁㅁㅁㅁㅁ새로고침222", clothesArr.toString())
 
@@ -175,14 +177,7 @@ class ClosetFragment : Fragment() {
         val view: View = inflater!!.inflate(R.layout.fragment_closet, container, false)
 
         view.tv_myclothes.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                launch(Dispatchers.Main) {
-                    (MainActivity.mContext as MainActivity).ClosetImg()
-                    MainActivity.homeProgressDialog!!.show()
-                }
-                delay(500L)
-                (activity as MainActivity?)!!.replaceFragment(newInstance())
-            }
+            (activity as MainActivity?)!!.replaceFragment(newInstance())
             Log.d("FeedFragment", "새로고침")
 
         }
@@ -192,14 +187,16 @@ class ClosetFragment : Fragment() {
             if (requireFragmentManager().findFragmentByTag("cody") != null) {
                 requireFragmentManager().beginTransaction().show(requireFragmentManager().findFragmentByTag("cody")!!).commit()
             } else {
-                GlobalScope.launch(Dispatchers.Main) {
-                    launch(Dispatchers.Main) {
-                        MainActivity.homeProgressDialog!!.show()
-                    }
-                    delay(500L)
 
-                    requireFragmentManager().beginTransaction().add(R.id.fragments_frame, CodyFragment(), "cody").commit()
-                }
+                requireFragmentManager().beginTransaction().add(R.id.fragments_frame, CodyFragment(), "cody").commit()
+//                GlobalScope.launch(Dispatchers.Main) {
+//                    launch(Dispatchers.Main) {
+//                        MainActivity.homeProgressDialog!!.show()
+//                    }
+//                    delay(500L)
+//
+//                    requireFragmentManager().beginTransaction().add(R.id.fragments_frame, CodyFragment(), "cody").commit()
+//                }
             }
             if (requireFragmentManager().findFragmentByTag("closet") != null) {
                 requireFragmentManager().beginTransaction().hide(requireFragmentManager().findFragmentByTag("closet")!!).commit()
@@ -247,20 +244,29 @@ class ClosetFragment : Fragment() {
 
         view.nsview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             Log.d("피드갯수", "스크롤")
+            view.nsprogress.isVisible = true
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+                Log.d("우리집으로가자1", scrollY.toString())
+                Log.d("우리집으로가자1", oldScrollY.toString())
+                Log.d("우리집으로가자12", v.getChildAt(0).measuredHeight.toString())
+                Log.d("우리집으로가자13", v.measuredHeight.toString())
+
                 Log.d("피드갯수1", before_page.toString())
                 Log.d("피드갯수2", after_page.toString())
                 before_page += 18
                 after_page += 18
                 Log.d("피드갯수3", before_page.toString())
                 Log.d("피드갯수4", after_page.toString())
-                view.nsprogress.isVisible = true
                 if(clothesArr.size <= after_page) {
                     Log.d("피드갯수5", clothesArr.size.toString())
                     Log.d("피드갯수6", after_page.toString())
                     after_page = clothesArr.size
                 }
-                parseResult(before_page, after_page)
+
+                if(before_page < after_page) {
+                    val parse1 = parseResult()
+                    parse1.execute(before_page, after_page)
+                }
 
                 if(clothesArr.size == clothesList.size) {
                     Log.d("하잇", clothesArr.size.toString())
@@ -268,6 +274,7 @@ class ClosetFragment : Fragment() {
                     Log.d("하잇", "시11qkfkfkfk")
                     clotheslistfiter.clear()
                     clotheslistfiter.addAll(clothesList)
+                    view.nsprogress.isVisible = false
                 }
             }
         })
@@ -279,40 +286,135 @@ class ClosetFragment : Fragment() {
             clothesList.clear()
             clothesList.addAll(clotheslistfiter)
             adapter.notifyDataSetChanged()
+
+            tv_change_ourcolor(view.tv_all)
+            tv_change_dargray(view.tv_top)
+            tv_change_dargray(view.tv_bottom)
+            tv_change_dargray(view.tv_outer)
+            tv_change_dargray(view.tv_onepiece)
+            tv_change_dargray(view.tv_shoes)
+            tv_change_dargray(view.tv_cap)
+            tv_change_dargray(view.tv_bag)
+            tv_change_dargray(view.tv_etc)
+
         }
         view.tv_top.setOnClickListener{
             filter("상의")
-            adapter.notifyDataSetChanged()
+
+            tv_change_ourcolor(view.tv_top)
+            tv_change_dargray(view.tv_all)
+            tv_change_dargray(view.tv_bottom)
+            tv_change_dargray(view.tv_outer)
+            tv_change_dargray(view.tv_onepiece)
+            tv_change_dargray(view.tv_shoes)
+            tv_change_dargray(view.tv_cap)
+            tv_change_dargray(view.tv_bag)
+            tv_change_dargray(view.tv_etc)
         }
         view.tv_outer.setOnClickListener{
             filter("아우터")
-            adapter.notifyDataSetChanged()
+
+            tv_change_ourcolor(view.tv_outer)
+            tv_change_dargray(view.tv_all)
+            tv_change_dargray(view.tv_top)
+            tv_change_dargray(view.tv_bottom)
+            tv_change_dargray(view.tv_onepiece)
+            tv_change_dargray(view.tv_shoes)
+            tv_change_dargray(view.tv_cap)
+            tv_change_dargray(view.tv_bag)
+            tv_change_dargray(view.tv_etc)
         }
         view.tv_bottom.setOnClickListener{
             filter("하의")
-            adapter.notifyDataSetChanged()
+
+            tv_change_ourcolor(view.tv_bottom)
+            tv_change_dargray(view.tv_all)
+            tv_change_dargray(view.tv_top)
+            tv_change_dargray(view.tv_outer)
+            tv_change_dargray(view.tv_onepiece)
+            tv_change_dargray(view.tv_shoes)
+            tv_change_dargray(view.tv_cap)
+            tv_change_dargray(view.tv_bag)
+            tv_change_dargray(view.tv_etc)
         }
         view.tv_onepiece.setOnClickListener{
             filter("원피스")
-            adapter.notifyDataSetChanged()
+
+            tv_change_ourcolor(view.tv_onepiece)
+            tv_change_dargray(view.tv_all)
+            tv_change_dargray(view.tv_top)
+            tv_change_dargray(view.tv_outer)
+            tv_change_dargray(view.tv_bottom)
+            tv_change_dargray(view.tv_shoes)
+            tv_change_dargray(view.tv_cap)
+            tv_change_dargray(view.tv_bag)
+            tv_change_dargray(view.tv_etc)
         }
         view.tv_shoes.setOnClickListener{
             filter("신발")
-            adapter.notifyDataSetChanged()
+
+            tv_change_ourcolor(view.tv_shoes)
+            tv_change_dargray(view.tv_all)
+            tv_change_dargray(view.tv_top)
+            tv_change_dargray(view.tv_outer)
+            tv_change_dargray(view.tv_bottom)
+            tv_change_dargray(view.tv_onepiece)
+            tv_change_dargray(view.tv_cap)
+            tv_change_dargray(view.tv_bag)
+            tv_change_dargray(view.tv_etc)
         }
         view.tv_cap.setOnClickListener{
             filter("모자")
-            adapter.notifyDataSetChanged()
+
+            tv_change_ourcolor(view.tv_cap)
+            tv_change_dargray(view.tv_all)
+            tv_change_dargray(view.tv_top)
+            tv_change_dargray(view.tv_outer)
+            tv_change_dargray(view.tv_bottom)
+            tv_change_dargray(view.tv_onepiece)
+            tv_change_dargray(view.tv_shoes)
+            tv_change_dargray(view.tv_bag)
+            tv_change_dargray(view.tv_etc)
         }
         view.tv_bag.setOnClickListener{
             filter("가방")
-            adapter.notifyDataSetChanged()
+
+            tv_change_ourcolor(view.tv_bag)
+            tv_change_dargray(view.tv_all)
+            tv_change_dargray(view.tv_top)
+            tv_change_dargray(view.tv_outer)
+            tv_change_dargray(view.tv_bottom)
+            tv_change_dargray(view.tv_onepiece)
+            tv_change_dargray(view.tv_shoes)
+            tv_change_dargray(view.tv_cap)
+            tv_change_dargray(view.tv_etc)
         }
         view.tv_etc.setOnClickListener{
             filter("기타")
-            adapter.notifyDataSetChanged()
+
+            tv_change_ourcolor(view.tv_etc)
+            tv_change_dargray(view.tv_all)
+            tv_change_dargray(view.tv_top)
+            tv_change_dargray(view.tv_outer)
+            tv_change_dargray(view.tv_bottom)
+            tv_change_dargray(view.tv_onepiece)
+            tv_change_dargray(view.tv_shoes)
+            tv_change_dargray(view.tv_cap)
+            tv_change_dargray(view.tv_bag)
         }
         return view
+    }
+
+    fun tv_change_ourcolor(textView : TextView) {
+        textView.setTextColor(ContextCompat.getColor(a!!, R.color.ourcolor))
+        textView.setTypeface(null, Typeface.BOLD)
+        textView.textSize = 18F
+    }
+
+    fun tv_change_dargray(textView : TextView) {
+        textView.setTextColor(ContextCompat.getColor(a!!, R.color.darkgray))
+        textView.setTypeface(null, Typeface.NORMAL)
+        textView.textSize = 16F
     }
 
     fun filter(category: String) {
@@ -327,6 +429,7 @@ class ClosetFragment : Fragment() {
             }
         }
         // 리스트 데이터가 변경되었으므로 아답터를 갱신하여 검색된 데이터를 화면에 보여준다.
+        adapter.notifyDataSetChanged()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -340,67 +443,47 @@ class ClosetFragment : Fragment() {
         //recylerview 이거 fashionista.xml에 있는 변수
     }
 
-    private fun parseResult(before_page: Int, after_page: Int) {
+    open inner class parseResult : AsyncTask<Int?, Int?, Bitmap>() {
         var a_bitmap: Bitmap? = null
-        for (i in before_page until after_page) {
-            val uThread: Thread = object : Thread() {
-                override fun run() {
-                    try {
+        override fun onPreExecute() {
+            view?.nsprogress!!.isVisible = true
+        }
 
-                        Log.d("Closet프래그먼터리스트123", clothesArr[i])
-
-                        //서버에 올려둔 이미지 URL
-                        val url = URL("http://13.125.7.2/img/clothes/" + clothesArr[i])
-
-                        //Web에서 이미지 가져온 후 ImageView에 지정할 Bitmap 만들기
-                        /* URLConnection 생성자가 protected로 선언되어 있으므로
-                         개발자가 직접 HttpURLConnection 객체 생성 불가 */
-                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-
-                        /* openConnection()메서드가 리턴하는 urlConnection 객체는
-                        HttpURLConnection의 인스턴스가 될 수 있으므로 캐스팅해서 사용한다*/
-
-                        conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
-                        conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
-                        val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
-                        a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
-
-
-                    } catch (e: MalformedURLException) {
-                        e.printStackTrace()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-
-            uThread.start() // 작업 Thread 실행
-
-
+        override fun doInBackground(vararg pages: Int?): Bitmap {
             try {
+                Log.d("널생각해~1~", pages[0].toString())
+                Log.d("널생각해~2~", pages[1].toString())
 
-                //메인 Thread는 별도의 작업을 완료할 때까지 대기한다!
-                //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다림
-                //join() 메서드는 InterruptedException을 발생시킨다.
-                uThread.join()
+                for (i in pages[0]!!.toInt() until pages[1]!!.toInt()) {
+                    val url = URL("http://13.125.7.2/img/clothes/" + clothesArr[i])
 
-                //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
-                //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
+                    val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+                    conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
+                    conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                    val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
+                    a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
 
-                var clothes = Clothes(a_bitmap, clothesCategoryArr[i])
-                clothesList.add(clothes)
+                    var clothes = Clothes(a_bitmap, clothesCategoryArr[i])
+                    clothesList.add(clothes)
+                }
 
-            } catch (e: InterruptedException) {
+            } catch (e: MalformedURLException) {
                 e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } catch (e: InterruptedException) {
+                    e.printStackTrace()
             }
+            return a_bitmap!!
 
         }
 
-        view?.nsprogress?.isVisible = false
-        adapter.notifyDataSetChanged()
-        MainActivity.homeProgressDialog?.dismiss()
-
+        override fun onPostExecute(img: Bitmap) {
+            view?.nsprogress!!.isVisible = false
+            adapter.notifyDataSetChanged()
+        }
     }
+
 
     fun onAddButtonClicked() {
         setVisibility(clicked)
