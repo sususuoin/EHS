@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -92,7 +93,9 @@ class ClosetFragment : Fragment() {
     lateinit var uploadImgName: String
     lateinit var originImgName: String
 
+    val clotheslistfiter = mutableListOf<Clothes>()
     val clothesList = mutableListOf<Clothes>()
+    val clothesList2 = mutableListOf<Clothes>()
 
     lateinit var userId: String
 
@@ -145,7 +148,9 @@ class ClosetFragment : Fragment() {
             after_page = 18
         }
         parseResult(before_page, after_page)
+
         Log.d("ㅁㅁㅁㅁㅁ새로고침222", clothesArr.toString())
+
     }
 
 
@@ -249,7 +254,7 @@ class ClosetFragment : Fragment() {
                 after_page += 18
                 Log.d("피드갯수3", before_page.toString())
                 Log.d("피드갯수4", after_page.toString())
-                view.nsprogress.visibility = View.VISIBLE
+                view.nsprogress.isVisible = true
                 if(clothesArr.size <= after_page) {
                     Log.d("피드갯수5", clothesArr.size.toString())
                     Log.d("피드갯수6", after_page.toString())
@@ -257,9 +262,71 @@ class ClosetFragment : Fragment() {
                 }
                 parseResult(before_page, after_page)
 
+                if(clothesArr.size == clothesList.size) {
+                    Log.d("하잇", clothesArr.size.toString())
+                    Log.d("하잇", clothesList.size.toString())
+                    Log.d("하잇", "시11qkfkfkfk")
+                    clotheslistfiter.clear()
+                    clotheslistfiter.addAll(clothesList)
+                }
             }
         })
+
+
+
+
+        view.tv_all.setOnClickListener {
+            clothesList.clear()
+            clothesList.addAll(clotheslistfiter)
+            adapter.notifyDataSetChanged()
+        }
+        view.tv_top.setOnClickListener{
+            filter("상의")
+            adapter.notifyDataSetChanged()
+        }
+        view.tv_outer.setOnClickListener{
+            filter("아우터")
+            adapter.notifyDataSetChanged()
+        }
+        view.tv_bottom.setOnClickListener{
+            filter("하의")
+            adapter.notifyDataSetChanged()
+        }
+        view.tv_onepiece.setOnClickListener{
+            filter("원피스")
+            adapter.notifyDataSetChanged()
+        }
+        view.tv_shoes.setOnClickListener{
+            filter("신발")
+            adapter.notifyDataSetChanged()
+        }
+        view.tv_cap.setOnClickListener{
+            filter("모자")
+            adapter.notifyDataSetChanged()
+        }
+        view.tv_bag.setOnClickListener{
+            filter("가방")
+            adapter.notifyDataSetChanged()
+        }
+        view.tv_etc.setOnClickListener{
+            filter("기타")
+            adapter.notifyDataSetChanged()
+        }
         return view
+    }
+
+    fun filter(category: String) {
+        // 리스트의 모든 데이터를 검색한다.
+        clothesList.clear()
+        for (i in 0 until clotheslistfiter.size) {
+            // arraylist의 모든 데이터에 입력받은 단어(charText)가 포함되어 있으면 true 를 반환한다.
+            if (clotheslistfiter[i].clothesCategory == category) {
+                // 검색된 데이터를 리스트에 추가한다.
+                clothesList.add(clotheslistfiter[i]
+                )
+            }
+        }
+        // 리스트 데이터가 변경되었으므로 아답터를 갱신하여 검색된 데이터를 화면에 보여준다.
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -323,14 +390,16 @@ class ClosetFragment : Fragment() {
                 var clothes = Clothes(a_bitmap, clothesCategoryArr[i])
                 clothesList.add(clothes)
 
-
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
+
         }
-        view?.nsprogress?.visibility = View.GONE
+
+        view?.nsprogress?.isVisible = false
         adapter.notifyDataSetChanged()
         MainActivity.homeProgressDialog?.dismiss()
+
     }
 
     fun onAddButtonClicked() {
