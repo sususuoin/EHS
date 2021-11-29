@@ -45,6 +45,7 @@ class CalendarClothesFragment : Fragment() {
     val calendarclothesList = mutableListOf<Clothes>()
     val adapter = CalendarClothesListAdapter(calendarclothesList)
     var clothesArr2 = ArrayList<String>()
+    var clothesCategoryArr2 = ArrayList<String>()
 
     var clickList = ArrayList<String>() // 선택된 옷 이름 배열
     var clickimgList = ArrayList<Bitmap>() // 선택된 옷 이미지 배열
@@ -71,6 +72,7 @@ class CalendarClothesFragment : Fragment() {
         AndroidThreeTen.init(a)
         userId = AutoLogin.getUserId(a!!)
         clothesArr2 = AutoCloset.getClothesName(a!!)
+        clothesCategoryArr2 = AutoCloset.getClothesCategory(a!!)
         Log.d("111111", clothesArr2.toString())
 
         var a_bitmap: Bitmap? = null
@@ -124,7 +126,7 @@ class CalendarClothesFragment : Fragment() {
                 //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
                 //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
 
-                var clothes = Clothes(a_bitmap)
+                var clothes = Clothes(a_bitmap, clothesCategoryArr2[i])
                 calendarclothesList.add(clothes)
 
 

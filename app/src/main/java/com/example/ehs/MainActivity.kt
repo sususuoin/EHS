@@ -613,7 +613,10 @@ class MainActivity : AppCompatActivity() {
 
         var cuserId: String
         var cclothesName: String
-        var clothesArr = mutableListOf<String>()
+        var cclothesCategory: String
+
+        var clothesArr = ArrayList<String>()
+        var clothesCategoryArr = ArrayList<String>()
 
         val responseListener: Response.Listener<String?> =
             Response.Listener<String?> { response ->
@@ -629,13 +632,15 @@ class MainActivity : AppCompatActivity() {
                         val clothesObject = arr.getJSONObject(i)
                         cuserId = clothesObject.getString("userId")
                         cclothesName = clothesObject.getString("clothesName")
-
+                        cclothesCategory = clothesObject.getString("clothesCategory")
 
                         clothesArr.add(cclothesName)
-
-                        AutoCloset.setClothesName(this, clothesArr as ArrayList<String>)
+                        clothesCategoryArr.add(cclothesCategory)
 
                     }
+                    AutoCloset.setClothesName(this, clothesArr)
+                    AutoCloset.setClothesCategory(this, clothesCategoryArr)
+
                     if(ClothesSaveActivity.clothesSaveContext!=null) {
                         (ClothesSaveActivity.clothesSaveContext as ClothesSaveActivity).finish()
                     }
