@@ -36,7 +36,6 @@ class ManagementUser_Activity : AppCompatActivity() {
 
     val userManagementlist = mutableListOf<ManagementUser>()
     val userManagementlist2 = mutableListOf<ManagementUser>()
-    val userManagementlist3 = mutableListOf<ManagementUser>()
 
     val adapter = ManagementUserListAdapter(userManagementlist)
 
@@ -140,6 +139,7 @@ class ManagementUser_Activity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // 문자 입력이 없을때는 모든 데이터를 보여준다.
                 userManagementlist.addAll(userManagementlist2)
+                adapter.notifyDataSetChanged()
             }
 
         }
