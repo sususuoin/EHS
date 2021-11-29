@@ -68,8 +68,9 @@
             android:layout_marginLeft="8dp"
             android:gravity="center"
             android:text="전체"
-            android:textColor="@color/darkgray"
-            android:textSize="16dp" />
+            android:textColor="@color/ourcolor"
+            android:textStyle="bold"
+            android:textSize="18dp" />
 
 
         <TextView
@@ -190,18 +191,11 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0" />
 
-                    <TextView
-                        android:layout_width="300dp"
-                        android:layout_height="match_parent"
-                        android:text="dkdkdkdkddkdkdkdk"
-                        android:textSize="100dp"/>
-
                     <ProgressBar
                         android:id="@+id/nsprogress"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"/>
-
-
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="30dp" />
 
                 </LinearLayout>
 

@@ -4,17 +4,18 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ehs.Login.AutoLogin
 import com.example.ehs.MainActivity
-import com.example.ehs.MainLoadingActivity
 import com.example.ehs.R
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 import kotlinx.coroutines.Dispatchers
@@ -79,14 +80,18 @@ class FeedFragment : Fragment() {
         feeduserprofileImgArr = AutoFeed.getFeeduserprofileImg(a!!)
 
         after_page = 6
-        parseResult(before_page, after_page)
+
+//        parseResult(before_page, after_page)
 
     }
 
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "새로고침 실행")
-
+        if(feedImgArr.size != 0) {
+            var parse1 = parseResult()
+            parse1.execute(before_page, after_page)
+        }
     }
 
     // 프레그먼트를 안고 있는 액티비티에 붙었을 때
@@ -108,15 +113,7 @@ class FeedFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_feed, container, false)
 
         view.tv_feed.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                launch(Dispatchers.Main) {
-                    (MainLoadingActivity.mainLoadingContext as MainLoadingActivity).FeedImg()
-                    MainActivity.homeProgressDialog!!.show()
-                }
-                delay(500L)
-                (activity as MainActivity?)!!.replaceFragment(newInstance())
-
-            }
+            (activity as MainActivity?)!!.replaceFragment(newInstance())
             Log.d("FeedFragment", "새로고침")
         }
 
@@ -125,14 +122,7 @@ class FeedFragment : Fragment() {
             if (requireFragmentManager().findFragmentByTag("youtube") != null) {
                 requireFragmentManager().beginTransaction().show(requireFragmentManager().findFragmentByTag("youtube")!!).commit()
             } else {
-                GlobalScope.launch(Dispatchers.Main) {
-                    launch(Dispatchers.Main) {
-                        MainActivity.homeProgressDialog!!.show()
-                    }
-                    delay(500L)
-
-                    requireFragmentManager().beginTransaction().add(R.id.fragments_frame, YoutubeFragment(), "youtube").commit()
-                }
+                requireFragmentManager().beginTransaction().add(R.id.fragments_frame, YoutubeFragment(), "youtube").commit()
             }
             if (requireFragmentManager().findFragmentByTag("feed") != null) {
                 requireFragmentManager().beginTransaction().hide(requireFragmentManager().findFragmentByTag("feed")!!).commit()
@@ -210,6 +200,7 @@ class FeedFragment : Fragment() {
 
         view.scrollView3.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             Log.d("피드갯수", "스크롤")
+            view.nsprogress.isVisible = true
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
                 Log.d("피드갯수1", before_page.toString())
                 Log.d("피드갯수2", after_page.toString())
@@ -217,13 +208,21 @@ class FeedFragment : Fragment() {
                 after_page += 6
                 Log.d("피드갯수3", before_page.toString())
                 Log.d("피드갯수4", after_page.toString())
-                view.progress_bar.visibility = View.VISIBLE
+//                view.progress_bar.visibility = View.VISIBLE
                 if(feedNumArr.size <= after_page) {
                     Log.d("피드갯수5", feedNumArr.size.toString())
                     Log.d("피드갯수6", after_page.toString())
                     after_page = feedNumArr.size
                 }
-                parseResult(before_page, after_page)
+
+                if(before_page < after_page) {
+                    val parse1 = parseResult()
+                    parse1.execute(before_page, after_page)
+                }
+                if(feedIdArr.size == feedList.size) {
+                    view.nsprogress.isVisible = false
+                }
+//                parseResult(before_page, after_page)
 
             }
         })
@@ -231,57 +230,46 @@ class FeedFragment : Fragment() {
         return view
     }
 
-    private fun parseResult(before_page: Int, after_page: Int) {
+    open inner class parseResult : AsyncTask<Int?, Int?, Bitmap>() {
         var a_bitmap: Bitmap? = null
-        for (i in before_page until after_page) {
-            val uThread: Thread = object : Thread() {
-                override fun run() {
-                    try {
+        override fun onPreExecute() {
+            view?.nsprogress!!.isVisible = true
+        }
 
-                        Log.d("Closet프래그먼터리스트123", feedImgArr[i])
+        override fun doInBackground(vararg pages: Int?): Bitmap {
+            try {
+                for (i in pages[0]!!.toInt() until pages[1]!!.toInt()) {
+                    Log.d("Closet프래그먼터리스트123", feedImgArr[i])
 
-                        //서버에 올려둔 이미지 URL
-                        val url = URL("http://13.125.7.2/img/cody/" + feedImgArr[i])
-                        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+                    val url = URL("http://13.125.7.2/img/cody/" + feedImgArr[i])
+                    val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
 
-                        conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
-                        conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
-                        val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
-                        a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
+                    conn.setDoInput(true) //Server 통신에서 입력 가능한 상태로 만듦
+                    conn.connect() //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                    val iss: InputStream = conn.getInputStream() //inputStream 값 가져오기
+                    a_bitmap = BitmapFactory.decodeStream(iss) // Bitmap으로 반환
 
-                    } catch (e: MalformedURLException) {
-                        e.printStackTrace()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
                     var fuserProfile = AutoLogin.StringToBitmap(feeduserprofileImgArr[i], 100, 100)
-                    val resizedBmp = Bitmap.createScaledBitmap(fuserProfile!!, 100, 100, true)
-//                val resizedBmp2 = Bitmap.createScaledBitmap(a_bitmap!!, 160, 160, true)
-                    var feed = Feed(feedNumArr[i], resizedBmp!!,
-                        feedIdArr[i],
-                        feedStyleArr[i],
-                        a_bitmap,
-                        feedlikeCntArr[i],
-                        feednolikeCntArr[i])
+                    var feed = Feed(feedNumArr[i], fuserProfile!!, feedIdArr[i], feedStyleArr[i], a_bitmap, feedlikeCntArr[i], feednolikeCntArr[i])
                     feedList.add(feed)
                 }
-            }
 
-            uThread.start() // 작업 Thread 실행
-
-            try {
-
-                uThread.join()
-
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
-        }
-        view?.progress_bar?.visibility = View.GONE
-        adapter.notifyDataSetChanged()
-        MainActivity.homeProgressDialog?.dismiss()
-    }
+            return a_bitmap!!
 
+        }
+
+        override fun onPostExecute(img: Bitmap) {
+            view?.nsprogress!!.isVisible = false
+            adapter.notifyDataSetChanged()
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

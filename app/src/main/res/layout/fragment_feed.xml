@@ -450,13 +450,15 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_userfeed"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         tools:listitem="@layout/fragment_feed_item"/>
 
                     <ProgressBar
-                        android:id="@+id/progress_bar"
+                        android:id="@+id/nsprogress"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="30dp"/>
+
                 </LinearLayout>
             </LinearLayout>
 

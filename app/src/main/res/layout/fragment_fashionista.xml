@@ -86,6 +86,11 @@
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+            <ProgressBar
+                android:id="@+id/nsprogress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="30dp"/>
 
         </LinearLayout>
 

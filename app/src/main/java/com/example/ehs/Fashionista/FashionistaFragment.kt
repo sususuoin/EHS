@@ -4,11 +4,13 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Bitmap
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -23,6 +25,8 @@ import kotlinx.android.synthetic.main.fragment_favorite.view.tv_favorite
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.IOException
+import java.net.MalformedURLException
 
 
 class FashionistaFragment : Fragment() {
@@ -68,17 +72,6 @@ class FashionistaFragment : Fragment() {
 
         //dialog가 lateinit이기떄문에 null이면ㅇ ㅏㄴ되서 oncreate에서 한번 선언해준 뒤 사용
         dialog = ProgressDialog(a)
-
-        var fuserProfile : Bitmap?
-        for (i in 0 until fuserIdArr2.size) {
-
-            fuserProfile = AutoLogin.StringToBitmap(fuserProImgArr2[i], 100, 100)
-            var fashin = Fashionista(fuserIdArr2[i], fuserLevelArr2[i], fuserProfile)
-            FashionistaList.add(fashin)
-            fuserProfile == null
-        }
-
-        (activity as MainActivity).Favorite_check()
 
 
     }
@@ -127,7 +120,6 @@ class FashionistaFragment : Fragment() {
         return view
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -139,8 +131,46 @@ class FashionistaFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d("FashionistaFragment", "RESUME")
-        MainActivity.homeProgressDialog?.dismiss()
+        var parse1 = parseResult()
+        parse1.execute()
+
+        (activity as MainActivity).Favorite_check()
     }
+
+
+    open inner class parseResult : AsyncTask<Int?, Int?, Bitmap>() {
+        var fuserProfile : Bitmap? = null
+        override fun onPreExecute() {
+            view?.nsprogress!!.isVisible = true
+        }
+        override fun doInBackground(vararg pages: Int?): Bitmap {
+            try {
+
+                for (i in 0 until fuserIdArr2.size) {
+
+                    fuserProfile = AutoLogin.StringToBitmap(fuserProImgArr2[i], 100, 100)
+                    var fashin = Fashionista(fuserIdArr2[i], fuserLevelArr2[i], fuserProfile)
+                    FashionistaList.add(fashin)
+                    fuserProfile == null
+                }
+
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+            return fuserProfile!!
+
+        }
+
+        override fun onPostExecute(img: Bitmap) {
+            view?.nsprogress!!.isVisible = false
+            adapter.notifyDataSetChanged()
+        }
+    }
+
 
     private fun favoriteListUp() {
 

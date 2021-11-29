@@ -45,27 +45,6 @@ import kotlinx.android.synthetic.main.fragment_mypage.view.*
 class MypageFragment : Fragment() {
     private var a: Context? = null
 
-
-    lateinit var tv_id: TextView
-    lateinit var tv_name: TextView
-    lateinit var tv_name2: TextView
-    lateinit var tv_name3: TextView
-    lateinit var tv_name3_2: TextView
-    lateinit var tv_email: TextView
-    lateinit var tv_level: TextView
-    lateinit var tv_level5: TextView
-    lateinit var iv_profileimg: ImageView
-    lateinit var modifybtn: ImageButton
-    lateinit var pieChart: PieChart
-    lateinit var progressbar: ProgressBar
-    lateinit var tv_percent: TextView
-
-    lateinit var iv_beforeLV : ImageView
-    lateinit var tv_beforeLV: TextView
-
-    lateinit var iv_afterLV : ImageView
-    lateinit var tv_afterLV: TextView
-
     var userColorArr = ArrayList<String>()
     var userColorCntArr = ArrayList<String>()
 
@@ -100,6 +79,7 @@ class MypageFragment : Fragment() {
         Log.d("처음배열1", userColorCntArr.toString())
 
         userId = AutoLogin.getUserId(a!!)
+        Log.d("마이페지이1111", userId)
         userPw = AutoLogin.getUserPw(a!!)
         userName = AutoLogin.getUserName(a!!)
         userEmail = AutoLogin.getUserEmail(a!!)
@@ -119,6 +99,9 @@ class MypageFragment : Fragment() {
         super.onResume()
 
         MainActivity.homeProgressDialog?.dismiss()
+
+        setupPieChart()
+        loadPieChartData()
     }
 
 
@@ -142,16 +125,10 @@ class MypageFragment : Fragment() {
     ): View? {
         Log.d(TAG, "MypageFragment - onCreateView() called")
         val view: View = inflater!!.inflate(R.layout.fragment_mypage, container, false)
-        pieChart = view.findViewById(R.id.piechart_mypage)
 
-
-        modifybtn = view.findViewById(R.id.btn_modify)
-        modifybtn.setOnClickListener {
-            activity?.let {
-                val intent = Intent(context, UserModifyActivity::class.java)
-                startActivity(intent)
-            }
-
+        view.btn_modify.setOnClickListener {
+            val intent = Intent(context, UserModifyActivity::class.java)
+            startActivity(intent)
         }
 
 
@@ -192,37 +169,16 @@ class MypageFragment : Fragment() {
             logoutalert.show()
         }
 
-        tv_id = view.findViewById(R.id.tv_id)
-        tv_name = view.findViewById(R.id.tv_name)
-        tv_name2 = view.findViewById(R.id.tv_name2)
-        tv_email = view.findViewById(R.id.tv_email)
-        tv_level = view.findViewById(R.id.tv_level)
-        iv_profileimg = view.findViewById(R.id.iv_profileimg)
-        tv_name3 = view.findViewById(R.id.tv_name3)
-        tv_name3_2 = view.findViewById(R.id.tv_name3_2)
-        progressbar = view.findViewById(R.id.progressbar)
-        tv_level5 = view.findViewById(R.id.tv_level5)
-        tv_percent = view.findViewById(R.id.tv_percent)
-
-        iv_beforeLV = view.findViewById(R.id.iv_beforeLV)
-        tv_beforeLV = view.findViewById(R.id.tv_beforeLV)
-        iv_afterLV = view.findViewById(R.id.iv_afterLV)
-        tv_afterLV = view.findViewById(R.id.tv_afterLV)
-
         //fragment1의 TextView에 전달 받은 text 띄우기
-        tv_id.text = userId
-        tv_name.text = userName
-        tv_name2.text = userName
-        tv_name3.text = userName
-        tv_email.text = userEmail
-        tv_level.text = userLevel
+        view.tv_id.text = userId
+        view.tv_name.text = userName
+        view.tv_name2.text = userName
+        view.tv_name3.text = userName
+        view.tv_email.text = userEmail
+        view.tv_level.text = userLevel
 
 //        iv_profileimg.setImageResource(R.drawable.exfirst)
-        iv_profileimg.setImageBitmap(userProfile)
-
-        setupPieChart()
-        loadPieChartData()
-
+        view.iv_profileimg.setImageBitmap(userProfile)
 
         Thread {
             for (i in 0..totallikecnt) {
@@ -231,61 +187,54 @@ class MypageFragment : Fragment() {
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
                 }
-                tv_name3.post(Runnable {
-                    progressbar.progress = i
-                    tv_percent.text = "$i%"
+                view.tv_name3.post(Runnable {
+                    view.progressbar.progress = i
+                    view.tv_percent.text = "$i%"
                     if (i == 100) {
-                        tv_name3_2.isVisible=false
-                        tv_name3.text = "레벨업!! 축하드립니다"
+                        view.tv_name3_2.isVisible=false
+                        view.tv_name3.text = "레벨업!! 축하드립니다"
                     }
                 })
             }
         }.start()
 
         if(userLevel2 == "LV1") {
-            iv_beforeLV.setImageResource(R.drawable.lv1)
-            iv_afterLV.setImageResource(R.drawable.lv2)
+            view.iv_beforeLV.setImageResource(R.drawable.lv1)
+            view.iv_afterLV.setImageResource(R.drawable.lv2)
 
         } else if(userLevel2 == "LV2") {
-            iv_beforeLV.setImageResource(R.drawable.lv2)
-            tv_beforeLV.text = "LV2"
-            iv_afterLV.setImageResource(R.drawable.lv3)
-            tv_afterLV.text = "LV3"
+            view.iv_beforeLV.setImageResource(R.drawable.lv2)
+            view.tv_beforeLV.text = "LV2"
+            view.iv_afterLV.setImageResource(R.drawable.lv3)
+            view.tv_afterLV.text = "LV3"
 
         } else if(userLevel2 == "LV3") {
-            iv_beforeLV.setImageResource(R.drawable.lv3)
-            tv_beforeLV.text = "LV3"
-            iv_afterLV.setImageResource(R.drawable.lv4)
-            tv_afterLV.text = "LV4"
+            view.iv_beforeLV.setImageResource(R.drawable.lv3)
+            view.tv_beforeLV.text = "LV3"
+            view.iv_afterLV.setImageResource(R.drawable.lv4)
+            view.tv_afterLV.text = "LV4"
 
         } else if(userLevel2 == "LV4") {
-            iv_beforeLV.setImageResource(R.drawable.lv4)
-            tv_beforeLV.text = "LV4"
-            iv_afterLV.setImageResource(R.drawable.lv5)
-            tv_afterLV.text = "LV5"
+            view.iv_beforeLV.setImageResource(R.drawable.lv4)
+            view.tv_beforeLV.text = "LV4"
+            view.iv_afterLV.setImageResource(R.drawable.lv5)
+            view.tv_afterLV.text = "LV5"
 
         } else if(userLevel2 == "LV5"){
 
-            tv_level5.isVisible=true
+            view.tv_level5.isVisible=true
 
-            tv_percent.isVisible=false
-            progressbar.isVisible=false
-            iv_beforeLV.isVisible=false
-            tv_beforeLV.isVisible=false
-            iv_afterLV.isVisible=false
-            tv_afterLV.isVisible=false
+            view.tv_percent.isVisible=false
+            view.progressbar.isVisible=false
+            view.iv_beforeLV.isVisible=false
+            view.tv_beforeLV.isVisible=false
+            view.iv_afterLV.isVisible=false
+            view.tv_afterLV.isVisible=false
         }
-
-
 
         return view
     }
 
-    // Fragment 새로고침
-    fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
-        var ft: FragmentTransaction = fragmentManager.beginTransaction()
-        ft.detach(fragment).attach(fragment).commit()
-    }
 
     fun StringToBitmap(encodedString: String?): Bitmap? {
         return try {
@@ -299,21 +248,18 @@ class MypageFragment : Fragment() {
     }
 
     private fun setupPieChart() {
-        with(pieChart) {
-            isDrawHoleEnabled = true
-            setUsePercentValues(true)
-            setEntryLabelTextSize(10f)
-            setEntryLabelColor(Color.BLACK)
-            setCenterTextSize(15f)
-            description.isEnabled = false
-            setExtraOffsets(5f, 10f, 5f, 5f)
-            transparentCircleRadius = 61f
+        view?.piechart_mypage!!.isDrawHoleEnabled = true
+        view?.piechart_mypage!!.setUsePercentValues(true)
+        view?.piechart_mypage!!.setEntryLabelTextSize(10f)
+        view?.piechart_mypage!!.setEntryLabelColor(Color.BLACK)
+        view?.piechart_mypage!!.setCenterTextSize(15f)
+        view?.piechart_mypage!!.description.isEnabled = false
+        view?.piechart_mypage!!.setExtraOffsets(5f, 10f, 5f, 5f)
+        view?.piechart_mypage!!.transparentCircleRadius = 61f
 
-            val legend: Legend = pieChart.getLegend()
-            legend.isEnabled = false
+        val legend: Legend = view?.piechart_mypage!!.legend
+        legend.isEnabled = false
 
-
-        }
     }
 
 
@@ -367,22 +313,22 @@ class MypageFragment : Fragment() {
 
         }
 
-        val dataSet: PieDataSet = PieDataSet(entries, "Expense Category")
+        val dataSet = PieDataSet(entries, "Expense Category")
 
 
         dataSet.colors = colorstwo
 
         val data: PieData = PieData(dataSet)
         data.setDrawValues(true)
-        data.setValueFormatter(PercentFormatter(pieChart))
+        data.setValueFormatter(PercentFormatter(view?.piechart_mypage!!))
         data.setValueTextSize(10f)
         data.setValueTextColor(Color.BLACK)
 
-        pieChart.setData(data)
-        pieChart.invalidate()
+        view?.piechart_mypage!!.setData(data)
+        view?.piechart_mypage!!.invalidate()
 
         // 애니메이션
-        pieChart.animateY(1400, Easing.EaseInOutQuad)
+        view?.piechart_mypage!!.animateY(1400, Easing.EaseInOutQuad)
 
 
     }

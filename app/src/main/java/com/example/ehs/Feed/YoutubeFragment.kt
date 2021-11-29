@@ -80,7 +80,6 @@ class YoutubeFragment : Fragment() {
         val youtubeAsyncTask = YoutubeAsyncTask()
         Log.d("계절은, ", season)
         youtubeAsyncTask.execute(season+gender+"코디")
-        MainActivity.homeProgressDialog?.dismiss()
 
     }
 
