@@ -46,6 +46,7 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
     val codyMakeList = mutableListOf<Clothes>()
     val adapter = CodyMakeListAdapter(codyMakeList)
     var clothesArr2 = ArrayList<String>()
+    var clothesCategoryArr2 = ArrayList<String>()
 
     lateinit var saveBitmap : Bitmap
 
@@ -113,10 +114,8 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
         mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
         clickCount = 0
 
-
-        //recylerview 이거 fashionista.xml에 있는 변수
-
         clothesArr2 = AutoCloset.getClothesName(this)
+        clothesCategoryArr2 = AutoCloset.getClothesCategory(this)
         Log.d("111111", clothesArr2.toString())
 
         var a_bitmap : Bitmap? = null
@@ -165,7 +164,7 @@ class CodyMakeActivity : AppCompatActivity(), View.OnTouchListener {
                 //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
                 //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
 
-                var clothes = Clothes(a_bitmap)
+                var clothes = Clothes(a_bitmap, clothesCategoryArr2[i])
                 codyMakeList.add(clothes)
 
 

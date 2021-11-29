@@ -119,12 +119,7 @@ class ManagementUser_Activity : AppCompatActivity() {
         val myAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
         sp_grade.adapter = myAdapter
         sp_grade.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 // 문자 입력시마다 리스트를 지우고 새로 뿌려준다.
                 userManagementlist.clear()
                 //아이템이 클릭 되면 맨 위부터 position 0번부터 순서대로 동작하게 됩니다.

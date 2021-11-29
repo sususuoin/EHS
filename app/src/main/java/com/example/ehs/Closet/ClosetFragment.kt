@@ -106,6 +106,7 @@ class ClosetFragment : Fragment() {
         var a: Activity? = null
         const val TAG: String = "클로젯 프레그먼트"
         var clothesArr = ArrayList<String>()
+        var clothesCategoryArr = ArrayList<String>()
 
         fun newInstance(): ClosetFragment { // newInstance()라는 함수를 호출하면 ClosetFragment를 반환함
             return ClosetFragment()
@@ -136,6 +137,8 @@ class ClosetFragment : Fragment() {
         clothesSaveActivity_Dialog?.dismiss()
 
         clothesArr = AutoCloset.getClothesName(a!!)
+        clothesCategoryArr = AutoCloset.getClothesCategory(a!!)
+
         if(clothesArr.size <= 18) {
             after_page = clothesArr.size
         } else {
@@ -317,7 +320,7 @@ class ClosetFragment : Fragment() {
                 //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
                 //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
 
-                var clothes = Clothes(a_bitmap)
+                var clothes = Clothes(a_bitmap, clothesCategoryArr[i])
                 clothesList.add(clothes)
 
 
