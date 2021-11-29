@@ -30,7 +30,9 @@ class CalendarCodyFragment : Fragment() {
 
     val calendarcodyList = mutableListOf<Cody>()
     val adapter = CalendarCodyListAdapter(calendarcodyList)
-    var codyArr2 = java.util.ArrayList<String>()
+    var codyArr2 = ArrayList<String>()
+    var codyStyleArr2 = ArrayList<String>()
+
     lateinit var userId : String
 
     companion object {
@@ -49,6 +51,7 @@ class CalendarCodyFragment : Fragment() {
         AndroidThreeTen.init(a)
         userId = AutoLogin.getUserId(a!!)
         codyArr2 = AutoCody.getCodyName(a!!)
+        codyStyleArr2 = AutoCody.getCodyStyle(a!!)
 
 
         var a_bitmap : Bitmap? = null
@@ -101,7 +104,7 @@ class CalendarCodyFragment : Fragment() {
                 //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
                 //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
 
-                var cody = Cody(a_bitmap)
+                var cody = Cody(a_bitmap, codyStyleArr2[i])
                 calendarcodyList.add(cody)
 
 

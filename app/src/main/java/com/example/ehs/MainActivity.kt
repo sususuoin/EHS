@@ -659,7 +659,10 @@ class MainActivity : AppCompatActivity() {
 
         var cuserId: String
         var codyImgName: String
-        var codyArr = mutableListOf<String>()
+        var codyStyle: String
+
+        var codyArr = ArrayList<String>()
+        var codyStyleArr = ArrayList<String>()
 
         val responseListener: Response.Listener<String?> =
             Response.Listener<String?> { response ->
@@ -675,13 +678,16 @@ class MainActivity : AppCompatActivity() {
 
                         cuserId = codyObject.getString("userId")
                         codyImgName = codyObject.getString("codyImgName")
+                        codyStyle = codyObject.getString("codyStyle")
 
                         codyArr.add(codyImgName)
+                        codyStyleArr.add(codyStyle)
                     }
                     if(CodySaveActivity.codySaveContext!=null) {
                         (CodySaveActivity.codySaveContext as CodySaveActivity).finish()
                     }
-                    AutoCody.setCodyName(this, codyArr as ArrayList<String>)
+                    AutoCody.setCodyName(this, codyArr)
+                    AutoCody.setCodyStyle(this, codyStyleArr)
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
