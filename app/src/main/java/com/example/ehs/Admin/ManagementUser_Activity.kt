@@ -32,8 +32,6 @@ class ManagementUser_Activity : AppCompatActivity() {
 
     val items = arrayOf("전체","전문가","일반인")
 
-
-
     val userManagementlist = mutableListOf<ManagementUser>()
     val userManagementlist2 = mutableListOf<ManagementUser>()
 
@@ -67,8 +65,6 @@ class ManagementUser_Activity : AppCompatActivity() {
         ab.setDisplayShowTitleEnabled(false)
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
-
-        Managementchoice_Activity.adminProgressDialog!!.dismiss()
 
         adapter.setItemClickListener(object : ManagementUserListAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {

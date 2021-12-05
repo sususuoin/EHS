@@ -230,6 +230,10 @@ class MypageFragment : Fragment() {
             view.tv_beforeLV.isVisible=false
             view.iv_afterLV.isVisible=false
             view.tv_afterLV.isVisible=false
+
+            if(userLevel == "대기중") {
+                view.tv_level5.text = "전문가로 레벨업 대기중입니다."
+            }
         }
 
         return view

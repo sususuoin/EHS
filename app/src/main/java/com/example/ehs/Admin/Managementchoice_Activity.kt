@@ -29,7 +29,6 @@ import org.json.JSONObject
 class Managementchoice_Activity : AppCompatActivity() {
 
     companion object {
-        var adminProgressDialog: ProgressDialog? = null
         var manageContext: Context? = null
     }
 
@@ -50,9 +49,6 @@ class Managementchoice_Activity : AppCompatActivity() {
         //뒤로 가기 버튼 생성
         ab.setDisplayHomeAsUpEnabled(true) // 툴바 설정 완료
 
-        adminProgressDialog = ProgressDialog(this)
-        adminProgressDialog!!.setCanceledOnTouchOutside(false)
-        adminProgressDialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         btn_usermanagement.setOnClickListener {
             val intent = Intent(this@Managementchoice_Activity, ManagementUser_Activity::class.java)
@@ -61,6 +57,11 @@ class Managementchoice_Activity : AppCompatActivity() {
 
         btn_feedmanagement.setOnClickListener {
             val intent = Intent(this@Managementchoice_Activity, ManagementFeed_Activity::class.java)
+            startActivity(intent)
+        }
+
+        btn_levelmanagement.setOnClickListener {
+            val intent = Intent(this@Managementchoice_Activity, ManagementLevel_Activity::class.java)
             startActivity(intent)
         }
     }

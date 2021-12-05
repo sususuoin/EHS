@@ -189,14 +189,6 @@ class ClosetFragment : Fragment() {
             } else {
 
                 requireFragmentManager().beginTransaction().add(R.id.fragments_frame, CodyFragment(), "cody").commit()
-//                GlobalScope.launch(Dispatchers.Main) {
-//                    launch(Dispatchers.Main) {
-//                        MainActivity.homeProgressDialog!!.show()
-//                    }
-//                    delay(500L)
-//
-//                    requireFragmentManager().beginTransaction().add(R.id.fragments_frame, CodyFragment(), "cody").commit()
-//                }
             }
             if (requireFragmentManager().findFragmentByTag("closet") != null) {
                 requireFragmentManager().beginTransaction().hide(requireFragmentManager().findFragmentByTag("closet")!!).commit()
@@ -246,10 +238,6 @@ class ClosetFragment : Fragment() {
             Log.d("피드갯수", "스크롤")
             view.nsprogress.isVisible = true
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
-                Log.d("우리집으로가자1", scrollY.toString())
-                Log.d("우리집으로가자1", oldScrollY.toString())
-                Log.d("우리집으로가자12", v.getChildAt(0).measuredHeight.toString())
-                Log.d("우리집으로가자13", v.measuredHeight.toString())
 
                 Log.d("피드갯수1", before_page.toString())
                 Log.d("피드갯수2", after_page.toString())
@@ -300,7 +288,7 @@ class ClosetFragment : Fragment() {
         }
         view.tv_top.setOnClickListener{
             filter("상의")
-
+            view.nsprogress.isVisible = false
             tv_change_ourcolor(view.tv_top)
             tv_change_dargray(view.tv_all)
             tv_change_dargray(view.tv_bottom)
@@ -313,7 +301,7 @@ class ClosetFragment : Fragment() {
         }
         view.tv_outer.setOnClickListener{
             filter("아우터")
-
+            view.nsprogress.isVisible = false
             tv_change_ourcolor(view.tv_outer)
             tv_change_dargray(view.tv_all)
             tv_change_dargray(view.tv_top)
@@ -326,7 +314,7 @@ class ClosetFragment : Fragment() {
         }
         view.tv_bottom.setOnClickListener{
             filter("하의")
-
+            view.nsprogress.isVisible = false
             tv_change_ourcolor(view.tv_bottom)
             tv_change_dargray(view.tv_all)
             tv_change_dargray(view.tv_top)
@@ -339,7 +327,7 @@ class ClosetFragment : Fragment() {
         }
         view.tv_onepiece.setOnClickListener{
             filter("원피스")
-
+            view.nsprogress.isVisible = false
             tv_change_ourcolor(view.tv_onepiece)
             tv_change_dargray(view.tv_all)
             tv_change_dargray(view.tv_top)
@@ -352,7 +340,7 @@ class ClosetFragment : Fragment() {
         }
         view.tv_shoes.setOnClickListener{
             filter("신발")
-
+            view.nsprogress.isVisible = false
             tv_change_ourcolor(view.tv_shoes)
             tv_change_dargray(view.tv_all)
             tv_change_dargray(view.tv_top)
@@ -365,7 +353,7 @@ class ClosetFragment : Fragment() {
         }
         view.tv_cap.setOnClickListener{
             filter("모자")
-
+            view.nsprogress.isVisible = false
             tv_change_ourcolor(view.tv_cap)
             tv_change_dargray(view.tv_all)
             tv_change_dargray(view.tv_top)
@@ -378,7 +366,7 @@ class ClosetFragment : Fragment() {
         }
         view.tv_bag.setOnClickListener{
             filter("가방")
-
+            view.nsprogress.isVisible = false
             tv_change_ourcolor(view.tv_bag)
             tv_change_dargray(view.tv_all)
             tv_change_dargray(view.tv_top)
@@ -391,7 +379,7 @@ class ClosetFragment : Fragment() {
         }
         view.tv_etc.setOnClickListener{
             filter("기타")
-
+            view.nsprogress.isVisible = false
             tv_change_ourcolor(view.tv_etc)
             tv_change_dargray(view.tv_all)
             tv_change_dargray(view.tv_top)
