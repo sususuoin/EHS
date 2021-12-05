@@ -245,24 +245,6 @@ class ManagementUserModify_Activity : AppCompatActivity(), BottomSheet_level2.Bo
         queue.add(managementUserModify_Request)
 
     }
-
-//    fun setData() {
-//        userName = et_userName.text.toString()
-//        userPw = et_userPassword.text.toString()
-//        userBirth =  et_userBirth.text.toString()
-//        userEmail = et_email.text.toString()
-//        userGender =  tv_userGender.text.toString()
-//
-//        // AutoLogin set
-//        AutoLogin.setUserName(this@ManagementUserModify_Activity, userName)
-//        AutoLogin.setUserPw(this@ManagementUserModify_Activity, userPw)
-//        AutoLogin.setUserBirth(this@ManagementUserModify_Activity, userBirth)
-//        AutoLogin.setUserEmail(this@ManagementUserModify_Activity, userEmail)
-//        AutoLogin.setUserGender(this@ManagementUserModify_Activity, userGender)
-//
-//        userModifyActivity_Dialog?.dismiss()
-//    }
-
     /**
      * 툴바 뒤로가기 기능
      */

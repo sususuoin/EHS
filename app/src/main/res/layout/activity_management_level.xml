@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="유저관리"
+            android:text="레벨관리"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -38,37 +38,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginHorizontal="20dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginVertical="10dp">
-
-                <Spinner
-                    android:id="@+id/sp_grade"
-                    android:layout_width="120dp"
-                    android:layout_height="40dp" />
-
-                <EditText
-                    android:id="@+id/et_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp">
-
-                </EditText>
-
-            </LinearLayout>
+            <Spinner
+                android:id="@+id/sp_level"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_marginVertical="10dp"/>
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_usermanagement"
+                android:id="@+id/rv_levelmanagement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"

@@ -34,6 +34,7 @@
 
         <activity android:name=".Admin.ManagementFeed_Activity" />
         <activity android:name=".Admin.ManagementUser_Activity" />
+        <activity android:name=".Admin.ManagementLevel_Activity" />
         <activity android:name=".Admin.ManagementUserModify_Activity"/>
         <activity android:name=".Admin.Managementchoice_Activity" />
         <activity android:name=".Closet.BasicClothesDetailActivity" />
